@@ -127,8 +127,13 @@
     }
   }
 
+  // La barre du navigateur prend la couleur sombre du site sur téléphone.
+  function themeColor(){
+    if(!MQ.matches) return;
+    d.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.setAttribute("content","#1B1518"); });
+  }
   function init(){
-    initSheet(); initCta(); collect();
+    themeColor(); initSheet(); initCta(); collect();
     if(!initGallery()) setTimeout(init,250);
     request();
   }

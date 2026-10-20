@@ -1804,7 +1804,24 @@ html{-webkit-tap-highlight-color:transparent}
    la nuit. On ne laisse plus le thème sombre du téléphone (ou de
    l'app Claude) remplacer ces couleurs.
    ============================================================ */
-/* Couleurs : le téléphone suit exactement la palette du site sur ordinateur (clair ou sombre selon l'appareil). */
+/* Couleurs : sur téléphone, toujours la palette sombre du site, celle de l'ordinateur,
+   quel que soit le réglage clair ou sombre du téléphone. */
+@media (max-width:760px){
+  :root:not([data-k]),:root[data-theme]{
+    --paper:#1B1518; --paper-2:#221A1E; --card:#271E23;
+    --ink:#F5EEE8; --ink-soft:#B7A9A1; --ink-faint:#8E7F79;
+    --line:rgba(255,255,255,.12); --line-2:rgba(255,255,255,.22);
+    --violet:#A78BFF; --violet-press:#9576FF; --violet-deep:#CBBBFF; --violet-soft:#2D2340;
+    --honey:#F0B35C; --honey-bright:#F3BE72; --honey-soft:#392915;
+    --coral:#F2795C; --coral-soft:#3A211A; --ok:#4FD597;
+    --shadow-1:0 1px 2px rgba(0,0,0,.4),0 14px 34px -14px rgba(0,0,0,.6);
+    --shadow-2:0 2px 8px rgba(0,0,0,.5),0 40px 80px -28px rgba(0,0,0,.72);
+    --shadow-pass:0 3px 12px rgba(0,0,0,.55),0 48px 92px -30px rgba(0,0,0,.8);
+    color-scheme:dark;
+  }
+  body{background:var(--paper);color:var(--ink)}
+  body::after{mix-blend-mode:screen;opacity:.03}
+}
 
 @media (max-width:760px){
   /* Le titre reçoit le focus à chaque changement de page : jamais de cadre au toucher. */
@@ -4662,8 +4679,13 @@ html{-webkit-tap-highlight-color:transparent}
     }
   }
 
+  // La barre du navigateur prend la couleur sombre du site sur téléphone.
+  function themeColor(){
+    if(!MQ.matches) return;
+    d.querySelectorAll('meta[name="theme-color"]').forEach(function(m){ m.setAttribute("content","#1B1518"); });
+  }
   function init(){
-    initSheet(); initCta(); collect();
+    themeColor(); initSheet(); initCta(); collect();
     if(!initGallery()) setTimeout(init,250);
     request();
   }
