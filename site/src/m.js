@@ -113,12 +113,15 @@
     var mobile=MQ.matches, vh=window.innerHeight||800, home=body.getAttribute("data-route")==="home";
     if(mobile!==wasMobile){ wasMobile=mobile; if(!mobile){ clearRise(); if(cta) cta.classList.remove("is-on"); } }
     if(!mobile) return;
-    if(!REDUCE && home) paintRise(vh);
+    // (effets au défilement : voir keeply-motion)
     paintGallery();
     if(cta){
       var hero=d.querySelector(".v6-hero"), fin=d.getElementById("telecharger");
       var on=home && hero && hero.getBoundingClientRect().bottom<70 && (!fin || fin.getBoundingClientRect().top>vh*.8);
       if(!home && window.scrollY>500) on=true;
+      // Pendant le récit épinglé, la barre laisserait la légende cachée : on la retire.
+      var story=d.querySelector(".k-story__grid");
+      if(on && story){ var sr=story.getBoundingClientRect(); if(sr.top<vh*.5 && sr.bottom>vh*.6) on=false; }
       cta.classList.toggle("is-on",!!on);
       cta.tabIndex=on?0:-1;
     }
