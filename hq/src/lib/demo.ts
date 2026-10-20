@@ -32,16 +32,16 @@ const COUNTRIES = ["FR", "FR", "FR", "FR", "BE", "CH", "CA", "MA", "ES", "LU"];
 /** Ventes de démo : croissance douce, saisonnalité hebdo, mix App Store / Google Play / Stripe. */
 export function demoSales(source: "appstore" | "googleplay" | "stripe", from: string, to: string): SaleRecord[] {
   const out: SaleRecord[] = [];
-  const base = { appstore: 46, googleplay: 21, stripe: 64 }[source];
+  const base = { appstore: 22, googleplay: 10, stripe: 30 }[source];
   const start = new Date("2026-01-01T00:00:00Z").getTime();
   for (const day of daysBetween(from, to)) {
     const r = rng(hash(source + day));
     const t = (new Date(day + "T00:00:00Z").getTime() - start) / 864e5;
-    const growth = 1 + Math.max(0, t) * 0.0045;
+    const growth = 1 + Math.max(0, t) * 0.002;
     const dow = new Date(day + "T00:00:00Z").getUTCDay();
     const weekly = dow === 0 ? 0.62 : dow === 6 ? 0.8 : dow === 1 ? 1.15 : 1;
     const amountDay = base * growth * weekly * (0.7 + r() * 0.6);
-    const orders = Math.max(1, Math.round(amountDay / (source === "stripe" ? 29 : 14)));
+    const orders = Math.floor(amountDay / (source === "stripe" ? 29 : 14) + r());
     const downloads = Math.round((source === "googleplay" ? 9 : 17) * growth * weekly * (0.6 + r() * 0.8));
     if (source !== "stripe") {
       out.push({ id: `${source}-${day}-dl`, date: day, source, product: "Keeply Pro", country: "FR", units: downloads, amount: 0, kind: "telechargement" });
@@ -103,7 +103,7 @@ export function demoInstagram() {
       timestamp: d.toISOString(),
       permalink: "https://www.instagram.com/",
       thumbnail: `/demo/ig-${(i % 6) + 1}.svg`,
-      likes: Math.round(reach * (0.04 + r() * 0.05)),
+      likes: Math.round(reach * (0.025 + r() * 0.03)),
       comments: Math.round(reach * (0.003 + r() * 0.008)),
       saves: Math.round(reach * (0.01 + r() * 0.03)),
       shares: Math.round(reach * (0.004 + r() * 0.02)),

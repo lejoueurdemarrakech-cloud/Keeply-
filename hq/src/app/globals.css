@@ -132,6 +132,7 @@ body {
   scrollbar-color: var(--line-2) transparent;
 }
 
+@layer components {
 /* Champ de saisie commun */
 .field {
   width: 100%;
@@ -170,6 +171,8 @@ select.field {
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: 10px;
 }
+}
+
 @keyframes shimmer {
   to {
     background-position: -200% 0;
@@ -213,6 +216,7 @@ select.field {
   }
 }
 
+@layer components {
 /* Contenu Markdown simple (briefing, coach) */
 .prose-hq p {
   margin: 0 0 0.6em;
@@ -239,6 +243,8 @@ select.field {
   font-weight: 700;
   margin: 0.8em 0 0.3em;
   font-size: 1.02em;
+}
+
 }
 
 /* Recharts */

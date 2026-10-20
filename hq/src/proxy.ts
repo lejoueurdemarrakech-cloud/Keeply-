@@ -2,7 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { SESSION_COOKIE, authDisabled, verifySession } from "@/lib/session";
 
 // Routes qui ont leur propre protection (jeton) ou qui doivent rester publiques.
-const PUBLIC = ["/login", "/api/auth", "/api/cron", "/api/ingest", "/api/track"];
+const PUBLIC = ["/login", "/api/auth", "/api/cron", "/api/ingest"];
 
 export async function proxy(req: NextRequest) {
   const { pathname } = req.nextUrl;

@@ -60,46 +60,55 @@ function StampCard({ goal, demo }: { goal: Today["goal"]; demo?: boolean }) {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-5 gap-3 sm:gap-4" role="img" aria-label={`${filled} tampons sur ${STAMPS}`}>
-        {Array.from({ length: STAMPS }, (_, i) => {
-          const isFilled = i < filled;
-          const isPartial = i === filled && partial > 0.02 && !reached;
-          const isProjected = !isFilled && !isPartial && i < projected;
-          return (
-            <div key={i} className="relative aspect-square">
-              {isFilled ? (
-                <div className="stamp-in grid size-full place-items-center rounded-full bg-[#f3be72] text-night shadow-[inset_0_-3px_0_rgb(0_0_0/0.12)]" style={{ animationDelay: `${120 + i * 70}ms` }}>
-                  <Check className="size-[42%]" strokeWidth={3} />
-                </div>
-              ) : isPartial ? (
-                <div className="grid size-full place-items-center rounded-full" style={{ background: `conic-gradient(#f3be72 ${partial * 360}deg, rgb(255 255 255 / 0.08) 0)` }}>
-                  <div className="tnum grid size-[78%] place-items-center rounded-full bg-night text-[12px] font-bold text-[#f3be72]">{Math.round(partial * 100)}%</div>
-                </div>
-              ) : (
-                <div className={cx("size-full rounded-full border-2", isProjected ? "border-dashed border-[#f3be72]/60" : "border-white/12")} />
-              )}
+      <div className="mt-6 grid items-center gap-6 sm:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+        <div className="grid grid-cols-5 gap-3" role="img" aria-label={`${filled} tampons sur ${STAMPS}`}>
+          {Array.from({ length: STAMPS }, (_, i) => {
+            const isFilled = i < filled;
+            const isPartial = i === filled && partial > 0.02 && !reached;
+            const isProjected = !isFilled && !isPartial && i < projected;
+            return (
+              <div key={i} className="relative aspect-square">
+                {isFilled ? (
+                  <div className="stamp-in grid size-full place-items-center rounded-full bg-[#f3be72] text-night shadow-[inset_0_-3px_0_rgb(0_0_0/0.12)]" style={{ animationDelay: `${120 + i * 70}ms` }}>
+                    <Check className="size-[42%]" strokeWidth={3} />
+                  </div>
+                ) : isPartial ? (
+                  <div className="grid size-full place-items-center rounded-full" style={{ background: `conic-gradient(#f3be72 ${partial * 360}deg, rgb(255 255 255 / 0.08) 0)` }}>
+                    <div className="tnum grid size-[78%] place-items-center rounded-full bg-night text-[12px] font-bold text-[#f3be72]">{Math.round(partial * 100)}%</div>
+                  </div>
+                ) : (
+                  <div className={cx("size-full rounded-full border-2", isProjected ? "border-dashed border-[#f3be72]/60" : "border-white/12")} />
+                )}
+              </div>
+            );
+          })}
+        </div>
+        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-1 sm:border-l sm:border-white/10 sm:pl-6">
+          {reached ? (
+            <div className="col-span-2 sm:col-span-1">
+              <dt className="text-[13px] text-[#b9b1cc]">Bravo</dt>
+              <dd className="font-display mt-0.5 text-[20px] font-bold text-[#f3be72]">Objectif atteint</dd>
             </div>
-          );
-        })}
+          ) : (
+            <>
+              <div>
+                <dt className="text-[13px] text-[#b9b1cc]">Projection fin de mois</dt>
+                <dd className="font-display tnum mt-0.5 text-[24px] font-bold text-white">{eur(goal.projection)}</dd>
+              </div>
+              <div>
+                <dt className="text-[13px] text-[#b9b1cc]">À faire par jour</dt>
+                <dd className="font-display tnum mt-0.5 text-[24px] font-bold text-white">{eur(perDay)}</dd>
+                <dd className="text-[12.5px] text-[#8f88a6]">sur les {goal.daysLeft} jours restants</dd>
+              </div>
+            </>
+          )}
+        </dl>
       </div>
 
-      <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-1.5 border-t border-white/10 pt-4 text-[13.5px] text-[#b9b1cc]">
-        {reached ? (
-          <span className="font-semibold text-[#f3be72]">Objectif atteint. Beau mois.</span>
-        ) : (
-          <>
-            <span>
-              Projection fin de mois <span className="tnum font-semibold text-white">{eur(goal.projection)}</span>
-            </span>
-            <span>
-              Il faut <span className="tnum font-semibold text-white">{eur(perDay)}</span> / jour sur {goal.daysLeft} jours
-            </span>
-          </>
-        )}
-        <span className="flex items-center gap-1.5 text-[12.5px]">
-          <span className="size-3 rounded-full border-2 border-dashed border-[#f3be72]/60" /> tampons prévus d&apos;ici la fin du mois
-        </span>
-      </div>
+      <p className="mt-6 flex items-center gap-1.5 border-t border-white/10 pt-4 text-[12.5px] text-[#b9b1cc]">
+        <span className="size-3 rounded-full bg-[#f3be72]" /> 1 tampon = 10 % de l&apos;objectif
+        <span className="ml-3 size-3 rounded-full border-2 border-dashed border-[#f3be72]/60" /> tampons prévus d&apos;ici la fin du mois
+      </p>
     </div>
   );
 }

@@ -16,6 +16,7 @@ export const POST = route(async (req: Request) => {
     const blob = await put(`hq/${name}`, file, { access: "public", token, contentType: file.type });
     return { url: blob.url, public: true };
   }
+  if (process.env.VERCEL) throw new HttpError(400, "Configure « Stockage des images » (Vercel Blob) dans Connexions pour envoyer des fichiers.");
   const dir = path.join(process.cwd(), "public", "uploads");
   await fs.mkdir(dir, { recursive: true });
   await fs.writeFile(path.join(dir, name), Buffer.from(await file.arrayBuffer()));

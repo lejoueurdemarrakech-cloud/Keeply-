@@ -164,8 +164,10 @@ async function sentryResult(): Promise<HealthResult | null> {
   }
 }
 
-async function reviewsResult(): Promise<HealthResult> {
-  const { reviews } = await getReviews();
+async function reviewsResult(): Promise<HealthResult | null> {
+  const { reviews, live } = await getReviews();
+  // Les avis d'exemple ne doivent pas fausser le score.
+  if (!live) return null;
   const recent = reviews.filter((r) => r.bug && Date.now() - new Date(r.date).getTime() < 7 * 864e5);
   return {
     checkId: "avis-bugs",
@@ -246,6 +248,8 @@ export async function dailyHealthTick() {
   const today = day(new Date());
   const runs = await read<HealthRun[]>("health:runs", []);
   if (runs.some((r) => r.trigger === "quotidien" && day(new Date(r.at)) === today)) return "déjà fait aujourd'hui";
+  const hasSources = (await effectiveChecks()).some((c) => c.enabled) || !!(await configOrNull("sentry")) || (await getReviews()).live;
+  if (!hasSources) return "aucun contrôle configuré";
   const run = await runHealth("quotidien");
   return `score ${run.score}`;
 }

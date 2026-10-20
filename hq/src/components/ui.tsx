@@ -73,7 +73,7 @@ export function Stat({ label, value, prev, current, hint, tone, invert }: { labe
       <div className="font-display tnum mt-1.5 truncate text-[26px] leading-none font-bold">{value}</div>
       <div className="mt-2 flex min-h-5 items-center gap-2 text-[12.5px] text-ink-3">
         {d !== null && Math.abs(d) > 0.0005 && (
-          <span className={cx("tnum rounded-md px-1.5 py-0.5 font-semibold", good ? "bg-mint-soft text-mint" : "bg-coral-soft text-coral")}>
+          <span className={cx("tnum shrink-0 rounded-md px-1.5 py-0.5 font-semibold whitespace-nowrap", good ? "bg-mint-soft text-mint" : "bg-coral-soft text-coral")}>
             {d > 0 ? "+" : ""}
             {pct(d, 0)}
           </span>

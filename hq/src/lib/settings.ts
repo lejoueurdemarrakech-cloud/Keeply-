@@ -7,7 +7,7 @@ export const DEFAULT_SETTINGS: Settings = {
   businessName: "Keeply",
   ownerEmail: "",
   signature: "L'équipe Keeply",
-  monthlyGoal: 3000,
+  monthlyGoal: 3500,
   siteUrl: "",
   appStoreUrl: "",
   playStoreUrl: "",

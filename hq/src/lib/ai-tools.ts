@@ -244,7 +244,7 @@ const FALLBACK_HASHTAGS = [
 
 function fallbackProspectEmail(p: Prospect, sender: string, followUpDays: number[], optOut: string, offer: string) {
   const hello = "Bonjour,";
-  const detail = p.rating && p.reviews ? `Avec ${p.reviews} avis à ${p.rating}/5, vos clients vous adorent déjà.` : `J'ai découvert ${p.name} en cherchant les adresses à ${p.city}.`;
+  const detail = p.rating && p.reviews ? `Avec ${p.reviews} avis à ${String(p.rating).replace(".", ",")}/5, vos clients vous adorent déjà.` : `J'ai découvert ${p.name} en cherchant les adresses à ${p.city}.`;
   const body = `${hello}\n\n${detail} La question, c'est combien reviennent vraiment chaque semaine.\n\nKeeply met votre carte de fidélité dans l'iPhone et l'Android de vos clients, sans application à installer : ils scannent un QR code, la carte reste dans leur Wallet et leur rappelle de revenir.\n\n${offer}\n\nJe vous montre en 10 minutes ?\n\n${sender}\n\n${optOut}`;
   return {
     demo: true,
