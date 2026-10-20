@@ -1,0 +1,46 @@
+name: Keeply - tests quotidiens
+
+# Teste le site Keeply chaque matin dans un vrai navigateur (ordinateur + téléphone)
+# et envoie le rapport au tableau de bord Keeply HQ (onglet Santé).
+# Secrets à ajouter dans GitHub > Settings > Secrets and variables > Actions :
+#   KEEPLY_SITE_URL   adresse du site (ex. https://keeply.app)
+#   HQ_URL            adresse du tableau de bord (ex. https://keeply-hq.vercel.app)
+#   HQ_INGEST_TOKEN   même valeur que INGEST_TOKEN sur le tableau de bord
+# Variable facultative : KEEPLY_PAGES (ex. "/,/tarifs,/contact")
+
+on:
+  schedule:
+    - cron: "0 5 * * *" # 7 h à Paris (heure d'été)
+  workflow_dispatch:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Vérifier la configuration
+        id: cfg
+        run: |
+          if [ -z "${{ secrets.KEEPLY_SITE_URL }}" ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; echo "KEEPLY_SITE_URL manquant, test ignoré."; fi
+      - uses: actions/checkout@v4
+        if: steps.cfg.outputs.skip != 'true'
+      - uses: actions/setup-node@v4
+        if: steps.cfg.outputs.skip != 'true'
+        with:
+          node-version: 22
+      - name: Installer Playwright
+        if: steps.cfg.outputs.skip != 'true'
+        working-directory: hq/e2e
+        run: |
+          npm init -y >/dev/null
+          npm install playwright@1.56.1
+          npx playwright install --with-deps chromium
+      - name: Lancer les tests
+        if: steps.cfg.outputs.skip != 'true'
+        working-directory: hq/e2e
+        env:
+          SITE_URL: ${{ secrets.KEEPLY_SITE_URL }}
+          HQ_URL: ${{ secrets.HQ_URL }}
+          INGEST_TOKEN: ${{ secrets.HQ_INGEST_TOKEN }}
+          PAGES: ${{ vars.KEEPLY_PAGES }}
+        run: node daily-check.mjs
