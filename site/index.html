@@ -1672,6 +1672,131 @@ body::after{content:"";position:fixed;inset:0;z-index:250;pointer-events:none;ba
   .k-rise{filter:none}
   .btn--primary::after{display:none}
 }
+
+/* ============================================================
+   KEEPLY — expérience téléphone (≤ 760 px).
+   Inspirée des pages produit Apple : menu en feuille de verre,
+   barre d'action flottante, carrousel à glisser, éléments qui se
+   redressent au défilement. L'ordinateur n'est pas concerné.
+   ============================================================ */
+.m-burger,.m-cta,.m-gal,.m-sheet{display:none}
+html{-webkit-tap-highlight-color:transparent}
+
+@media (max-width:760px){
+  /* ---------- barre de navigation compacte ---------- */
+  .nav__menu,.nav__in>.btn--primary{display:none!important}
+  .nav__in{padding:6px 6px 6px 14px}
+  .m-burger{display:grid;position:relative;width:44px;height:44px;border-radius:12px;place-items:center;flex:none;transition:background-color .2s ease}
+  .m-burger:active{background:var(--paper-2)}
+  .m-burger i{position:absolute;left:13px;right:13px;height:1.75px;border-radius:2px;background:var(--ink);transition:transform .5s var(--ease-drawer)}
+  .m-burger i:first-child{transform:translateY(-4px)}
+  .m-burger i:last-child{transform:translateY(4px)}
+  .m-burger[aria-expanded="true"] i:first-child{transform:rotate(45deg)}
+  .m-burger[aria-expanded="true"] i:last-child{transform:rotate(-45deg)}
+
+  /* ---------- menu : feuille de verre plein écran ---------- */
+  .m-sheet{display:flex;position:fixed;inset:0;z-index:99;padding:96px 24px calc(28px + env(safe-area-inset-bottom,0px));
+    background:color-mix(in srgb,var(--paper) 62%,transparent);-webkit-backdrop-filter:blur(0px);backdrop-filter:blur(0px);opacity:0;
+    transition:opacity .35s ease,backdrop-filter .5s var(--ease-out),-webkit-backdrop-filter .5s var(--ease-out)}
+  .m-sheet[hidden]{display:none}
+  .m-sheet.is-open{opacity:1;-webkit-backdrop-filter:blur(26px) saturate(180%);backdrop-filter:blur(26px) saturate(180%)}
+  .m-sheet nav{display:flex;flex-direction:column;width:100%}
+  .m-sheet ul{list-style:none;padding:0;margin:0}
+  .m-sheet li{opacity:0;transform:translateY(-12px);transition:opacity .4s ease,transform .6s var(--ease-out);transition-delay:calc(var(--i) * 40ms)}
+  .m-sheet.is-open li{opacity:1;transform:none}
+  .m-sheet li a{display:flex;justify-content:space-between;align-items:center;padding:13px 2px;font-family:var(--f-display);font-weight:600;font-size:clamp(26px,7.6vw,32px);letter-spacing:-.035em;color:var(--ink);border-bottom:1px solid var(--line)}
+  .m-sheet li a::after{content:"→";font-family:var(--f-body);font-size:18px;color:var(--ink-faint);transition:transform .2s var(--ease-out)}
+  .m-sheet li a:active::after{transform:translateX(4px)}
+  .m-sheet__cta{margin-top:auto;width:100%;padding:16px 20px;font-size:16px;border-radius:16px;opacity:0;transform:translateY(16px);transition:opacity .4s ease .25s,transform .6s var(--ease-out) .25s}
+  .m-sheet.is-open .m-sheet__cta{opacity:1;transform:none}
+  html.m-menu-open,html.m-menu-open body{overflow:hidden}
+
+  /* ---------- barre d'action flottante ---------- */
+  .m-cta{display:flex;position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:90;align-items:center;justify-content:space-between;gap:12px;
+    padding:8px 8px 8px 16px;border-radius:22px;color:#F5EEE8;
+    background:color-mix(in srgb,var(--night) 80%,transparent);-webkit-backdrop-filter:blur(22px) saturate(180%);backdrop-filter:blur(22px) saturate(180%);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 0 0 1px rgba(255,255,255,.06),0 22px 44px -18px rgba(20,10,40,.7);
+    transform:translateY(calc(100% + 24px));transition:transform .6s var(--ease-drawer)}
+  .m-cta.is-on{transform:none}
+  .m-cta__logo{width:34px;height:34px;flex:none;background:var(--keeply-logo) center/contain no-repeat}
+  .m-cta__txt{display:flex;flex-direction:column;flex:1;min-width:0;line-height:1.2}
+  .m-cta__txt b{font-family:var(--f-display);font-weight:600;font-size:15px;letter-spacing:-.01em}
+  .m-cta__txt small{font-size:12px;color:rgba(245,238,232,.62);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .m-cta__go{flex:none;padding:12px 18px;border-radius:15px;font-weight:600;font-size:15px;color:#fff;background:linear-gradient(180deg,#7C5DFF,var(--violet) 60%,var(--violet-press));box-shadow:inset 0 1px 0 rgba(255,255,255,.28);transition:transform .12s ease-out}
+  .m-cta:active .m-cta__go{transform:scale(.96)}
+  .foot{padding-bottom:110px}
+
+  /* ---------- héros centré ---------- */
+  .v6-hero{padding-top:92px!important;padding-bottom:40px!important}
+  .v6-hero .k-hero__grid{perspective:900px}
+  .v6-hero .k-hero__copy{display:flex;flex-direction:column;align-items:center;text-align:center}
+  .v6-hero h1{font-size:clamp(40px,11.6vw,56px);letter-spacing:-.05em;line-height:.96}
+  .v6-hero .k-hero__sub{font-size:17px;line-height:1.5;margin-inline:auto;max-width:22rem}
+  .v6-hero .k-hero__cta{flex-direction:column;align-items:stretch;width:100%;max-width:22rem;gap:6px}
+  .v6-hero .k-hero__cta .btn{width:100%;padding:16px 20px;border-radius:16px;font-size:16.5px}
+  .v6-hero .k-hero__cta .k-link{justify-content:center}
+  .v6-proof{width:100%;text-align:center;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:22px;padding-top:18px}
+  .v6-proof li{align-items:center}
+  .v6-hero .k-hero__fx{justify-content:center;text-align:left;font-size:12.5px}
+  .v6-hero .k-hero__stage{transform-origin:50% 100%;will-change:scale,rotate}
+  .v6-orbit{width:118%}
+
+  /* ---------- titres : plus de présence, centrés comme une page produit ---------- */
+  .k-h2{font-size:clamp(34px,9.6vw,46px);letter-spacing:-.045em}
+  .k-manifest__text{font-size:clamp(28px,8.2vw,40px);line-height:1.08}
+  .v6-ticker{padding:20px 0}
+
+  /* ---------- galerie : carrousel à glisser ---------- */
+  .k-gal__rows{display:none}
+  .m-gal{display:block;margin-top:20px}
+  .m-gal__track{display:flex;gap:14px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;padding:26px calc(50% - 128px) 34px;scrollbar-width:none;perspective:1100px}
+  .m-gal__track::-webkit-scrollbar{display:none}
+  .m-gal__track:focus-visible{outline:none;box-shadow:inset 0 0 0 2px var(--violet)}
+  .m-gal__track .wp{width:256px;flex:none;scroll-snap-align:center;scroll-snap-stop:always;will-change:scale,rotate,opacity}
+  .m-gal__bar{display:block;margin:0 auto;width:96px;height:4px;border-radius:4px;background:var(--line-2);overflow:hidden}
+  .m-gal__bar i{display:block;height:100%;border-radius:inherit;background:var(--violet)}
+  .m-gal__hint{margin-top:12px;text-align:center;font-size:13px;color:var(--ink-faint)}
+
+  /* ---------- récit : téléphone plus présent ---------- */
+  .k-story__phone .k-phone{zoom:.56}
+  .k-step h3::before{margin-bottom:10px}
+
+  /* ---------- bento : cartes empilées qui grandissent en entrant ---------- */
+  .k-bento{gap:12px;margin-top:30px}
+  .k-cell{border-radius:26px;will-change:scale,translate;transform-origin:50% 0}
+  .k-cell:active{filter:brightness(.98)}
+  .k-cell--notif{padding:24px 20px}
+  .k-auto{gap:12px}
+  .k-cell--film{aspect-ratio:4/5!important}
+  .k-cell--devices .k-big{font-size:96px}
+
+  /* ---------- atelier ---------- */
+  .k-studio__preview::before{width:140%;filter:blur(40px)}
+  .v6-panel{will-change:scale,translate;transform-origin:50% 0}
+
+  /* ---------- tarif ---------- */
+  .v6-price-notes{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;scroll-snap-type:x proximity}
+  .v6-price-notes::-webkit-scrollbar{display:none}
+  .v6-price-notes li{flex:none;scroll-snap-align:start}
+  .k-plan{padding:24px 20px;border-radius:28px;will-change:scale,translate;transform-origin:50% 0}
+  .k-plan__cta{padding:17px 20px;border-radius:16px}
+
+  /* ---------- appel final ---------- */
+  .k-final__panel{min-height:auto;padding:56px 22px 30px;border-radius:30px;text-align:left;will-change:scale,translate;transform-origin:50% 0}
+  .k-final__panel h2{font-size:clamp(44px,13vw,60px)}
+  .k-final__stores{flex-direction:column;align-items:stretch}
+  .k-final__stores .store{justify-content:center;padding:14px}
+  .k-final__panel::after{background:linear-gradient(0deg,rgba(26,18,54,.92) 0%,rgba(26,18,54,.6) 55%,rgba(26,18,54,.3) 100%)}
+}
+
+@media (max-width:760px) and (prefers-reduced-motion:reduce){
+  .m-sheet,.m-sheet li,.m-sheet__cta,.m-cta,.m-burger i{transition:opacity .2s ease!important}
+  .m-cta{transform:none;opacity:0}.m-cta.is-on{opacity:1}
+}
+@media (max-width:760px) and (prefers-reduced-transparency:reduce){
+  .m-sheet.is-open{background:var(--paper);backdrop-filter:none;-webkit-backdrop-filter:none}
+  .m-cta{background:var(--night);backdrop-filter:none;-webkit-backdrop-filter:none}
+}
 </style>
 
 <a class="skip" href="#main">Aller au contenu</a>
@@ -4184,6 +4309,145 @@ body::after{content:"";position:fixed;inset:0;z-index:250;pointer-events:none;ba
   function init(){ initLoops(); initMagnets(); initHeroSpot(); initTilt(); initSpots(); }
   if(d.readyState!=="loading") init(); else d.addEventListener("DOMContentLoaded",init);
   window.addEventListener("hashchange",function(){ setTimeout(init,40); });
+})();
+</script>
+<script id="keeply-mobile">
+/* ============================================================
+   KEEPLY — expérience téléphone. Ne s'active que sous 760 px.
+   Défilement lié image par image (rAF), propriétés individuelles
+   scale / rotate / translate pour ne pas écraser les animations
+   d'entrée existantes, qui pilotent `transform`.
+   ============================================================ */
+(function(){
+  var d=document, body=d.body;
+  var MQ=window.matchMedia("(max-width: 760px)");
+  var REDUCE=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function clamp(v,a,b){ return v<a?a:v>b?b:v; }
+  function ease(p){ return 1-Math.pow(1-p,3); }
+
+  /* ---------- menu en feuille ---------- */
+  var sheet, burger;
+  function setMenu(open){
+    if(!sheet) return;
+    burger.setAttribute("aria-expanded",String(open));
+    burger.setAttribute("aria-label",open?"Fermer le menu":"Ouvrir le menu");
+    d.documentElement.classList.toggle("m-menu-open",open);
+    if(open){ sheet.hidden=false; requestAnimationFrame(function(){ requestAnimationFrame(function(){ sheet.classList.add("is-open"); }); }); }
+    else { sheet.classList.remove("is-open"); setTimeout(function(){ if(!sheet.classList.contains("is-open")) sheet.hidden=true; },REDUCE?0:450); }
+  }
+  function initSheet(){
+    if(sheet) return;
+    var navIn=d.querySelector(".nav__in"); if(!navIn) return;
+    burger=d.createElement("button");
+    burger.type="button"; burger.className="m-burger";
+    burger.setAttribute("aria-label","Ouvrir le menu"); burger.setAttribute("aria-expanded","false"); burger.setAttribute("aria-controls","mSheet");
+    burger.innerHTML="<i></i><i></i>";
+    navIn.appendChild(burger);
+    var links=[["#/application","L'application"],["#/carte","Créer sa carte"],["#/fidelisation","Fidélisation"],["#/activation","Activation"],["#/nouveautes","Nouveautés"],["#/tarifs","Tarifs"],["#/ameliorer","Améliorer Keeply"]];
+    sheet=d.createElement("div"); sheet.id="mSheet"; sheet.className="m-sheet"; sheet.hidden=true;
+    sheet.innerHTML='<nav aria-label="Menu"><ul>'+links.map(function(l,i){ return '<li style="--i:'+i+'"><a href="'+l[0]+'">'+l[1]+'</a></li>'; }).join("")+'</ul><a class="btn btn--primary m-sheet__cta" href="#/#telecharger">Essayer 14 jours gratuits</a></nav>';
+    body.appendChild(sheet);
+    burger.addEventListener("click",function(){ setMenu(burger.getAttribute("aria-expanded")!=="true"); });
+    sheet.addEventListener("click",function(e){ if(e.target.closest("a")) setMenu(false); });
+    d.addEventListener("keydown",function(e){ if(e.key==="Escape" && burger.getAttribute("aria-expanded")==="true"){ setMenu(false); burger.focus(); } });
+    MQ.addEventListener("change",function(){ if(!MQ.matches) setMenu(false); });
+  }
+
+  /* ---------- barre d'action flottante ---------- */
+  var cta;
+  function initCta(){
+    if(cta) return;
+    cta=d.createElement("a"); cta.className="m-cta"; cta.href="#/#telecharger";
+    cta.innerHTML='<span class="m-cta__logo" aria-hidden="true"></span><span class="m-cta__txt"><b>Keeply</b><small>14 jours gratuits, sans engagement</small></span><span class="m-cta__go">Essayer</span>';
+    cta.setAttribute("aria-label","Essayer Keeply 14 jours gratuits");
+    cta.tabIndex=-1;
+    body.appendChild(cta);
+  }
+
+  /* ---------- galerie : carrousel à glisser ---------- */
+  var gal, galTrack, galBar, galCards=[];
+  function initGallery(){
+    if(gal) return true;
+    var host=d.getElementById("kGallery"); if(!host) return false;
+    var rows=[].slice.call(host.querySelectorAll(".k-gal__track:not([aria-hidden])")).map(function(t){ return [].slice.call(t.querySelectorAll(".wp")); });
+    if(!rows.length || !rows[0].length) return false;
+    var cards=[], n=Math.max.apply(null,rows.map(function(r){ return r.length; }));
+    for(var i=0;i<n;i++) rows.forEach(function(r){ if(r[i]) cards.push(r[i].cloneNode(true)); });
+    gal=d.createElement("div"); gal.className="m-gal";
+    gal.innerHTML='<div class="m-gal__track" tabindex="0" role="group" aria-label="Exemples de cartes, à faire glisser"></div><span class="m-gal__bar" aria-hidden="true"><i></i></span><p class="m-gal__hint">Faites glisser pour voir les autres cartes</p>';
+    galTrack=gal.querySelector(".m-gal__track"); galBar=gal.querySelector(".m-gal__bar i");
+    cards.forEach(function(c){ galTrack.appendChild(c); });
+    galCards=cards;
+    host.parentNode.insertBefore(gal,host.nextSibling);
+    galTrack.addEventListener("scroll",request,{passive:true});
+    // Démarre sur la deuxième carte : on voit tout de suite qu'il y en a de chaque côté.
+    requestAnimationFrame(function(){ if(galCards[1]) galTrack.scrollLeft=galCards[1].offsetLeft-(galTrack.clientWidth-galCards[1].offsetWidth)/2; request(); });
+    return true;
+  }
+  function paintGallery(){
+    if(!galTrack || !gal.offsetParent) return;
+    var mid=galTrack.scrollLeft+galTrack.clientWidth/2;
+    galCards.forEach(function(c){
+      var w=c.offsetWidth+14, dx=(c.offsetLeft+c.offsetWidth/2-mid)/w, a=clamp(Math.abs(dx),0,1.4);
+      if(REDUCE){ c.style.opacity=String(1-.35*Math.min(a,1)); return; }
+      c.style.scale=(1-.1*Math.min(a,1)).toFixed(4);
+      c.style.rotate="y "+(clamp(-dx,-1.2,1.2)*14).toFixed(2)+"deg";
+      c.style.opacity=(1-.4*Math.min(a,1)).toFixed(3);
+    });
+    var max=galTrack.scrollWidth-galTrack.clientWidth, frac=clamp(galTrack.clientWidth/galTrack.scrollWidth,.12,1);
+    galBar.style.width=(frac*100)+"%";
+    galBar.style.transform="translateX("+((max>0?galTrack.scrollLeft/max:0)*(1-frac)/frac*100).toFixed(2)+"%)";
+  }
+
+  /* ---------- éléments qui se redressent en entrant ---------- */
+  var RISE="#view-home .k-hero__stage, #view-home .k-cell, #view-home .v6-panel, #view-home .k-plan, #view-home .k-final__panel";
+  var risers=[];
+  function collect(){ risers=[].slice.call(d.querySelectorAll(RISE)); }
+  function clearRise(){ risers.forEach(function(el){ el.style.scale=""; el.style.rotate=""; el.style.translate=""; }); }
+  function paintRise(vh){
+    risers.forEach(function(el){
+      var r=el.getBoundingClientRect();
+      if(r.bottom<-40 || r.top>vh+40) return;
+      var p=ease(clamp((vh-r.top)/(vh*.6),0,1));
+      if(el.classList.contains("k-hero__stage")){
+        el.style.rotate="x "+((1-p)*26).toFixed(2)+"deg";
+        el.style.scale=(.84+.16*p).toFixed(4);
+      } else {
+        el.style.scale=(.9+.1*p).toFixed(4);
+        el.style.translate="0 "+((1-p)*36).toFixed(1)+"px";
+      }
+    });
+  }
+
+  /* ---------- boucle d'affichage ---------- */
+  var ticking=false, wasMobile=null;
+  function request(){ if(!ticking){ ticking=true; requestAnimationFrame(frame); } }
+  function frame(){
+    ticking=false;
+    var mobile=MQ.matches, vh=window.innerHeight||800, home=body.getAttribute("data-route")==="home";
+    if(mobile!==wasMobile){ wasMobile=mobile; if(!mobile){ clearRise(); if(cta) cta.classList.remove("is-on"); } }
+    if(!mobile) return;
+    if(!REDUCE && home) paintRise(vh);
+    paintGallery();
+    if(cta){
+      var hero=d.querySelector(".v6-hero"), fin=d.getElementById("telecharger");
+      var on=home && hero && hero.getBoundingClientRect().bottom<70 && (!fin || fin.getBoundingClientRect().top>vh*.8);
+      if(!home && window.scrollY>500) on=true;
+      cta.classList.toggle("is-on",!!on);
+      cta.tabIndex=on?0:-1;
+    }
+  }
+
+  function init(){
+    initSheet(); initCta(); collect();
+    if(!initGallery()) setTimeout(init,250);
+    request();
+  }
+  window.addEventListener("scroll",request,{passive:true});
+  window.addEventListener("resize",request);
+  MQ.addEventListener("change",request);
+  window.addEventListener("hashchange",function(){ setMenu(false); setTimeout(function(){ collect(); request(); },60); });
+  if(d.readyState!=="loading") init(); else d.addEventListener("DOMContentLoaded",init);
 })();
 </script>
 
