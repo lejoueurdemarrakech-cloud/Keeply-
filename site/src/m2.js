@@ -34,6 +34,7 @@
   /* ---------- récit : légende synchronisée avec l'écran du téléphone ---------- */
   var cap=null;
   function initStoryCaption(){
+    if(!isMobile()) return;
     var stage=d.querySelector(".k-story__phone"); if(!stage || stage.querySelector(".m-cap")) return;
     var steps=[].slice.call(d.querySelectorAll(".k-steps .k-step"));
     cap=d.createElement("div"); cap.className="m-cap"; cap.setAttribute("aria-live","polite");
@@ -71,6 +72,7 @@
   /* ---------- atelier en application ---------- */
   var app=null;
   function initAtelier(){
+    if(!isMobile()) return;
     var panel=d.querySelector("#view-carte .ka__panel"); if(!panel || app) return;
     var steps=panel.querySelector(".ka__steps"), groups=[].slice.call(panel.querySelectorAll(".ka__group")), cta=panel.querySelector(".ka__cta");
     if(!steps || !groups.length) return;
@@ -167,7 +169,7 @@
       var reduce=ctx.conditions.reduce;
 
       // Titres : chaque mot monte de derrière sa ligne.
-      gsap.utils.toArray("#view-home .k-h2, .pagehead h1").forEach(function(h){
+      gsap.utils.toArray("#view-home .k-h2, .pagehead h1, .view:not(#view-home) .sec-head h2, .kf-mech__txt h2, .kf-head h2, .kf-sim__txt h2, .kf-end__panel h2, .dl__card h2").forEach(function(h){
         var w=splitWords(h);
         if(reduce){ gsap.from(h,{opacity:0,duration:.6,scrollTrigger:{trigger:h,start:"top 88%",once:true}}); return; }
         gsap.fromTo(w,{yPercent:115,rotate:4},{yPercent:0,rotate:0,duration:1.05,ease:"expo.out",stagger:.055,scrollTrigger:{trigger:h,start:"top 88%",once:true}});
@@ -180,12 +182,13 @@
 
       if(reduce) return;
 
-      // Héros : le texte s'efface vers le haut, les cartes avancent vers vous.
+      // Héros : les cartes se redressent face à vous au chargement, puis tout
+      // le héros recule doucement quand on fait défiler, comme une page produit.
       var hero=d.querySelector(".v6-hero");
       if(hero){
-        gsap.to(".v6-hero .k-hero__copy",{y:-90,opacity:.0,ease:"none",scrollTrigger:{trigger:hero,start:"top top",end:"60% top",scrub:true}});
-        gsap.fromTo(".v6-hero .k-hero__stage",{"--hs":.86,"--hr":"22deg"},{"--hs":1.06,"--hr":"0deg",ease:"none",scrollTrigger:{trigger:".v6-hero .k-hero__stage",start:"top bottom",end:"bottom 55%",scrub:.5}});
-        gsap.to(".v6-hero__vid",{scale:1.15,ease:"none",scrollTrigger:{trigger:hero,start:"top top",end:"bottom top",scrub:true}});
+        gsap.fromTo(".v6-hero .k-hero__stage",{"--hr":"34deg","--hs":.78,"--ho":0},{"--hr":"0deg","--hs":1,"--ho":1,duration:1.6,ease:"expo.out",delay:.35});
+        gsap.to(".v6-hero .k-hero__grid",{scale:.9,opacity:.25,y:40,ease:"none",transformOrigin:"50% 30%",scrollTrigger:{trigger:hero,start:"top top",end:"bottom top",scrub:true}});
+        gsap.to(".v6-hero__vid",{scale:1.18,ease:"none",scrollTrigger:{trigger:hero,start:"top top",end:"bottom top",scrub:true}});
       }
 
       // Galerie : les cartes arrivent de la droite, en cascade.
@@ -219,16 +222,44 @@
       var fin=d.querySelector(".k-final__panel");
       if(fin) gsap.fromTo(fin,{"--fs":.86},{"--fs":1,ease:"none",scrollTrigger:{trigger:fin,start:"top bottom",end:"top 30%",scrub:true}});
 
-      // Autres pages : leurs blocs montent en entrant.
-      ScrollTrigger.batch(".view:not(#view-home):not(#view-carte) section .wrap > *",{start:"top 92%",once:true,
-        onEnter:function(els){ gsap.fromTo(els,{y:30,opacity:0},{y:0,opacity:1,duration:.9,ease:"expo.out",stagger:.07,clearProps:"transform"}); }});
+      // Pages intérieures : chaque carte arrive avec un léger ressort, l'une après l'autre.
+      ScrollTrigger.batch(".appstep, .kf-mech, .kf-sim__txt, .kf-sim__box, .kf-step, .kf-offers li, .kf-end__panel, .roaditem, .dl__card, .pricecard, .whatfor > div, .hb__list li, .pxctrl--row, .kform, .sec-head, .kf-head",{
+        start:"top 92%", once:true,
+        onEnter:function(els){ gsap.fromTo(els,{y:46,opacity:0,scale:.96},{y:0,opacity:1,scale:1,duration:1,ease:"expo.out",stagger:.08,clearProps:"transform"}); }
+      });
+      // Images et vidéos : elles s'ouvrent depuis le centre, l'image dedans se pose.
+      gsap.utils.toArray(".appstep .vframe, .pxstage, .scene, .kf-mech__card").forEach(function(el){
+        gsap.fromTo(el,{clipPath:"inset(9% 7% 9% 7% round 30px)"},{clipPath:"inset(0% 0% 0% 0% round 22px)",ease:"none",scrollTrigger:{trigger:el,start:"top 95%",end:"top 40%",scrub:.4}});
+        var inner=el.querySelector("video, .scene__ph, .poster, .wp");
+        if(inner) gsap.fromTo(inner,{scale:1.12},{scale:1,ease:"none",scrollTrigger:{trigger:el,start:"top 95%",end:"top 40%",scrub:.4}});
+      });
+      // Paliers Bronze, Argent, Or : ils montent comme des marches.
+      gsap.utils.toArray(".kf-ladder").forEach(function(l){ gsap.from(l.children,{y:60,opacity:0,rotate:-2,duration:1.1,ease:"expo.out",stagger:.12,scrollTrigger:{trigger:l,start:"top 85%",once:true}}); });
 
       return function(){ d.querySelectorAll(".k-cell").forEach(function(c){ c.style.removeProperty("--sk"); c.style.removeProperty("--sb"); }); };
     });
   }
 
+  /* ---------- carrousels de l'activation : points de position ---------- */
+  function initDots(){
+    if(!isMobile()) return;
+    d.querySelectorAll(".pxstudio2, .pxscenes").forEach(function(c){
+      if(c.dataset.dots) return; c.dataset.dots="1";
+      var items=[].slice.call(c.children); if(items.length<2) return;
+      var dots=d.createElement("div"); dots.className="m-dots"; dots.setAttribute("aria-hidden","true");
+      dots.innerHTML=items.map(function(_,i){ return "<i"+(i?"":' class="on"')+"></i>"; }).join("");
+      c.parentNode.insertBefore(dots,c.nextSibling);
+      var raf=null;
+      c.addEventListener("scroll",function(){ if(raf) return; raf=requestAnimationFrame(function(){ raf=null;
+        var mid=c.scrollLeft+c.clientWidth/2, best=0, bd=1e9;
+        items.forEach(function(it,i){ var dd=Math.abs(it.offsetLeft+it.offsetWidth/2-mid); if(dd<bd){bd=dd;best=i;} });
+        [].forEach.call(dots.children,function(dt,i){ dt.classList.toggle("on",i===best); });
+      }); },{passive:true});
+    });
+  }
+
   function onRoute(){
-    initStoryCaption(); fitPhone(); initAtelier();
+    initStoryCaption(); fitPhone(); initAtelier(); initDots();
     if(app && body.getAttribute("data-route")==="carte"){ setTimeout(function(){ app.fit(); app.place(); },60); }
     if(window.ScrollTrigger) setTimeout(function(){ ScrollTrigger.refresh(); },120);
   }

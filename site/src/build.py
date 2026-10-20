@@ -44,12 +44,12 @@ s = sub_once('body[data-route="videos"] #view-videos,\n', "", s, "route css")
 s = sub_once('    </div>\n  </div>\n</footer>', '    </div>\n    <p class="v6-word" aria-hidden="true">Keeply</p>\n  </div>\n</footer>', s, "wordmark")
 
 # 4. v6 styles after the main stylesheet, v6 script after the page scripts.
-css = open(os.path.join(SP, "v6.css")).read() + open(os.path.join(SP, "m.css")).read() + open(os.path.join(SP, "m2.css")).read()
+V6ONLY = os.environ.get("V6ONLY") == "1"
+css = open(os.path.join(SP, "v6.css")).read() + ("" if V6ONLY else open(os.path.join(SP, "m.css")).read() + open(os.path.join(SP, "m2.css")).read())
 s = sub_once("\n}\n</style>\n\n<a class=\"skip\"", "\n}\n" + css + "</style>\n\n<a class=\"skip\"", s, "css")
 js = open(os.path.join(SP, "v6.js")).read()
-s = s.rstrip() + '\n<script id="keeply-v6">\n' + js + "</script>\n<script id=\"keeply-mobile\">\n" + open(os.path.join(SP, "m.js")).read() + "</script>\n<script id=\"keeply-motion\">\n" + open(os.path.join(SP, "m2.js")).read() + "</script>\n"
+s = s.rstrip() + '\n<script id="keeply-v6">\n' + js + "</script>\n" + ("" if V6ONLY else "<script id=\"keeply-mobile\">\n" + open(os.path.join(SP, "m.js")).read() + "</script>\n<script id=\"keeply-motion\">\n" + open(os.path.join(SP, "m2.js")).read() + "</script>\n")
 
-s = s.replace('<meta name="theme-color" content="#1B1518" media="(prefers-color-scheme: dark)" />', '<meta name="theme-color" content="#FBF7F1" media="(prefers-color-scheme: dark)" />')
 # 5. Social card / theme metas stay; restore the base64 blobs.
 for k, v in store.items():
     s = s.replace(k, v)

@@ -5,36 +5,40 @@
    la nuit. On ne laisse plus le thème sombre du téléphone (ou de
    l'app Claude) remplacer ces couleurs.
    ============================================================ */
+@media (max-width:760px){
 :root,:root[data-theme="dark"]{
-  --paper:#FBF7F1; --paper-2:#F3ECE1; --card:#FFFFFF;
-  --ink:#241D21; --ink-soft:#574A50; --ink-faint:#8A7B82;
-  --line:rgba(36,29,33,.12); --line-2:rgba(36,29,33,.22);
-  --violet:#6B4AF2; --violet-press:#5A3BE0; --violet-deep:#3F27B8; --violet-soft:#EEE9FE;
-  --honey:#A5620A; --honey-bright:#E8A33D; --honey-soft:#F7E9D2;
-  --coral:#C13D22; --coral-soft:#FBE3DC; --ok:#1E7A50;
-  --shadow-1:0 1px 2px rgba(36,29,33,.05),0 10px 26px -12px rgba(63,39,184,.18);
-  --shadow-2:0 2px 6px rgba(36,29,33,.10),0 34px 70px -26px rgba(63,39,184,.36);
-  --shadow-pass:0 3px 10px rgba(36,29,33,.16),0 44px 84px -30px rgba(48,25,90,.5);
-  color-scheme:light;
+    --paper:#FBF7F1; --paper-2:#F3ECE1; --card:#FFFFFF;
+    --ink:#241D21; --ink-soft:#574A50; --ink-faint:#8A7B82;
+    --line:rgba(36,29,33,.12); --line-2:rgba(36,29,33,.22);
+    --violet:#6B4AF2; --violet-press:#5A3BE0; --violet-deep:#3F27B8; --violet-soft:#EEE9FE;
+    --honey:#A5620A; --honey-bright:#E8A33D; --honey-soft:#F7E9D2;
+    --coral:#C13D22; --coral-soft:#FBE3DC; --ok:#1E7A50;
+    --shadow-1:0 1px 2px rgba(36,29,33,.05),0 10px 26px -12px rgba(63,39,184,.18);
+    --shadow-2:0 2px 6px rgba(36,29,33,.10),0 34px 70px -26px rgba(63,39,184,.36);
+    --shadow-pass:0 3px 10px rgba(36,29,33,.16),0 44px 84px -30px rgba(48,25,90,.5);
+    color-scheme:light;
+  }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --paper:#FBF7F1; --paper-2:#F3ECE1; --card:#FFFFFF;
+    --ink:#241D21; --ink-soft:#574A50; --ink-faint:#8A7B82;
+    --line:rgba(36,29,33,.12); --line-2:rgba(36,29,33,.22);
+    --violet:#6B4AF2; --violet-press:#5A3BE0; --violet-deep:#3F27B8; --violet-soft:#EEE9FE;
+    --honey:#A5620A; --honey-bright:#E8A33D; --honey-soft:#F7E9D2;
+    --coral:#C13D22; --coral-soft:#FBE3DC; --ok:#1E7A50;
+    --shadow-1:0 1px 2px rgba(36,29,33,.05),0 10px 26px -12px rgba(63,39,184,.18);
+    --shadow-2:0 2px 6px rgba(36,29,33,.10),0 34px 70px -26px rgba(63,39,184,.36);
+    --shadow-pass:0 3px 10px rgba(36,29,33,.16),0 44px 84px -30px rgba(48,25,90,.5);
+    color-scheme:light;
+  }}
+  body{background:var(--paper);color:var(--ink)}
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::after{mix-blend-mode:multiply;opacity:.045}}
+  /* Le titre reçoit le focus à chaque changement de page : jamais de cadre au toucher. */
+  
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --paper:#FBF7F1; --paper-2:#F3ECE1; --card:#FFFFFF;
-  --ink:#241D21; --ink-soft:#574A50; --ink-faint:#8A7B82;
-  --line:rgba(36,29,33,.12); --line-2:rgba(36,29,33,.22);
-  --violet:#6B4AF2; --violet-press:#5A3BE0; --violet-deep:#3F27B8; --violet-soft:#EEE9FE;
-  --honey:#A5620A; --honey-bright:#E8A33D; --honey-soft:#F7E9D2;
-  --coral:#C13D22; --coral-soft:#FBE3DC; --ok:#1E7A50;
-  --shadow-1:0 1px 2px rgba(36,29,33,.05),0 10px 26px -12px rgba(63,39,184,.18);
-  --shadow-2:0 2px 6px rgba(36,29,33,.10),0 34px 70px -26px rgba(63,39,184,.36);
-  --shadow-pass:0 3px 10px rgba(36,29,33,.16),0 44px 84px -30px rgba(48,25,90,.5);
-  color-scheme:light;
-}}
-body{background:var(--paper);color:var(--ink)}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) body::after{mix-blend-mode:multiply;opacity:.045}}
-/* Le titre reçoit le focus à chaque changement de page : jamais de cadre au toucher. */
-.pagehead h1:focus,.view h1:focus{outline:none;box-shadow:none}
 
 @media (max-width:760px){
+  /* Le titre reçoit le focus à chaque changement de page : jamais de cadre au toucher. */
+  .pagehead h1:focus,.view h1:focus{outline:none;box-shadow:none}
   body{font-size:16px}
   .wrap{padding-left:20px;padding-right:20px}
   section{padding:72px 0}
@@ -139,4 +143,108 @@ body{background:var(--paper);color:var(--ink)}
   .k-cell{scale:1!important;filter:none!important}
 }
 
-@media (min-width:761px){.m-scroll{display:contents}}
+@media (min-width:761px){.m-scroll{display:contents}.m-grab,.m-pill,.m-cap{display:none!important}}
+
+/* ============================================================
+   v8 — téléphone uniquement : héros qui montre les cartes dès le
+   premier écran, pages intérieures repensées, carrousels au doigt.
+   ============================================================ */
+@media (max-width:760px){
+  /* ---------- héros : titre, bouton, puis les cartes, dans le premier écran ---------- */
+  .v6-hero{min-height:0;padding-top:84px!important;padding-bottom:28px!important}
+  .v6-hero .k-hero__grid{display:flex!important;flex-direction:column;align-items:center;gap:0}
+  .v6-hero .k-hero__copy{display:contents}
+  .v6-hero .v6-pill{order:1;margin-bottom:16px}
+  .v6-hero h1{order:2;font-size:clamp(38px,10.4vw,50px);text-align:center}
+  .v6-hero .k-hero__sub{order:3;margin-top:14px;font-size:16px;text-align:center;max-width:21rem}
+  .v6-hero .k-hero__cta{order:4;margin-top:20px}
+  .v6-hero .k-hero__stage{order:5;margin-top:10px!important;width:100%}
+  .v6-hero .v6-proof{order:6;margin-top:6px}
+  .v6-hero .k-hero__fx{order:7}
+  .k-stack{zoom:.78!important}
+  .v6-hero .k-hero__cta .k-link{display:none}
+
+  /* ---------- bento : plus de temps de lecture entre deux cartes ---------- */
+  .k-bento{gap:9vh!important;padding-bottom:4vh}
+
+  /* ---------- pages intérieures : en-tête ---------- */
+  .pagehead{position:relative;padding:22px 0 8px;overflow:hidden}
+  .pagehead::before{inset:-60px -40% auto auto;width:150%;opacity:.9}
+  .pagehead .back{display:inline-flex;align-items:center;gap:6px;padding:7px 12px 7px 10px;border-radius:999px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line);font-size:11px}
+  .pagehead .eyebrow{margin-top:18px!important}
+  .view:not(#view-home):not(#view-carte) section{padding:44px 0}
+  .view:not(#view-home) .sec-head h2,.view:not(#view-home) section h2{font-size:clamp(28px,8vw,36px);letter-spacing:-.04em;line-height:1.02}
+
+  /* ---------- Application : chaque étape devient une carte ---------- */
+  .appsteps{gap:16px!important;margin-top:8px}
+  .appstep{grid-template-columns:1fr!important;gap:18px!important;padding:22px 20px 24px!important;border:0!important;border-radius:28px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line),0 24px 50px -36px rgba(48,25,90,.45)}
+  .appstep__n{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--violet-soft);color:var(--violet-deep)!important;font-size:12.5px!important}
+  .appstep h2{font-size:24px!important;margin-top:12px!important}
+  .appstep p{font-size:15.5px!important}
+  .appstep .appstep__media{order:0!important}
+  .appstep .vframe{max-width:230px;border-radius:28px}
+  .appstep .vcap{font-size:10.5px;letter-spacing:.08em;margin-top:12px;text-align:center}
+
+  /* ---------- Fidélisation ---------- */
+  .kf-duo__grid{gap:16px!important}
+  .kf-mech{border-radius:28px!important}
+  .kf-mech__card{padding:28px 16px 24px!important}
+  .kf-mech__card .wp{width:min(300px,100%)}
+  .kf-mech__txt{padding:22px 20px 24px!important}
+  .kf-sim__box{padding:22px 18px!important;border-radius:26px!important}
+  .kf-sim__big b{font-size:56px}
+  .kf-ladder{gap:12px!important;margin-top:24px!important}
+  .kf-step{min-height:0!important;padding:22px!important;border-radius:22px!important}
+  .kf-offers{grid-template-columns:1fr!important;gap:12px!important}
+  .kf-offers li{padding:18px!important;border-radius:20px!important}
+  .kf-end__panel{border-radius:28px!important;padding:36px 22px!important}
+
+  /* ---------- Activation : affiche et story en carrousel ---------- */
+  .pxctrl--row{gap:16px!important;padding:18px!important;border-radius:22px!important}
+  .pxstudio2,.pxscenes{display:flex!important;gap:14px!important;overflow-x:auto;scroll-snap-type:x mandatory;margin-inline:-20px;padding:6px 20px 18px;scrollbar-width:none;overscroll-behavior-x:contain}
+  .pxstudio2::-webkit-scrollbar,.pxscenes::-webkit-scrollbar{display:none}
+  .pxstudio2>*,.pxscenes>*{flex:0 0 84%;scroll-snap-align:center;max-width:none!important;margin:0!important}
+  .scene[data-scene="store"]{aspect-ratio:886/1100!important}
+  .scene[data-scene="store"] .scene__ph{object-position:50% 50%}
+  .m-dots{display:flex;justify-content:center;gap:6px;margin-top:4px}
+  .m-dots i{width:6px;height:6px;border-radius:6px;background:var(--line-2);transition:width .4s var(--ease-drawer),background-color .3s ease}
+  .m-dots i.on{width:22px;background:var(--violet)}
+
+  /* ---------- Nouveautés : feuille de route en cartes ---------- */
+  .road{gap:10px!important}
+  .roaditem{grid-template-columns:1fr!important;gap:8px!important;padding:18px 18px 20px!important;border:0!important;border-radius:22px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+  .roadwhen{justify-self:start;padding:5px 10px!important;border-radius:999px;background:var(--violet-soft);font-size:10.5px!important}
+  .roadwhen.soon{background:var(--honey-soft)}
+  .roaditem h3{font-size:19px!important}
+  .dl__card{border-radius:28px!important;padding:34px 22px!important;text-align:left}
+  .dl__card p{margin-inline:0!important}
+  .dl .notify__row{flex-direction:column}
+  .dl .notify__row .btn{width:100%;padding:14px}
+
+  /* ---------- Tarifs : la carte de prix ---------- */
+  .pricecard{border-radius:28px!important;border:0!important;box-shadow:0 30px 60px -36px rgba(48,25,90,.6)!important}
+  .pricecard__top{padding:24px 22px!important}
+  .pricecard .k-plan--flat{background:none!important;box-shadow:none!important;padding:0!important;margin-top:14px;scale:1!important}
+  .pricecard .k-plan--flat::before{display:none!important}
+  .pricecard .k-plan--flat .k-plan__fig b{background:none!important;-webkit-text-fill-color:#fff;color:#fff;font-size:58px}
+  .pricecard .k-plan--flat .k-plan__fig span{color:#fff}
+  .pricecard__body{padding:22px!important}
+
+  /* ---------- Améliorer : formulaire en carte ---------- */
+  #view-ameliorer form{padding:20px 18px;border-radius:24px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
+  #view-ameliorer input,#view-ameliorer select,#view-ameliorer textarea{font-size:16px!important;border-radius:14px!important}
+  #view-ameliorer button[type="submit"]{width:100%;padding:15px;border-radius:15px}
+
+  /* ---------- pied de page plus court ---------- */
+  .foot__nav{grid-template-columns:1fr 1fr!important}
+  .v6-word{font-size:30vw;margin-top:28px}
+
+  /* ---------- la barre flottante ne cache jamais la fin d'une page ---------- */
+  main{padding-bottom:20px}
+}
+@media (max-width:760px){
+  /* Le mouvement des pages intérieures passe par GSAP : on neutralise l'ancien fondu. */
+  .view .reveal.pending{opacity:1;transform:none}
+  .view .reveal,.view .reveal.in{transition:none}
+  .v6-hero .k-hero__grid{will-change:transform,opacity}
+}
