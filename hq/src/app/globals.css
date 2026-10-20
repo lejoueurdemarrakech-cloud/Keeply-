@@ -1,26 +1,254 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Keeply HQ — couleurs et typographie de la marque Keeply.
+   Violet Keeply, miel des tampons, nuit des cartes Wallet.
+   ============================================================ */
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --bg: #f6f5fb;
+  --bg-2: #efedf7;
+  --surface: #ffffff;
+  --surface-2: #f9f8fd;
+  --ink: #1d1830;
+  --ink-2: #4d4762;
+  --ink-3: #807a95;
+  --line: #e5e2ef;
+  --line-2: #d6d1e6;
+  --violet: #6b4af2;
+  --violet-2: #5638d6;
+  --violet-soft: #ece7ff;
+  --honey: #c98216;
+  --honey-bright: #f3be72;
+  --honey-soft: #fff1da;
+  --coral: #e0573a;
+  --coral-soft: #ffe7e0;
+  --mint: #138a68;
+  --mint-soft: #ddf5ec;
+  --sky: #2f6fe0;
+  --night: #14111f;
+  --night-2: #1c1730;
+  --shadow: 0 1px 2px rgb(29 24 48 / 0.05), 0 8px 24px -16px rgb(48 25 90 / 0.25);
+  /* Palette des graphiques, ordre fixe, validée (daltonisme + contraste) */
+  --chart-1: #6b4af2;
+  --chart-2: #e89a2c;
+  --chart-3: #2f6fe0;
+  --chart-4: #1aa37a;
+  --chart-5: #e0573a;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --bg: #100d19;
+  --bg-2: #15111f;
+  --surface: #1a1628;
+  --surface-2: #211c32;
+  --ink: #f2eef8;
+  --ink-2: #c3bcd6;
+  --ink-3: #8f88a6;
+  --line: #2b2540;
+  --line-2: #3a3354;
+  --violet: #8b70ff;
+  --violet-2: #a28dff;
+  --violet-soft: #2a2152;
+  --honey: #f3be72;
+  --honey-bright: #f3be72;
+  --honey-soft: #3a2c16;
+  --coral: #ff8a6e;
+  --coral-soft: #3d1f1a;
+  --mint: #4cd4a6;
+  --mint-soft: #15332b;
+  --sky: #78a6ff;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -18px rgb(0 0 0 / 0.7);
+  --chart-1: #7d63f5;
+  --chart-2: #c0822a;
+  --chart-3: #4a80ea;
+  --chart-4: #24a079;
+  --chart-5: #e2593f;
+  color-scheme: dark;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-violet: var(--violet);
+  --color-violet-2: var(--violet-2);
+  --color-violet-soft: var(--violet-soft);
+  --color-honey: var(--honey);
+  --color-honey-bright: var(--honey-bright);
+  --color-honey-soft: var(--honey-soft);
+  --color-coral: var(--coral);
+  --color-coral-soft: var(--coral-soft);
+  --color-mint: var(--mint);
+  --color-mint-soft: var(--mint-soft);
+  --color-sky: var(--sky);
+  --color-night: var(--night);
+  --color-night-2: var(--night-2);
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), var(--font-hanken), ui-sans-serif, sans-serif;
+  --shadow-card: var(--shadow);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+::selection {
+  background: color-mix(in srgb, var(--violet) 25%, transparent);
+}
+:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+.font-display {
+  letter-spacing: -0.02em;
+}
+
+/* Barres de défilement discrètes */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-2) transparent;
+}
+
+/* Champ de saisie commun */
+.field {
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  padding: 9px 12px;
+  color: var(--ink);
+  font-size: 14px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.field::placeholder {
+  color: var(--ink-3);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--violet);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--violet) 18%, transparent);
+}
+textarea.field {
+  line-height: 1.55;
+  resize: vertical;
+}
+select.field {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23807a95' stroke-width='2.5'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 30px;
+}
+
+/* Squelette de chargement */
+.skeleton {
+  background: linear-gradient(90deg, var(--bg-2) 25%, var(--surface-2) 50%, var(--bg-2) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+  border-radius: 10px;
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Tampon de la carte d'objectif : pression du tampon au chargement */
+@keyframes stamp-in {
+  0% {
+    transform: scale(1.6) rotate(-14deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(0.92) rotate(3deg);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+.stamp-in {
+  animation: stamp-in 0.42s var(--ease-out-quint) both;
+}
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.rise {
+  animation: rise 0.35s var(--ease-out-quint) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Contenu Markdown simple (briefing, coach) */
+.prose-hq p {
+  margin: 0 0 0.6em;
+}
+.prose-hq ul,
+.prose-hq ol {
+  margin: 0 0 0.6em 1.1em;
+  list-style: disc;
+}
+.prose-hq ol {
+  list-style: decimal;
+}
+.prose-hq li {
+  margin: 0.15em 0;
+}
+.prose-hq strong {
+  color: var(--ink);
+  font-weight: 650;
+}
+.prose-hq h1,
+.prose-hq h2,
+.prose-hq h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  margin: 0.8em 0 0.3em;
+  font-size: 1.02em;
+}
+
+/* Recharts */
+.recharts-cartesian-grid line {
+  stroke: var(--line);
+}
+.recharts-text {
+  fill: var(--ink-3);
+  font-size: 12px;
+}
+.recharts-tooltip-cursor {
+  fill: color-mix(in srgb, var(--violet) 6%, transparent);
 }
