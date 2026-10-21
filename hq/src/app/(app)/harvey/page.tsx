@@ -134,7 +134,7 @@ export default function HarveyPage() {
         subtitle="L'agent de prospection qui tourne sur ton Mac avec ton abonnement Claude : il trouve des commerces, lit leurs sites, repère les signaux d'intérêt et écrit des mails qu'il n'envoie qu'après ton accord."
         actions={
           <>
-            <a href="http://127.0.0.1:5555" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-ink-2 hover:bg-bg-2 hover:text-ink">
+            <a href="http://127.0.0.1:5560" target="_blank" rel="noreferrer" className="inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-ink-2 hover:bg-bg-2 hover:text-ink">
               Tableau complet <ExternalLink className="size-4" />
             </a>
             {running ? (
