@@ -1,12 +1,13 @@
 import "server-only";
 import Anthropic from "@anthropic-ai/sdk";
+import { askBridge, bridgeOnline } from "@/lib/bridge";
 import { getConfig } from "@/lib/connectors/config";
 
 const DEFAULT_MODEL = "claude-opus-5-5";
 
 export class AiUnavailable extends Error {
   constructor() {
-    super("Connecte Claude (page Connexions) pour utiliser cette fonction.");
+    super("Claude n'est pas joignable : allume ton Mac (le pont Claude y tourne) ou ajoute une clé dans Connexions.");
   }
 }
 
@@ -16,8 +17,9 @@ async function client() {
   return { client: new Anthropic({ apiKey: cfg.apiKey, maxRetries: 2 }), model: cfg.model || DEFAULT_MODEL };
 }
 
+/** L'IA passe d'abord par l'abonnement Claude du Mac (pont) ; la clé API n'est qu'un secours facultatif. */
 export async function aiAvailable() {
-  return !!(await getConfig("anthropic")).apiKey;
+  return (await bridgeOnline()) || !!(await getConfig("anthropic")).apiKey;
 }
 
 const BASE_SYSTEM = `Tu assistes le fondateur de Keeply, une app qui crée la carte de fidélité des cafés et restaurants dans Apple Wallet et Google Wallet (tampons ou points, sans application à installer pour les clients, rappels automatiques).
@@ -29,9 +31,18 @@ interface AskOptions {
   system?: string;
   effort?: Effort;
   maxTokens?: number;
+  /** Nom de la tâche dans le compteur de crédits (ex. « Tri des mails »). */
+  label?: string;
+  /** Modèle via le pont : haiku pour trier, sonnet par défaut, opus pour les textes importants. */
+  model?: "haiku" | "sonnet" | "opus";
 }
 
 async function call(prompt: string, opts: AskOptions & { schema?: Record<string, unknown> }) {
+  const system = [BASE_SYSTEM, opts.system].filter(Boolean).join("\n\n");
+  if (await bridgeOnline()) {
+    const text = await askBridge({ system, prompt, schema: opts.schema, effort: opts.effort ?? "low", label: opts.label ?? "Demande IA", model: opts.model ?? "sonnet" });
+    return text.trim();
+  }
   const c = await client();
   if (!c) throw new AiUnavailable();
   const response = await c.client.beta.messages.create({
@@ -39,7 +50,7 @@ async function call(prompt: string, opts: AskOptions & { schema?: Record<string,
     max_tokens: opts.maxTokens ?? 8000,
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
-    system: [BASE_SYSTEM, opts.system].filter(Boolean).join("\n\n"),
+    system,
     output_config: {
       effort: opts.effort ?? "low",
       ...(opts.schema ? { format: { type: "json_schema" as const, schema: opts.schema } } : {}),

@@ -3,7 +3,7 @@ import { aiErrorMessage } from "@/lib/ai";
 import * as tools from "@/lib/ai-tools";
 import { analyze, instagramOverview } from "@/lib/instagram";
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 const DAYS = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 

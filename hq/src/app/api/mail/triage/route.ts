@@ -4,7 +4,7 @@ import { mailTriageTool } from "@/lib/ai-tools";
 import { inbox, updateMailState } from "@/lib/mail";
 import type { MailCategory } from "@/lib/types";
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 export async function POST() {
   try {

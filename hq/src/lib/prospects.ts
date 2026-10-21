@@ -1,7 +1,7 @@
 import "server-only";
 import dns from "node:dns/promises";
 import { configOrNull } from "@/lib/connectors/config";
-import { prospectEmailTool } from "@/lib/ai-tools";
+import { prospectEmailsBatchTool } from "@/lib/ai-tools";
 import { demoProspects } from "@/lib/demo";
 import { fetchJson, UA } from "@/lib/http";
 import { fetchInbox, outreachConfig, sendMail } from "@/lib/mail";
@@ -43,7 +43,7 @@ export const TYPES: Record<string, { label: string; osm: string[]; google: strin
 };
 
 const CHAINS = /starbucks|mcdonald|burger king|kfc|subway|paul\b|columbus|brioche dor|la mie c[aâ]line|domino|pizza hut|quick\b|o'tacos|five guys|costa coffee|tim hortons|dunkin|pret a manger|class'croute|boulangerie ange|marie blach|feuillette|hippopotamus|buffalo grill|courtepaille|del arte|leon de bruxelles|big fernand|jour\b|exki|le pain quotidien|bagelstein|cojean|sushi shop|planet sushi|nespresso|yogurt factory/i;
-const COMPETITORS = /zerosix|fidme|stampme|stamp me|loyoly|fidelity card|fid[ée]lit[ée] digitale|pmyfid|karte|thefork|lafourchette|yuzzit|squarespace loyalty|square loyalty|sumup loyalty/i;
+const COMPETITORS = /zerosix|fidme|stampme|stamp me|loyoly|fidelity card|fid[ée]lit[ée] digitale|pmyfid|karte|yuzzit|squarespace loyalty|square loyalty|sumup loyalty/i;
 
 /* ---------- Recherche ---------- */
 
@@ -201,6 +201,10 @@ async function enrich(f: Found) {
       if (COMPETITORS.test(home)) signals.push("Utilise peut-être un concurrent");
       if (/ubereats|deliveroo|just ?eat|glovo/i.test(home)) signals.push("Fait de la livraison (clients réguliers)");
       if (/click.?(and|&).?collect|commander en ligne|order online/i.test(text)) signals.push("Commande en ligne");
+      if (/thefork|lafourchette|zenchef|sevenrooms|resy|guestonline|bookatable/i.test(home)) signals.push("Réservation en ligne (outil digital déjà adopté)");
+      if (/brunch|petit[- ]d[ée]jeuner|breakfast|formule midi|menu du jour|plat du jour/i.test(text)) signals.push("Formules du quotidien (clientèle d'habitués)");
+      if (/wix|squarespace|webflow|shopify/i.test(home)) signals.push("Site fait soi-même (gérant autonome)");
+      if (/[ée]tudiant|bureau|coworking|salari[ée]s/i.test(text)) signals.push("Clientèle de proximité (étudiants, bureaux)");
     } catch {
       signals.push("Site injoignable");
     }
@@ -309,21 +313,36 @@ export async function draftFor(ids: string[]) {
   const targets = all.filter((p) => ids.includes(p.id));
   let done = 0;
   const errors: string[] = [];
-  for (let i = 0; i < targets.length; i += 3) {
+  // 5 établissements par demande à Claude, 2 demandes en parallèle.
+  const groups: Prospect[][] = [];
+  for (let i = 0; i < targets.length; i += 5) groups.push(targets.slice(i, i + 5));
+  for (let i = 0; i < groups.length; i += 2) {
     await Promise.all(
-      targets.slice(i, i + 3).map(async (p) => {
+      groups.slice(i, i + 2).map(async (group) => {
         try {
-          const d = await prospectEmailTool(p, p.siteSnippet);
+          const { drafts } = await prospectEmailsBatchTool(group);
+          const byId = new Map(drafts.map((d) => [d.id, d]));
           await saveProspects((list) =>
-            list.map((x) =>
-              x.id === p.id
-                ? { ...x, draft: { subject: d.subject, body: d.body, followUps: d.followUps }, status: x.status === "nouveau" ? "pret" : x.status, history: [...x.history, { at: new Date().toISOString(), event: "Mail préparé" }] }
-                : x,
-            ),
+            list.map((x) => {
+              const d = byId.get(x.id);
+              if (!d) return x;
+              const fit = Math.max(1, Math.min(10, Math.round(d.fit)));
+              return {
+                ...x,
+                fit,
+                fitReason: d.fitReason,
+                angle: d.angle,
+                score: x.score === "ecarte" ? x.score : fit >= 8 ? "chaud" : fit >= 5 ? (x.score === "chaud" ? "chaud" : "tiede") : "froid",
+                draft: { subject: d.subject, body: d.body, followUps: d.followUps },
+                status: x.status === "nouveau" ? "pret" : x.status,
+                history: [...x.history, { at: new Date().toISOString(), event: `Mail préparé (intérêt ${fit}/10)` }],
+              };
+            }),
           );
-          done++;
+          done += byId.size;
+          for (const p of group) if (!byId.has(p.id)) errors.push(`${p.name} : pas de mail rendu`);
         } catch (e) {
-          errors.push(`${p.name} : ${e instanceof Error ? e.message : e}`);
+          errors.push(`${group.map((p) => p.name).join(", ")} : ${e instanceof Error ? e.message : e}`);
         }
       }),
     );

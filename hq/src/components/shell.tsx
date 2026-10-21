@@ -2,6 +2,9 @@
 import { Command } from "cmdk";
 import {
   Aperture,
+  Bot,
+  ClipboardCheck,
+  Gauge,
   HeartPulse,
   Inbox,
   ListChecks,
@@ -32,7 +35,7 @@ interface NavItem {
   href: string;
   label: string;
   icon: ReactNode;
-  badge?: "mails" | "sante" | "prospects";
+  badge?: "mails" | "sante" | "prospects" | "valider";
 }
 
 const GROUPS: { label: string; items: NavItem[] }[] = [
@@ -40,6 +43,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Pilotage",
     items: [
       { href: "/", label: "Aujourd'hui", icon: <Sun /> },
+      { href: "/valider", label: "À valider", icon: <ClipboardCheck />, badge: "valider" },
       { href: "/ventes", label: "Ventes", icon: <TrendingUp /> },
       { href: "/sante", label: "Santé de l'app", icon: <HeartPulse />, badge: "sante" },
     ],
@@ -49,6 +53,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { href: "/instagram", label: "Instagram & Ads", icon: <Aperture /> },
       { href: "/prospection", label: "Prospection", icon: <Radar />, badge: "prospects" },
+      { href: "/harvey", label: "Harvey", icon: <Bot /> },
     ],
   },
   {
@@ -64,6 +69,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { href: "/taches", label: "Tâches", icon: <ListChecks /> },
       { href: "/outils", label: "Outils", icon: <Wrench /> },
+      { href: "/claude", label: "Crédits Claude", icon: <Gauge /> },
     ],
   },
 ];
@@ -81,7 +87,9 @@ interface Counts {
 
 function useCounts() {
   const { data } = useApi<Counts>("/api/today", { refreshInterval: 5 * 60_000 });
+  const { data: review } = useApi<{ pending: number }>("/api/review?count=1", { refreshInterval: 5 * 60_000 });
   return {
+    valider: review?.pending ?? 0,
     mails: data?.mails?.urgentCount ?? 0,
     sante: data?.health?.problems.length ?? 0,
     prospects: data?.prospects?.replied.length ?? 0,

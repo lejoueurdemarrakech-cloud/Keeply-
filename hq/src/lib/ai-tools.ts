@@ -1,6 +1,7 @@
 import "server-only";
 import { aiAvailable, arr, askJson, askText, num, obj, oneOf, str, untrusted } from "@/lib/ai";
 import { getSettings } from "@/lib/settings";
+import { PROSPECT_PLAYBOOK } from "@/lib/playbook";
 import type { Prospect } from "@/lib/types";
 
 const STYLE = `Règles d'écriture : phrases courtes, concrètes, un seul appel à l'action. Pas de « ce n'est pas X, c'est Y », pas de listes « pas de X, pas de Y », pas d'emojis en rafale (2 maximum), pas de promesses invérifiables.`;
@@ -20,7 +21,7 @@ Chaque légende : une accroche (première ligne qui donne envie de cliquer sur �
 Hashtags : 8 à 12, mélange de niche (#cartedefidelite) et de moyens (#restaurateur), en français.
 ${STYLE}`,
     obj({ variants: arr(obj({ hook: str, caption: str, hashtags: str, cta: str })) }),
-    { effort: "low" },
+    { effort: "low", label: "Instagram · légendes" },
   );
 }
 
@@ -35,7 +36,7 @@ Pour chaque idée : un titre, le format conseillé (Reel, Carrousel, Image, Stor
 Privilégie les formats qui font gagner des abonnés en 2026 : Reels courts avec accroche forte, carrousels utiles à enregistrer, contenus partageables entre restaurateurs.
 ${STYLE}`,
     obj({ ideas: arr(obj({ title: str, format: str, hook: str, outline: str, why: str })) }),
-    { effort: "low" },
+    { effort: "low", label: "Instagram · idées" },
   );
 }
 
@@ -44,6 +45,7 @@ export async function hooksTool(input: { topic: string }) {
   return askJson<{ hooks: string[] }>(
     `Écris 12 accroches pour un Reel Instagram sur : ${input.topic}. Public : restaurateurs et gérants de café. Chaque accroche fait moins de 12 mots et se lit en 2 secondes à l'écran. Varie les mécaniques : question, chiffre, erreur courante, avant/après, contre-intuitif, POV. ${STYLE}`,
     obj({ hooks: arr(str) }),
+    { label: "Instagram · accroches", model: "haiku" },
   );
 }
 
@@ -52,6 +54,7 @@ export async function hashtagsTool(input: { topic: string }) {
   return askJson<{ sets: { name: string; tags: string[] }[] }>(
     `Prépare 3 jeux de hashtags Instagram pour un post sur « ${input.topic} » (compte Keeply, cible restaurateurs francophones) : « Niche » (petits hashtags très ciblés), « Moyens » (communauté restauration / commerce local), « Ville & local » (hashtags géographiques utiles en France, Belgique, Suisse). 8 à 10 hashtags par jeu, sans #.`,
     obj({ sets: arr(obj({ name: str, tags: arr(str) })) }),
+    { label: "Instagram · hashtags", model: "haiku" },
   );
 }
 
@@ -61,6 +64,7 @@ export async function bioTool(input: { current?: string }) {
     `Propose 4 bios Instagram (150 caractères max chacune) pour @${s.instagram.handle}. Bio actuelle : ${input.current || "(vide)"}.
 Doit dire en une ligne ce que fait Keeply, pour qui, une preuve ou un bénéfice, et un appel vers le lien. ${STYLE}`,
     obj({ bios: arr(obj({ text: str, why: str })) }),
+    { label: "Instagram · bio" },
   );
 }
 
@@ -72,7 +76,7 @@ Rubriques : ${s.instagram.pillars.join(", ")}.
 Données du compte :\n${input.context}
 Donne 5 à 7 publications (jour, heure conseillée selon les meilleurs créneaux observés, format, rubrique, idée, début de légende) et 3 conseils précis pour la semaine. ${STYLE}`,
     obj({ days: arr(obj({ day: str, time: str, format: str, pillar: str, idea: str, caption_start: str })), tips: arr(str) }),
-    { effort: "medium" },
+    { effort: "medium", label: "Instagram · planning semaine" },
   );
 }
 
@@ -80,7 +84,7 @@ export async function coachTool(input: { question: string; context: string }) {
   return {
     answer: await askText(
       `Tu es le coach Instagram de Keeply. Voici les chiffres du compte :\n${input.context}\n\nQuestion : ${input.question}\n\nRéponds en t'appuyant sur ces chiffres, avec des actions concrètes à faire cette semaine. Format court, titres en gras si utile.`,
-      { effort: "medium" },
+      { effort: "medium", label: "Instagram · coach" },
     ),
   };
 }
@@ -93,6 +97,7 @@ Audience : ${input.audience}
 ${input.angle ? `Angle : ${input.angle}` : "Varie les angles : perte de clients, simplicité, preuve, coût du papier, rappels automatiques."}
 Pour chaque variante : texte principal (125 caractères conseillés, 1 à 3 phrases), titre (40 caractères max), description (30 caractères), bouton conseillé, et une idée de visuel ou de vidéo. ${STYLE}`,
     obj({ ads: arr(obj({ primary: str, headline: str, description: str, cta: str, visual: str })) }),
+    { label: "Meta Ads · annonces" },
   );
 }
 
@@ -105,6 +110,7 @@ export async function reviewReplyTool(input: { rating: number; body: string; sto
 ${untrusted("avis", input.body)}
 Remercie sans flatter, réponds au point soulevé, si c'est un bug donne une piste concrète ou invite à écrire au support. 350 caractères max. Signe « ${s.signature} ».`,
     obj({ reply: str }),
+    { label: "Avis · réponse" },
   );
 }
 
@@ -118,6 +124,7 @@ ${untrusted("mail", input.text)}
 ${input.intent ? `Ce que je veux répondre : ${input.intent}` : "Réponds au mieux, propose une solution ou une prochaine étape claire."}
 Vouvoiement, ton professionnel et humain, court. Signature : ${s.signature}. Ne promets rien que tu ne peux pas savoir (dates, prix) : mets [À COMPLÉTER] si une info manque.`,
     obj({ subject: str, body: str }),
+    { label: "Mails · réponse" },
   );
 }
 
@@ -133,6 +140,7 @@ ${untrusted("mails", JSON.stringify(mails), 40000)}`,
         obj({ id: str, priority: num, category: oneOf("client", "prospect", "partenariat", "support", "facturation", "presse", "store", "notification", "newsletter", "perso", "autre"), summary: str, action: str }),
       ),
     }),
+    { label: "Mails · tri", model: "haiku" },
   );
 }
 
@@ -140,7 +148,7 @@ export async function briefTool(context: string) {
   return {
     brief: await askText(
       `Voici l'état de Keeply aujourd'hui :\n${context}\n\nÉcris mon briefing du matin : 3 points clés (ce qui va bien, ce qui coince), puis les 3 actions les plus utiles à faire aujourd'hui, dans l'ordre. 150 mots maximum, en Markdown simple.`,
-      { effort: "medium" },
+      { effort: "medium", label: "Briefing du matin" },
     ),
   };
 }
@@ -148,7 +156,7 @@ export async function briefTool(context: string) {
 export async function healthSummaryTool(context: string) {
   return askText(
     `Voici le résultat des tests automatiques de Keeply (site, app, fiches stores, erreurs, avis) :\n${context}\n\nRésume en 4 lignes maximum : ce qui est cassé, la cause probable, l'urgence et la première chose à vérifier. Si tout va bien, dis-le en une ligne.`,
-    { effort: "low" },
+    { effort: "low", label: "Santé · résumé", model: "haiku" },
   );
 }
 
@@ -164,46 +172,82 @@ export const ATELIER_PRESETS = {
 
 export async function atelierTool(input: { preset: keyof typeof ATELIER_PRESETS | "libre"; text: string }) {
   const intro = input.preset === "libre" ? "" : ATELIER_PRESETS[input.preset];
-  return { text: await askText(`${intro}\n${input.text}\n\n${STYLE}`, { effort: "medium" }) };
+  return { text: await askText(`${intro}\n${input.text}\n\n${STYLE}`, { effort: "medium", label: "Atelier d'écriture" }) };
 }
 
 /* ---------- Prospection ---------- */
 
 const LANG_NAMES: Record<string, string> = { fr: "français", en: "anglais", es: "espagnol", it: "italien", de: "allemand", nl: "néerlandais", pt: "portugais", ar: "français (le Maroc et la Tunisie écrivent en français en B2B)" };
 
-export async function prospectEmailTool(p: Prospect, siteText?: string) {
-  const s = await getSettings();
-  const sender = s.prospecting.senderName || s.ownerName || "L'équipe Keeply";
-  const followUpDays = s.prospecting.followUpDays;
-  if (!(await aiAvailable())) return fallbackProspectEmail(p, sender, followUpDays, s.prospecting.optOutLine, s.prospecting.offer);
-  return askJson<{ subject: string; body: string; followUps: { delayDays: number; subject: string; body: string }[] }>(
-    `Écris un mail de prospection à froid pour ${p.name}, ${p.type} à ${p.city} (${p.country}).
-Langue : ${LANG_NAMES[p.lang] ?? "français"}.
-Ce que je sais sur eux : ${[
+export interface ProspectDraft {
+  id: string;
+  fit: number;
+  fitReason: string;
+  angle: string;
+  subject: string;
+  body: string;
+  followUps: { delayDays: number; subject: string; body: string }[];
+}
+
+function describe(p: Prospect) {
+  return [
+    `id: ${p.id}`,
+    `établissement: ${p.name}, ${p.type} à ${p.city} (${p.country}), langue du mail: ${LANG_NAMES[p.lang] ?? "français"}`,
+    `faits: ${[
       p.rating ? `note Google ${p.rating}/5 (${p.reviews ?? "?"} avis)` : "",
-      p.instagram ? `présents sur Instagram (@${p.instagram})` : "",
+      p.instagram ? `Instagram @${p.instagram}` : "",
       p.website ? `site ${p.website}` : "pas de site web",
       ...p.signals,
     ]
       .filter(Boolean)
-      .join(" ; ")}
-${siteText ? untrusted("extrait_site", siteText, 2500) : ""}
+      .join(" ; ")}`,
+    p.siteSnippet ? untrusted("extrait_site_" + p.id, p.siteSnippet, 1500) : "",
+  ]
+    .filter(Boolean)
+    .join("\n");
+}
+
+/**
+ * Qualifie et rédige pour plusieurs établissements en UNE seule demande à Claude
+ * (5 par appel = 5 fois moins de crédits qu'un appel par mail).
+ */
+export async function prospectEmailsBatchTool(ps: Prospect[]): Promise<{ demo?: boolean; drafts: ProspectDraft[] }> {
+  const s = await getSettings();
+  const sender = s.prospecting.senderName || s.ownerName || "L'équipe Keeply";
+  const followUpDays = s.prospecting.followUpDays;
+  if (!(await aiAvailable())) {
+    return {
+      demo: true,
+      drafts: ps.map((p) => ({ id: p.id, fit: 5, fitReason: "Estimation sans IA", angle: "", ...fallbackProspectEmail(p, sender, followUpDays, s.prospecting.optOutLine, s.prospecting.offer) })),
+    };
+  }
+  const res = await askJson<{ drafts: ProspectDraft[] }>(
+    `Voici ${ps.length} établissements à prospecter. Pour CHACUN (même id), qualifie-le puis écris sa séquence.
+
+${ps.map(describe).join("\n\n---\n\n")}
 
 Keeply : ${s.prospecting.pitch}
 Offre : ${s.prospecting.offer}
-${s.prospecting.calendarLink ? `Lien pour réserver 15 min : ${s.prospecting.calendarLink}` : ""}
-Expéditeur : ${sender}
+${s.prospecting.calendarLink ? `Lien pour réserver 15 min (relances seulement) : ${s.prospecting.calendarLink}` : ""}
+Expéditeur et signature : ${sender}
+Dernière ligne de chaque mail : « ${s.prospecting.optOutLine} »
+Relances : ${followUpDays.length} (J+${followUpDays.join(", J+")}). La dernière est la clôture.
 
-Contraintes (cold email B2B) :
-- Objet : 2 à 5 mots, en minuscules, sans majuscules marketing ni emoji, qui ressemble à un mail entre deux personnes.
-- Corps : 60 à 110 mots. Première phrase personnalisée sur l'établissement (un détail réel tiré des infos ci-dessus, jamais inventé). Puis le problème (clients de passage qui ne reviennent pas, cartes papier perdues), la solution en une phrase, l'offre, et une seule question simple pour finir (ex. « Je vous montre en 10 minutes ? »).
-- Texte brut, pas de liens sauf le lien de rendez-vous, pas de pièce jointe, vouvoiement.
-- Termine par la signature puis cette ligne : « ${s.prospecting.optOutLine} »
-- Prépare aussi ${followUpDays.length} relance(s) (J+${followUpDays.join(", J+")}), chacune plus courte (30 à 60 mots), avec un angle nouveau (preuve, chiffre, question), objet « re: » + objet initial pour la première.
-${STYLE}`,
-    obj({ subject: str, body: str, followUps: arr(obj({ delayDays: num, subject: str, body: str })) }),
-    { effort: "low" },
+Pour chaque établissement : fit (1 à 10), fitReason (une phrase), angle (le signal choisi comme accroche), subject, body, followUps. Si fit est de 4 ou moins, écris quand même un mail sobre mais explique pourquoi dans fitReason.
+Chaque mail doit être différent des autres : ne recopie pas la même structure en changeant le nom.`,
+    obj({ drafts: arr(obj({ id: str, fit: num, fitReason: str, angle: str, subject: str, body: str, followUps: arr(obj({ delayDays: num, subject: str, body: str })) })) }),
+    { system: `${PROSPECT_PLAYBOOK}\n\n${STYLE}`, effort: "medium", label: "Prospection · qualification + mails", model: "opus" },
   );
+  const known = new Set(ps.map((p) => p.id));
+  return { drafts: res.drafts.filter((d) => known.has(d.id)) };
+}
+
+/** Un seul établissement (garde l'ancienne signature). */
+export async function prospectEmailTool(p: Prospect, siteText?: string) {
+  const { demo, drafts } = await prospectEmailsBatchTool([{ ...p, siteSnippet: siteText ?? p.siteSnippet }]);
+  const d = drafts[0];
+  if (!d) throw new Error("Claude n'a pas rendu de mail pour cet établissement.");
+  return { demo, subject: d.subject, body: d.body, followUps: d.followUps, fit: d.fit, fitReason: d.fitReason, angle: d.angle };
 }
 
 /* ---------- Secours sans IA ---------- */

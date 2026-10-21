@@ -235,6 +235,7 @@ function ProspectionInner() {
                     </td>
                     <td className="px-3 py-3">
                       <Badge tone={SCORE[p.score].tone}>{SCORE[p.score].label}</Badge>
+                      {p.fit != null && <p className="tnum mt-1 text-[12px] text-ink-3">intérêt {p.fit}/10</p>}
                     </td>
                     <td className="max-w-[230px] px-3 py-3">
                       {p.email ? (
@@ -409,6 +410,12 @@ function ProspectModal({ p, types, onClose, onChange }: { p: Prospect; types: Re
               </Badge>
             ))}
           </div>
+          {p.fit != null && (
+            <div className="rounded-xl bg-bg-2 px-3.5 py-2.5 text-[13px] text-ink-2">
+              <strong className="text-ink">Intérêt estimé par Claude : {p.fit}/10.</strong> {p.fitReason}
+              {p.angle && <span className="block text-ink-3">Accroche choisie : {p.angle}</span>}
+            </div>
+          )}
           <Field label="Adresse mail" hint={p.emails && p.emails.length > 1 ? `Autres adresses trouvées : ${p.emails.filter((e) => e !== email).join(", ")}` : undefined}>
             <input className="field" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="contact@…" />
           </Field>

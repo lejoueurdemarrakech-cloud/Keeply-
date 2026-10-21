@@ -148,6 +148,10 @@ export interface Prospect {
   notes?: string;
   siteSnippet?: string;
   emailCheck?: "ok" | "sans-mx" | "inconnu";
+  /** Intérêt estimé par Claude (1 à 10), sa raison et l'accroche choisie. */
+  fit?: number;
+  fitReason?: string;
+  angle?: string;
   osmId?: string;
   placeId?: string;
 }

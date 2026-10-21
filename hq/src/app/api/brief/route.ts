@@ -4,7 +4,7 @@ import { briefTool } from "@/lib/ai-tools";
 import { briefContext, todayOverview } from "@/lib/today";
 import { store } from "@/lib/store";
 
-export const maxDuration = 120;
+export const maxDuration = 300;
 
 export async function GET() {
   return NextResponse.json((await store.get("brief")) ?? null);

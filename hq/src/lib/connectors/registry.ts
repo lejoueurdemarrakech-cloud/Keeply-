@@ -205,9 +205,9 @@ export const CONNECTORS: ConnectorDef[] = [
   },
   {
     id: "anthropic",
-    name: "Claude (IA)",
+    name: "Claude (clé API, facultatif)",
     group: "Intelligence",
-    description: "Légendes Instagram, tri des mails, brouillons de réponses, mails de prospection personnalisés, briefing du jour.",
+    description: "Pas nécessaire : HQ utilise ton abonnement Claude via le pont installé sur ton Mac (voir Crédits Claude). Une clé ne sert que de secours quand le Mac est éteint, et elle est facturée à l'usage.",
     fields: [
       { key: "apiKey", label: "Clé API Anthropic", type: "password", placeholder: "sk-ant-…", env: "ANTHROPIC_API_KEY" },
       { key: "model", label: "Modèle", placeholder: "claude-opus-5-5", optional: true, env: "ANTHROPIC_MODEL" },
