@@ -1,5 +1,5 @@
 "use client";
-import { Aperture, BarChart3, CalendarDays, Grid3x3, Megaphone, PenSquare, RefreshCw, Rocket } from "lucide-react";
+import { Aperture, Flag, BarChart3, CalendarDays, Grid3x3, Megaphone, PenSquare, RefreshCw, Rocket } from "lucide-react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useState } from "react";
@@ -8,17 +8,18 @@ import { useApi } from "@/lib/client";
 import type { Post } from "@/lib/types";
 import { Composer, draftFromPost, emptyDraft, type Draft } from "./composer";
 import { Growth } from "./growth";
+import { Launch } from "./launch";
 import { Library } from "./library";
 import { Planning } from "./planning";
 import type { IgOverview } from "./shared";
 import { Stats } from "./stats";
 
-type Tab = "planning" | "creer" | "publications" | "stats" | "croissance";
+type Tab = "lancement" | "planning" | "creer" | "publications" | "stats" | "croissance";
 
 function InstagramInner() {
   const params = useSearchParams();
   const router = useRouter();
-  const [tab, setTabState] = useState<Tab>((params.get("tab") as Tab) || "planning");
+  const [tab, setTabState] = useState<Tab>((params.get("tab") as Tab) || "lancement");
   const [draft, setDraft] = useState<Draft>(emptyDraft());
   const [draftKey, setDraftKey] = useState(0);
   const { data: o, mutate: refreshOverview, isValidating } = useApi<IgOverview>("/api/instagram/overview");
@@ -73,6 +74,7 @@ function InstagramInner() {
         value={tab}
         onChange={setTab}
         tabs={[
+          { value: "lancement", label: "Lancement", icon: <Flag className="size-4" /> },
           { value: "planning", label: "Planning", icon: <CalendarDays className="size-4" />, count: posts?.filter((p) => p.status === "programme").length },
           { value: "creer", label: "Créer", icon: <PenSquare className="size-4" /> },
           { value: "publications", label: "Publications", icon: <Grid3x3 className="size-4" />, count: o?.media.length },
@@ -80,6 +82,7 @@ function InstagramInner() {
           { value: "croissance", label: "Croissance", icon: <Rocket className="size-4" /> },
         ]}
       />
+      {tab === "lancement" && <Launch onCreate={edit} />}
       {tab === "planning" && (posts ? <Planning posts={posts} published={o?.media ?? []} onEdit={(p) => edit(draftFromPost(p))} onChange={() => refreshPosts()} /> : <Skeleton className="h-96" />)}
       {tab === "creer" && (
         <Composer

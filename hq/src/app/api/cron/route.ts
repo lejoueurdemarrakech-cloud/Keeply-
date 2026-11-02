@@ -7,6 +7,7 @@ import { autoReplyTick } from "@/lib/mail";
 import { dailyHealthTick } from "@/lib/health";
 import { outreachTick } from "@/lib/prospects";
 import { store } from "@/lib/store";
+import { CHECKS_PAUSED, PAUSED_MESSAGE } from "@/lib/prelaunch";
 
 export const maxDuration = 300;
 
@@ -39,7 +40,7 @@ async function run(req: Request) {
   if (Date.now() - last.at < 50_000 && !new URL(req.url).searchParams.has("force")) return NextResponse.json({ skipped: true });
   await store.set("cron:last", { at: Date.now() });
   const results = Object.fromEntries(
-    await Promise.all([step("instagram", publishDuePosts), step("reponseAuto", autoReplyTick), step("sante", dailyHealthTick), step("prospection", outreachTick)]),
+    await Promise.all([step("instagram", publishDuePosts), step("reponseAuto", autoReplyTick), step("sante", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : dailyHealthTick())), step("prospection", outreachTick)]),
   );
   await store.set("cron:last", { at: Date.now(), results });
   return NextResponse.json({ at: new Date().toISOString(), results });

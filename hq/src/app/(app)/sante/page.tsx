@@ -13,6 +13,7 @@ interface Data {
   checks: HealthCheck[];
   e2e: { at: string; passed: number; failed: number } | null;
   ingestReady: boolean;
+  paused?: boolean;
 }
 
 const KIND: Record<HealthCheck["kind"], string> = {
@@ -56,13 +57,20 @@ export default function HealthPage() {
         actions={
           <>
             <Button onClick={() => setEditor(true)}>Contrôles</Button>
-            <Button variant="primary" icon={<Play className="size-4" />} loading={running} onClick={run}>
+            <Button variant="primary" icon={<Play className="size-4" />} loading={running} disabled={data?.paused} onClick={run}>
               Tester maintenant
             </Button>
           </>
         }
       />
 
+      {data?.paused && (
+        <Card className="mb-5">
+          <p className="text-[14px] text-ink-2">
+            <Badge tone="honey">En pause</Badge> Tous les contrôles automatiques sont coupés jusqu&apos;au lancement officiel : test de santé du matin, tests navigateur et tournées Claude planifiées. Pour les rallumer, mets <code>HQ_CHECKS_PAUSED=0</code> dans les variables Vercel.
+          </p>
+        </Card>
+      )}
       {isLoading ? (
         <Skeleton className="h-64" />
       ) : !last ? (

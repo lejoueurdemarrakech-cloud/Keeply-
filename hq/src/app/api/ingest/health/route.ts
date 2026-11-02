@@ -2,11 +2,13 @@ import { route } from "@/lib/http";
 import { checkIngestToken } from "@/lib/ingest";
 import { runHealth, type E2eReport } from "@/lib/health";
 import { store } from "@/lib/store";
+import { CHECKS_PAUSED, PAUSED_MESSAGE } from "@/lib/prelaunch";
 
 /** Reçoit le rapport des tests navigateur lancés chaque jour par GitHub Actions. */
 export const maxDuration = 300;
 export const POST = route(async (req: Request) => {
   checkIngestToken(req);
+  if (CHECKS_PAUSED) return { ok: true, skipped: PAUSED_MESSAGE };
   const body = (await req.json()) as Partial<E2eReport>;
   const report: E2eReport = {
     at: new Date().toISOString(),

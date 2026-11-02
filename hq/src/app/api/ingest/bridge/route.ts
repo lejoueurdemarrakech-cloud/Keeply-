@@ -1,5 +1,6 @@
 import { route } from "@/lib/http";
 import { checkIngestToken } from "@/lib/ingest";
+import { CHECKS_PAUSED } from "@/lib/prelaunch";
 import { claimWork, finishCommand, finishJob, getBudget, recordUsage, saveHarveySnapshot, saveQuota, touchHeartbeat, type CallUsage, type HarveySnapshot, type QuotaSnapshot } from "@/lib/bridge";
 
 /**
@@ -40,5 +41,6 @@ export const POST = route(async (req: Request) => {
     });
   }
   const [{ jobs, commands }, budget] = await Promise.all([claimWork(), getBudget()]);
-  return { jobs, commands, budget, serverTime: new Date().toISOString() };
+  // Tournées planifiées coupées avant le lancement : le pont ne reçoit aucune heure.
+  return { jobs, commands, budget: CHECKS_PAUSED ? { ...budget, roundHours: [] } : budget, serverTime: new Date().toISOString() };
 });

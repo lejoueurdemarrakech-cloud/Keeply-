@@ -1,17 +1,18 @@
 "use client";
-import { BookOpen, Calculator, LayoutDashboard, ListFilter, Megaphone, PenLine } from "lucide-react";
+import { BookOpen, Calculator, Flag, LayoutDashboard, ListFilter, Megaphone, PenLine } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 import { Card, DemoBadge, ErrorNote, PageHeader, Segmented, Skeleton, Tabs } from "@/components/ui";
 import { useApi } from "@/lib/client";
 import { usePref } from "@/lib/prefs";
 import { Campaigns } from "./campaigns";
+import { Launch } from "./launch";
 import { Overview } from "./overview";
 import { totals, type Ads } from "./shared";
 import { Simulator } from "./simulator";
 import { Writer } from "./writer";
 
-type Tab = "apercu" | "campagnes" | "simulateur" | "annonces" | "lexique";
+type Tab = "lancement" | "apercu" | "campagnes" | "simulateur" | "annonces" | "lexique";
 type Days = "7" | "14" | "30" | "90";
 
 const GLOSSARY: [string, string][] = [
@@ -32,7 +33,7 @@ const GLOSSARY: [string, string][] = [
 function AdsInner() {
   const params = useSearchParams();
   const router = useRouter();
-  const [tab, setTabState] = useState<Tab>((params.get("tab") as Tab) || "apercu");
+  const [tab, setTabState] = useState<Tab>((params.get("tab") as Tab) || "lancement");
   const [days, setDays] = usePref<Days>("ads-days", "30");
   const { data } = useApi<Ads>(`/api/ads?days=${days}`);
 
@@ -62,6 +63,7 @@ function AdsInner() {
         value={tab}
         onChange={setTab}
         tabs={[
+          { value: "lancement", label: "Plan de lancement", icon: <Flag /> },
           { value: "apercu", label: "Vue d'ensemble", icon: <LayoutDashboard /> },
           { value: "campagnes", label: "Campagnes", icon: <ListFilter />, count: data?.campaigns.length },
           { value: "simulateur", label: "Simulateur", icon: <Calculator /> },
@@ -69,6 +71,7 @@ function AdsInner() {
           { value: "lexique", label: "Lexique", icon: <BookOpen /> },
         ]}
       />
+      {tab === "lancement" && <Launch />}
       {tab === "apercu" && (data ? <Overview data={data} onTab={setTab} /> : <Skeleton className="h-96 rounded-[22px]" />)}
       {tab === "campagnes" && (data ? <Campaigns campaigns={data.campaigns} /> : <Skeleton className="h-96 rounded-[22px]" />)}
       {tab === "simulateur" && <Simulator currentCpr={data ? totals(data.campaigns).cpr : 0} />}

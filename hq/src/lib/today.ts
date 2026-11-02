@@ -1,4 +1,5 @@
 import "server-only";
+import { CHECKS_PAUSED } from "@/lib/prelaunch";
 import { salesSummary } from "@/lib/sales";
 import { analyze, instagramOverview, listPosts } from "@/lib/instagram";
 import { inbox } from "@/lib/mail";
@@ -60,7 +61,7 @@ export async function todayOverview() {
       : null,
     mails: mails ? { urgent: urgentMails.slice(0, 5), urgentCount: urgentMails.length, unread: mails.items.filter((m) => !m.seen && !m.isBulk).length, demo: !mails.live, autoReply: mails.autoReply } : null,
     reviews: reviews ? { recentBad: reviews.reviews.filter((r) => r.rating <= 2 && !r.reply && Date.now() - new Date(r.date).getTime() < 14 * 864e5).slice(0, 3), demo: !reviews.live } : null,
-    health: runs[0] ? { score: runs[0].score, at: runs[0].at, problems: runs[0].results.filter((r) => r.severity !== "ok").slice(0, 4) } : null,
+    health: runs[0] && !CHECKS_PAUSED ? { score: runs[0].score, at: runs[0].at, problems: runs[0].results.filter((r) => r.severity !== "ok").slice(0, 4) } : null,
     tasks: tasks.filter((t) => t.status !== "done").sort((a, b) => (a.priority === "haute" ? -1 : 0) - (b.priority === "haute" ? -1 : 0)).slice(0, 6),
     posts: posts.filter((p) => p.status === "programme" && p.scheduledAt && new Date(p.scheduledAt).getTime() < weekAhead).slice(0, 5),
     failedPosts: posts.filter((p) => p.status === "echec").length,
