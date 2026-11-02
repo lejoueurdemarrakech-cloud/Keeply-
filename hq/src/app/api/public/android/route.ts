@@ -12,9 +12,9 @@ export function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: cors });
 }
 
-// Formulaire ouvert à tous : 5 envois par heure et par adresse IP, 300 nouveaux inscrits par jour au total.
+// Formulaire ouvert à tous : 5 envois par heure et par adresse IP (suivi limité à 2 000 adresses à la fois).
 const PER_IP = 5;
-const PER_DAY = 300;
+const MAX_IPS = 2000;
 
 export async function POST(req: Request) {
   const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "inconnue";
@@ -26,7 +26,7 @@ export async function POST(req: Request) {
       const recent = v.filter((t) => now - t < 3_600_000);
       if (recent.length) out[k] = recent;
     }
-    blocked = (out[ip]?.length ?? 0) >= PER_IP;
+    blocked = (out[ip]?.length ?? 0) >= PER_IP || (!out[ip] && Object.keys(out).length >= MAX_IPS);
     if (!blocked) out[ip] = [...(out[ip] ?? []), now];
     return out;
   });
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Adresse ou consentement manquant." }, { status: 400, headers: cors });
   }
   await update<AndroidSignup[]>(ANDROID_KEY, [], (list) =>
-    list.some((x) => x.email === email) || list.length >= 5000 || list.filter((x) => now - Date.parse(x.at) < 86_400_000).length >= PER_DAY ? list : [{ email, type: clip(b.type, 40), city: clip(b.city, 80), at: new Date().toISOString() }, ...list],
+    list.some((x) => x.email === email) || list.length >= 20000 ? list : [{ email, type: clip(b.type, 40), city: clip(b.city, 80), at: new Date().toISOString() }, ...list],
   );
   return NextResponse.json({ ok: true }, { headers: cors });
 }
