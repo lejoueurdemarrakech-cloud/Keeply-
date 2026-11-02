@@ -67,7 +67,7 @@ export default function HealthPage() {
       {data?.paused && (
         <Card className="mb-5">
           <p className="text-[14px] text-ink-2">
-            <Badge tone="honey">En pause</Badge> Tous les contrôles automatiques sont coupés jusqu&apos;au lancement officiel : test de santé du matin, tests navigateur et tournées Claude planifiées. Pour les rallumer, mets <code>HQ_CHECKS_PAUSED=0</code> dans les variables Vercel.
+            <Badge tone="honey">En pause</Badge> Les appels automatiques sont coupés : test de santé du matin, tests navigateur, tournées Claude, réponses automatiques et prospection automatique. Demande à Claude « on remet les appels auto sur Keeply HQ » pour les rallumer.
           </p>
         </Card>
       )}

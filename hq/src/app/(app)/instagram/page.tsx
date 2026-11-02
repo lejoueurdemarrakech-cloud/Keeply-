@@ -48,7 +48,7 @@ function InstagramInner() {
         title="Instagram"
         subtitle={
           <>
-            {o ? `@${o.account.username}. ` : ""}Programme tes posts, suis tes chiffres et fais grandir le compte. <DemoBadge show={!!o && !o.live} />
+            {o?.account.username ? `@${o.account.username}. ` : ""}Programme tes posts, suis tes chiffres et fais grandir le compte. <DemoBadge show={!!o && !o.live} />
           </>
         }
         actions={

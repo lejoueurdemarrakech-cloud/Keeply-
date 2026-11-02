@@ -1,7 +1,9 @@
 /**
- * Avant le lancement officiel, tous les contrôles automatiques sont coupés :
- * test de santé quotidien, tests navigateur, tournées Claude planifiées.
- * Pour les rallumer au lancement : HQ_CHECKS_PAUSED=0 sur Vercel (ou passer la valeur par défaut à false).
+ * Appels automatiques de HQ : test de santé du matin, tournées Claude planifiées,
+ * réponses automatiques aux mails, prospection automatique, tests navigateur.
+ * Coupés pour l'instant. Pour les remettre : passer AUTO_CALLS_ON à true (ou HQ_AUTO_CALLS=1 sur Vercel).
+ * Les boutons « Lancer maintenant » et la publication des posts programmés restent actifs.
  */
-export const CHECKS_PAUSED = (process.env.HQ_CHECKS_PAUSED ?? "1") !== "0";
-export const PAUSED_MESSAGE = "Contrôles en pause jusqu'au lancement officiel.";
+const AUTO_CALLS_ON = false;
+export const CHECKS_PAUSED = !(AUTO_CALLS_ON || process.env.HQ_AUTO_CALLS === "1");
+export const PAUSED_MESSAGE = "Appels automatiques coupés pour l'instant.";

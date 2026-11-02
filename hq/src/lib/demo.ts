@@ -15,6 +15,9 @@ export function rng(seed: number) {
 
 const hash = (s: string) => [...s].reduce((h, c) => (Math.imul(h, 31) + c.charCodeAt(0)) | 0, 7);
 
+/** Données d'exemple coupées : HQ n'affiche que les vrais chiffres. HQ_DEMO=1 pour les revoir. */
+export const DEMO = process.env.HQ_DEMO === "1";
+
 export const isoDay = (d: Date) => d.toISOString().slice(0, 10);
 export function daysBetween(from: string, to: string) {
   const out: string[] = [];
@@ -31,6 +34,7 @@ const COUNTRIES = ["FR", "FR", "FR", "FR", "BE", "CH", "CA", "MA", "ES", "LU"];
 
 /** Ventes de démo : croissance douce, saisonnalité hebdo, mix App Store / Google Play / Stripe. */
 export function demoSales(source: "appstore" | "googleplay" | "stripe", from: string, to: string): SaleRecord[] {
+  if (!DEMO) return [];
   const out: SaleRecord[] = [];
   const base = { appstore: 22, googleplay: 10, stripe: 30 }[source];
   const start = new Date("2026-01-01T00:00:00Z").getTime();
@@ -68,6 +72,13 @@ export function demoSales(source: "appstore" | "googleplay" | "stripe", from: st
 }
 
 export function demoInstagram() {
+  if (!DEMO)
+    return {
+      account: { username: "", name: "", followers: 0, following: 0, mediaCount: 0, picture: "" },
+      growth: [] as { date: string; followers: number; gained: number; lost: number; reach: number; views: number; profileViews: number }[],
+      media: [] as { id: string; caption: string; type: string; timestamp: string; permalink: string; thumbnail: string; likes: number; comments: number; saves: number; shares: number; reach: number; views: number }[],
+      audience: { cities: [] as { name: string; value: number }[], ages: [] as { name: string; value: number }[] },
+    };
   const r = rng(42);
   const days = daysBetween(isoDay(new Date(Date.now() - 89 * 864e5)), isoDay(new Date()));
   let followers = 1840;
@@ -136,6 +147,7 @@ export function demoInstagram() {
 }
 
 export function demoAds() {
+  if (!DEMO) return { campaigns: [] as { id: string; name: string; objective: string; status: string; spend: number; impressions: number; reach: number; clicks: number; ctr: number; cpc: number; cpm: number; results: number; costPerResult: number; frequency: number; revenue: number }[], daily: [] as { date: string; spend: number; clicks: number; results: number }[] };
   const r = rng(7);
   const days = daysBetween(isoDay(new Date(Date.now() - 29 * 864e5)), isoDay(new Date()));
   const campaigns = [
@@ -169,6 +181,7 @@ const MAILS: Array<Omit<MailItem, "id" | "messageId" | "date" | "priority" | "ca
 ];
 
 export function demoMails(): Omit<MailItem, "priority" | "category" | "reasons">[] {
+  if (!DEMO) return [];
   return MAILS.map((m, i) => ({
     ...m,
     id: "demo-" + i,
@@ -181,6 +194,7 @@ export function demoMails(): Omit<MailItem, "priority" | "category" | "reasons">
 }
 
 export function demoReviews(): Review[] {
+  if (!DEMO) return [];
   const list: Array<[Review["store"], number, string, string, number]> = [
     ["appstore", 5, "Simple et efficace", "Mes clients adorent ne plus avoir de carte papier. Mise en place en 10 minutes.", 2],
     ["appstore", 2, "Bug au scan", "Depuis la mise à jour, le scan plante une fois sur trois. Obligé de relancer l'app.", 1],
@@ -204,6 +218,7 @@ export function demoReviews(): Review[] {
 }
 
 export function demoClients(): Client[] {
+  if (!DEMO) return [];
   const rows: Array<[string, string, Client["plan"], number, Client["status"], number, number]> = [
     ["Café des Arts", "Lyon", "Mensuel", 29, "actif", 210, 420],
     ["Le Smash Burger", "Paris", "Mensuel", 29, "actif", 120, 690],
@@ -236,6 +251,7 @@ export function demoClients(): Client[] {
 
 /** Établissements fictifs quand la recherche réelle n'est pas possible (hors-ligne). */
 export function demoProspects(city: string, country: string, type: string, n = 12): Omit<Prospect, "id" | "createdAt" | "history" | "status" | "score" | "signals" | "lang">[] {
+  if (!DEMO) return [];
   const r = rng(hash(city + type + country));
   const names = {
     cafe: ["Café Tribu", "Le Comptoir", "Brûlerie du Marché", "Café Pinson", "Mokxa", "Le Petit Grain", "Café Odette", "Kafé Kopi", "La Tasse", "Café du Coin", "Noir Café", "Coutume"],

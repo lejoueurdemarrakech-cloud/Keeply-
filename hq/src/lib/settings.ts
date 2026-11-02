@@ -8,8 +8,8 @@ export const DEFAULT_SETTINGS: Settings = {
   ownerEmail: "",
   signature: "L'équipe Keeply",
   monthlyGoal: 3500,
-  siteUrl: "",
-  appStoreUrl: "",
+  siteUrl: "https://keeplyfidelity.app",
+  appStoreUrl: "https://apps.apple.com/ma/app/keeply-loyalty-card/id6816728580",
   playStoreUrl: "",
   vipSenders: [],
   urgentKeywords: ["urgent", "bug", "bloqué", "ne fonctionne", "marche pas", "remboursement", "résilier", "paiement", "facture", "plainte", "avocat"],
@@ -42,14 +42,18 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   instagram: {
     handle: "keeply.app",
-    pillars: ["Astuces fidélité pour restaurateurs", "Coulisses de Keeply", "Témoignages clients", "Démo produit", "Humour café & resto"],
-    defaultHashtags: "#fidelisation #restaurant #cafe #commercelocal #cartedefidelite #applewallet",
+    pillars: ["Démonstration produit", "Éducation fidélisation", "Fondateur et coulisses", "Offre et conversion"],
+    defaultHashtags: "#cartedefidelite #fidelisationclient #restaurationmaroc #fastfoodmaroc #cafemaroc #commercelocal #applewallet #googlewallet",
   },
 };
 
 export async function getSettings(): Promise<Settings> {
   const saved = await read<Partial<Settings>>("settings", {});
-  return deepMerge(DEFAULT_SETTINGS, saved) as Settings;
+  const s = deepMerge(DEFAULT_SETTINGS, saved) as Settings;
+  // Adresses déjà connues de Keeply : remplies tant que le réglage est vide.
+  s.siteUrl ||= DEFAULT_SETTINGS.siteUrl;
+  s.appStoreUrl ||= DEFAULT_SETTINGS.appStoreUrl;
+  return s;
 }
 
 export async function saveSettings(patch: Partial<Settings>) {

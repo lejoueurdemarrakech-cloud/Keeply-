@@ -4,7 +4,7 @@ import { appStoreSales } from "@/lib/connectors/appstore";
 import { googlePlaySales } from "@/lib/connectors/google";
 import { stripeSales, stripeSubscriptions } from "@/lib/connectors/stripe";
 import { revenueCatOverview } from "@/lib/connectors/revenuecat";
-import { demoSales, daysBetween, isoDay } from "@/lib/demo";
+import { DEMO, demoSales, daysBetween, isoDay } from "@/lib/demo";
 import { read } from "@/lib/store";
 import type { SaleRecord, SalesSummary, SourceStatus } from "@/lib/types";
 
@@ -44,7 +44,7 @@ async function collect(from: string, to: string) {
         } catch (e) {
           sources.push({ id, label: SOURCE_LABELS[id], state: "error", message: e instanceof Error ? e.message : String(e) });
         }
-      } else if (!anyLive) {
+      } else if (!anyLive && DEMO) {
         records.push(...demoSales(id, from, to));
         sources.push({ id, label: SOURCE_LABELS[id], state: "demo" });
       } else {
@@ -123,7 +123,7 @@ export async function salesSummary(from: string, to: string): Promise<SalesSumma
   } catch (e) {
     sources.push({ id: "revenuecat", label: "Abonnements", state: "error", message: e instanceof Error ? e.message : String(e) });
   }
-  if (!subscriptions && sources.every((s) => s.state === "demo" || s.state === "off")) {
+  if (DEMO && !subscriptions && sources.every((s) => s.state === "demo" || s.state === "off")) {
     subscriptions = { mrr: 2384, active: 87, trials: 14, churnRate: 0.031, source: "Démo" };
   }
 

@@ -113,7 +113,7 @@ export function Badge({ children, tone = "neutral", className }: { children: Rea
 }
 
 /** Signale que les chiffres affichés sont des exemples. */
-export function DemoBadge({ show = true, what = "données d'exemple" }: { show?: boolean; what?: string }) {
+export function DemoBadge({ show = true, what = "à connecter" }: { show?: boolean; what?: string }) {
   if (!show) return null;
   return (
     <a href="/connexions" title="Connecte ton compte pour voir tes vrais chiffres" className="inline-flex">

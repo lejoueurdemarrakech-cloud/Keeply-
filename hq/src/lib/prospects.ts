@@ -248,7 +248,7 @@ export async function searchProspects(input: { country: string; city: string; ty
   } catch (e) {
     if (found.length === 0) {
       source = "demo";
-      notice = `Recherche réelle impossible (${e instanceof Error ? e.message : e}). Voici des exemples fictifs pour tester l'outil : ils ne peuvent pas recevoir de mail.`;
+      notice = `Recherche réelle impossible (${e instanceof Error ? e.message : e}). Réessaie dans un moment ou ajoute une clé Google Places dans Connexions.`;
       found = input.types.flatMap((t) => demoProspects(input.city, input.country, t, perType).map((d) => ({ ...d, chain: false })));
     }
   }

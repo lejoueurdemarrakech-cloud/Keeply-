@@ -20,7 +20,7 @@ function Channel({ href, icon, name, sub, demo, children, spark }: { href: strin
           <p className="font-display text-[18px] font-bold">{name}</p>
           <p className="truncate text-[13px] text-ink-3">{sub}</p>
         </div>
-        {demo && <Badge tone="honey">exemple</Badge>}
+        {demo && <Badge tone="honey">à connecter</Badge>}
         <ArrowUpRight className="size-5 text-ink-3 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </div>
       <div className="mt-5 grid grid-cols-3 gap-2 sm:gap-3">{children}</div>

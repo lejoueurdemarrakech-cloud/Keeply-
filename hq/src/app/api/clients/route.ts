@@ -1,11 +1,11 @@
 import { route } from "@/lib/http";
 import { read, store } from "@/lib/store";
-import { demoClients } from "@/lib/demo";
+import { DEMO, demoClients } from "@/lib/demo";
 import type { Client } from "@/lib/types";
 
 export const GET = route(async () => {
   const saved = await store.get<Client[]>("clients");
-  return { clients: saved ?? demoClients(), demo: saved === undefined };
+  return { clients: saved ?? demoClients(), demo: DEMO && saved === undefined };
 });
 
 export const PUT = route(async (req: Request) => {

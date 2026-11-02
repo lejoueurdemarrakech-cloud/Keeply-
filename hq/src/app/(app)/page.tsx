@@ -56,7 +56,7 @@ function StampCard({ goal, demo }: { goal: Today["goal"]; demo?: boolean }) {
           <span className="rounded-full bg-white/10 px-2.5 py-1 text-[12px] font-semibold text-[#f3be72]">
             Jour {goal.dayOfMonth}/{goal.daysInMonth}
           </span>
-          {demo && <span className="rounded-full bg-[#f3be72]/15 px-2.5 py-1 text-[12px] font-semibold text-[#f3be72]">exemple</span>}
+          {demo && <span className="rounded-full bg-[#f3be72]/15 px-2.5 py-1 text-[12px] font-semibold text-[#f3be72]">à connecter</span>}
         </div>
       </div>
 
@@ -174,7 +174,7 @@ export default function TodayPage() {
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
           {t ? (
             <>
-              <Stat label="Ventes hier" value={eur(t.sales?.yesterday)} hint={t.sales?.demo ? "exemple" : undefined} tone="violet" />
+              <Stat label="Ventes hier" value={eur(t.sales?.yesterday)} hint={t.sales?.demo ? "à connecter" : undefined} tone="violet" />
               <Stat label="Revenu récurrent (MRR)" value={eur(t.sales?.mrr)} hint="abonnements actifs" tone="honey" />
               <Stat
                 label="Abonnés Instagram"
@@ -242,12 +242,12 @@ export default function TodayPage() {
               </div>
             ) : (
               <p className="text-[14px] text-ink-2">
-                Aucun test pour l&apos;instant. Renseigne l&apos;adresse du site dans <Link className="font-semibold text-violet" href="/reglages">Réglages</Link> puis lance un test.
+                Tests automatiques en pause avec les autres appels auto. Ils reviennent quand tu demandes à Claude de les remettre.
               </p>
             )}
           </Card>
 
-          <Card title="Instagram cette semaine" action={<DemoBadge show={!!t?.instagram?.demo} what="exemple" />}>
+          <Card title="Instagram cette semaine" action={<DemoBadge show={!!t?.instagram?.demo} what="à connecter" />}>
             {t?.posts.length ? (
               <ul className="space-y-2.5">
                 {t.posts.map((p) => (

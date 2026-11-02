@@ -108,8 +108,39 @@ function pickBackend(): Backend {
   return new FileBackend();
 }
 
+/*
+ * Passage aux vraies données : une seule fois, on efface tout ce qui venait des essais
+ * (tâches, activité, posts, mails en cache, tests…) et on pose les tâches du lancement.
+ * Connexions, réglages, coffre, crédits Claude, pont et désinscriptions sont gardés.
+ */
+const DATA_VERSION = "reel-2026-11-02";
+const WIPE = ["tasks", "activity", "posts", "notes", "brief", "clients", "sales:manual", "prospects", "mail:cache", "mail:state", "review:items", "health:runs", "health:e2e", "instagram:advice", "ads:advice", "ig:library", "ig:watch", "cron:last"];
+const WIPE_PREFIX = ["round:last:", "prospects:sent:"];
+
+function withFreshStart(inner: Backend): Backend {
+  let ready: Promise<void> | null = null;
+  const fresh = () =>
+    (ready ??= (async () => {
+      if ((await inner.get<string>("hq:data-version")) === DATA_VERSION) return;
+      const prefixed = (await Promise.all(WIPE_PREFIX.map((p) => inner.keys(p)))).flat();
+      await Promise.all([...WIPE, ...prefixed].map((k) => inner.del(k)));
+      const { launchTasks } = await import("@/lib/launch-tasks");
+      await inner.set("tasks", launchTasks());
+      await inner.set("hq:data-version", DATA_VERSION);
+    })().catch((e) => {
+      ready = null;
+      throw e;
+    }));
+  return {
+    get: async (k) => (await fresh(), inner.get(k)),
+    set: async (k, v) => (await fresh(), inner.set(k, v)),
+    del: async (k) => (await fresh(), inner.del(k)),
+    keys: async (p) => (await fresh(), inner.keys(p)),
+  };
+}
+
 const g = globalThis as unknown as { __hqStore?: Backend };
-export const store: Backend = (g.__hqStore ??= pickBackend());
+export const store: Backend = (g.__hqStore ??= withFreshStart(pickBackend()));
 
 export const storeKind = () =>
   process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL ? "upstash" : "fichier";

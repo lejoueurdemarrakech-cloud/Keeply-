@@ -36,7 +36,7 @@ export default function ConnectionsPage() {
       <PageHeader
         icon={<Plug />}
         title="Connexions"
-        subtitle={`Relie tes comptes pour remplacer les données d'exemple par tes vrais chiffres. ${data ? `${connected}/${CONNECTORS.length} connectés.` : ""} Les clés sont chiffrées avant d'être enregistrées.`}
+        subtitle={`Relie tes comptes un par un pour voir tes vrais chiffres. ${data ? `${connected}/${CONNECTORS.length} connectés.` : ""} Les clés sont chiffrées avant d'être enregistrées.`}
       />
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
