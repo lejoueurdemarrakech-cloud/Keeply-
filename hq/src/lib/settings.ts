@@ -42,7 +42,7 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   instagram: {
     handle: "keeply.app",
-    pillars: ["Démonstration produit", "Éducation fidélisation", "Fondateur et coulisses", "Offre et conversion"],
+    pillars: ["« Ils reviennent » (série)", "Vitrine : écran verrouillé et Wallet", "Votre marque, la collection", "Coulisses fondateur", "Offre"],
     defaultHashtags: "#cartedefidelite #fidelisationclient #restaurationmaroc #fastfoodmaroc #cafemaroc #commercelocal #applewallet #googlewallet",
   },
 };

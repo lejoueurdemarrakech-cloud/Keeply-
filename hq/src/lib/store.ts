@@ -117,16 +117,32 @@ const DATA_VERSION = "reel-2026-11-02";
 const WIPE = ["tasks", "activity", "posts", "notes", "brief", "clients", "sales:manual", "mail:cache", "mail:state", "review:items", "health:runs", "health:e2e", "instagram:advice", "ads:advice", "ig:library", "ig:watch", "cron:last"];
 const WIPE_PREFIX = ["round:last:"];
 
+/** Met à jour les tâches de lancement encore à faire quand leur liste change (les autres tâches ne bougent pas). */
+async function refreshLaunchTasks(inner: Backend) {
+  const { LAUNCH_TASKS_VERSION, launchTasks } = await import("@/lib/launch-tasks");
+  if ((await inner.get<string>("hq:launch-tasks")) === LAUNCH_TASKS_VERSION) return;
+  type T = { id: string; status: string };
+  const current = (await inner.get<T[]>("tasks")) ?? [];
+  const fresh = launchTasks();
+  const known = new Map(current.map((t) => [t.id, t]));
+  const kept = current.filter((t) => !t.id.startsWith("launch-") || t.status !== "todo");
+  const keptIds = new Set(kept.map((t) => t.id));
+  const added = fresh.filter((t) => !keptIds.has(t.id) && (!known.has(t.id) || known.get(t.id)!.status === "todo"));
+  await inner.set("tasks", [...added, ...kept]);
+  await inner.set("hq:launch-tasks", LAUNCH_TASKS_VERSION);
+}
+
 function withFreshStart(inner: Backend): Backend {
   let ready: Promise<void> | null = null;
   const fresh = () =>
     (ready ??= (async () => {
-      if ((await inner.get<string>("hq:data-version")) === DATA_VERSION) return;
+      if ((await inner.get<string>("hq:data-version")) === DATA_VERSION) return refreshLaunchTasks(inner);
       const prefixed = (await Promise.all(WIPE_PREFIX.map((p) => inner.keys(p)))).flat();
       await Promise.all([...WIPE, ...prefixed].map((k) => inner.del(k)));
       const { launchTasks } = await import("@/lib/launch-tasks");
       await inner.set("tasks", launchTasks());
       await inner.set("hq:data-version", DATA_VERSION);
+      await refreshLaunchTasks(inner);
     })().catch((e) => {
       ready = null;
       throw e;

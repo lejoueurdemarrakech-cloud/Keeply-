@@ -1,9 +1,10 @@
 "use client";
-import { Check, ChevronDown, Flag, Megaphone, PenSquare, Target } from "lucide-react";
+import { Check, ChevronDown, Flag, Megaphone, PenSquare, Sparkles, Target } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Badge, Button, Card, CopyButton, cx } from "@/components/ui";
 import { usePref } from "@/lib/prefs";
+import { BRAND } from "@/lib/brand";
 import { INSTAGRAM_PLAN, type LaunchPost } from "@/lib/launch-plan";
 import type { PostFormat } from "@/lib/types";
 import type { Draft } from "./composer";
@@ -22,6 +23,7 @@ export function Launch({ onCreate }: { onCreate: (d: Draft) => void }) {
 
   return (
     <div className="space-y-5">
+      <Brand />
       <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
         <Card title="La stratégie en clair" action={<Target className="size-4 text-violet" />}>
           <p className="font-display text-[17px] font-semibold">{plan.positionnement}</p>
@@ -179,5 +181,39 @@ function List({ items }: { items: string[] }) {
         </li>
       ))}
     </ul>
+  );
+}
+
+function Brand() {
+  return (
+    <Card title="Plateforme de marque" action={<Sparkles className="size-4 text-violet" />}>
+      <div className="grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+        <div>
+          <p className="font-display text-[40px] leading-none font-semibold tracking-tight">{BRAND.idee}</p>
+          <p className="mt-3 text-[14.5px] text-ink-2">{BRAND.promesse}</p>
+          <p className="mt-3 text-[13px] text-ink-3">
+            Signature de fin : <strong className="text-ink">{BRAND.signature}</strong>
+          </p>
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            <div>
+              <p className="text-[12.5px] font-semibold text-ink-3">Le ton</p>
+              <List items={BRAND.ton} />
+            </div>
+            <div>
+              <p className="text-[12.5px] font-semibold text-ink-3">Les règles</p>
+              <List items={BRAND.regles} />
+            </div>
+          </div>
+        </div>
+        <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+          {BRAND.territoires.map((t) => (
+            <div key={t.nom} className="rounded-xl bg-surface-2 p-3.5">
+              <p className="text-[12px] font-semibold text-ink-3">{t.nom}</p>
+              <p className="mt-1 font-display text-[15px] leading-snug font-semibold">{t.accroche}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </Card>
   );
 }
