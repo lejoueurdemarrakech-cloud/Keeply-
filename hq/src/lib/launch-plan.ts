@@ -559,90 +559,81 @@ export const INSTAGRAM_PLAN = {
 };
 
 export const META_ADS_PLAN = {
-  "resume": "Lancement Meta Ads (Instagram + Facebook) au Maroc, en français, sur 6 semaines, pour environ 130 € (palier minimal à 3 €/jour) à 250 € (palier « si ça marche »). Phase 1 : trafic vers une page d'atterrissage équipée du pixel pour tester les messages à bas coût. Phase 2 : conversations WhatsApp (démo de 10 minutes), qui convertissent mieux qu'un envoi direct vers l'App Store pour un public B2B marocain. Phase 3 : on garde la meilleure pub et on relance les visiteurs. Les coûts indiqués viennent de sources publiques peu fiables (CPC Facebook Maroc annoncé entre 0,5 et 5 DH) et ne sont que des estimations : le vrai test, ce sont les 7 premiers jours dans le Gestionnaire de publicités. Grande idée créative : « Ils reviennent. » Chaque pub montre le client qui repasse la porte (écran verrouillé, Wallet, offres automatiques, fondateur) et se termine sur la signature « Keeply. Ils reviennent. » ; l'ancienne comparaison avec la carte en carton n'apparaît plus qu'en clin d'œil, dans une seule pub sur six.",
+  "resume": "Budget fixe : 100 € par mois maximum (environ 3,30 € par jour), France et Maroc en priorité.\nRègle d'or : avec 100 €, on n'éparpille pas. Un pays à la fois, une campagne principale, trois pubs, et on garde ce qui marche.\nMois 1 au Maroc (l'app y est déjà) : conversations WhatsApp + boost des meilleurs Reels. La France démarre dès que l'app y est disponible (vérification Apple en cours), avec 70 % du budget.\nLe but n'est pas la portée, c'est le coût par essai gratuit lancé. Un seul abonné à 399 DH par mois rembourse presque tout le mois de pub.\nGrande idée de toutes les pubs : « Ils reviennent ».",
   "prerequis": [
-    "1. Créer une Page Facebook « Keeply » (logo, couverture, description, lien keeplyfidelity.app, bouton WhatsApp). Meta exige une Page pour diffuser, même si vous ne visez qu'Instagram.",
-    "2. Passer le compte Instagram en compte professionnel (catégorie Logiciel ou Application), puis le relier à la Page Facebook depuis l'Espace Comptes. Publier 6 à 9 posts avant la première pub (démo du scan, carte dans le Wallet, présentation du fondateur) : un commerçant qui clique sur une pub regarde d'abord le profil.",
-    "3. Créer un portefeuille Meta Business (business.facebook.com) au nom du fondateur, puis y rattacher la Page et le compte Instagram. La vérification de l'entreprise n'est pas obligatoire pour faire de la pub à ce stade.",
-    "4. Créer UN compte publicitaire en devise MAD (dirham) et fuseau Africa/Casablanca. Attention : on ne peut quasiment plus changer la devise ensuite. Le MAD évite les frais de change sur une carte marocaine.",
-    "5. Ajouter un moyen de paiement : carte bancaire marocaine avec les paiements en ligne internationaux activés auprès de la banque (plafond e-commerce suffisant, au moins 1 000 DH/mois). Faire un premier test avec un petit prélèvement. Fixer une limite de dépenses du compte (par ex. 2 800 DH) comme garde-fou.",
-    "6. Relier un numéro WhatsApp Business à la Page (Paramètres de la Page > WhatsApp), indispensable pour la phase 2 « Messages ». Préparer un message d'accueil automatique et 3 réponses rapides (prix, comment ça marche, prise de rendez-vous démo).",
-    "7. Créer une page d'atterrissage dédiée sur le site, par ex. keeplyfidelity.app/maroc : promesse en une phrase, vidéo du scan de 15 s, 3 étapes, prix 399 DH/mois après 14 jours d'essai gratuit, bouton principal « Télécharger sur l'App Store », bouton secondaire « Démo WhatsApp », mention que chaque fonction (offres automatiques, paliers, avis Google) s'active ou se désactive. Pas de témoignages tant qu'il n'y en a pas de vrais. Chargement rapide sur mobile.",
-    "8. Installer le pixel Meta sur keeplyfidelity.app (Gestionnaire d'événements > Connecter des données > Web). Si le site est sur Vercel ou Next.js : script du pixel dans le layout + PageView automatique.",
-    "9. Configurer l'API Conversions (CAPI) : le plus simple est la passerelle CAPI, ou une route serveur (/api/meta-event) qui renvoie les mêmes événements avec un event_id identique pour la déduplication. Bandeau cookies avec consentement (loi marocaine 09-08) avant le déclenchement du pixel.",
-    "10. Créer les événements personnalisés : « ClicAppStore » (clic sur le bouton App Store, déclenché côté navigateur ET serveur, avec event_id) et « ClicWhatsApp » (clic sur le bouton WhatsApp). Dans le Gestionnaire d'événements, les marquer comme conversions personnalisées. Vérifier avec l'outil Tester les événements et l'extension Meta Pixel Helper.",
-    "11. Créer des liens de campagne App Store Connect pour mesurer les installations par source, sans SDK : https://apps.apple.com/ma/app/keeply-loyalty-card/id6816728580?pt=VOTRE_PROVIDER_TOKEN&ct=meta_p1_trafic (un ct différent par phase ou par pub). Le provider token se trouve dans App Store Connect > Analytics > Sources > Liens de campagne. Ces liens se placent sur la page d'atterrissage, pas dans la pub.",
-    "12. Mettre des UTM sur toutes les pubs, dans le champ Paramètres d'URL : utm_source=meta&utm_medium=paid_social&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{placement}}. Côté site, faire suivre utm_content dans le paramètre ct du lien App Store pour savoir quelle pub a amené l'installation.",
-    "13. Préparer un tableur de suivi quotidien : dépense, impressions, CPM, CTR lien, CPC, vues de page, ClicAppStore, ClicWhatsApp, conversations, démos réalisées, installations (App Store Connect), essais démarrés, abonnés payants. C'est votre vraie source de vérité, pas le seul chiffre de Meta.",
-    "14. Lire les règles publicitaires Meta (pas d'avant/après trompeur, pas de chiffres non prouvés, pas de mentions d'Apple suggérant un partenariat). Ne pas utiliser le logo Apple Wallet de façon détournée : respecter le badge officiel « Add to Apple Wallet » et le badge « Télécharger dans l'App Store » selon les règles d'Apple."
+    "1. Gratuit d'abord : 2 semaines de posts organiques (6 posts minimum). Un commerçant qui clique sur une pub regarde le profil avant tout.",
+    "2. Page Facebook Keeply + Instagram en compte professionnel, reliés dans l'Espace Comptes.",
+    "3. Portefeuille Meta Business au nom du fondateur, compte publicitaire en MAD (ou en EUR si la carte est en euros : la devise ne se change plus ensuite), limite de dépense du compte réglée à 100 € par mois.",
+    "4. Carte bancaire avec paiements internationaux activés.",
+    "5. WhatsApp Business relié à la Page, message d'accueil et 3 réponses rapides (prix, comment ça marche, démo).",
+    "6. Deux pages d'atterrissage avec le pixel Meta : keeplyfidelity.app/maroc (bouton App Store) et keeplyfidelity.app/france (« Prévenez-moi au lancement » tant que l'app n'est pas disponible en France).",
+    "7. Liens App Store avec paramètres de campagne (ct=meta-ma, ct=meta-fr) pour lire les installations dans App Store Connect.",
+    "8. Badge bleu (Meta Verified) : à repousser. La version entreprise demande une société enregistrée, et la version personnelle exige que le nom du profil corresponde à ta pièce d'identité. Les 17 à 22 € par mois vont mieux dans la pub pour l'instant."
   ],
   "phases": [
     {
-      "nom": "Phase 1 : Test des messages (trafic qualifié vers la page d'atterrissage)",
-      "semaines": "S1 et S2 (14 jours)",
-      "budget_jour": "Palier minimal 3 €/jour (environ 33 DH). Palier standard 5 €/jour (environ 55 DH).",
-      "budget_total": "42 € (minimal) à 70 € (standard)",
-      "objectif_meta": "Trafic, optimisation « Vues de page de destination » (pas « Clics sur le lien », qui ramène beaucoup de clics accidentels).",
-      "pourquoi": "Le compte et le pixel sont neufs, sans aucune donnée de conversion. Avec quelques euros par jour, Meta ne peut pas apprendre sur un objectif Ventes ou Prospects (il faut environ 50 conversions par semaine pour sortir de l'apprentissage). L'objectif Trafic est le moins cher par visite, remplit le pixel (audiences de reciblage) et indique très vite quel message accroche les commerçants grâce au CTR et au taux de ClicAppStore sur la page.",
-      "ciblage": "Lieux : Casablanca (+25 km), Rabat (+20 km, inclut Salé et Témara), Marrakech (+15 km), Agadir (+15 km, inclut Inezgane), Tanger (+15 km), Fès (+15 km), option « Personnes qui vivent dans ce lieu ». Âge 23 à 55 ans, tous genres. Pas de restriction de langue (beaucoup de gérants ont l'interface en arabe ou en anglais), les pubs restent en français. Ciblage détaillé (à saisir et vérifier dans le Gestionnaire, certains centres d'intérêt ont été regroupés par Meta début 2026) : comportement « Propriétaires de petites entreprises » (Small business owners) OU centres d'intérêt « Restaurant management », « Restaurant », « Fast food restaurant », « Café », « Foodservice », « Food truck », « Coffeehouse », « Entrepreneuriat », « Marketing » ; intitulés de poste si disponibles : « Gérant de restaurant », « Propriétaire », « Restaurateur ». Une seule campagne, un seul ensemble de publicités, budget au niveau de l'ensemble. Advantage+ Audience DÉSACTIVÉ en phase 1 (sinon, à ce budget, l'algorithme part vers un grand public bon marché qui clique mais n'a pas de commerce). Taille d'audience visée : 150 000 à 600 000 personnes.",
+      "nom": "Mois 1 · Maroc, apprendre",
+      "semaines": "Semaines 1 à 4",
+      "budget_jour": "environ 3,30 € au total",
+      "budget_total": "100 € (Maroc 100 %)",
+      "objectif_meta": "Messages WhatsApp + boosts",
+      "pourquoi": "L'app est en ligne au Maroc et la pub y coûte 3 à 5 fois moins cher qu'en France. On apprend vite ce qui fait réagir un gérant, pour presque rien.",
+      "ciblage": "Maroc : Casablanca, Marrakech, Rabat, Agadir, Tanger, Fès (+ 20 km). 23 à 55 ans. Audience Advantage+, avec en suggestion : propriétaires de petites entreprises, restauration, restaurants, fast-food, café. Langue : français.",
+      "placements": "Advantage+ (Reels et Stories Instagram en priorité, ils coûtent le moins cher)",
       "creas": [
-        "Pub 1 « Votre vitrine » (fast-food, Marrakech) : image fixe 9:16 et 4:5, le visuel EST un écran verrouillé d'iPhone plein cadre avec une seule notification du commerce. Territoire : l'écran verrouillé est la nouvelle vitrine. Un seul message, beaucoup de noir, la notification arrête le scroll.",
-        "Pub 2 « Wallet flex » (restaurant haut de gamme, Casablanca) : image fixe 4:5 et 9:16 (ou boucle animée de 6 s), plan serré sur un Wallet où la nouvelle carte du restaurant est empilée entre une carte bancaire et un billet d'avion. Territoire : le club fermé, le niveau des grandes marques pour un commerce indépendant.",
-        "Pub 3 « Ils reviennent, épisode 1 » (café, Rabat) : Reel 9:16 de 10 à 12 s en POV client, sound design ASMR sans voix (bip du scan, vibration, son de notification). Même client, carte qui se remplit d'épisode en épisode ; les épisodes 2 et 3 sont prêts pour la phase 3. Sert aussi de support au test d'accroche « Ils reviennent » contre « Zéro app »."
+        "60 € · campagne Messages WhatsApp (2 €/jour) : P1 « Votre vitrine. Sur leur écran verrouillé. », P3 « Ils reviennent » épisode 1, P5 « Il pleut ? »",
+        "30 € · boost des 2 meilleurs Reels organiques de la semaine (objectif visites du profil) : ça fait grandir le compte et remplit l'audience de reciblage",
+        "10 € · reciblage à partir de la semaine 3 : personnes ayant vu 50 % d'une vidéo ou interagi avec le profil (30 jours), pub P6 « Ils reviennent. Vous aussi. » avec l'essai 14 jours"
       ],
-      "placements": "Placements manuels : Instagram Fil, Stories, Reels, Explorer ; Facebook Fil, Stories, Reels. EXCLURE l'Audience Network et Messenger (clics de mauvaise qualité sur un objectif Trafic). Fournir chaque pub en 9:16 ET 4:5 pour que Meta ne recadre pas.",
       "kpi_cible": {
-        "cpm": "20 à 60 DH (environ 2 à 5,5 €) ; au-delà de 80 DH, audience trop étroite ou pub mal notée",
-        "ctr": "CTR lien de 0,8 % à 1,5 % ; en dessous de 0,5 %, le message n'accroche pas",
-        "cpc": "CPC lien de 1,5 à 5 DH (0,15 à 0,45 €) ; coût par vue de page de destination de 2 à 7 DH",
-        "cout_par_resultat": "Coût par ClicAppStore visé : 15 à 50 DH (1,5 à 4,5 €), soit 10 % à 20 % des visiteurs qui cliquent sur le bouton App Store"
+        "cpm": "10 à 30 DH",
+        "ctr": "au moins 1 %",
+        "cout_conversation": "moins de 25 DH (bon), 60 DH (couper)",
+        "cout_par_essai": "moins de 150 DH"
       },
-      "regle_stop_ou_scale": "Ne rien toucher pendant les 3 premiers jours (phase d'apprentissage). Couper une pub si, après 2 000 impressions OU 40 DH dépensés sur elle : CTR lien < 0,5 % ou coût par vue de page > 8 DH. Si après 7 jours le coût par ClicAppStore dépasse 80 DH, retravailler la page d'atterrissage avant la pub (problème de conversion, pas de clic). Passer de 3 à 5 €/jour si, à J7, le coût par vue de page est < 5 DH et qu'il y a au moins 5 ClicAppStore. Fin de phase : garder les 2 meilleures pubs pour la phase 2."
+      "regle_stop_ou_scale": "Ne rien toucher pendant 4 jours. Ensuite, chaque lundi : couper la pub au coût par conversation le plus haut, garder les 2 meilleures. Au-delà de 60 DH par conversation après 150 DH dépensés, changer l'accroche avant de remettre de l'argent."
     },
     {
-      "nom": "Phase 2 : Conversations WhatsApp (démo de 10 minutes)",
-      "semaines": "S3 et S4 (14 jours)",
-      "budget_jour": "Palier minimal 3 €/jour (environ 33 DH). Palier standard 5 €/jour. Palier « si ça marche » 7 €/jour.",
-      "budget_total": "42 € (minimal) à 70 € (standard), jusqu'à 98 € si les conversations sont qualifiées",
-      "objectif_meta": "Engagement, lieu de conversion « Applications de messagerie » > WhatsApp, optimisation « Conversations ».",
-      "pourquoi": "Au Maroc, WhatsApp est le canal naturel entre commerçants et fournisseurs. Un gérant de fast-food décide rarement de s'abonner à un logiciel à 399 DH/mois en voyant une seule pub, mais il pose volontiers une question sur WhatsApp. La démo de 10 minutes (par message vocal, vidéo ou appel) lève les objections (est-ce compliqué, est-ce que ça marche sur Android pour mes clients, combien ça coûte) et vous permet d'installer l'app avec lui. Le coût par conversation est souvent plus bas qu'un coût par prospect via formulaire, et chaque conversation est un contact réel. Le pixel de la phase 1 sert ensuite au reciblage.",
-      "ciblage": "Mêmes villes et mêmes âges que la phase 1. Deux options selon les résultats de la phase 1 : (a) garder le ciblage détaillé gagnant, Advantage+ Audience désactivé, si les conversations sont qualifiées ; (b) tester Advantage+ Audience en donnant le ciblage détaillé comme suggestion, uniquement si l'option (a) donne plus de 60 DH par conversation. Exclure les personnes qui vous ont déjà écrit sur WhatsApp (audience personnalisée « Personnes qui vous ont envoyé un message »).",
+      "nom": "Mois 2 · France dès que l'app y est",
+      "semaines": "Semaines 5 à 8",
+      "budget_jour": "environ 3,30 € au total",
+      "budget_total": "100 € (France 70 €, Maroc 30 €)",
+      "objectif_meta": "France : trafic vers la page (vues de page) · Maroc : la pub gagnante du mois 1",
+      "pourquoi": "La France est le marché qui paie le plus, mais un clic y coûte environ 1 €. On n'y va qu'une fois l'app téléchargeable, avec les pubs déjà validées au Maroc. Si la France est encore bloquée, on garde 100 % au Maroc et on remplit la liste « Prévenez-moi » avec l'organique.",
+      "ciblage": "France : grandes villes (Paris, Lyon, Marseille, Lille, Toulouse, Bordeaux, Nice, Nantes) + 25 km, 25 à 55 ans, Advantage+ avec suggestions restauration, fast-food, café, petites entreprises.",
+      "placements": "Advantage+",
       "creas": [
-        "Pub 4 « Fait à Agadir » : Reel 9:16 de 20 à 30 s, le fondateur face caméra, script court en trois temps, aucune promesse chiffrée, invitation à une démo de 10 minutes sur WhatsApp. Le texte réel est entre crochets [ ] et se remplit avec son propre vécu.",
-        "Pub 5 « Il pleut ? » (restaurant de quartier, Tanger) : image 4:5 ou Reel 6 s, territoire « il travaille pendant que vous servez » : offres automatiques (pluie, anniversaire, client absent depuis 30 jours), chacune activable ou désactivable. Seule pub du plan avec le clin d'œil au carton, en une ligne. Bouton WhatsApp.",
-        "Message d'accueil WhatsApp prérempli : « Bonjour, je voudrais voir comment Keeply marche pour mon commerce. » + question automatique : « Quel type de commerce avez-vous (fast-food, café, restaurant) et dans quelle ville ? »"
+        "70 € France : les 2 pubs gagnantes du Maroc, adaptées (prix en €, exemples de commerces français), vers keeplyfidelity.app/france puis App Store",
+        "30 € Maroc : la meilleure pub du mois 1, rien d'autre"
       ],
-      "placements": "Advantage+ placements acceptable ici (l'objectif Messages limite déjà la diffusion aux placements compatibles), en excluant l'Audience Network. Priorité visuelle : Instagram Reels et Stories, Facebook Fil.",
       "kpi_cible": {
-        "cpm": "20 à 60 DH",
-        "ctr": "CTR (tous) de 1 % à 2,5 %",
-        "cpc": "3 à 8 DH",
-        "cout_par_resultat": "Coût par conversation démarrée : 10 à 40 DH (1 à 3,7 €). Objectif interne : au moins 1 conversation sur 3 avec un vrai commerçant, et au moins 1 démo sur 4 qui aboutit à un essai démarré."
+        "cpm": "8 à 12 €",
+        "ctr": "au moins 1 %",
+        "cpc": "moins de 0,80 € (bon), 1,50 € (couper)",
+        "cout_par_essai": "moins de 25 €"
       },
-      "regle_stop_ou_scale": "Couper si, après 100 DH dépensés, le coût par conversation dépasse 60 DH, ou si moins d'1 conversation sur 4 vient d'un vrai commerçant (dans ce cas, resserrer le ciblage et rendre le texte plus explicitement B2B : « Vous gérez un fast-food ? »). Augmenter de 20 % tous les 3 jours (jamais plus d'un coup, pour ne pas relancer l'apprentissage) si le coût par conversation est < 30 DH ET qu'au moins 2 essais ont démarré via WhatsApp sur la période. Plafond : 7 €/jour en phase 2, au-delà vous n'aurez pas le temps de répondre à tout le monde dans l'heure."
+      "regle_stop_ou_scale": "France : couper une pub au-dessus de 1,50 € le clic après 20 € dépensés. Si le coût par essai français dépasse 40 € pendant 2 semaines, revenir à 70 % Maroc et miser sur la prospection directe (Harvey) en France."
     },
     {
-      "nom": "Phase 3 : Consolidation, reciblage et palier « si ça marche »",
-      "semaines": "S5 et S6 (14 jours)",
-      "budget_jour": "Palier minimal 3 €/jour au total (2 € prospection gagnante + 1 € reciblage). Palier standard 6 €/jour (4,5 € + 1,5 €). Palier « si ça marche » 8 €/jour (6 € + 2 €).",
-      "budget_total": "42 € (minimal) à 84 € (standard), jusqu'à 112 € si le coût par essai reste sous le seuil",
-      "objectif_meta": "Prospection : on garde l'objectif qui a donné le meilleur coût par essai démarré (Engagement > Messages WhatsApp le plus souvent). Reciblage : Trafic vers la page d'atterrissage, ou Ventes optimisé sur l'événement ClicAppStore seulement si le pixel a déjà enregistré au moins 30 à 50 ClicAppStore.",
-      "pourquoi": "On concentre l'argent sur ce qui a marché et on relance les commerçants déjà intéressés, qui coûtent moins cher à convertir. Les audiences de reciblage seront petites (quelques centaines de personnes) : un budget de 1 à 2 €/jour suffit, au-delà la répétition devient lassante.",
-      "ciblage": "Prospection : ciblage gagnant des phases 1 et 2, en excluant les visiteurs du site sur 30 jours et les personnes ayant écrit sur WhatsApp. Reciblage : voir la section retargeting (visiteurs 30 jours sans ClicAppStore, personnes ayant vu 50 % des Reels, interactions avec le compte Instagram sur 60 jours). Option : audience similaire (Lookalike) 1 % Maroc à partir de la liste des commerçants inscrits, uniquement si vous avez au moins 100 contacts, sinon inutile.",
+      "nom": "Mois 3 et après · garder le gagnant",
+      "semaines": "Semaine 9 et suivantes",
+      "budget_jour": "environ 3,30 € au total",
+      "budget_total": "100 € par mois",
+      "objectif_meta": "Celui qui a donné le meilleur coût par essai",
+      "pourquoi": "On met 70 % du budget sur le pays et la pub qui ont donné le coût par essai le plus bas, 20 % sur une nouvelle pub à tester chaque mois et 10 % sur le reciblage. Le budget ne monte que si un abonné payant arrive pour moins de 100 € de pub.",
+      "ciblage": "Celui du pays gagnant, + audience similaire (1 %) dès 100 visiteurs ou 50 conversations enregistrés.",
+      "placements": "Advantage+",
       "creas": [
-        "La meilleure pub de prospection des phases 1 et 2, plus une variante choisie parmi : « Ils reviennent » épisodes 2 et 3 (même client, carte plus remplie), « La collection » (drop des nouvelles cartes du fondateur : teaser story 24 h avant, puis carrousel 5 cartes « Choisissez votre style », une carte par type de commerce), ou « Chrono 60 secondes » (création d'une carte en temps réel, chrono à l'écran).",
-        "Pub 6 « Vous aussi » (reciblage) : Story 9:16 et carré 1:1, essai gratuit de 14 jours, prix clair 399 DH/mois [prix à confirmer], formulation « environ 13 DH par jour », rappel que chaque option s'active ou se coupe, iPhone aujourd'hui, Android bientôt sur Google Play.",
-        "Story interactive en reciblage organique et payant : sondage « Combien de vos clients reviennent une deuxième fois ? » (Je sais / Aucune idée), puis lien vers la démo WhatsApp.",
-        "Si un commerçant réel utilise Keeply et accepte, un Reel tourné chez lui montrant son usage (pas de citation inventée, pas de chiffres non mesurés ; uniquement ce qu'il dit lui-même, avec son accord écrit)."
+        "70 % · la pub gagnante (on change seulement l'accroche quand la fréquence dépasse 3)",
+        "20 % · une nouvelle pub par mois, prise parmi les posts organiques qui ont le mieux marché",
+        "10 % · reciblage essai 14 jours"
       ],
-      "placements": "Prospection : comme en phase 2. Reciblage : Advantage+ placements sans l'Audience Network ; les Stories et Reels Instagram sont prioritaires.",
       "kpi_cible": {
-        "cpm": "Prospection 20 à 60 DH ; reciblage 40 à 120 DH (audience petite, CPM plus élevé, c'est normal)",
-        "ctr": "Reciblage : CTR lien de 1,5 % à 3 %",
-        "cpc": "Reciblage : 2 à 8 DH",
-        "cout_par_resultat": "Coût par essai démarré (calculé dans votre tableur, pas dans Meta) visé sous 250 DH (environ 23 €). Repère : un abonné payant à 399 DH/mois est rentabilisé dès le premier mois si le coût par abonné reste sous 399 DH."
+        "cout_par_essai": "Maroc moins de 150 DH · France moins de 25 €",
+        "cout_par_abonne": "moins de 100 €",
+        "frequence": "moins de 3 sur 7 jours"
       },
-      "regle_stop_ou_scale": "Reciblage : fréquence 7 jours entre 3 et 5 ; au-dessus de 6, changer de visuel ou baisser le budget. Prospection : couper si le coût par essai démarré dépasse 400 DH sur 7 jours. Passer au palier « si ça marche » (8 €/jour) si le coût par essai est < 250 DH ET qu'au moins 1 essai est devenu abonné payant ou montre une vraie utilisation (carte créée, premiers scans). Au-delà de 250 € au total, ne continuer qu'avec des données d'abonnement réelles en main."
+      "regle_stop_ou_scale": "Augmenter seulement si le coût par abonné payant reste sous 100 € deux mois de suite, et jamais de plus de 20 % par semaine."
     }
   ],
   "tests_creatifs": [
@@ -736,27 +727,19 @@ export const META_ADS_PLAN = {
   "alternative_prospects": "Recommandation : PAS d'envoi direct vers l'App Store depuis la pub, et PAS de formulaire Lead Ads en premier choix. Ordre conseillé : (1) phase 1 vers la page d'atterrissage avec pixel, (2) phase 2 en conversations WhatsApp, (3) Lead Ads seulement en solution de secours. Justification. Envoi direct App Store : sans SDK Meta dans l'app ni outil d'attribution, Meta ne voit rien après le clic ; il optimise à l'aveugle sur les clics, vous ne pouvez pas créer d'audience de reciblage, et un gérant qui découvre une app à 399 DH/mois sans explication installe rarement. La page d'atterrissage, elle, remplit le pixel et mesure le ClicAppStore. Formulaire Lead Ads (« Réserver un essai accompagné ») : coût par prospect souvent bas mais qualité souvent faible (formulaires préremplis envoyés sans vraie intention), et il faut rappeler chaque contact, ce qui prend beaucoup de temps à un fondateur seul. Si vous l'utilisez, choisissez le type « Plus d'intention » (écran de vérification), ajoutez 2 questions qualifiantes (type de commerce, ville) et une question « Avez-vous un iPhone ? », puis rappelez dans l'heure. WhatsApp (Click-to-WhatsApp) : c'est le canal par défaut des commerçants marocains, la conversation démarre tout de suite, vous qualifiez en 2 messages et vous accompagnez l'installation en direct, ce qui augmente fortement les chances qu'un essai devienne un vrai usage. Limite : votre temps de réponse. Répondez en moins d'une heure entre 9 h et 22 h, sinon le coût par essai explose. Si vous ne pouvez pas tenir ce rythme une semaine donnée, basculez cette semaine-là sur Trafic vers la page d'atterrissage.",
   "retargeting": "Audiences à créer dès J1 (elles se remplissent pendant la phase 1) : (A) visiteurs de keeplyfidelity.app/maroc sur 30 jours SANS événement ClicAppStore ; (B) personnes ayant vu au moins 50 % d'un Reel Keeply sur 30 jours ; (C) personnes ayant interagi avec le compte Instagram ou la Page sur 60 jours ; (D) personnes ayant cliqué sur le bouton WhatsApp ou ouvert une conversation sans démarrer d'essai (à gérer d'abord par une relance WhatsApp personnelle, gratuite, avant de payer). Exclusions : personnes ayant déclenché ClicAppStore depuis moins de 7 jours, et liste des commerçants déjà inscrits (import client en CSV) dès que vous en avez. Diffusion : un seul ensemble de publicités regroupant A + B + C, 1 à 2 €/jour à partir de la semaine 3 ou 4 (pas avant : l'audience doit dépasser environ 300 à 500 personnes, sinon Meta ne diffuse presque pas). Messages : rappel de l'essai gratuit de 14 jours, prix clair, réponse aux objections (pas d'app à installer pour les clients, Android bientôt pour le commerçant, Google Wallet déjà pris en charge côté clients, chaque fonction activable ou désactivable). Faire tourner 2 visuels, fréquence 7 jours entre 3 et 5, changer de visuel si la fréquence dépasse 6 ou si le CTR baisse de moitié. Le reciblage par e-mail ou WhatsApp des personnes déjà en contact reste plus efficace et gratuit : prioritaire sur la pub.",
   "erreurs_a_eviter": [
-    "Lancer la pub avant que le pixel, l'API Conversions et l'événement ClicAppStore ne soient vérifiés : chaque dirham dépensé sans mesure est perdu pour l'apprentissage et le reciblage.",
-    "Utiliser le bouton « Booster la publication » d'Instagram : peu de contrôle sur le ciblage, pas d'optimisation sur la page d'atterrissage, et les placements ne sont pas maîtrisés.",
-    "Choisir l'objectif Ventes ou Promotion d'application dès le départ : sans SDK et avec moins de 50 conversions par semaine, la campagne reste bloquée en apprentissage et coûte cher.",
-    "Multiplier les ensembles de publicités : avec 3 à 5 €/jour, un seul ensemble et 2 à 3 pubs maximum, sinon aucune pub ne reçoit assez d'impressions pour être jugée.",
-    "Activer Advantage+ Audience sans garde-fou en phase 1 : pour une cible B2B de niche, l'algorithme part vers un grand public qui clique pour rien.",
-    "Laisser l'Audience Network actif sur un objectif Trafic : beaucoup de clics accidentels dans des applications de jeux.",
-    "Modifier la campagne tous les jours : chaque gros changement (budget de plus de 20 %, ciblage, nouvelle pub) relance l'apprentissage. Attendre 3 jours minimum.",
-    "Juger sur le CPC seul : un clic à 1 DH venant d'un étudiant vaut moins qu'une conversation à 30 DH avec un gérant de fast-food. Le vrai indicateur est le coût par essai démarré.",
-    "Inventer des chiffres (« +30 % de clients »), des avis ou des témoignages de commerçants : interdit par vos règles, risqué au regard des règles publicitaires Meta et destructeur de confiance.",
-    "Promettre un « produit gratuit » direct : le produit offert passe toujours par un coupon (« un coupon café offert au 10e tampon ») ; les récompenses de palier sont des remises en % ou en €/DH.",
-    "Cibler la France ou la Belgique : l'app n'y est pas encore disponible (vérification DSA en cours), chaque clic serait perdu.",
-    "Oublier que l'app est uniquement sur iPhone pour le commerçant : le dire clairement (« Disponible sur iPhone, Android bientôt ») évite des conversations et des clics perdus.",
-    "Ne pas répondre vite sur WhatsApp : au-delà de quelques heures, la plupart des prospects ne répondent plus.",
-    "Créer le compte publicitaire en EUR avec une carte marocaine : frais de change et risque de refus de paiement. Choisir le MAD dès le départ.",
-    "Utiliser les logos Apple ou Google de façon non conforme (faux badges, logo Apple seul) : risque de refus de la pub et de problème avec Apple."
+    "Éparpiller 100 € entre France, Maroc, 5 campagnes et 10 pubs : Meta n'apprend rien sous environ 50 résultats.",
+    "Envoyer la France vers l'App Store tant que l'app n'y est pas disponible.",
+    "Le bouton « Booster » sur tous les posts : seulement les 2 meilleurs Reels de la semaine.",
+    "Toucher aux pubs pendant les 4 premiers jours.",
+    "Juger sur les likes : seuls comptent le coût par conversation, par essai et par abonné.",
+    "Payer le badge bleu avant d'avoir une société : la version entreprise ne sera pas accessible.",
+    "Promettre des résultats chiffrés ou montrer de faux témoignages : interdit et dangereux pour le compte pub."
   ],
   "estimation": {
-    "hypotheses": "ATTENTION : ce sont des estimations prudentes, pas des résultats promis. Aucune donnée réelle du compte n'existe encore. Bases : budget standard d'environ 210 € (environ 2 300 DH, à 1 € = environ 10,8 DH) réparti en 70 € phase 1, 70 € phase 2, 70 € phase 3 ; CPM de 20 à 60 DH et CPC lien de 1,5 à 5 DH au Maroc selon des sources publiques non officielles, plus cher pour une cible B2B étroite ; 10 % à 20 % des visiteurs de la page cliquent sur le bouton App Store ; 20 % à 40 % de ces clics aboutissent à une installation (l'utilisateur doit avoir un iPhone et aller au bout) ; 30 % à 50 % des installations démarrent l'essai de 14 jours ; en phase 2, 10 à 40 DH par conversation WhatsApp, 1 conversation sur 3 avec un vrai commerçant, 1 sur 4 de ces commerçants démarre un essai après la démo. Les installations sont mesurées dans App Store Connect via les liens de campagne, avec un délai et sans attribution parfaite.",
-    "clics_estimes": "Environ 400 à 1 100 clics sur le lien au total sur 6 semaines (phases 1 et 3), plus 20 à 70 conversations WhatsApp démarrées en phase 2",
-    "installations_estimees": "Environ 10 à 45 installations attribuables (page d'atterrissage + démos WhatsApp), dont une partie seulement viendra de vrais commerçants",
-    "essais_estimes": "Environ 4 à 18 essais gratuits de 14 jours démarrés",
-    "cout_par_essai_estime": "Environ 12 € à 50 € par essai démarré (130 à 540 DH). Au palier minimal (environ 126 €), compter plutôt 2 à 10 essais. Le nombre d'abonnés payants après l'essai est impossible à estimer sérieusement avant d'avoir les premiers résultats : il dépendra surtout de l'accompagnement pendant les 14 jours."
+    "hypotheses": "Estimations prudentes, pas des promesses : aucune donnée réelle du compte n'existe encore. Maroc : 10 à 40 DH par conversation WhatsApp, 1 conversation sur 3 avec un vrai commerçant, 1 sur 4 lance l'essai. France : environ 1 € par clic, 10 à 20 % des visiteurs cliquent vers l'App Store, 30 à 50 % installent.",
+    "clics_estimes": "Maroc (mois 1) : 15 à 60 conversations WhatsApp + quelques centaines de visites de profil grâce aux boosts. France (70 €) : environ 50 à 100 clics.",
+    "installations_estimees": "Maroc : 3 à 10 par mois. France : 2 à 6 par mois.",
+    "essais_estimes": "Environ 1 à 5 essais de 14 jours par mois au départ, puis davantage quand la meilleure pub est trouvée.",
+    "cout_par_essai_estime": "Maroc : 20 à 60 € par essai au début. France : 15 à 50 €. Un abonné à 399 DH (environ 37 €) par mois rembourse son coût en 1 à 2 mois."
   }
 };
