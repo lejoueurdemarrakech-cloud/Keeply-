@@ -1,7 +1,7 @@
 import type { Task } from "@/lib/types";
 
 /** Version de la liste : quand elle change, les tâches « launch-* » encore à faire sont réécrites. */
-export const LAUNCH_TASKS_VERSION = "v2-ils-reviennent";
+export const LAUNCH_TASKS_VERSION = "v3-france-maroc";
 
 /** Tâches avant le lancement officiel, posées une seule fois au passage aux vraies données (02/11/2026). */
 const LIST: [Task["priority"], string, string, string?][] = [
@@ -15,9 +15,11 @@ const LIST: [Task["priority"], string, string, string?][] = [
   ["normale", "Remplir les crochets des légendes avec du vrai vécu (p03, p11, p14)", "Instagram", "/instagram?tab=lancement"],
   ["normale", "Tourner le Reel fondateur « Fait à Agadir » (p03)", "Instagram", "/instagram?tab=lancement"],
   ["normale", "Faire les visuels de la semaine 0 (p01 à p03) avec les nouvelles cartes, et choisir le snack d'Agadir de la série « Ils reviennent »", "Instagram", "/instagram?tab=lancement"],
-  ["haute", "Créer le portefeuille Meta Business, le compte pub en dirhams et ajouter la carte de paiement", "Meta Ads", "/ads?tab=lancement"],
+  ["haute", "Créer le portefeuille Meta Business, un compte pub en euros (limite 100 €/mois) et ajouter la carte de paiement", "Meta Ads", "/ads?tab=lancement"],
   ["normale", "Relier un numéro WhatsApp Business à la Page Facebook (phase 2 des pubs)", "Meta Ads", "/ads?tab=lancement"],
   ["normale", "Créer la page keeplyfidelity.app/maroc avec le pixel Meta et l'événement clic App Store", "Meta Ads", "/ads?tab=lancement"],
+  ["haute", "Créer la page keeplyfidelity.app/france « Prévenez-moi au lancement » (mail, type de commerce, ville, case de consentement)", "Meta Ads", "/ads?tab=lancement"],
+  ["normale", "Préparer le mail « Keeply est disponible en France » pour la liste « Prévenez-moi »", "Meta Ads", "/ads?tab=lancement"],
   ["normale", "Remplacer les vidéos du site vitrine", "Site"],
   ["normale", "Ajouter la section « extra » au site vitrine", "Site"],
   ["normale", "Trouver un vrai commerce partenaire (accord écrit) pour la première affiche (p14) et le micro-trottoir (p11)", "Instagram", "/instagram?tab=lancement"],

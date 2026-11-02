@@ -1,12 +1,12 @@
 /*
- * Plan de lancement v2 « Ils reviennent » (02/11/2026, agents Instagram Curator et
- * Ad Creative Strategist, plateforme de marque dans brand.ts). Visuels avec les
- * nouvelles cartes du fondateur. Les crochets [ ] sont à remplir avec du vrai vécu.
+ * Plan de lancement v3 « Ils reviennent », France + Maroc (02/11/2026, agents Instagram
+ * Curator et Ad Creative Strategist, plateforme de marque dans brand.ts). Pub : 100 € par mois
+ * maximum. Visuels avec les nouvelles cartes du fondateur. Crochets [ ] = vrai vécu à remplir.
  */
 export type LaunchPost = (typeof INSTAGRAM_PLAN)["posts"][number];
 
 export const INSTAGRAM_PLAN = {
-  "objectif": "En 6 semaines, faire de @keeply le compte que les gérants de fast-foods, cafés et restaurants marocains associent à une idée simple : avec Keeply, les clients reviennent. Transformer cette attention en essais gratuits de 14 jours démarrés depuis keeplyfidelity.app. Marché de lancement : Maroc, en français (Agadir, Casablanca, Marrakech, Rabat, Fès, Tanger). Indicateur roi : essais démarrés depuis Instagram (UTM du lien bio et DM). Indicateurs de croissance : vues non-abonnés des Reels, rétention de la série « Ils reviennent », sauvegardes et partages.",
+  "objectif": "En 6 semaines, faire de @keeply le compte que les gérants de fast-foods, cafés et restaurants de France et du Maroc associent à une idée simple : avec Keeply, les clients reviennent. Un seul compte, en français, deux marchés à parts égales. Maroc (app disponible sur l'App Store) : transformer l'attention en essais gratuits de 14 jours démarrés depuis keeplyfidelity.app. France (vérification Apple en cours, disponibilité dans quelques semaines) : gagner des abonnés gérants français et des inscrits à la liste « Prévenez-moi », pour ouvrir la France avec une audience déjà prête. Tout ce qui est filmé en vrai se tourne au Maroc (le fondateur vit à Agadir) ; la France est représentée par des visuels d'app et des cartes de commerces français. Le texte reste universel. Indicateurs rois : essais démarrés au Maroc et inscrits « Prévenez-moi » en France (UTM du lien bio et DM). Indicateurs de croissance : vues non-abonnés des Reels par pays, rétention de la série « Ils reviennent », sauvegardes et partages.",
   "positionnement": "Ils reviennent. Keeply n'est pas une carte de fidélité de plus : c'est ce qui fait repasser la porte à vos clients. Votre marque dans leur Wallet, votre offre sur leur écran verrouillé, des relances qui partent toutes seules et que vous coupez quand vous voulez. Le niveau des grandes chaînes, pour le commerce du coin. Signature : Keeply. Ils reviennent.",
   "piliers": [
     {
@@ -27,23 +27,24 @@ export const INSTAGRAM_PLAN = {
     {
       "nom": "Coulisses fondateur",
       "part_pourcent": 17,
-      "pourquoi": "Sans témoignage clients pour l'instant, la confiance vient d'un fondateur réel à Agadir, d'un vrai micro-trottoir et d'un vrai comptoir. Tout ce qui est entre crochets est rempli avec du vécu, rien n'est inventé."
+      "pourquoi": "Sans témoignage clients pour l'instant, la confiance vient d'un fondateur réel à Agadir, d'un vrai micro-trottoir et d'un vrai comptoir. Ces vidéos sont tournées au Maroc mais racontées sans frontière : un gérant de Lyon s'y reconnaît autant qu'un gérant de Casablanca. Tout ce qui est entre crochets est rempli avec du vécu, rien n'est inventé."
     },
     {
       "nom": "Offre",
       "part_pourcent": 16,
-      "pourquoi": "Peu de posts, tous boostés : prix formulé prudemment (le prix d'un café par jour), essai gratuit 14 jours, App Store disponible et Google Play bientôt. Ils convertissent l'attention gagnée par les autres piliers."
+      "pourquoi": "Peu de posts, tous boostés : prix affiché dans les deux devises (39,99 €/mois en France, 399 DH/mois au Maroc, le prix d'un café par jour), essai gratuit 14 jours au Maroc, liste « Prévenez-moi » pour la France, App Store disponible au Maroc et Google Play bientôt. Ils convertissent l'attention gagnée par les autres piliers."
     }
   ],
-  "rythme": "Semaine 0 : 3 posts (lundi, mercredi, vendredi) pour remplir la grille avant toute publicité, dont l'épisode 1 de la série. Semaines 1 à 5 : 3 posts par semaine (mardi, jeudi, samedi), un épisode « Ils reviennent » presque chaque semaine. Horaires uniquement à 13:00 (pause avant le rush), 15:30 (creux après le déjeuner) ou 21:00 (fin de soirée), heure du Maroc. 11 Reels, 4 carrousels, 3 photos. Stories tous les jours (3 à 5). Teaser 24 h en Story avant le drop de la collection (p05) et avant chaque épisode. Heure dorée : le fondateur reste disponible 60 minutes après chaque post. Boosts à partir de la semaine 1, uniquement les posts marqués boost, petit budget ciblé gérants de restauration au Maroc.",
-  "bio": "Ils reviennent.\nVotre fidélité dans leur Wallet, votre offre sur leur écran verrouillé. Sans app.\nFait à Agadir. Essai 14 jours",
-  "lien_bio": "https://keeplyfidelity.app/?utm_source=instagram&utm_medium=bio&utm_campaign=ils_reviennent (bouton App Store en premier, mention de l'essai gratuit 14 jours et de 399 DH/mois, prix à confirmer ; changer utm_content selon le post mis en avant, ex. utm_content=p09)",
+  "rythme": "Semaine 0 : 3 posts (lundi, mercredi, vendredi) pour remplir la grille avant toute publicité, dont l'épisode 1 de la série. Semaines 1 à 5 : 3 posts par semaine (mardi, jeudi, samedi), un épisode « Ils reviennent » presque chaque semaine. Horaires uniquement à 13:00 (pause avant le rush), 15:30 (creux après le déjeuner) ou 21:00 (fin de soirée). En hiver, la France et le Maroc sont à la même heure : ces horaires valent pour les deux pays ; en été, la France a une heure d'avance : publier à l'heure de Paris et vérifier les statistiques par pays. 11 Reels, 4 carrousels, 3 photos. Équilibre des exemples : les tournages réels (série, fondateur, micro-trottoir, affiche, ASMR, split-screen) sont faits au Maroc ; les visuels d'app et maquettes montrent en priorité des commerces français (Lille, Lyon, Bordeaux, Paris, Marseille), pour environ moitié France, moitié Maroc sur l'ensemble des 18 posts. Stories tous les jours (3 à 5), en alternant un exemple français et un exemple marocain. Teaser 24 h en Story avant le drop de la collection (p05) et avant chaque épisode. Heure dorée : le fondateur reste disponible 60 minutes après chaque post. Boosts à partir de la semaine 1, uniquement les posts marqués boost, petit budget séparé en deux audiences : gérants de restauration au Maroc (objectif essai) et gérants de restauration en France (objectif inscription « Prévenez-moi »). Le jour où l'app est disponible en France : remplacer partout « Bientôt en France » par l'essai gratuit, publier une Story d'annonce factuelle et écrire aux inscrits de la liste.",
+  "bio": "Ils reviennent.\nVotre carte de fidélité dans leur Wallet. Sans app.\nEssai gratuit 14 jours.\nMaroc · bientôt France",
+  "lien_bio": "https://keeplyfidelity.app/?utm_source=instagram&utm_medium=bio&utm_campaign=ils_reviennent (deux boutons de même poids : « Maroc : App Store, essai gratuit 14 jours, 399 DH/mois » et « France : prévenez-moi » avec un formulaire e-mail, 39,99 €/mois à l'ouverture ; prix à confirmer par le fondateur ; formulaire à créer s'il n'existe pas encore ; changer utm_content selon le post mis en avant, ex. utm_content=p09, et ajouter utm_term=fr ou utm_term=ma sur les stickers lien ciblés)",
   "highlights": [
     "Ils reviennent",
     "La collection",
     "Écran verrouillé",
     "60 secondes",
     "Prix et essai",
+    "Bientôt en France",
     "Le fondateur",
     "Questions"
   ],
@@ -62,11 +63,11 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#ilsreviennent",
         "#keeply",
-        "#fidelisationclient",
-        "#fastfoodmaroc",
-        "#agadir",
+        "#fastfood",
+        "#restaurateur",
+        "#cartedefidelite",
         "#applewallet",
-        "#commercantmaroc"
+        "#agadir"
       ],
       "pourquoi": "Ouvrir le compte avec une histoire plutôt qu'une fonction : on pose un personnage et une question à laquelle le restaurateur veut la réponse. Objectif : abonnements pour voir la suite. Indicateur : taux de visionnage complet et abonnés gagnés sur ce Reel.",
       "cta": "Abonnez-vous pour l'épisode 2",
@@ -82,16 +83,16 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Vitrine : écran verrouillé et Wallet",
       "titre": "La notification plein écran",
       "accroche": "Votre vitrine. Sur leur écran verrouillé.",
-      "visuel": "Photo 4:5, le post EST un écran verrouillé d'iPhone en plein cadre : fond d'écran flou, grande heure 12:58. Une seule notification Wallet au centre : icône de la carte, « Burger Corniche · Casablanca », texte « -15 % sur votre menu jusqu'à 15 h ». En dessous, la NOUVELLE carte style fast-food du burger affichée entière en aperçu. Aucun autre texte dans l'image, logo Keeply minuscule en bas à droite.",
+      "visuel": "Photo 4:5, le post EST un écran verrouillé d'iPhone en plein cadre : fond d'écran flou, grande heure 12:58. Une seule notification Wallet au centre : icône de la carte, « Le Beffroi Burger · Lille » (fast-food fictif), texte « -15 % sur votre menu jusqu'à 15 h ». En dessous, la NOUVELLE carte style fast-food du burger affichée entière en aperçu. Aucun autre texte dans l'image, logo Keeply minuscule en bas à droite.",
       "legende": "Ils regardent leur écran verrouillé des dizaines de fois par jour.\nVotre offre peut y apparaître.\nSans pub payante. Sans app à installer.\n\nVous décidez quand. Ou jamais.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#ilsreviennent",
-        "#fastfoodmaroc",
-        "#casablanca",
+        "#fastfood",
+        "#lille",
+        "#restaurateur",
         "#marketingrestaurant",
-        "#applewallet",
-        "#restaurationmaroc"
+        "#applewallet"
       ],
       "pourquoi": "Un visuel qui arrête le pouce parce qu'il ressemble à une vraie notification. Il installe l'avantage le plus désirable de Keeply en une image. Indicateurs : partages et sauvegardes rapportés à la portée.",
       "cta": "Enregistrez ce post",
@@ -107,15 +108,16 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Coulisses fondateur",
       "titre": "Fait à Agadir",
       "accroche": "Fait à Agadir. Par une seule personne.",
-      "visuel": "Reel face caméra 30 s, téléphone, lumière naturelle. Plan 1 (0-2 s) : en mouvement, le fondateur entre dans le cadre, texte « Fait à Agadir ». Plan 2 : vraie capture de son écran de travail (l'app ou le code ouvert). Plan 3 : sur son iPhone, trois NOUVELLES cartes défilent (fast-food, café, restaurant), chacune entière à l'écran. Plan 4 : retour visage, il dit en une phrase pourquoi il a créé Keeply [raison réelle]. Plan 5 : « Écrivez-moi. C'est moi qui réponds. » Sous-titres incrustés.",
-      "legende": "Je m'appelle [prénom].\nJ'ai créé Keeply depuis [ville réelle], parce que [raison réelle, une phrase].\nDisponible sur l'App Store au Maroc.\n\nUne question ? Écrivez-moi, je réponds moi-même.\n\nKeeply. Ils reviennent.",
+      "visuel": "Reel face caméra 30 s, téléphone, lumière naturelle. Plan 1 (0-2 s) : en mouvement, le fondateur entre dans le cadre, texte « Fait à Agadir ». Plan 2 : vraie capture de son écran de travail (l'app ou le code ouvert). Plan 3 : sur son iPhone, trois NOUVELLES cartes défilent (fast-food à Lille, café à Lyon, restaurant à Agadir), chacune entière à l'écran. Plan 4 : retour visage, il dit en une phrase pourquoi il a créé Keeply [raison réelle]. Plan 5 : « Écrivez-moi. C'est moi qui réponds. » Sous-titres incrustés.",
+      "legende": "Je m'appelle [prénom].\nJ'ai créé Keeply depuis [ville réelle], parce que [raison réelle, une phrase].\nDisponible au Maroc. Bientôt en France.\n\nUne question ? Écrivez-moi, je réponds moi-même.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#faitaumaroc",
         "#agadir",
-        "#startupmaroc",
-        "#entrepreneurmaroc",
-        "#commercantmaroc"
+        "#entrepreneur",
+        "#startup",
+        "#restaurateur",
+        "#commercelocal"
       ],
       "pourquoi": "Sans avis clients, la confiance passe par un visage réel et vérifiable. Objectif : DM et visites du profil avant les premières publicités. Indicateurs : DM reçus et abonnés gagnés. Les crochets sont à remplir avec du vrai, rien n'est inventé.",
       "cta": "Écrivez-moi en DM",
@@ -137,10 +139,10 @@ export const INSTAGRAM_PLAN = {
         "#ilsreviennent",
         "#keeply",
         "#fidelisationclient",
-        "#fastfoodmaroc",
-        "#agadir",
-        "#restaurationmaroc",
-        "#commercantmaroc"
+        "#fastfood",
+        "#restauration",
+        "#cartedefidelite",
+        "#maroc"
       ],
       "pourquoi": "Le cœur de la promesse : le deuxième passage, celui que tout commerçant perd. Premier post boosté, il doit faire comprendre la valeur en 15 s. Indicateurs : rétention à 3 s, part de vues non-abonnés, clics sur le profil.",
       "cta": "Regardez l'épisode 1 sur le profil",
@@ -156,16 +158,17 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Votre marque, la collection",
       "titre": "Le drop : la collection",
       "accroche": "La collection.",
-      "visuel": "Carrousel 7 slides 1080x1350, fond très clair, une carte par slide, carte entière centrée avec beaucoup de blanc, numérotation 1/7. Teaser la veille en Story (silhouette floutée d'une carte + compte à rebours). Slide 1 : les cartes en éventail, mot « La collection. » Slide 2 : « Votre carte. Votre style. » Slide 3 : style fast-food, carte d'un snack à Casablanca. Slide 4 : style café, carte d'un café à Rabat (tons crème et bois). Slide 5 : style restaurant de quartier, carte d'un resto à Fès. Slide 6 : style haut de gamme, carte noire et or d'une table à Marrakech. Slide 7 : « Laquelle est la vôtre ? » + @keeply. Utiliser les vrais noms des styles tels qu'ils apparaissent dans l'app.",
+      "visuel": "Carrousel 7 slides 1080x1350, fond très clair, une carte par slide, carte entière centrée avec beaucoup de blanc, numérotation 1/7. Teaser la veille en Story (silhouette floutée d'une carte + compte à rebours). Slide 1 : les cartes en éventail, mot « La collection. » Slide 2 : « Votre carte. Votre style. » Slide 3 : style fast-food, carte d'un snack à Casablanca. Slide 4 : style café, carte d'un café à Lyon (tons crème et bois). Slide 5 : style restaurant de quartier, carte d'une brasserie à Bordeaux. Slide 6 : style haut de gamme, carte noire et or d'une table à Marrakech. Slide 7 : « Laquelle est la vôtre ? » + @keeply. Deux commerces français, deux marocains. Utiliser les vrais noms des styles tels qu'ils apparaissent dans l'app.",
       "legende": "Quatre styles. Une seule règle : votre marque d'abord.\nVos couleurs, votre logo, dans le Wallet de vos clients.\n\nLaquelle est la vôtre ? Dites-le en commentaire.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#lacollection",
         "#brandingrestaurant",
-        "#restaurationmaroc",
-        "#cafemaroc",
-        "#fastfoodmaroc",
-        "#applewallet"
+        "#restaurateur",
+        "#cafe",
+        "#fastfood",
+        "#casablanca",
+        "#lyon"
       ],
       "pourquoi": "Traiter les nouvelles cartes comme un produit désirable, pas comme une option de réglage. Le choix de style en commentaire crée de l'engagement facile. Indicateurs : commentaires, sauvegardes, taux de swipe jusqu'à la slide 7.",
       "cta": "Commentez votre style préféré",
@@ -181,15 +184,15 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Vitrine : écran verrouillé et Wallet",
       "titre": "Wallet flex",
       "accroche": "En bonne compagnie.",
-      "visuel": "Photo 4:5, plan très serré sur un iPhone tenu en main, Apple Wallet ouvert : la NOUVELLE carte d'un café de Rabat (style café) empilée entre une carte bancaire générique (sans logo de banque) et un billet d'avion générique (sans compagnie réelle). La carte du café est la seule entièrement visible, bien cadrée. Lumière douce, fond neutre. Aucun texte dans l'image.",
+      "visuel": "Photo 4:5, plan très serré sur un iPhone tenu en main, Apple Wallet ouvert : la NOUVELLE carte d'un café de Lyon (style café) empilée entre une carte bancaire générique (sans logo de banque) et un billet d'avion générique (sans compagnie réelle). La carte du café est la seule entièrement visible, bien cadrée. Lumière douce, fond neutre. Aucun texte dans l'image.",
       "legende": "Sa carte bancaire.\nSon billet d'avion.\nEt votre café.\n\nLes grandes chaînes ont une app. Vous avez mieux : leur Wallet.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#applewallet",
-        "#cafemaroc",
-        "#rabat",
-        "#coffeeshopmaroc",
-        "#commercantmaroc"
+        "#cafe",
+        "#lyon",
+        "#coffeeshop",
+        "#commercelocal"
       ],
       "pourquoi": "Vendre un statut : le petit commerce rangé au même endroit que les choses importantes. Image pensée pour être partagée entre commerçants. Indicateurs : partages en DM et visites du profil.",
       "cta": "Partagez à un gérant de café",
@@ -205,18 +208,19 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Votre marque, la collection",
       "titre": "Chrono 60 secondes",
       "accroche": "60 secondes. Montre en main.",
-      "visuel": "Reel vertical 60 s en temps réel, chronomètre en haut de l'écran dès la première image. Plan 1 (0-2 s) : doigt qui lance le chrono, texte d'accroche. Plans suivants, enregistrement d'écran de l'app : choix du style haut de gamme, logo d'un restaurant de Marrakech importé, couleurs, récompense « -10 % au 8e passage », aperçu. Vers 50 s : la carte apparaît dans un Wallet, entière, bien cadrée. Fin : chrono figé sur le vrai temps obtenu, puis « Keeply. Ils reviennent. » Musique minimale, pas de voix.",
+      "visuel": "Reel vertical 60 s en temps réel, chronomètre en haut de l'écran dès la première image. Plan 1 (0-2 s) : doigt qui lance le chrono, texte d'accroche. Plans suivants, enregistrement d'écran de l'app : choix du style haut de gamme, logo d'un restaurant gastronomique parisien (nom fictif) importé, couleurs, récompense « -10 % au 8e passage », aperçu. Vers 50 s : la carte apparaît dans un Wallet, entière, bien cadrée. Fin : chrono figé sur le vrai temps obtenu, puis « Keeply. Ils reviennent. » Musique minimale, pas de voix.",
       "legende": "Une carte à votre image.\nMoins d'une minute.\nAucun graphiste.\n\nTampons, points, remises : tout se règle, tout se modifie.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
-        "#restaurantmarrakech",
-        "#marrakech",
-        "#gastronomiemaroc",
+        "#restaurantparis",
+        "#paris",
+        "#gastronomie",
+        "#restaurateur",
         "#fidelisationclient",
         "#applewallet"
       ],
       "pourquoi": "Tuer l'objection « ça doit être compliqué » avec une preuve filmée. Le chrono donne une raison de regarder jusqu'au bout. Indicateurs : taux de visionnage complet et clics sur le lien en bio. Afficher le vrai temps, ne pas tricher sur le montage.",
-      "cta": "Essayez, lien en bio",
+      "cta": "Maroc : essai gratuit 14 jours. France : bientôt. Lien en bio.",
       "asset_existant": "Pub « extras » (plan final de la carte dans le Wallet, refait avec la nouvelle carte haut de gamme)",
       "boost": true
     },
@@ -234,10 +238,10 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#keeply",
         "#asmr",
-        "#cafemaroc",
-        "#tanger",
+        "#cafe",
         "#coffeelovers",
-        "#commercantmaroc"
+        "#tanger",
+        "#commercelocal"
       ],
       "pourquoi": "Format sensoriel très rewatchable, qui associe un son à la marque. La boucle courte augmente les revues. Indicateurs : nombre de lectures répétées et partages.",
       "cta": "Mettez le son",
@@ -253,18 +257,19 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Offre",
       "titre": "Le prix d'un café par jour",
       "accroche": "Le prix d'un café par jour.",
-      "visuel": "Carrousel 6 slides, fond blanc, typo très grande, une phrase par slide, numérotation. Slide 1 : une tasse de café vue du dessus + accroche. Slide 2 : « 399 DH par mois. » Slide 3 : « Environ 13 DH par jour. » Slide 4 : la NOUVELLE carte style café d'un café de Casablanca dans un Wallet, entière, légende « Ce que vous obtenez ». Slide 5 (récap à capturer) : « Votre carte. Vos notifications. Vos offres automatiques. Vos statistiques. » Slide 6 : « 14 jours gratuits. Lien en bio. »",
-      "legende": "399 DH par mois, environ 13 DH par jour.\nPour une carte à votre marque dans le Wallet de vos clients.\n14 jours d'essai gratuit pour juger.\n\nChaque option s'active ou se coupe. Vous gardez la main.\n\nKeeply. Ils reviennent.",
+      "visuel": "Carrousel 6 slides, fond blanc, typo très grande, une phrase par slide, numérotation. Slide 1 : une tasse de café vue du dessus + accroche. Slide 2 : « 39,99 € par mois en France. 399 DH par mois au Maroc. » (deux lignes, même taille). Slide 3 : « Environ 1,33 € par jour. Environ 13 DH par jour. » Slide 4 : deux NOUVELLES cartes style café côte à côte dans un Wallet, entières : un café de Lyon et un café de Casablanca, légende « Ce que vous obtenez ». Slide 5 (récap à capturer) : « Votre carte. Vos notifications. Vos offres automatiques. Vos statistiques. » Slide 6 : « Maroc : 14 jours gratuits. France : bientôt. Lien en bio. »",
+      "legende": "39,99 € par mois en France. 399 DH par mois au Maroc.\nLe prix d'un café par jour.\nPour une carte à votre marque dans le Wallet de vos clients.\n\nAu Maroc, 14 jours d'essai gratuit pour juger. En France, lien en bio pour être prévenu.\nChaque option s'active ou se coupe. Vous gardez la main.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#essaigratuit",
-        "#cafemaroc",
-        "#casablanca",
+        "#cafe",
+        "#restaurateur",
         "#gestionrestaurant",
-        "#commercantmaroc"
+        "#lyon",
+        "#casablanca"
       ],
-      "pourquoi": "Premier post prix, formulé de façon prudente et vérifiable, pour attirer les vrais décideurs. Prix à confirmer par le fondateur avant publication. Indicateurs : clics sur le lien bio avec utm_content=p09 et essais démarrés.",
-      "cta": "Démarrez l'essai, lien en bio",
+      "pourquoi": "Premier post prix, formulé de façon prudente et vérifiable dans les deux devises (39,99 € ≈ 1,33 €/jour ; 399 DH ≈ 13 DH/jour), pour attirer les vrais décideurs des deux pays. Prix à confirmer par le fondateur avant publication. Indicateurs : clics sur le lien bio avec utm_content=p09, essais démarrés au Maroc et inscrits « Prévenez-moi » en France.",
+      "cta": "Essai gratuit au Maroc, liste d'attente en France : lien en bio",
       "asset_existant": null,
       "boost": true
     },
@@ -282,10 +287,10 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#ilsreviennent",
         "#keeply",
-        "#agadir",
-        "#fastfoodmaroc",
-        "#marketingautomation",
-        "#restaurationmaroc"
+        "#fastfood",
+        "#offresautomatiques",
+        "#restaurateur",
+        "#agadir"
       ],
       "pourquoi": "Montrer qu'un logiciel travaille pendant que le gérant sert, sans le déposséder (l'interrupteur est à l'écran). Indicateurs : partages et rétention à 3 s, à comparer aux épisodes 1 et 2.",
       "cta": "Commentez « PLUIE » pour la liste des offres auto",
@@ -306,10 +311,10 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#keeply",
         "#microtrottoir",
+        "#cartedefidelite",
+        "#fidelisationclient",
         "#agadir",
-        "#marrakech",
-        "#maroc",
-        "#fidelisationclient"
+        "#maroc"
       ],
       "pourquoi": "Du contenu humain, local et vrai, très partageable, qui parle aussi aux clients finaux. C'est l'un des deux clins d'œil autorisés au carton. Indicateurs : commentaires et partages. Aucune réponse ne doit être écrite à l'avance ni rejouée.",
       "cta": "Répondez en commentaire",
@@ -325,18 +330,19 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Offre",
       "titre": "Split-screen : avant et après la notification",
       "accroche": "15 h. Une notification. 15 h 40.",
-      "visuel": "Reel vertical 20 s, écran partagé haut et bas, mention discrète « scène reconstituée ». Commerce : restaurant de quartier à Fès (nom fictif « Dar Zitoun »). Haut, plan 1 (0-3 s) : salle vide à 15 h, horloge visible. Bas : le gérant ouvre Keeply et envoie « -15 % sur le thé et la pâtisserie jusqu'à 17 h ». Plan 2 (3-8 s) : bas, trois écrans verrouillés qui s'allument, la carte style restaurant de quartier entière en aperçu. Plan 3 (8-16 s) : haut, des tables qui se remplissent, horloge 15 h 40. Plan 4 (16-20 s) : « 14 jours pour essayer. Gratuitement. » puis « Keeply. Ils reviennent. »",
-      "legende": "Le creux de 15 h, vous le connaissez.\nUne notification gratuite, envoyée quand vous voulez.\nÀ vous de voir ce qu'elle change chez vous.\n\nEssai gratuit 14 jours, lien en bio.\n\nKeeply. Ils reviennent.",
+      "visuel": "Reel vertical 20 s, écran partagé haut et bas, mention discrète « scène reconstituée ». Commerce : restaurant de quartier à Fès (nom fictif « Dar Zitoun »). Haut, plan 1 (0-3 s) : salle vide à 15 h, horloge visible. Bas : le gérant ouvre Keeply et envoie « -15 % sur le thé et la pâtisserie jusqu'à 17 h ». Plan 2 (3-8 s) : bas, trois écrans verrouillés qui s'allument, la carte style restaurant de quartier entière en aperçu. Plan 3 (8-16 s) : haut, des tables qui se remplissent, horloge 15 h 40. Plan 4 (16-20 s) : « Disponible au Maroc. Bientôt en France. » puis « Keeply. Ils reviennent. »",
+      "legende": "Le creux de 15 h, vous le connaissez.\nUne notification gratuite, envoyée quand vous voulez.\nÀ vous de voir ce qu'elle change chez vous.\n\nAu Maroc, essai gratuit 14 jours. En France, bientôt.\nLien en bio.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
-        "#restaurantmaroc",
-        "#fes",
+        "#restaurant",
+        "#restaurateur",
         "#gestionrestaurant",
         "#essaigratuit",
-        "#restaurationmaroc"
+        "#fes",
+        "#maroc"
       ],
-      "pourquoi": "Rendre visible l'usage concret qui justifie l'abonnement : remplir un creux. C'est une illustration, pas un résultat client, d'où la mention et la légende prudente. Indicateurs : clics sur le lien et essais démarrés (utm_content=p12).",
-      "cta": "Démarrez l'essai, lien en bio",
+      "pourquoi": "Rendre visible l'usage concret qui justifie l'abonnement : remplir un creux. C'est une illustration, pas un résultat client, d'où la mention et la légende prudente. Indicateurs : clics sur le lien et essais démarrés au Maroc et inscrits « Prévenez-moi » en France (utm_content=p12).",
+      "cta": "Disponible au Maroc. Bientôt en France. Lien en bio.",
       "asset_existant": null,
       "boost": true
     },
@@ -349,15 +355,16 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Vitrine : écran verrouillé et Wallet",
       "titre": "Pendant que vous dormez",
       "accroche": "Pendant que vous dormez.",
-      "visuel": "Carrousel 6 slides, fond nuit bleu très sombre, une notification d'écran verrouillé par slide, numérotation. Slide 1 : écran verrouillé à 2:14, accroche. Slide 2 : « Anniversaire. » notification d'un café de Rabat avec un coupon « boisson offerte », carte style café entière. Slide 3 : « Absent depuis 30 jours. » notification d'un fast-food de Casablanca « -20 % pour votre retour ». Slide 4 : « Jour de pluie. » notification d'un snack d'Agadir. Slide 5 (récap à capturer) : les trois offres + l'écran des interrupteurs dans l'app, « Tout s'active. Tout se coupe. » Slide 6 : « Enregistrez. Activez ce qui vous ressemble. »",
+      "visuel": "Carrousel 6 slides, fond nuit bleu très sombre, une notification d'écran verrouillé par slide, numérotation. Slide 1 : écran verrouillé à 2:14, accroche. Slide 2 : « Anniversaire. » notification d'une brasserie de Bordeaux avec un coupon « dessert offert », carte style restaurant de quartier entière. Slide 3 : « Absent depuis 30 jours. » notification d'un fast-food de Casablanca « -20 % pour votre retour ». Slide 4 : « Jour de pluie. » notification d'une pizzeria de Marseille « il pleut, -3 € sur votre pizza ». Slide 5 (récap à capturer) : les trois offres + l'écran des interrupteurs dans l'app, « Tout s'active. Tout se coupe. » Slide 6 : « Enregistrez. Activez ce qui vous ressemble. »",
       "legende": "Trois offres qui partent toutes seules.\nPendant le service. Pendant la nuit. Pendant vos congés.\nC'est vous qui choisissez lesquelles, et vous pouvez tout couper.\n\nEnregistrez ce post pour plus tard.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#offresautomatiques",
         "#fidelisationclient",
-        "#cafemaroc",
-        "#fastfoodmaroc",
-        "#restaurationmaroc"
+        "#restaurateur",
+        "#pizzeria",
+        "#bordeaux",
+        "#casablanca"
       ],
       "pourquoi": "Le carrousel utile à garder : trois automatismes clairs, avec la règle produit respectée (le produit gratuit passe par un coupon, les autres offres sont des remises). Indicateur principal : taux de sauvegarde.",
       "cta": "Enregistrez ce post",
@@ -378,9 +385,10 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#keeply",
         "#coulisses",
-        "#startupmaroc",
-        "#entrepreneurmaroc",
-        "#commercantmaroc"
+        "#entrepreneur",
+        "#startup",
+        "#commercelocal",
+        "#agadir"
       ],
       "pourquoi": "Prouver que Keeply existe dans la vraie vie, sur un vrai comptoir, sans inventer de témoignage. Si aucun commerçant n'a encore accepté, reporter ce post plutôt que le simuler. Indicateurs : DM de commerçants et visites du profil.",
       "cta": "Écrivez-moi en DM",
@@ -401,10 +409,10 @@ export const INSTAGRAM_PLAN = {
       "hashtags": [
         "#ilsreviennent",
         "#keeply",
-        "#agadir",
-        "#fastfoodmaroc",
+        "#fastfood",
         "#fidelisationclient",
-        "#restaurationmaroc"
+        "#restaurateur",
+        "#agadir"
       ],
       "pourquoi": "Faire désirer les statuts comme dans les grandes enseignes, appliqués au snack du coin. Indicateurs : commentaires et évolution de la rétention de la série d'un épisode à l'autre.",
       "cta": "Abonnez-vous pour le final",
@@ -420,15 +428,16 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Votre marque, la collection",
       "titre": "Le niveau des grandes chaînes",
       "accroche": "Le niveau des grandes chaînes.",
-      "visuel": "Carrousel 7 slides, noir et blanc, aucune marque ni logo de chaîne réelle. Slide 1 : accroche + « Pour le snack d'en bas. » Slide 2 : « Elles ont une carte à leur image. » carte style haut de gamme d'une table de Marrakech. Slide 3 : « Elles ont des statuts. » carte avec badge Or. Slide 4 : « Elles vous écrivent au bon moment. » écran verrouillé. Slide 5 : « Elles savent qui revient. » écran statistiques de l'app. Slide 6 (récap) : « Vous aussi. Dès aujourd'hui. » quatre cartes de la collection, entières. Slide 7 : « Laquelle pour vous ? Lien en bio. »",
+      "visuel": "Carrousel 7 slides, noir et blanc, aucune marque ni logo de chaîne réelle. Slide 1 : accroche + « Pour le snack d'en bas. » Slide 2 : « Elles ont une carte à leur image. » carte style haut de gamme d'une table parisienne (nom fictif). Slide 3 : « Elles ont des statuts. » carte avec badge Or. Slide 4 : « Elles vous écrivent au bon moment. » écran verrouillé. Slide 5 : « Elles savent qui revient. » écran statistiques de l'app. Slide 6 (récap) : « Vous aussi. Dès aujourd'hui. » quatre cartes de la collection, entières : un fast-food à Lille, une brasserie à Bordeaux, un café à Casablanca, une table à Marrakech. Slide 7 : « Laquelle pour vous ? Lien en bio. »",
       "legende": "Les grandes chaînes ont des équipes entières pour ça.\nVous avez Keeply.\nMême carte à votre image. Mêmes statuts. Même écran verrouillé.\n\nDu snack d'en bas à la table gastronomique.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#brandingrestaurant",
-        "#marrakech",
-        "#restaurationmaroc",
+        "#restaurateur",
         "#gestionrestaurant",
-        "#commercantmaroc"
+        "#paris",
+        "#marrakech",
+        "#commercelocal"
       ],
       "pourquoi": "Ancrer le positionnement premium : le petit commerce joue dans la même cour que les enseignes. Indicateurs : sauvegardes et partages, surtout auprès des restaurants haut de gamme qui nous suivent.",
       "cta": "Partagez à un associé",
@@ -444,15 +453,15 @@ export const INSTAGRAM_PLAN = {
       "pilier": "« Ils reviennent » (série)",
       "titre": "Ils reviennent, épisode 5 : le final",
       "accroche": "Dix passages plus tard.",
-      "visuel": "Reel vertical 25 s, final de la série. Plan 1 (0-2 s) : la carte style fast-food du snack « Le Comptoir » à 10 tampons sur 10, entière, accroche. Plan 2 (2-6 s) : montage rapide des 4 épisodes précédents (porte, notification, pluie, statut). Plan 3 (6-10 s) : récompense débloquée « -30 DH sur votre prochain menu », et un coupon séparé « boisson offerte » envoyé par le gérant. Plan 4 (10-18 s) : la même porte, d'autres clients, d'autres commerces : un café à Rabat, un resto de quartier à Fès, une table à Marrakech, chaque carte entière. Plan 5 (18-22 s) : clin d'œil, une vieille carte en carton reste au fond d'un tiroir qui se ferme. Plan 6 : « Ils reviennent. » puis « Keeply. » Accroche secondaire optionnelle en darija, à valider par le fondateur : « Kayrj3o. »",
+      "visuel": "Reel vertical 25 s, final de la série. Plan 1 (0-2 s) : la carte style fast-food du snack « Le Comptoir » à 10 tampons sur 10, entière, accroche. Plan 2 (2-6 s) : montage rapide des 4 épisodes précédents (porte, notification, pluie, statut). Plan 3 (6-10 s) : récompense débloquée « -30 DH sur votre prochain menu », et un coupon séparé « boisson offerte » envoyé par le gérant. Plan 4 (10-18 s) : la même porte, d'autres clients, d'autres commerces : un café à Lyon, une brasserie à Bordeaux, un resto de quartier à Fès, une table à Marrakech, chaque carte entière (cartes et notifications en maquette pour les commerces français, la porte filmée reste celle d'Agadir). Plan 5 (18-22 s) : clin d'œil, une vieille carte en carton reste au fond d'un tiroir qui se ferme. Plan 6 : « Ils reviennent. » puis « Keeply. » Version par défaut entièrement en français (« Ils reviennent. »). Option darija, uniquement pour une déclinaison ciblée Maroc et à valider par le fondateur : « Kayrj3o. » en petit sous « Ils reviennent. »",
       "legende": "Un premier passage.\nUne notification.\nUn jour de pluie. Un statut.\nEt dix passages.\n\nC'est tout le métier de Keeply.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#ilsreviennent",
         "#keeply",
         "#fidelisationclient",
-        "#restaurationmaroc",
-        "#fastfoodmaroc",
-        "#commercantmaroc",
+        "#restauration",
+        "#fastfood",
+        "#restaurateur",
         "#maroc"
       ],
       "pourquoi": "Le Reel signature, conçu pour devenir la meilleure créa publicitaire. Il condense la grande idée et clôt la série. C'est le second clin d'œil au carton. Indicateurs : vues non-abonnés, partages, clics sur le profil.",
@@ -469,56 +478,62 @@ export const INSTAGRAM_PLAN = {
       "pilier": "Offre",
       "titre": "14 jours pour voir qui revient",
       "accroche": "14 jours. Voyez qui revient.",
-      "visuel": "Photo 4:5, fond blanc, centré : un iPhone affichant la NOUVELLE carte d'un resto de quartier de Casablanca, entière, bien cadrée. Au-dessus, l'accroche en grand. En dessous, sur une ligne : « Essai gratuit. Puis 399 DH/mois. » En bas : « Sur l'App Store. Bientôt sur Google Play. » Logo Keeply discret.",
-      "legende": "Créez votre carte.\nPosez votre affiche.\nEt regardez qui revient.\n\n14 jours gratuits, puis 399 DH par mois. Tout s'active, tout se coupe.\n\nKeeply. Ils reviennent.",
+      "visuel": "Photo 4:5, fond blanc, centré : un iPhone affichant la NOUVELLE carte d'une pizzeria de Marseille, entière, bien cadrée. Au-dessus, l'accroche en grand. En dessous, sur une ligne : « 39,99 €/mois en France · 399 DH/mois au Maroc. » En bas : « Disponible au Maroc, 14 jours gratuits. Bientôt en France. Bientôt sur Google Play. » Logo Keeply discret.",
+      "legende": "Créez votre carte.\nPosez votre affiche.\nEt regardez qui revient.\n\nAu Maroc : 14 jours gratuits, puis 399 DH par mois.\nEn France : bientôt, 39,99 € par mois. Lien en bio pour être prévenu.\nTout s'active, tout se coupe.\n\nKeeply. Ils reviennent.",
       "hashtags": [
         "#keeply",
         "#essaigratuit",
-        "#casablanca",
-        "#restaurantmaroc",
-        "#commercantmaroc",
-        "#appstore"
+        "#pizzeria",
+        "#marseille",
+        "#restaurateur",
+        "#commercelocal",
+        "#maroc"
       ],
-      "pourquoi": "Post de conversion pur pour clore les 6 semaines, à garder épinglé. Indicateurs : clics sur le lien bio (utm_content=p18) et essais de 14 jours démarrés.",
-      "cta": "Démarrez l'essai, lien en bio",
+      "pourquoi": "Post de conversion pur pour clore les 6 semaines, à garder épinglé : essai au Maroc, liste d'attente en France. Indicateurs : clics sur le lien bio (utm_content=p18), essais de 14 jours démarrés au Maroc et inscrits « Prévenez-moi » en France.",
+      "cta": "Essai gratuit au Maroc, liste d'attente en France : lien en bio",
       "asset_existant": null,
       "boost": true
     }
   ],
   "stories_quotidiennes": [
-    "Sondage du jour pour les gérants : « Combien de vos clients reviennent dans le mois ? Vous le savez ? » ou « Le creux de votre journée : 15 h ou 17 h ? ».",
+    "Sondage d'ouverture, une fois par semaine : « Votre commerce est en France ou au Maroc ? » pour lire la répartition réelle de l'audience et adapter les exemples.",
+    "Sondage du jour pour les gérants des deux pays : « Combien de vos clients reviennent dans le mois ? Vous le savez ? » ou « Le creux de votre journée : 15 h ou 17 h ? ».",
     "Curseur émoji : « À quel point votre carte de fidélité actuelle vous ressemble ? » puis renvoi vers le drop de la collection.",
     "Quiz rapide : « Combien de fois par jour regarde-t-on son écran verrouillé ? » avec une réponse sourcée ou formulée sans chiffre inventé, puis renvoi vers p02.",
     "Teaser 24 h avant chaque épisode de la série et avant le drop (carte floutée, sticker compte à rebours).",
     "Partage en Story de chaque nouveau post dans l'heure, avec une question ou le sticker « Nouveau post ».",
-    "« Une carte par jour » : une nouvelle carte de la collection, d'un commerce et d'une ville différents, carte entière, sticker lien.",
-    "Coulisses du fondateur en 1 à 3 Stories, sans mise en scène : ce qu'il construit aujourd'hui, une affiche imprimée, une question reçue.",
+    "« Une carte par jour » : une nouvelle carte de la collection, en alternant un commerce français (fast-food à Lille, café à Lyon, brasserie à Bordeaux, table à Paris, pizzeria à Marseille) et un commerce marocain (Agadir, Casablanca, Marrakech, Rabat, Fès, Tanger), carte entière, sticker lien.",
+    "Deux stickers lien différents selon le message : « Essai gratuit 14 jours » (Maroc) et « Prévenez-moi pour la France » (France), chacun avec son UTM.",
+    "Une fois par semaine, Story « Bientôt en France » strictement factuelle : où en est la vérification Apple, sans date promise tant qu'elle n'est pas connue, avec le sticker lien vers la liste « Prévenez-moi ».",
+    "Coulisses du fondateur en 1 à 3 Stories, sans mise en scène : ce qu'il construit aujourd'hui à Agadir, une affiche imprimée, une question reçue d'un gérant français ou marocain.",
     "Une fois par semaine : capture de l'écran des interrupteurs (offres auto, paliers) avec « Vous gardez la main ».",
-    "Boîte à questions hebdomadaire, réponses face caméra dans le highlight « Questions ».",
-    "Republier en Story (avec accord) toute mention réelle d'un commerçant ; tant qu'il n'y en a pas, ne rien simuler."
+    "Boîte à questions hebdomadaire, réponses face caméra dans le highlight « Questions » ; les questions sur la France (prix en euros, date d'ouverture) vont aussi dans « Bientôt en France ».",
+    "Republier en Story (avec accord) toute mention réelle d'un commerçant, français ou marocain ; tant qu'il n'y en a pas, ne rien simuler."
   ],
   "regles_engagement": [
-    "Routine de 20 minutes par jour entre 15:00 et 16:00, le creux de service des restaurateurs.",
+    "Routine de 20 minutes par jour entre 15:00 et 16:00, le creux de service des restaurateurs dans les deux pays.",
     "Répondre à chaque commentaire et DM en vouvoyant, avec une vraie phrase et une question en retour, jamais un simple merci.",
-    "Commenter 10 posts récents de fast-foods, cafés et restaurants des villes de lancement, sur le plat ou le lieu, sans lien ni pitch.",
+    "Commenter 10 posts récents par jour : 5 de fast-foods, cafés et restaurants français (Paris, Lyon, Lille, Bordeaux, Marseille, Toulouse, Nantes) et 5 de commerces marocains (Agadir, Casablanca, Marrakech, Rabat, Fès, Tanger), sur le plat ou le lieu, sans lien ni pitch.",
     "3 DM personnalisés par jour, uniquement à des commerçants qui ont déjà interagi (like, commentaire, réponse à une Story) ; jamais de DM à froid en masse.",
+    "En DM, adapter la suite au pays : au Maroc, proposer l'essai gratuit 14 jours ou une démo ; en France, dire clairement que l'app arrive dans quelques semaines (vérification Apple en cours) et proposer la liste « Prévenez-moi » ou une démo en appel vidéo.",
     "Heure dorée : rester disponible 60 minutes après chaque post et répondre dans les 15 minutes.",
     "Mots-clés en commentaire (ex. « PLUIE » sur p10) : répondre en DM avec la vraie liste des offres automatiques, à la main.",
-    "DM en moins de 2 heures en journée ; si un commerçant demande une démo, proposer un appel vidéo ou un passage.",
+    "DM en moins de 2 heures en journée ; si un commerçant marocain demande une démo, proposer un appel vidéo ou un passage ; pour un commerçant français, un appel vidéo.",
+    "Prix toujours donnés dans la devise du commerçant : 39,99 €/mois en France, 399 DH/mois au Maroc.",
     "Jamais d'abonnés achetés ni de groupes d'engagement.",
-    "Jamais de faux avis, faux chiffre ni citation inventée ; produit gratuit uniquement via coupon ; rappeler que chaque option s'active ou se coupe.",
-    "Chaque vendredi : relire les statistiques des 3 posts, comparer la rétention des épisodes de la série et ajuster les suivants."
+    "Jamais de faux avis, faux chiffre ni citation inventée ; jamais de date d'ouverture en France inventée ; produit gratuit uniquement via coupon ; rappeler que chaque option s'active ou se coupe.",
+    "Chaque vendredi : relire les statistiques des 3 posts, comparer la rétention des épisodes de la série, regarder la répartition France / Maroc des vues et des abonnés, et rééquilibrer les exemples des posts suivants."
   ],
   "kpi": [
     {
       "nom": "Abonnés qualifiés",
-      "cible_6_semaines": "400 à 700 abonnés, majorité de commerces et de professionnels au Maroc",
-      "comment_lire": "Vérifier chaque semaine qui s'abonne. Une hausse liée aux boosts sans hausse de DM signale un mauvais ciblage."
+      "cible_6_semaines": "400 à 700 abonnés, majorité de commerces et de professionnels de la restauration, répartis à peu près moitié France, moitié Maroc",
+      "comment_lire": "Vérifier chaque semaine qui s'abonne et la répartition par pays dans les statistiques. Si un pays dépasse 70 %, rééquilibrer les exemples et les boosts."
     },
     {
       "nom": "Vues non-abonnés des Reels",
       "cible_6_semaines": "Au moins 60 % des vues des Reels, et un Reel organique au-delà de 5 000 vues",
-      "comment_lire": "Si la part baisse, retravailler la première seconde et l'accroche à l'écran avant le reste."
+      "comment_lire": "Lire aussi la part de vues France et Maroc. Si la part non-abonnés baisse, retravailler la première seconde et l'accroche à l'écran avant le reste."
     },
     {
       "nom": "Rétention à 3 secondes",
@@ -533,86 +548,93 @@ export const INSTAGRAM_PLAN = {
     {
       "nom": "Sauvegardes et partages",
       "cible_6_semaines": "Au moins 3 % de la portée sur les carrousels et les visuels notification",
-      "comment_lire": "Les partages en DM entre commerçants sont le meilleur signal : reproduire les sujets qui en génèrent."
+      "comment_lire": "Les partages en DM entre commerçants sont le meilleur signal : comparer les posts à commerce français et marocain et reproduire ce qui marche dans chaque pays."
     },
     {
       "nom": "DM qualifiés de commerçants",
-      "cible_6_semaines": "30 conversations avec de vrais commerces",
-      "comment_lire": "L'indicateur le plus proche de la vente pour un fondateur seul."
+      "cible_6_semaines": "30 conversations avec de vrais commerces, environ 15 en France et 15 au Maroc",
+      "comment_lire": "L'indicateur le plus proche de la vente pour un fondateur seul. Noter le pays de chaque conversation."
     },
     {
       "nom": "Clics sur le lien bio et les stickers",
       "cible_6_semaines": "300 clics",
-      "comment_lire": "Lire via utm_source=instagram et comparer les utm_content pour savoir quels posts envoient du trafic."
+      "comment_lire": "Lire via utm_source=instagram, comparer les utm_content pour savoir quels posts envoient du trafic, et utm_term=fr ou ma pour le pays."
     },
     {
-      "nom": "Essais gratuits démarrés depuis Instagram",
+      "nom": "Essais gratuits démarrés depuis Instagram (Maroc)",
       "cible_6_semaines": "10 à 20 essais de 14 jours",
-      "comment_lire": "L'indicateur roi. Croiser UTM, DM et la question « Comment avez-vous connu Keeply ? », puis suivre le passage à l'abonnement."
+      "comment_lire": "Indicateur roi au Maroc. Croiser UTM, DM et la question « Comment avez-vous connu Keeply ? », puis suivre le passage à l'abonnement."
     },
     {
-      "nom": "Coût par clic des boosts",
-      "cible_6_semaines": "Suivi chaque semaine, comparé entre posts boostés",
-      "comment_lire": "Garder le budget sur les deux posts les moins chers au clic, couper les autres."
+      "nom": "Inscrits à la liste « Prévenez-moi » (France)",
+      "cible_6_semaines": "50 à 100 inscrits, commerces français identifiés",
+      "comment_lire": "Indicateur roi en France tant que l'app n'y est pas disponible. À l'ouverture, écrire à chaque inscrit et mesurer combien démarrent l'essai dans les 14 jours."
+    },
+    {
+      "nom": "Coût par résultat des boosts",
+      "cible_6_semaines": "Suivi chaque semaine, séparément pour l'audience France (coût par inscrit) et l'audience Maroc (coût par clic vers l'App Store)",
+      "comment_lire": "Dans chaque pays, garder le budget sur les deux posts les moins chers par résultat, couper les autres."
     }
   ]
 };
 
 export const META_ADS_PLAN = {
-  "resume": "Budget fixe : 100 € par mois maximum (environ 3,30 € par jour), France et Maroc en priorité.\nRègle d'or : avec 100 €, on n'éparpille pas. Un pays à la fois, une campagne principale, trois pubs, et on garde ce qui marche.\nMois 1 au Maroc (l'app y est déjà) : conversations WhatsApp + boost des meilleurs Reels. La France démarre dès que l'app y est disponible (vérification Apple en cours), avec 70 % du budget.\nLe but n'est pas la portée, c'est le coût par essai gratuit lancé. Un seul abonné à 399 DH par mois rembourse presque tout le mois de pub.\nGrande idée de toutes les pubs : « Ils reviennent ».",
+  "resume": "Budget fixe : 100 € par mois maximum (environ 3,30 € par jour). France et Maroc dès le premier jour, 50/50.\nMaroc : l'app y est, on vise des essais gratuits (conversations WhatsApp + boosts).\nFrance : l'app arrive dans quelques semaines (vérification Apple). On n'attend pas : on fait connaître Keeply aux restaurateurs français et on remplit la liste « Prévenez-moi ». Le jour où l'app sort, ces personnes sont relancées, et ça coûte presque rien.\nRègle d'or : par pays, une campagne, trois pubs, et on garde ce qui marche. On juge sur le coût par essai (Maroc) et le coût par inscrit (France), jamais sur les likes.\nGrande idée de toutes les pubs : « Ils reviennent ».",
   "prerequis": [
     "1. Gratuit d'abord : 2 semaines de posts organiques (6 posts minimum). Un commerçant qui clique sur une pub regarde le profil avant tout.",
     "2. Page Facebook Keeply + Instagram en compte professionnel, reliés dans l'Espace Comptes.",
-    "3. Portefeuille Meta Business au nom du fondateur, compte publicitaire en MAD (ou en EUR si la carte est en euros : la devise ne se change plus ensuite), limite de dépense du compte réglée à 100 € par mois.",
+    "3. Portefeuille Meta Business au nom du fondateur, UN compte publicitaire (en EUR conseillé, puisque la moitié du budget va à la France : la devise ne se change plus ensuite), limite de dépense du compte réglée à 100 € par mois.",
     "4. Carte bancaire avec paiements internationaux activés.",
     "5. WhatsApp Business relié à la Page, message d'accueil et 3 réponses rapides (prix, comment ça marche, démo).",
-    "6. Deux pages d'atterrissage avec le pixel Meta : keeplyfidelity.app/maroc (bouton App Store) et keeplyfidelity.app/france (« Prévenez-moi au lancement » tant que l'app n'est pas disponible en France).",
+    "6. Deux pages d'atterrissage avec le pixel Meta : keeplyfidelity.app/maroc (bouton App Store) et keeplyfidelity.app/france (« Prévenez-moi au lancement » : adresse mail + type de commerce + ville, enregistrés dans HQ). Le formulaire Instagram (Lead Ads) peut remplacer la page France au début. Le formulaire Meta exige un lien vers la politique de confidentialité (celle du site) et, en France (RGPD), une case de consentement claire : « J'accepte d'être contacté par Keeply au lancement ».",
     "7. Liens App Store avec paramètres de campagne (ct=meta-ma, ct=meta-fr) pour lire les installations dans App Store Connect.",
+    "8. Préparer le mail « Keeply est disponible en France » (avec le lien App Store et l'essai 14 jours), à envoyer depuis HQ à toute la liste le jour de la sortie.",
     "8. Badge bleu (Meta Verified) : à repousser. La version entreprise demande une société enregistrée, et la version personnelle exige que le nom du profil corresponde à ta pièce d'identité. Les 17 à 22 € par mois vont mieux dans la pub pour l'instant."
   ],
   "phases": [
     {
-      "nom": "Mois 1 · Maroc, apprendre",
+      "nom": "Mois 1 · Maroc essais + France pré-lancement",
       "semaines": "Semaines 1 à 4",
-      "budget_jour": "environ 3,30 € au total",
-      "budget_total": "100 € (Maroc 100 %)",
-      "objectif_meta": "Messages WhatsApp + boosts",
-      "pourquoi": "L'app est en ligne au Maroc et la pub y coûte 3 à 5 fois moins cher qu'en France. On apprend vite ce qui fait réagir un gérant, pour presque rien.",
-      "ciblage": "Maroc : Casablanca, Marrakech, Rabat, Agadir, Tanger, Fès (+ 20 km). 23 à 55 ans. Audience Advantage+, avec en suggestion : propriétaires de petites entreprises, restauration, restaurants, fast-food, café. Langue : français.",
-      "placements": "Advantage+ (Reels et Stories Instagram en priorité, ils coûtent le moins cher)",
+      "budget_jour": "environ 1,65 € par pays",
+      "budget_total": "100 € (Maroc 50 €, France 50 €)",
+      "objectif_meta": "Maroc : Messages WhatsApp · France : Prospects (formulaire « Prévenez-moi »)",
+      "pourquoi": "Le Maroc rapporte tout de suite (l'app y est). La France prépare la sortie : chaque inscrit à 1 à 3 € sera un essai presque gratuit le jour J. Et Meta apprend déjà quel message parle aux restaurateurs français.",
+      "ciblage": "Maroc : Casablanca, Marrakech, Rabat, Agadir, Tanger, Fès (+ 20 km), 23 à 55 ans. France : Paris, Lyon, Marseille, Lille, Toulouse, Bordeaux, Nice, Nantes (+ 25 km), 25 à 55 ans. Audience Advantage+ avec suggestions : propriétaires de petites entreprises, restauration, restaurants, fast-food, café. Langue : français.",
+      "placements": "Advantage+ (Reels et Stories Instagram en priorité, les moins chers)",
       "creas": [
-        "60 € · campagne Messages WhatsApp (2 €/jour) : P1 « Votre vitrine. Sur leur écran verrouillé. », P3 « Ils reviennent » épisode 1, P5 « Il pleut ? »",
-        "30 € · boost des 2 meilleurs Reels organiques de la semaine (objectif visites du profil) : ça fait grandir le compte et remplit l'audience de reciblage",
-        "10 € · reciblage à partir de la semaine 3 : personnes ayant vu 50 % d'une vidéo ou interagi avec le profil (30 jours), pub P6 « Ils reviennent. Vous aussi. » avec l'essai 14 jours"
+        "Maroc 35 € · Messages WhatsApp : P1 « Votre vitrine. Sur leur écran verrouillé. », P3 « Ils reviennent » épisode 1, P5 « Il pleut ? »",
+        "Maroc 15 € · boost des 2 meilleurs Reels de la semaine (visites du profil)",
+        "France 30 € · Prospects : F1 « Bientôt en France. » et F2 « Votre nom. Près de leur carte bancaire. » (formulaire instantané : mail, type de commerce, ville)",
+        "France 20 € · vues de vidéo (ThruPlay) du meilleur Reel, pour 1 à 2 centimes la vue : ça remplit l'audience française à relancer au lancement"
       ],
       "kpi_cible": {
-        "cpm": "10 à 30 DH",
-        "ctr": "au moins 1 %",
-        "cout_conversation": "moins de 25 DH (bon), 60 DH (couper)",
-        "cout_par_essai": "moins de 150 DH"
+        "maroc_cout_conversation": "moins de 25 DH (bon), 60 DH (couper)",
+        "france_cout_inscrit": "moins de 3 € (bon), 6 € (couper)",
+        "france_cout_vue": "moins de 0,02 €",
+        "ctr": "au moins 1 %"
       },
-      "regle_stop_ou_scale": "Ne rien toucher pendant 4 jours. Ensuite, chaque lundi : couper la pub au coût par conversation le plus haut, garder les 2 meilleures. Au-delà de 60 DH par conversation après 150 DH dépensés, changer l'accroche avant de remettre de l'argent."
+      "regle_stop_ou_scale": "Rien ne bouge pendant 4 jours. Chaque lundi, dans chaque pays : couper la pub la plus chère, garder les 2 meilleures. France : si un inscrit coûte plus de 6 € après 20 € dépensés, changer l'accroche ou passer à 100 % vues vidéo. Appeler ou écrire soi-même à chaque inscrit français : « on vous prévient dès la sortie »."
     },
     {
-      "nom": "Mois 2 · France dès que l'app y est",
-      "semaines": "Semaines 5 à 8",
+      "nom": "Mois 2 · Sortie en France",
+      "semaines": "Dès que l'app est disponible en France",
       "budget_jour": "environ 3,30 € au total",
-      "budget_total": "100 € (France 70 €, Maroc 30 €)",
-      "objectif_meta": "France : trafic vers la page (vues de page) · Maroc : la pub gagnante du mois 1",
-      "pourquoi": "La France est le marché qui paie le plus, mais un clic y coûte environ 1 €. On n'y va qu'une fois l'app téléchargeable, avec les pubs déjà validées au Maroc. Si la France est encore bloquée, on garde 100 % au Maroc et on remplit la liste « Prévenez-moi » avec l'organique.",
-      "ciblage": "France : grandes villes (Paris, Lyon, Marseille, Lille, Toulouse, Bordeaux, Nice, Nantes) + 25 km, 25 à 55 ans, Advantage+ avec suggestions restauration, fast-food, café, petites entreprises.",
+      "budget_total": "100 € (France 60 €, Maroc 40 €)",
+      "objectif_meta": "France : trafic vers la page puis App Store · Maroc : la pub gagnante",
+      "pourquoi": "Le jour de la sortie, l'effort se fait surtout gratuitement : mail à la liste, post et story « Disponible en France ». La pub relance d'abord ceux qui connaissent déjà Keeply (vues vidéo, inscrits, visiteurs), c'est 3 à 5 fois moins cher que des inconnus. Si l'app n'est toujours pas sortie, on reprend le mois 1 avec les pubs gagnantes.",
+      "ciblage": "France : 1) relance des personnes ayant vu 50 % d'une vidéo, interagi avec le compte ou rempli le formulaire (90 jours) ; 2) nouvelles personnes dans les grandes villes. Maroc : comme au mois 1.",
       "placements": "Advantage+",
       "creas": [
-        "70 € France : les 2 pubs gagnantes du Maroc, adaptées (prix en €, exemples de commerces français), vers keeplyfidelity.app/france puis App Store",
-        "30 € Maroc : la meilleure pub du mois 1, rien d'autre"
+        "France 25 € · relance « C'est disponible. » (P6 version France : essai 14 jours, puis 39,99 €/mois)",
+        "France 35 € · la pub française gagnante du mois 1, vers keeplyfidelity.app/france et l'App Store",
+        "Maroc 40 € · la meilleure pub du mois 1 + 1 nouvelle à tester"
       ],
       "kpi_cible": {
-        "cpm": "8 à 12 €",
-        "ctr": "au moins 1 %",
-        "cpc": "moins de 0,80 € (bon), 1,50 € (couper)",
-        "cout_par_essai": "moins de 25 €"
+        "france_cpc": "moins de 0,80 € (bon), 1,50 € (couper)",
+        "france_cout_par_essai": "moins de 25 €",
+        "maroc_cout_par_essai": "moins de 150 DH"
       },
-      "regle_stop_ou_scale": "France : couper une pub au-dessus de 1,50 € le clic après 20 € dépensés. Si le coût par essai français dépasse 40 € pendant 2 semaines, revenir à 70 % Maroc et miser sur la prospection directe (Harvey) en France."
+      "regle_stop_ou_scale": "France : couper une pub au-dessus de 1,50 € le clic après 20 € dépensés. Si un essai français coûte plus de 40 € pendant 2 semaines, garder la relance seule et miser sur la prospection directe (Harvey)."
     },
     {
       "nom": "Mois 3 et après · garder le gagnant",
@@ -620,16 +642,16 @@ export const META_ADS_PLAN = {
       "budget_jour": "environ 3,30 € au total",
       "budget_total": "100 € par mois",
       "objectif_meta": "Celui qui a donné le meilleur coût par essai",
-      "pourquoi": "On met 70 % du budget sur le pays et la pub qui ont donné le coût par essai le plus bas, 20 % sur une nouvelle pub à tester chaque mois et 10 % sur le reciblage. Le budget ne monte que si un abonné payant arrive pour moins de 100 € de pub.",
-      "ciblage": "Celui du pays gagnant, + audience similaire (1 %) dès 100 visiteurs ou 50 conversations enregistrés.",
+      "pourquoi": "On met 70 % du budget sur le pays et la pub qui ont donné le coût par essai le plus bas, 20 % sur une nouvelle pub à tester chaque mois, 10 % sur la relance. Le budget ne monte que si un abonné payant arrive pour moins de 100 € de pub.",
+      "ciblage": "Celui du pays gagnant, + audience similaire (1 %) dès 100 inscrits ou 50 conversations.",
       "placements": "Advantage+",
       "creas": [
-        "70 % · la pub gagnante (on change seulement l'accroche quand la fréquence dépasse 3)",
-        "20 % · une nouvelle pub par mois, prise parmi les posts organiques qui ont le mieux marché",
-        "10 % · reciblage essai 14 jours"
+        "70 % · la pub gagnante (changer seulement l'accroche quand la fréquence dépasse 3)",
+        "20 % · une nouvelle pub par mois, tirée des meilleurs posts organiques",
+        "10 % · relance essai 14 jours"
       ],
       "kpi_cible": {
-        "cout_par_essai": "Maroc moins de 150 DH · France moins de 25 €",
+        "cout_par_essai": "France moins de 25 € · Maroc moins de 150 DH",
         "cout_par_abonne": "moins de 100 €",
         "frequence": "moins de 3 sur 7 jours"
       },
@@ -637,6 +659,12 @@ export const META_ADS_PLAN = {
     }
   ],
   "tests_creatifs": [
+    {
+      "hypothese": "En France, l'écran verrouillé (F1) obtient des inscrits moins chers que la carte dans le Wallet (F2).",
+      "variante_a": "F1 Bientôt en France",
+      "variante_b": "F2 Wallet flex France",
+      "indicateur": "Coût par inscrit sur 2 semaines"
+    },
     {
       "hypothese": "La notification plein écran (écran verrouillé) arrête mieux le scroll d'un gérant que le Wallet flex, plus statutaire mais plus discret.",
       "variante_a": "P1 « Votre vitrine. Sur leur écran verrouillé. » (fast-food)",
@@ -715,20 +743,39 @@ export const META_ADS_PLAN = {
       "visuel": "Vitre d'un restaurant de quartier de Tanger sous la pluie, lumière chaude à l'intérieur, flou. Au premier plan, un iPhone posé sur une table avec une notification : « Il pleut. -15 % sur votre tajine ce soir. » Sous l'iPhone, discret : la nouvelle carte du restaurant (style chaleureux, tons terre). Un seul message à l'image : « Il pleut ? Votre offre part toute seule. » Commerce de démonstration, remise donnée en exemple."
     },
     {
-      "nom": "P6 - Vous aussi (reciblage essai 14 jours)",
+      "nom": "P6 - Vous aussi (relance essai 14 jours, Maroc)",
       "format": "Story 9:16 (1080 x 1920) + carré 1:1 pour le fil",
       "texte_principal": "Ils reviennent. Vous aussi.\nVotre essai gratuit de 14 jours vous attend.\nEnsuite 399 DH/mois [prix à confirmer], soit environ 13 DH par jour.\nChaque option s'active ou se coupe. Résiliable depuis l'App Store.\nSur iPhone. Android bientôt sur Google Play.",
       "titre": "14 jours pour les voir revenir",
       "description": "Le prix d'un café par jour",
       "cta_bouton": "Télécharger",
       "visuel": "Fond blanc, beaucoup d'espace. Au centre, trois nouvelles cartes du fondateur en éventail, entières et bien cadrées : un fast-food, un café, un restaurant haut de gamme. Gros texte en haut : « 14 jours. » En bas : « Environ 13 DH par jour. » puis le badge officiel « Télécharger dans l'App Store ». Le lien mène à la page d'atterrissage (lien App Store avec jeton de campagne), pas directement à l'App Store. Avant diffusion : le fondateur confirme le prix de 399 DH/mois et retire la mention [prix à confirmer]."
+    },
+    {
+      "nom": "F1 - Bientôt en France (pré-lancement, formulaire)",
+      "format": "Reel 9:16, 8 à 10 s (notification qui arrive sur un écran verrouillé) + image 4:5",
+      "texte_principal": "Bientôt en France.\nVotre carte de fidélité dans le Wallet de vos clients.\nSans app à installer pour eux.\nVotre offre sur leur écran verrouillé, quand vous voulez.\nSoyez prévenu le jour de la sortie.",
+      "titre": "Ils reviennent. Bientôt chez vous.",
+      "description": "Prévenez-moi au lancement",
+      "cta_bouton": "S'inscrire",
+      "visuel": "Écran verrouillé d'iPhone plein cadre, une notification Wallet d'un fast-food de démonstration à Lille (nouvelle carte du fondateur, entière). Dernier plan : « Bientôt en France » + logo Keeply. Formulaire instantané : mail, type de commerce (fast-food, café, restaurant, autre), ville."
+    },
+    {
+      "nom": "F2 - Wallet flex version France (pré-lancement)",
+      "format": "Image 4:5 + 9:16",
+      "texte_principal": "Votre nom. Près de leur carte bancaire.\nPas dans une app oubliée : dans leur Wallet.\nPaliers Bronze, Argent, Or si vous voulez. Vous gardez la main.\nBientôt en France. Inscrivez-vous pour être prévenu.",
+      "titre": "Les grandes chaînes ont une app.",
+      "description": "Vous aurez mieux : leur Wallet",
+      "cta_bouton": "S'inscrire",
+      "visuel": "Plan serré sur un Wallet d'iPhone : carte bancaire, nouvelle carte d'un restaurant chic parisien de démonstration (style sombre), billet de train. Fond clair, beaucoup de blanc, logo Keeply en bas."
     }
   ],
-  "alternative_prospects": "Recommandation : PAS d'envoi direct vers l'App Store depuis la pub, et PAS de formulaire Lead Ads en premier choix. Ordre conseillé : (1) phase 1 vers la page d'atterrissage avec pixel, (2) phase 2 en conversations WhatsApp, (3) Lead Ads seulement en solution de secours. Justification. Envoi direct App Store : sans SDK Meta dans l'app ni outil d'attribution, Meta ne voit rien après le clic ; il optimise à l'aveugle sur les clics, vous ne pouvez pas créer d'audience de reciblage, et un gérant qui découvre une app à 399 DH/mois sans explication installe rarement. La page d'atterrissage, elle, remplit le pixel et mesure le ClicAppStore. Formulaire Lead Ads (« Réserver un essai accompagné ») : coût par prospect souvent bas mais qualité souvent faible (formulaires préremplis envoyés sans vraie intention), et il faut rappeler chaque contact, ce qui prend beaucoup de temps à un fondateur seul. Si vous l'utilisez, choisissez le type « Plus d'intention » (écran de vérification), ajoutez 2 questions qualifiantes (type de commerce, ville) et une question « Avez-vous un iPhone ? », puis rappelez dans l'heure. WhatsApp (Click-to-WhatsApp) : c'est le canal par défaut des commerçants marocains, la conversation démarre tout de suite, vous qualifiez en 2 messages et vous accompagnez l'installation en direct, ce qui augmente fortement les chances qu'un essai devienne un vrai usage. Limite : votre temps de réponse. Répondez en moins d'une heure entre 9 h et 22 h, sinon le coût par essai explose. Si vous ne pouvez pas tenir ce rythme une semaine donnée, basculez cette semaine-là sur Trafic vers la page d'atterrissage.",
-  "retargeting": "Audiences à créer dès J1 (elles se remplissent pendant la phase 1) : (A) visiteurs de keeplyfidelity.app/maroc sur 30 jours SANS événement ClicAppStore ; (B) personnes ayant vu au moins 50 % d'un Reel Keeply sur 30 jours ; (C) personnes ayant interagi avec le compte Instagram ou la Page sur 60 jours ; (D) personnes ayant cliqué sur le bouton WhatsApp ou ouvert une conversation sans démarrer d'essai (à gérer d'abord par une relance WhatsApp personnelle, gratuite, avant de payer). Exclusions : personnes ayant déclenché ClicAppStore depuis moins de 7 jours, et liste des commerçants déjà inscrits (import client en CSV) dès que vous en avez. Diffusion : un seul ensemble de publicités regroupant A + B + C, 1 à 2 €/jour à partir de la semaine 3 ou 4 (pas avant : l'audience doit dépasser environ 300 à 500 personnes, sinon Meta ne diffuse presque pas). Messages : rappel de l'essai gratuit de 14 jours, prix clair, réponse aux objections (pas d'app à installer pour les clients, Android bientôt pour le commerçant, Google Wallet déjà pris en charge côté clients, chaque fonction activable ou désactivable). Faire tourner 2 visuels, fréquence 7 jours entre 3 et 5, changer de visuel si la fréquence dépasse 6 ou si le CTR baisse de moitié. Le reciblage par e-mail ou WhatsApp des personnes déjà en contact reste plus efficace et gratuit : prioritaire sur la pub.",
+  "alternative_prospects": "Maroc : conversations WhatsApp (une démo de 10 minutes convertit mieux qu'un lien App Store brut, et vous voyez qui est un vrai commerçant).\nFrance : formulaire instantané Instagram « Prévenez-moi » tant que l'app n'est pas disponible. Demander seulement mail, type de commerce et ville : plus de champs = inscrits plus chers. Les réponses sont à importer dans HQ (Clients ou Prospection), puis un mail le jour de la sortie.\nAprès la sortie en France : page keeplyfidelity.app/france avec le pixel, puis App Store. Jamais d'envoi direct vers l'App Store sans page intermédiaire (Meta ne voit rien après le clic).",
+  "retargeting": "Audiences à créer dès le premier jour, séparées par pays : (A) vues de 50 % d'une vidéo Keeply (30 et 90 jours) ; (B) interactions avec le compte Instagram ou la Page (60 jours) ; (C) France : formulaire rempli ; (D) Maroc : conversation WhatsApp ouverte sans essai lancé (d'abord relance personnelle gratuite).\nAu Maroc, la relance démarre en semaine 3 (P6). En France, l'audience se remplit pendant le pré-lancement et sert le jour de la sortie : c'est elle qui donne les essais les moins chers.",
   "erreurs_a_eviter": [
+    "Mélanger France et Maroc dans la même campagne : les coûts sont trop différents, Meta mettrait tout sur le Maroc. Une campagne par pays.",
     "Éparpiller 100 € entre France, Maroc, 5 campagnes et 10 pubs : Meta n'apprend rien sous environ 50 résultats.",
-    "Envoyer la France vers l'App Store tant que l'app n'y est pas disponible.",
+    "Envoyer la France vers l'App Store tant que l'app n'y est pas : formulaire « Prévenez-moi » à la place.",
     "Le bouton « Booster » sur tous les posts : seulement les 2 meilleurs Reels de la semaine.",
     "Toucher aux pubs pendant les 4 premiers jours.",
     "Juger sur les likes : seuls comptent le coût par conversation, par essai et par abonné.",
@@ -736,10 +783,10 @@ export const META_ADS_PLAN = {
     "Promettre des résultats chiffrés ou montrer de faux témoignages : interdit et dangereux pour le compte pub."
   ],
   "estimation": {
-    "hypotheses": "Estimations prudentes, pas des promesses : aucune donnée réelle du compte n'existe encore. Maroc : 10 à 40 DH par conversation WhatsApp, 1 conversation sur 3 avec un vrai commerçant, 1 sur 4 lance l'essai. France : environ 1 € par clic, 10 à 20 % des visiteurs cliquent vers l'App Store, 30 à 50 % installent.",
-    "clics_estimes": "Maroc (mois 1) : 15 à 60 conversations WhatsApp + quelques centaines de visites de profil grâce aux boosts. France (70 €) : environ 50 à 100 clics.",
-    "installations_estimees": "Maroc : 3 à 10 par mois. France : 2 à 6 par mois.",
-    "essais_estimes": "Environ 1 à 5 essais de 14 jours par mois au départ, puis davantage quand la meilleure pub est trouvée.",
-    "cout_par_essai_estime": "Maroc : 20 à 60 € par essai au début. France : 15 à 50 €. Un abonné à 399 DH (environ 37 €) par mois rembourse son coût en 1 à 2 mois."
+    "hypotheses": "Estimations prudentes, pas des promesses : aucune donnée réelle du compte n'existe encore. Maroc : 10 à 40 DH par conversation WhatsApp, 1 sur 3 avec un vrai commerçant, 1 sur 4 lance l'essai. France : 1 à 6 € par inscrit au formulaire, 1 à 2 centimes par vue de vidéo, environ 1 € par clic après la sortie. Sources publiques non officielles pour les coûts.",
+    "clics_estimes": "Mois 1 : Maroc 10 à 40 conversations WhatsApp ; France 8 à 30 inscrits « Prévenez-moi » et 1 000 à 2 000 vues de vidéo.",
+    "installations_estimees": "Mois 1 : Maroc 2 à 6. France : 0 avant la sortie, puis une partie des inscrits le jour J.",
+    "essais_estimes": "Mois 1 : Maroc 1 à 3 essais. Sortie en France : 3 à 10 essais attendus si la liste et l'audience vidéo ont été remplies.",
+    "cout_par_essai_estime": "Maroc : 15 à 50 € par essai au début. France après sortie : 10 à 40 €, moins grâce à la liste. Un abonné à 39,99 € ou 399 DH par mois rembourse son coût en 1 à 2 mois."
   }
 };
