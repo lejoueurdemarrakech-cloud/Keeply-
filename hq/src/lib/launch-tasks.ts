@@ -1,7 +1,7 @@
 import type { Task } from "@/lib/types";
 
 /** Version de la liste : quand elle change, les tâches « launch-* » encore à faire sont réécrites. */
-export const LAUNCH_TASKS_VERSION = "v4-lancement-15-nov";
+export const LAUNCH_TASKS_VERSION = "v5-liens-prospection";
 
 /** Tâches avant le lancement officiel, posées une seule fois au passage aux vraies données (02/11/2026). */
 const LIST: [Task["priority"], string, string, string?][] = [
@@ -21,6 +21,11 @@ const LIST: [Task["priority"], string, string, string?][] = [
   ["haute", "Lancer le compte Instagram le dimanche 15 novembre (3 posts avant les pubs du 23 novembre)", "Lancement", "/instagram?tab=lancement"],
   ["haute", "Pixel Meta + événement clic App Store sur keeplyfidelity.app, et bloc « Sur Android ? Prévenez-moi »", "Meta Ads", "/ads?tab=lancement"],
   ["normale", "Préparer le mail « Keeply est disponible sur Android » pour la liste Android", "Lancement"],
+  ["haute", "Donner le go pour mettre en ligne keeplyfidelity.app/app (bon store selon le téléphone) et /android", "Lancement"],
+  ["haute", "Mettre le site vitrine en ligne sur keeplyfidelity.app avant le 15 novembre (avec les nouvelles vidéos)", "Site"],
+  ["normale", "Bio Instagram : texte, nom du profil et 2 liens (Télécharger Keeply, Le site)", "Instagram", "/instagram?tab=lancement"],
+  ["normale", "Ajouter une clé Serper gratuite à Harvey pour qu'il trouve aussi les restaurants et cafés", "Prospection", "/prospection?tab=recherche"],
+  ["normale", "Première tournée terrain à Agadir (10 commerces, pitch prêt)", "Prospection", "/prospection?tab=terrain"],
   ["normale", "Importer la liste de prospects Harvey dans Meta (audience personnalisée, sans les désinscrits)", "Meta Ads", "/ads?tab=lancement"],
   ["normale", "Se déclarer auto-entrepreneur, puis prendre le badge bleu Meta Verified pour les entreprises", "Lancement"],
   ["normale", "Remplacer les vidéos du site vitrine", "Site"],

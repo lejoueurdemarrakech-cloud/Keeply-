@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { Sparkline } from "@/components/charts";
 import { Badge, Button, Card, DemoBadge, Empty, Markdown, Skeleton, Stat, cx } from "@/components/ui";
+import { KindBadge, PlanItemModal, PromptButton, usePlanState } from "@/components/plan-item";
 import { api, useApi } from "@/lib/client";
+import { PLAN_ITEMS, dueSoon, isoLocal, longDate, type PlanItem } from "@/lib/launch-calendar";
 import { dateLong, dateTime, eur, num, pct, relative } from "@/lib/format";
 import type { HealthResult, MailItem, Post, Prospect, Review, Task } from "@/lib/types";
 
@@ -169,6 +171,7 @@ export default function TodayPage() {
         </Card>
       )}
 
+      <ToPrepare />
       <div className="grid gap-5 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
         {t ? <StampCard goal={t.goal} demo={t.sales?.demo} /> : <Skeleton className="h-[330px] rounded-[22px]" />}
         <div className="grid grid-cols-2 gap-3 sm:gap-4">
@@ -288,5 +291,53 @@ export default function TodayPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+/** Prévient 2 jours avant chaque post ou séquence de stories du plan de lancement. */
+function ToPrepare() {
+  const st = usePlanState();
+  const [open, setOpen] = useState<PlanItem | null>(null);
+  const today = isoLocal(new Date());
+  const soon = dueSoon().filter((i) => !st.isDone(i.id));
+  const late = PLAN_ITEMS.filter((i) => i.date < today && !st.isDone(i.id) && i.date >= "2026-11-12").slice(-3);
+  const next = PLAN_ITEMS.find((i) => i.date > today);
+  const items = [...late, ...soon];
+  return (
+    <Card
+      className="mb-5"
+      title={items.length ? `À préparer pour Instagram · ${items.length}` : "Instagram : rien à préparer dans les 2 jours"}
+      action={<Link href="/instagram?tab=planning" className="text-[13px] font-semibold text-violet hover:underline">Planning</Link>}
+      pad={!items.length}
+    >
+      {items.length ? (
+        <ul className="grid divide-y divide-line md:grid-cols-2 md:divide-y-0 xl:grid-cols-3">
+          {items.map((i) => {
+            const inDays = Math.round((new Date(i.date + "T12:00:00").getTime() - new Date(today + "T12:00:00").getTime()) / 864e5);
+            return (
+              <li key={i.kind + i.id} className="flex flex-col gap-2 border-line px-5 py-3.5 md:border-r">
+                <button onClick={() => setOpen(i)} className="text-left">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <KindBadge item={i} />
+                    <Badge tone={inDays < 0 ? "coral" : inDays === 0 ? "honey" : "neutral"}>{inDays < 0 ? "En retard" : inDays === 0 ? "Aujourd'hui" : inDays === 1 ? "Demain" : "Dans 2 jours"}</Badge>
+                    {st.isReady(i.id) && <Badge tone="mint">Prêt</Badge>}
+                  </div>
+                  <p className="mt-1.5 text-[14px] font-semibold">{i.titre}</p>
+                  <p className="text-[12.5px] text-ink-3">
+                    {longDate(i.date)} · {i.heure}
+                  </p>
+                </button>
+                <div>
+                  <PromptButton item={i} />
+                </div>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p className="text-[14px] text-ink-2">{next ? `Prochain : ${next.kind === "post" ? "post" : "stories"} « ${next.titre} », ${longDate(next.date)}. Tu seras prévenu ici 2 jours avant.` : "Le plan de lancement est terminé."}</p>
+      )}
+      <PlanItemModal item={open} onClose={() => setOpen(null)} />
+    </Card>
   );
 }

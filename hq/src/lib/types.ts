@@ -119,7 +119,7 @@ export interface HealthRun {
   score: number; // 0-100
 }
 
-export type ProspectStatus = "nouveau" | "pret" | "approuve" | "envoye" | "relance1" | "relance2" | "repondu" | "interesse" | "refus" | "client" | "exclu";
+export type ProspectStatus = "nouveau" | "contacte" | "pret" | "approuve" | "envoye" | "relance1" | "relance2" | "repondu" | "interesse" | "refus" | "client" | "exclu";
 
 export interface Prospect {
   id: string;
@@ -154,6 +154,12 @@ export interface Prospect {
   angle?: string;
   osmId?: string;
   placeId?: string;
+  lat?: number;
+  lon?: number;
+  hours?: string;
+  /** Prospection terrain et messages directs (WhatsApp, appel, Instagram, visite). */
+  touches?: { at: string; channel: "whatsapp" | "appel" | "instagram" | "visite" | "mail"; note?: string }[];
+  nextAction?: { at: string; label: string } | null;
 }
 
 export interface Settings {

@@ -1,8 +1,8 @@
 /*
  * Plan de lancement v4 « Ils reviennent » : compte global (App Store dans tous nos pays,
  * Android bientôt), lancement le 15 novembre 2026, pub 100 € par mois à partir du 23 novembre,
- * ciblage des patrons de restaurants et de cafés. Plateforme de marque dans brand.ts.
- * Visuels avec les nouvelles cartes du fondateur. Crochets [ ] = vrai vécu à remplir.
+ * ciblage des patrons de restaurants et de cafés. Plateforme de marque dans brand.ts,
+ * stories dans stories-plan.ts. Crochets [ ] = vrai vécu à remplir.
  */
 export type LaunchPost = (typeof INSTAGRAM_PLAN)["posts"][number];
 
@@ -37,8 +37,8 @@ export const INSTAGRAM_PLAN = {
     }
   ],
   "rythme": "Lancement le dimanche 15 novembre 2026 à 21:00 (heure de Paris). Semaine 0 (15 au 21 nov.) : 3 posts, dimanche 15, mardi 17 et jeudi 19, pour annoncer la disponibilité et remplir la grille avant les publicités qui démarrent le lundi 23 novembre. Semaines 1 à 4 (22 nov. au 19 déc.) : 3 posts par semaine, mardi, jeudi et samedi. Semaine 5 (20 au 26 déc.) : rythme adapté aux fêtes, dimanche 20, mardi 22 et mercredi 23, puis aucun post du 24 au 26 (Stories légères seulement). Un épisode « Ils reviennent » environ toutes les semaines et demie, le final avant Noël. Horaires uniquement à 13:00 (pause avant le rush), 15:30 (creux après le déjeuner) ou 21:00 (fin de soirée), toujours en heure de Paris : c'est la même heure en Belgique, Suisse, Luxembourg et Monaco, une heure plus tôt au Maroc en hiver, six heures plus tôt au Québec ; vérifier chaque semaine les statistiques par pays et décaler un horaire si l'audience canadienne grossit. 11 Reels, 4 carrousels, 3 photos. Les exemples de commerces (noms fictifs, villes en légende ou en visuel) tournent entre France, Belgique, Suisse, Maroc et Canada, avec Luxembourg et Monaco ponctuellement, sans jamais en faire un sujet. Stories tous les jours (3 à 5). Teaser 24 h en Story avant le drop de la collection (p05) et avant chaque épisode. Heure dorée : le fondateur reste disponible 60 minutes après chaque post. Boosts à partir de la semaine 1, uniquement les posts marqués boost, audience unique : gérants de restauration dans les 7 pays disponibles, objectif essai gratuit ; lire ensuite le coût par résultat par pays et couper les pays trop chers.",
-  "bio": "Carte de fidélité Wallet pour restaurants, cafés, fast-foods.\nApp Store : 🇫🇷 🇧🇪 🇨🇭 🇱🇺 🇲🇨 🇲🇦 🇨🇦 · Android bientôt\nEssai gratuit 14 jours",
-  "lien_bio": "Nom du profil (champ Nom, 30 caractères max) : « Keeply · Carte de fidélité » (26 caractères, contient le mot-clé recherché). Lien : https://keeplyfidelity.app/?utm_source=instagram&utm_medium=bio&utm_campaign=lancement (deux boutons : « Essai gratuit 14 jours sur l'App Store » et « Android : bientôt sur Google Play, être prévenu par e-mail » vers keeplyfidelity.app/android, page à créer si elle n'existe pas encore ; changer utm_content selon le post mis en avant, ex. utm_content=p09 ; sur les stickers lien, ajouter utm_term=story).",
+  "bio": "La carte de fidélité qui vit dans le Wallet de vos clients.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt",
+  "lien_bio": "Nom du profil : Keeply · Carte de fidélité\nLien 1 · « Télécharger Keeply · essai gratuit 14 jours » → keeplyfidelity.app/app (ouvre l'App Store sur iPhone, Google Play sur Android dès sa sortie, la page Android en attendant)\nLien 2 · « Le site » → keeplyfidelity.app (le site vitrine, dès qu'il est en ligne sur le domaine)\nInstagram n'affiche que le premier lien sous la bio (+1 en petit) : l'ordre compte, téléchargement d'abord.",
   "highlights": [
     "Démo",
     "Ils reviennent",
@@ -577,6 +577,10 @@ export const INSTAGRAM_PLAN = {
       "cible_6_semaines": "Suivi chaque semaine à partir du 23 novembre, coût par clic vers l'App Store et coût par essai, ventilé par pays",
       "comment_lire": "Garder le budget sur les deux posts les moins chers par résultat, couper les autres, et exclure un pays dont le coût reste trop élevé deux semaines de suite."
     }
+  ],
+  "bio_alternatives": [
+    "Votre fidélité, rangée dans leur Wallet.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt",
+    "Faites revenir vos clients, depuis leur Wallet.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt"
   ]
 };
 

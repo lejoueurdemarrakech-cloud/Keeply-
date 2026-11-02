@@ -3,10 +3,13 @@ import { Ban, Check, CircleCheck, CircleHelp, CircleX, Download, ExternalLink, F
 import { useSearchParams } from "next/navigation";
 import { Suspense, useMemo, useState } from "react";
 import { toast } from "sonner";
-import { Badge, Button, Card, Empty, Field, Modal, PageHeader, Skeleton, cx } from "@/components/ui";
+import { Badge, Button, Card, Empty, Field, Modal, PageHeader, Skeleton, Tabs, cx } from "@/components/ui";
 import { api, useApi } from "@/lib/client";
 import { dateTime, flag, relative } from "@/lib/format";
 import type { Prospect, ProspectStatus } from "@/lib/types";
+import { ContactActions } from "./contact";
+import { Dashboard } from "./dashboard";
+import { Scripts, Terrain } from "./terrain";
 
 interface Data {
   prospects: Prospect[];
@@ -16,10 +19,12 @@ interface Data {
   searchSource: string;
   countries: Record<string, { name: string; lang: string }>;
   types: Record<string, string>;
+  android: { email: string; type: string; city: string; at: string }[];
 }
 
 const STATUS: Record<ProspectStatus, { label: string; tone: "neutral" | "violet" | "honey" | "mint" | "coral" | "sky" }> = {
   nouveau: { label: "Nouveau", tone: "neutral" },
+  contacte: { label: "Contacté", tone: "violet" },
   pret: { label: "Mail prêt", tone: "sky" },
   approuve: { label: "Approuvé", tone: "violet" },
   envoye: { label: "Envoyé", tone: "violet" },
@@ -42,7 +47,7 @@ const VIEWS: { value: string; label: string; match: (p: Prospect) => boolean }[]
   { value: "nouveau", label: "À préparer", match: (p) => p.status === "nouveau" && p.score !== "ecarte" },
   { value: "pret", label: "À valider", match: (p) => p.status === "pret" },
   { value: "approuve", label: "En file d'envoi", match: (p) => p.status === "approuve" },
-  { value: "envoye", label: "Contactés", match: (p) => ["envoye", "relance1", "relance2"].includes(p.status) },
+  { value: "envoye", label: "Contactés", match: (p) => ["contacte", "envoye", "relance1", "relance2"].includes(p.status) },
   { value: "repondu", label: "Réponses", match: (p) => ["repondu", "interesse"].includes(p.status) },
   { value: "client", label: "Clients", match: (p) => p.status === "client" },
   { value: "ecarte", label: "Écartés", match: (p) => p.score === "ecarte" || ["exclu", "refus"].includes(p.status) },
@@ -58,6 +63,7 @@ function ProspectionInner() {
   const [busy, setBusy] = useState<string | null>(null);
   const [q, setQ] = useState("");
   const [importOpen, setImportOpen] = useState(false);
+  const [tab, setTab] = useState(params.get("tab") ?? (params.has("status") ? "liste" : "bord"));
 
   const all = useMemo(() => data?.prospects ?? [], [data]);
   const setView = (v: string) => {
@@ -102,7 +108,7 @@ function ProspectionInner() {
   const counts = Object.fromEntries(VIEWS.map((v) => [v.value, all.filter(v.match).length]));
   const funnel = {
     found: all.length,
-    contacted: all.filter((p) => ["envoye", "relance1", "relance2", "repondu", "interesse", "refus", "client"].includes(p.status)).length,
+    contacted: all.filter((p) => ["contacte", "envoye", "relance1", "relance2", "repondu", "interesse", "refus", "client"].includes(p.status)).length,
     replied: all.filter((p) => ["repondu", "interesse", "refus", "client"].includes(p.status)).length,
     won: all.filter((p) => p.status === "client").length,
   };
@@ -112,7 +118,7 @@ function ProspectionInner() {
       <PageHeader
         icon={<Radar />}
         title="Prospection"
-        subtitle="Trouve des cafés et restaurants, prépare des mails personnalisés, et laisse partir les envois et relances tout seuls."
+        subtitle="Trouve les restaurants et les cafés, puis touche-les par le bon canal : WhatsApp, mail, appel, Instagram ou visite en boutique."
         actions={
           <>
             <a href="/api/prospects/export" download className="inline-flex h-10 items-center gap-2 rounded-xl px-4 text-[14px] font-semibold text-ink-2 hover:bg-bg-2 hover:text-ink">
@@ -121,13 +127,41 @@ function ProspectionInner() {
             <Button icon={<FileUp className="size-4" />} onClick={() => setImportOpen(true)}>
               Importer
             </Button>
-            <Button variant="primary" icon={<Radar className="size-4" />} onClick={() => setShowSearch((v) => !v)}>
+            <Button variant="primary" icon={<Radar className="size-4" />} onClick={() => setTab("recherche")}>
               Chercher des établissements
             </Button>
           </>
         }
       />
 
+      <Tabs
+        value={tab}
+        onChange={setTab}
+        tabs={[
+          { value: "bord", label: "Tableau de bord" },
+          { value: "liste", label: "Prospects", count: all.length },
+          { value: "terrain", label: "Terrain" },
+          { value: "messages", label: "Messages types" },
+          { value: "recherche", label: "Recherche" },
+        ]}
+      />
+      {tab === "bord" && (data ? <Dashboard all={all} android={data.android ?? []} types={data.types} onOpen={setOpen} onChange={() => mutate()} onTab={setTab} /> : <Skeleton className="h-96" />)}
+      {tab === "terrain" && <Terrain all={all} onOpen={setOpen} onChange={() => mutate()} />}
+      {tab === "messages" && <Scripts />}
+      {tab === "recherche" && data && (
+        <>
+          <SearchPanel data={data} onDone={() => mutate()} />
+          <Card title="Avec Harvey (sur le Mac)">
+            <p className="text-[14px] text-ink-2">
+              Harvey cherche aussi des commerces depuis le Mac et prépare des mails. Sa recherche gratuite ne connaît pas encore les restaurants et les cafés : il lui faut une clé Serper (2 500 recherches gratuites, sans carte) dans ~/Outils/harvey/.env. Les deux recherches remplissent la même liste ici.
+            </p>
+            <a href="/harvey" className="mt-3 inline-block text-[13.5px] font-semibold text-violet hover:underline">
+              Ouvrir Harvey
+            </a>
+          </Card>
+        </>
+      )}
+      {tab === "liste" && (<>
       {showSearch && data && <SearchPanel data={data} onDone={() => mutate()} />}
 
       <div className="mb-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
@@ -238,7 +272,8 @@ function ProspectionInner() {
                       <Badge tone={SCORE[p.score].tone}>{SCORE[p.score].label}</Badge>
                       {p.fit != null && <p className="tnum mt-1 text-[12px] text-ink-3">intérêt {p.fit}/10</p>}
                     </td>
-                    <td className="max-w-[230px] px-3 py-3">
+                    <td className="max-w-[260px] px-3 py-3">
+                      <ContactActions p={p} onChange={() => mutate()} size="sm" />
                       {p.email ? (
                         <span className="flex items-center gap-1.5 truncate">
                           {p.emailCheck === "ok" ? <CircleCheck className="size-3.5 shrink-0 text-mint" aria-label="Domaine vérifié" /> : p.emailCheck === "sans-mx" ? <CircleX className="size-3.5 shrink-0 text-coral" aria-label="Domaine sans serveur mail" /> : <CircleHelp className="size-3.5 shrink-0 text-ink-3" aria-label="Non vérifié" />}
@@ -262,6 +297,8 @@ function ProspectionInner() {
           </div>
         )}
       </Card>
+
+      </>)}
 
       {current && <ProspectModal key={JSON.stringify([current.id, current.draft, current.email, current.notes])} p={current} types={data?.types ?? {}} onClose={() => setOpen(null)} onChange={() => mutate()} />}
       <ImportModal open={importOpen} onClose={() => setImportOpen(false)} onDone={() => mutate()} />

@@ -3,8 +3,10 @@ import { ChevronLeft, ChevronRight, CircleAlert, ExternalLink, Pencil, Send, Tra
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Badge, Button, Card, Empty, cx } from "@/components/ui";
+import { KindBadge, PlanItemModal, PromptButton, usePlanState } from "@/components/plan-item";
 import { api } from "@/lib/client";
 import { dateTime, relative } from "@/lib/format";
+import { PLAN_ITEMS, dueSoon, isoLocal, longDate, type PlanItem } from "@/lib/launch-calendar";
 import type { Post } from "@/lib/types";
 import type { IgMedia } from "./shared";
 
@@ -23,6 +25,8 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
     return new Date(d.getFullYear(), d.getMonth(), 1);
   });
   const [busy, setBusy] = useState<string | null>(null);
+  const [open, setOpen] = useState<PlanItem | null>(null);
+  const st = usePlanState();
 
   const cells = useMemo(() => {
     const first = new Date(month);
@@ -40,6 +44,7 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
   const dayItems = (d: Date) => [
     ...posts.filter((p) => (p.scheduledAt || p.publishedAt) && sameDay(new Date(p.publishedAt || p.scheduledAt!), d)).map((p) => ({ kind: "post" as const, p })),
     ...published.filter((m) => sameDay(new Date(m.timestamp), d) && !posts.some((p) => p.igMediaId === m.id)).map((m) => ({ kind: "ig" as const, m })),
+    ...PLAN_ITEMS.filter((i) => i.date === isoLocal(d)).map((i) => ({ kind: "plan" as const, i })),
   ];
 
   const drafts = posts.filter((p) => p.status === "brouillon" || p.status === "echec");
@@ -90,8 +95,20 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
               <div key={d.toISOString()} className={cx("min-h-24 rounded-xl border p-1.5", sameDay(d, today) ? "border-violet" : "border-line", !inMonth && "opacity-40")}>
                 <p className={cx("tnum text-[12px] font-semibold", sameDay(d, today) ? "text-violet" : "text-ink-3")}>{d.getDate()}</p>
                 <div className="mt-1 space-y-1">
-                  {items.slice(0, 3).map((it) =>
-                    it.kind === "post" ? (
+                  {items.slice(0, 4).map((it) =>
+                    it.kind === "plan" ? (
+                      <button
+                        key={it.i.kind + it.i.id}
+                        onClick={() => setOpen(it.i)}
+                        title={it.i.titre}
+                        className={cx(
+                          "block w-full truncate rounded-md border border-dashed px-1.5 py-0.5 text-left text-[11.5px] font-semibold",
+                          st.isDone(it.i.id) ? "border-mint text-mint" : it.i.kind === "post" ? "border-honey text-honey" : "border-sky text-sky",
+                        )}
+                      >
+                        {it.i.kind === "post" ? "Post" : "Stories"} · {it.i.titre}
+                      </button>
+                    ) : it.kind === "post" ? (
                       <button
                         key={it.p.id}
                         onClick={() => onEdit(it.p)}
@@ -109,7 +126,7 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
                       </a>
                     ),
                   )}
-                  {items.length > 3 && <p className="text-[11px] text-ink-3">+{items.length - 3}</p>}
+                  {items.length > 4 && <p className="text-[11px] text-ink-3">+{items.length - 4}</p>}
                 </div>
               </div>
             );
@@ -134,6 +151,7 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
       </Card>
 
       <div className="space-y-5">
+        <PlanAside onOpen={setOpen} />
         <Card title="À venir" pad={false}>
           {upcoming.length ? (
             <ul className="divide-y divide-line">
@@ -154,7 +172,9 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
             </ul>
           </Card>
         )}
+        <PlanItemModal item={open} onClose={() => setOpen(null)} />
         <p className="px-1 text-[12.5px] text-ink-3">
+          En pointillés : le plan de lancement (orange = post, bleu = stories). Clique pour voir le détail et copier le prompt.
           Les posts programmés partent automatiquement dès que la tâche planifiée tourne (toutes les quelques minutes quand le tableau de bord est ouvert, ou via le service de planification configuré).
         </p>
       </div>
@@ -197,5 +217,35 @@ function PostRow({ p, busy, onEdit, onPublish, onRemove }: { p: Post; busy: bool
         </div>
       </div>
     </li>
+  );
+}
+
+function PlanAside({ onOpen }: { onOpen: (i: PlanItem) => void }) {
+  const st = usePlanState();
+  const soon = dueSoon();
+  const next = PLAN_ITEMS.filter((i) => i.date >= isoLocal(new Date()) && !st.isDone(i.id)).slice(0, 6);
+  const list = soon.length ? soon : next;
+  return (
+    <Card title={soon.length ? "À préparer (2 jours)" : "Prochains contenus du plan"} pad={false}>
+      <ul className="divide-y divide-line">
+        {list.map((i) => (
+          <li key={i.kind + i.id} className="px-5 py-3">
+            <button onClick={() => onOpen(i)} className="w-full text-left">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <KindBadge item={i} />
+                {st.isReady(i.id) && <Badge tone="mint">Prêt</Badge>}
+              </div>
+              <p className="mt-1 text-[13.5px] font-semibold">{i.titre}</p>
+              <p className="text-[12.5px] text-ink-3">
+                {longDate(i.date)} · {i.heure}
+              </p>
+            </button>
+            <div className="mt-2">
+              <PromptButton item={i} />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </Card>
   );
 }

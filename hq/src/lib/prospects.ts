@@ -216,7 +216,7 @@ async function enrich(f: Found) {
   return { emails, email: emailCheck === "sans-mx" ? emails[1] : email, emailCheck, instagram, snippet: snippet.slice(0, 2000), signals };
 }
 
-function scoreOf(p: Pick<Prospect, "email" | "emailCheck" | "website" | "instagram" | "rating" | "reviews" | "type">, chain?: boolean, closed?: boolean): Prospect["score"] {
+export function scoreOf(p: Pick<Prospect, "email" | "emailCheck" | "website" | "instagram" | "rating" | "reviews" | "type">, chain?: boolean, closed?: boolean): Prospect["score"] {
   if (chain || closed) return "ecarte";
   let s = 0;
   if (p.email && p.emailCheck === "ok") s += 3;

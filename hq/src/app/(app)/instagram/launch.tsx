@@ -4,7 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { Badge, Button, Card, CopyButton, cx } from "@/components/ui";
 import { usePref } from "@/lib/prefs";
+import { KindBadge, PlanItemModal, PromptButton } from "@/components/plan-item";
 import { BRAND } from "@/lib/brand";
+import { PLAN_ITEMS, longDate, type PlanItem } from "@/lib/launch-calendar";
 import { INSTAGRAM_PLAN, type LaunchPost } from "@/lib/launch-plan";
 import type { PostFormat } from "@/lib/types";
 import type { Draft } from "./composer";
@@ -70,7 +72,15 @@ export function Launch({ onCreate }: { onCreate: (d: Draft) => void }) {
           </Card>
           <Card title="Profil" action={<CopyButton text={plan.bio} label="Copier la bio" />}>
             <p className="whitespace-pre-line text-[14px]">{plan.bio}</p>
-            <p className="mt-2 text-[13px] text-ink-3">Lien en bio : {plan.lien_bio}</p>
+            <p className="mt-2 whitespace-pre-line text-[13px] text-ink-3">{plan.lien_bio}</p>
+            <details className="mt-2 text-[13px] text-ink-3">
+              <summary className="cursor-pointer font-semibold">Autres bios possibles</summary>
+              {plan.bio_alternatives.map((b) => (
+                <p key={b} className="mt-2 whitespace-pre-line rounded-lg bg-surface-2 p-2 text-ink-2">
+                  {b}
+                </p>
+              ))}
+            </details>
             <div className="mt-3 flex flex-wrap gap-1.5">
               {plan.highlights.map((h) => (
                 <Badge key={h}>{h}</Badge>
@@ -91,6 +101,8 @@ export function Launch({ onCreate }: { onCreate: (d: Draft) => void }) {
           </ul>
         </Card>
       ))}
+
+      <StoriesPlan />
 
       <div className="grid gap-5 lg:grid-cols-2">
         <Card title="Routine engagement (20 min par jour)">
@@ -158,8 +170,9 @@ function PostRow({ p, done, onToggle, onPrepare }: { p: LaunchPost; done: boolea
               <p className="mt-2 text-[12.5px] text-violet">{p.hashtags.join(" ")}</p>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <Button size="sm" variant="primary" icon={<PenSquare className="size-3.5" />} onClick={onPrepare}>
-                Préparer ce post
+              {PLAN_ITEMS.find((i) => i.kind === "post" && i.id === p.id) && <PromptButton item={PLAN_ITEMS.find((i) => i.kind === "post" && i.id === p.id)!} />}
+              <Button size="sm" icon={<PenSquare className="size-3.5" />} onClick={onPrepare}>
+                Programmer
               </Button>
               <span className="text-[12.5px] text-ink-3">Appel à l&apos;action : {p.cta}</span>
             </div>
@@ -222,6 +235,32 @@ function Brand() {
           ))}
         </div>
       </div>
+    </Card>
+  );
+}
+
+function StoriesPlan() {
+  const [open, setOpen] = useState<PlanItem | null>(null);
+  const stories = PLAN_ITEMS.filter((i) => i.kind === "story");
+  if (!stories.length) return null;
+  const slides = stories.reduce((n, i) => n + (i.kind === "story" ? i.story.slides.length : 0), 0);
+  return (
+    <Card title={`Stories · ${stories.length} séquences, ${slides} stories`} pad={false}>
+      <ul className="grid divide-y divide-line md:grid-cols-2 md:divide-y-0">
+        {stories.map((i) => (
+          <li key={i.id} className="flex items-start gap-3 border-line px-5 py-3 md:border-b">
+            <button onClick={() => setOpen(i)} className="min-w-0 flex-1 text-left">
+              <div className="flex flex-wrap items-center gap-1.5 text-[12.5px] text-ink-3">
+                <KindBadge item={i} />
+                {longDate(i.date)} · {i.heure}
+              </div>
+              <p className="mt-1 truncate text-[14px] font-semibold">{i.titre}</p>
+            </button>
+            <PromptButton item={i} label="Prompt" />
+          </li>
+        ))}
+      </ul>
+      <PlanItemModal item={open} onClose={() => setOpen(null)} />
     </Card>
   );
 }
