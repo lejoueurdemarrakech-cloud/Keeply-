@@ -111,11 +111,11 @@ function pickBackend(): Backend {
 /*
  * Passage aux vraies données : une seule fois, on efface tout ce qui venait des essais
  * (tâches, activité, posts, mails en cache, tests…) et on pose les tâches du lancement.
- * Connexions, réglages, coffre, crédits Claude, pont et désinscriptions sont gardés.
+ * Connexions, réglages, coffre, crédits Claude, pont, prospects (historique des contacts) et désinscriptions sont gardés.
  */
 const DATA_VERSION = "reel-2026-11-02";
-const WIPE = ["tasks", "activity", "posts", "notes", "brief", "clients", "sales:manual", "prospects", "mail:cache", "mail:state", "review:items", "health:runs", "health:e2e", "instagram:advice", "ads:advice", "ig:library", "ig:watch", "cron:last"];
-const WIPE_PREFIX = ["round:last:", "prospects:sent:"];
+const WIPE = ["tasks", "activity", "posts", "notes", "brief", "clients", "sales:manual", "mail:cache", "mail:state", "review:items", "health:runs", "health:e2e", "instagram:advice", "ads:advice", "ig:library", "ig:watch", "cron:last"];
+const WIPE_PREFIX = ["round:last:"];
 
 function withFreshStart(inner: Backend): Backend {
   let ready: Promise<void> | null = null;

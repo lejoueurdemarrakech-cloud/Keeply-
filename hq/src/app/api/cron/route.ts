@@ -5,7 +5,7 @@ import { safeEqual } from "@/lib/secret";
 import { publishDuePosts } from "@/lib/instagram";
 import { autoReplyTick } from "@/lib/mail";
 import { dailyHealthTick } from "@/lib/health";
-import { outreachTick } from "@/lib/prospects";
+import { checkReplies, outreachTick } from "@/lib/prospects";
 import { store } from "@/lib/store";
 import { CHECKS_PAUSED, PAUSED_MESSAGE } from "@/lib/prelaunch";
 
@@ -40,7 +40,7 @@ async function run(req: Request) {
   if (Date.now() - last.at < 50_000 && !new URL(req.url).searchParams.has("force")) return NextResponse.json({ skipped: true });
   await store.set("cron:last", { at: Date.now() });
   const results = Object.fromEntries(
-    await Promise.all([step("instagram", publishDuePosts), step("reponseAuto", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : autoReplyTick())), step("sante", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : dailyHealthTick())), step("prospection", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : outreachTick()))]),
+    await Promise.all([step("instagram", publishDuePosts), step("reponseAuto", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : autoReplyTick())), step("sante", async () => (CHECKS_PAUSED ? PAUSED_MESSAGE : dailyHealthTick())), step("prospection", async () => (CHECKS_PAUSED ? { envois: PAUSED_MESSAGE, reponsesLues: await checkReplies() } : outreachTick()))]),
   );
   await store.set("cron:last", { at: Date.now(), results });
   return NextResponse.json({ at: new Date().toISOString(), results });
