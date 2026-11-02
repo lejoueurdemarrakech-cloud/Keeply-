@@ -407,7 +407,7 @@ export async function sendNow(id: string) {
 export async function checkReplies() {
   const cfg = await outreachConfig();
   if (!cfg?.imapHost) return 0;
-  const contacted = (await listProspects()).filter((p) => p.email && ["envoye", "relance1", "relance2"].includes(p.status));
+  const contacted = (await listProspects()).filter((p) => p.email && ["contacte", "envoye", "relance1", "relance2"].includes(p.status));
   if (!contacted.length) return 0;
   const byEmail = new Map(contacted.map((p) => [p.email!.toLowerCase(), p]));
   const inbox = await fetchInbox(cfg, { days: 21, limit: 150 });

@@ -45,7 +45,7 @@ export function ContactActions({ p, onChange, size = "md" }: { p: Prospect; onCh
           <Phone className="size-4" />
         </a>
       )}
-      {p.email && (
+      {p.email && EMAIL.test(p.email) && (
         <a className={cx(btn, touched("mail") && "border-mint text-mint")} title={`Écrire à ${p.email}`} href={`mailto:${p.email}?subject=${encodeURIComponent(fill(mail.subject!, p))}&body=${encodeURIComponent(fill(mail.body, p))}`} onClick={act("mail")}>
           <Mail className="size-4" />
         </a>
@@ -66,4 +66,7 @@ export function ContactActions({ p, onChange, size = "md" }: { p: Prospect; onCh
 }
 
 /** Nombre de façons de joindre ce commerce. */
+// Adresses récupérées sur des sites web : on refuse tout ce qui pourrait ajouter des destinataires au lien mailto.
+const EMAIL = /^[^\s@?&,;:<>"]+@[^\s@?&,;:<>"]+\.[a-z]{2,}$/i;
+
 export const reach = (p: Prospect) => Number(!!p.email) + Number(!!p.phone) + Number(!!p.instagram) + Number(!!p.address);
