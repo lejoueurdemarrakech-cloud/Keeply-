@@ -11,6 +11,14 @@ import type { Draft } from "./composer";
 import { emptyDraft } from "./composer";
 
 const FORMAT: Record<string, PostFormat> = { Reel: "reel", Carrousel: "carrousel", Photo: "image", Story: "story" };
+const WEEKS: Record<number, string> = {
+  0: "Semaine 0 · lancement, du 15 au 21 nov. (avant les pubs du 23)",
+  1: "Semaine 1 · du 22 au 28 nov.",
+  2: "Semaine 2 · du 29 nov. au 5 déc.",
+  3: "Semaine 3 · du 6 au 12 déc.",
+  4: "Semaine 4 · du 13 au 19 déc.",
+  5: "Semaine 5 · du 20 au 26 déc.",
+};
 const TONE: Record<string, "violet" | "honey" | "mint" | "sky"> = { Reel: "violet", Carrousel: "honey", Photo: "mint", Story: "sky" };
 
 export function Launch({ onCreate }: { onCreate: (d: Draft) => void }) {
@@ -73,7 +81,7 @@ export function Launch({ onCreate }: { onCreate: (d: Draft) => void }) {
       </div>
 
       {weeks.map((w) => (
-        <Card key={w} title={w === 0 ? "Semaine 0 · mise en place avant les pubs" : `Semaine ${w}`} pad={false}>
+        <Card key={w} title={WEEKS[w] ?? `Semaine ${w}`} pad={false}>
           <ul className="divide-y divide-line">
             {plan.posts
               .filter((p) => p.semaine === w)
