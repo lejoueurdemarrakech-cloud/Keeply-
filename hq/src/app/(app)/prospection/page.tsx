@@ -110,6 +110,7 @@ function ProspectionInner() {
   return (
     <div>
       <PageHeader
+        icon={<Radar />}
         title="Prospection"
         subtitle="Trouve des cafés et restaurants, prépare des mails personnalisés, et laisse partir les envois et relances tout seuls."
         actions={
@@ -136,7 +137,7 @@ function ProspectionInner() {
           { l: "Ont répondu", v: funnel.replied, sub: funnel.contacted ? `${Math.round((funnel.replied / funnel.contacted) * 100)} % de réponse` : undefined },
           { l: "Devenus clients", v: funnel.won },
         ].map((s) => (
-          <div key={s.l} className="rounded-2xl border border-line bg-surface p-4 shadow-card">
+          <div key={s.l} className="glass rounded-[20px] p-4 ">
             <p className="text-[13px] text-ink-2">{s.l}</p>
             <p className="font-display tnum mt-1 text-[26px] leading-none font-bold">{s.v}</p>
             <p className="mt-2 min-h-5 text-[12.5px] text-ink-3">{s.sub}</p>
@@ -164,7 +165,7 @@ function ProspectionInner() {
       <div className="mb-3 flex flex-wrap items-center gap-2">
         <div className="-mx-1 flex max-w-full gap-1 overflow-x-auto px-1">
           {VIEWS.map((v) => (
-            <button key={v.value} onClick={() => setView(v.value)} className={cx("rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap", view === v.value ? "bg-violet text-white" : "bg-surface text-ink-2 ring-1 ring-line hover:text-ink")}>
+            <button key={v.value} onClick={() => setView(v.value)} className={cx("rounded-full px-3 py-1.5 text-[13px] font-semibold whitespace-nowrap", view === v.value ? "bg-violet text-white" : "glass text-ink-2 hover:text-ink")}>
               {v.label} <span className="tnum opacity-70">{counts[v.value]}</span>
             </button>
           ))}
@@ -248,7 +249,7 @@ function ProspectionInner() {
                       )}
                     </td>
                     <td className="max-w-[240px] px-3 py-3 text-[12.5px] text-ink-2">
-                      <span className="line-clamp-2">{p.signals.join(" · ") || "—"}</span>
+                      <span className="line-clamp-2">{p.signals.join(" · ") || "-"}</span>
                     </td>
                     <td className="px-5 py-3">
                       <Badge tone={STATUS[p.status].tone}>{STATUS[p.status].label}</Badge>

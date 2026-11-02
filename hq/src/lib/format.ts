@@ -3,10 +3,10 @@ const eurFmt2 = new Intl.NumberFormat("fr-FR", { style: "currency", currency: "E
 const numFmt = new Intl.NumberFormat("fr-FR");
 const compactFmt = new Intl.NumberFormat("fr-FR", { notation: "compact", maximumFractionDigits: 1 });
 
-export const eur = (n: number | undefined | null, cents = false) => (n == null ? "—" : (cents ? eurFmt2 : eurFmt).format(n));
-export const num = (n: number | undefined | null) => (n == null ? "—" : numFmt.format(Math.round(n)));
-export const compact = (n: number | undefined | null) => (n == null ? "—" : compactFmt.format(n));
-export const pct = (n: number | undefined | null, digits = 1) => (n == null || !isFinite(n) ? "—" : `${(n * 100).toFixed(digits).replace(".", ",")} %`);
+export const eur = (n: number | undefined | null, cents = false) => (n == null ? "-" : (cents ? eurFmt2 : eurFmt).format(n));
+export const num = (n: number | undefined | null) => (n == null ? "-" : numFmt.format(Math.round(n)));
+export const compact = (n: number | undefined | null) => (n == null ? "-" : compactFmt.format(n));
+export const pct = (n: number | undefined | null, digits = 1) => (n == null || !isFinite(n) ? "-" : `${(n * 100).toFixed(digits).replace(".", ",")} %`);
 
 export function delta(cur: number, prev: number) {
   if (!prev) return cur ? 1 : 0;
@@ -38,5 +38,5 @@ export const COUNTRY_NAMES: Record<string, string> = {
   FR: "France", BE: "Belgique", CH: "Suisse", LU: "Luxembourg", CA: "Canada", MA: "Maroc", ES: "Espagne", US: "États-Unis", GB: "Royaume-Uni",
   DE: "Allemagne", IT: "Italie", TN: "Tunisie", SN: "Sénégal", CI: "Côte d'Ivoire", NL: "Pays-Bas", PT: "Portugal", MC: "Monaco", DZ: "Algérie", AE: "Émirats",
 };
-export const countryName = (c: string) => COUNTRY_NAMES[c] ?? (c || "—");
+export const countryName = (c: string) => COUNTRY_NAMES[c] ?? (c || "-");
 export const flag = (c: string) => (c && c.length === 2 ? String.fromCodePoint(...[...c.toUpperCase()].map((ch) => 127397 + ch.charCodeAt(0))) : "🌍");

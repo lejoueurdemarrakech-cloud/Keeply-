@@ -183,7 +183,7 @@ export default function TodayPage() {
                 tone="mint"
               />
               <Stat label="Mails à traiter" value={num(t.mails?.urgentCount)} hint={t.mails ? `${t.mails.unread} non lus` : undefined} tone="coral" />
-              <div className="col-span-2 rounded-2xl border border-line bg-surface p-4 shadow-card">
+              <div className="col-span-2 glass rounded-[20px] p-4 ">
                 <div className="flex items-center justify-between text-[13px] text-ink-2">
                   <span>Ventes du mois, jour par jour</span>
                   <Link href="/ventes" className="font-semibold text-violet hover:underline">

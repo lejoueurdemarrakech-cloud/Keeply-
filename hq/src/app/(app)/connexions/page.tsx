@@ -34,6 +34,7 @@ export default function ConnectionsPage() {
   return (
     <div>
       <PageHeader
+        icon={<Plug />}
         title="Connexions"
         subtitle={`Relie tes comptes pour remplacer les données d'exemple par tes vrais chiffres. ${data ? `${connected}/${CONNECTORS.length} connectés.` : ""} Les clés sont chiffrées avant d'être enregistrées.`}
       />
@@ -98,7 +99,7 @@ export default function ConnectionsPage() {
 
 function SysItem({ ok, warn, label, detail }: { ok: boolean; warn?: boolean; label: string; detail: string }) {
   return (
-    <div className="flex items-start gap-3 rounded-2xl border border-line bg-surface p-4 shadow-card">
+    <div className="flex items-start gap-3 glass rounded-[20px] p-4 ">
       <span className={cx("mt-0.5", ok ? "text-mint" : warn ? "text-honey" : "text-coral")}>{ok ? <CircleCheck className="size-5" /> : warn ? <CircleDashed className="size-5" /> : <CircleX className="size-5" />}</span>
       <div className="min-w-0">
         <p className="font-semibold">{label}</p>
@@ -125,7 +126,7 @@ function ConnectorCard({ def, status, open, onToggle, onChange }: { def: Connect
   }
 
   return (
-    <div className={cx("rounded-2xl border bg-surface shadow-card transition-colors", open ? "border-violet/40" : "border-line")}>
+    <div className={cx("glass rounded-[20px] transition-colors", open ? "border-violet/40" : "border-line")}>
       <button onClick={onToggle} className="flex w-full items-start gap-3 p-4 text-left" aria-expanded={open}>
         <span className={cx("grid size-10 shrink-0 place-items-center rounded-xl", status.configured ? "bg-mint-soft text-mint" : "bg-bg-2 text-ink-3")}>
           <Plug className="size-5" />

@@ -3,6 +3,10 @@ import { Command } from "cmdk";
 import {
   Aperture,
   Bot,
+  Calculator,
+  Keyboard,
+  Megaphone,
+  Share2,
   ClipboardCheck,
   Gauge,
   HeartPulse,
@@ -49,9 +53,16 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     ],
   },
   {
+    label: "Réseaux",
+    items: [
+      { href: "/reseaux", label: "Vue réseaux", icon: <Share2 /> },
+      { href: "/instagram", label: "Instagram", icon: <Aperture /> },
+      { href: "/ads", label: "Meta Ads", icon: <Megaphone /> },
+    ],
+  },
+  {
     label: "Croissance",
     items: [
-      { href: "/instagram", label: "Instagram & Ads", icon: <Aperture /> },
       { href: "/prospection", label: "Prospection", icon: <Radar />, badge: "prospects" },
       { href: "/harvey", label: "Harvey", icon: <Bot /> },
     ],
@@ -122,13 +133,13 @@ function NavLink({ item, active, count, onClick }: { item: NavItem; active: bool
       onClick={onClick}
       aria-current={active ? "page" : undefined}
       className={cx(
-        "group flex items-center gap-3 rounded-xl px-3 py-2 text-[14px] font-semibold transition-colors duration-150 [&_svg]:size-[18px] [&_svg]:shrink-0",
-        active ? "bg-violet-soft text-violet" : "text-ink-2 hover:bg-bg-2 hover:text-ink",
+        "group flex items-center gap-3 rounded-xl px-3 py-[7px] text-[14.5px] font-semibold transition-[background-color,color] duration-150 [&_svg]:size-[18px] [&_svg]:shrink-0",
+        active ? "bg-violet text-white shadow-[0_8px_20px_-10px_var(--violet)]" : "text-ink-2 hover:bg-bg-2 hover:text-ink",
       )}
     >
       {item.icon}
       <span className="flex-1 truncate">{item.label}</span>
-      {!!count && <span className={cx("tnum rounded-full px-1.5 text-[11.5px] leading-5", item.badge === "prospects" ? "bg-mint-soft text-mint" : "bg-coral-soft text-coral")}>{count}</span>}
+      {!!count && <span className={cx("tnum rounded-full px-1.5 text-[11.5px] leading-5", active ? "bg-white/25 text-white" : item.badge === "prospects" ? "bg-mint-soft text-mint" : "bg-coral-soft text-coral")}>{count}</span>}
     </Link>
   );
 }
@@ -167,7 +178,7 @@ function ThemeSwitch() {
     { v: "system" as const, icon: <Monitor />, label: "Système" },
   ];
   return (
-    <div className="flex rounded-xl border border-line bg-surface p-0.5" role="radiogroup" aria-label="Thème">
+    <div className="glass-soft flex rounded-xl p-0.5" role="radiogroup" aria-label="Thème">
       {opts.map((o) => (
         <button
           key={o.v}
@@ -175,7 +186,7 @@ function ThemeSwitch() {
           aria-checked={mode === o.v}
           title={o.label}
           onClick={() => apply(o.v)}
-          className={cx("grid flex-1 place-items-center rounded-[10px] py-1.5 [&_svg]:size-4", mode === o.v ? "bg-violet-soft text-violet" : "text-ink-3 hover:text-ink")}
+          className={cx("grid flex-1 place-items-center rounded-[10px] py-1.5 [&_svg]:size-4", mode === o.v ? "bg-violet text-white" : "text-ink-3 hover:text-ink")}
         >
           {o.icon}
         </button>
@@ -191,24 +202,24 @@ async function logout() {
   window.location.href = "/login";
 }
 
-function Sidebar({ onSearch }: { onSearch: () => void }) {
+function Sidebar({ onSearch, onHelp }: { onSearch: () => void; onHelp: () => void }) {
   const path = usePathname();
   const counts = useCounts();
   return (
-    <aside className="sticky top-0 hidden h-dvh w-[252px] shrink-0 flex-col border-r border-line bg-surface/60 px-3 py-4 backdrop-blur lg:flex">
+    <aside className="glass sticky top-3 m-3 mr-0 hidden h-[calc(100dvh-24px)] w-[256px] shrink-0 flex-col rounded-[26px] px-3 py-4 lg:flex">
       <Logo />
       <button
         onClick={onSearch}
-        className="mt-5 flex items-center gap-2.5 rounded-xl border border-line bg-surface px-3 py-2 text-[13.5px] text-ink-3 transition-colors hover:border-line-2 hover:text-ink-2"
+        className="glass-soft mt-5 flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-[13.5px] text-ink-2 transition-colors hover:border-violet/40 hover:text-ink"
       >
         <Search className="size-4" />
         <span className="flex-1 text-left">Rechercher, agir…</span>
         <kbd className="rounded-md border border-line px-1.5 text-[11px] font-semibold">⌘K</kbd>
       </button>
-      <nav className="mt-4 flex-1 space-y-4 overflow-y-auto" aria-label="Navigation principale">
+      <nav className="mt-4 flex-1 space-y-3 overflow-y-auto pb-4 [mask-image:linear-gradient(to_bottom,black_calc(100%-28px),transparent)]" aria-label="Navigation principale">
         {GROUPS.map((g) => (
           <div key={g.label}>
-            <p className="mb-1 px-3 text-[12px] font-semibold text-ink-3">{g.label}</p>
+            <p className="mb-1 px-3 text-[12px] font-bold tracking-wide text-ink-3">{g.label}</p>
             <div className="space-y-0.5">
               {g.items.map((i) => (
                 <NavLink key={i.href} item={i} active={isActive(path, i.href)} count={i.badge ? counts[i.badge] : 0} />
@@ -225,7 +236,10 @@ function Sidebar({ onSearch }: { onSearch: () => void }) {
           <div className="flex-1">
             <ThemeSwitch />
           </div>
-          <button onClick={logout} title="Se déconnecter" className="grid size-9 place-items-center rounded-xl text-ink-3 hover:bg-bg-2 hover:text-ink">
+          <button onClick={onHelp} title="Raccourcis clavier (?)" aria-label="Raccourcis clavier" className="grid size-9 place-items-center rounded-xl text-ink-3 hover:bg-bg-2 hover:text-ink">
+            <Keyboard className="size-4" />
+          </button>
+          <button onClick={logout} title="Se déconnecter" aria-label="Se déconnecter" className="grid size-9 place-items-center rounded-xl text-ink-3 hover:bg-bg-2 hover:text-ink">
             <LogOut className="size-4" />
           </button>
         </div>
@@ -234,7 +248,7 @@ function Sidebar({ onSearch }: { onSearch: () => void }) {
   );
 }
 
-const MOBILE_TABS = ["/", "/ventes", "/mails", "/instagram"];
+const MOBILE_TABS = ["/", "/ventes", "/mails", "/reseaux"];
 
 function MobileNav({ onSearch }: { onSearch: () => void }) {
   const path = usePathname();
@@ -243,21 +257,21 @@ function MobileNav({ onSearch }: { onSearch: () => void }) {
   const tabs = MOBILE_TABS.map((h) => ALL.find((i) => i.href === h)!);
   return (
     <>
-      <header className="sticky top-0 z-30 flex items-center justify-between border-b border-line bg-bg/85 px-4 py-2.5 backdrop-blur-lg lg:hidden">
+      <header className="glass sticky top-0 z-30 flex items-center justify-between rounded-none border-x-0 border-t-0 px-4 py-2.5 lg:hidden">
         <Logo />
         <button onClick={onSearch} className="grid size-10 place-items-center rounded-xl text-ink-2 hover:bg-bg-2" aria-label="Rechercher">
           <Search className="size-5" />
         </button>
       </header>
-      <nav className="fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/92 pb-[env(safe-area-inset-bottom)] backdrop-blur-lg lg:hidden" aria-label="Navigation">
-        <div className="grid grid-cols-5">
+      <nav className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+10px)] z-30 lg:hidden" aria-label="Navigation">
+        <div className="glass-strong grid grid-cols-5 rounded-[22px] px-1">
           {tabs.map((t) => {
             const active = isActive(path, t.href);
             const count = t.badge ? counts[t.badge] : 0;
             return (
               <Link key={t.href} href={t.href} className={cx("relative flex flex-col items-center gap-0.5 py-2 text-[11px] font-semibold [&_svg]:size-[21px]", active ? "text-violet" : "text-ink-3")}>
                 {t.icon}
-                <span className="max-w-full truncate px-1">{t.label.split(" ")[0]}</span>
+                <span className="max-w-full truncate px-1">{t.href === "/reseaux" ? "Réseaux" : t.label.split(" ")[0]}</span>
                 {!!count && <span className="absolute top-1 left-[calc(50%+6px)] size-2 rounded-full bg-coral" />}
               </Link>
             );
@@ -271,7 +285,7 @@ function MobileNav({ onSearch }: { onSearch: () => void }) {
       {more && (
         <div className="fixed inset-0 z-40 lg:hidden" role="dialog" aria-modal="true" aria-label="Plus de pages">
           <button className="absolute inset-0 bg-night/50" onClick={() => setMore(false)} aria-label="Fermer" />
-          <div className="rise absolute inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-3xl border-t border-line bg-surface p-4 pb-[calc(env(safe-area-inset-bottom)+16px)]">
+          <div className="glass-strong rise absolute inset-x-0 bottom-0 max-h-[85dvh] overflow-y-auto rounded-t-[28px] p-4 pb-[calc(env(safe-area-inset-bottom)+16px)]">
             <div className="mb-3 flex items-center justify-between">
               <p className="font-display text-[17px] font-semibold">Toutes les pages</p>
               <button onClick={() => setMore(false)} className="rounded-lg p-2 text-ink-3" aria-label="Fermer">
@@ -314,7 +328,7 @@ function Palette({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center px-3 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Palette de commandes">
       <button className="absolute inset-0 bg-night/40 backdrop-blur-[2px]" onClick={() => setOpen(false)} aria-label="Fermer" />
-      <Command className="rise relative w-full max-w-xl overflow-hidden rounded-2xl border border-line bg-surface shadow-2xl" loop>
+      <Command className="glass-strong rise relative w-full max-w-xl overflow-hidden rounded-[24px]" loop>
         <div className="flex items-center gap-2 border-b border-line px-4">
           <Search className="size-4 text-ink-3" />
           <Command.Input autoFocus placeholder="Aller à une page ou lancer une action…" className="h-12 flex-1 bg-transparent text-[15px] outline-none placeholder:text-ink-3" />
@@ -324,13 +338,15 @@ function Palette({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
           <Command.Group heading="Actions">
             {[
               { label: "Nouveau post Instagram", icon: <Plus />, act: () => go("/instagram?tab=creer") },
+              { label: "Écrire une annonce Meta", icon: <Megaphone />, act: () => go("/ads?tab=annonces") },
+              { label: "Simuler un budget pub", icon: <Calculator />, act: () => go("/ads?tab=simulateur") },
               { label: "Nouvelle tâche", icon: <Plus />, act: () => go("/taches?new=1") },
               { label: "Chercher des restaurants à prospecter", icon: <Radar />, act: () => go("/prospection?search=1") },
               { label: "Relever les mails", icon: <Inbox />, act: () => run("Relève des mails", () => fetch("/api/mail?refresh=1")) },
               { label: "Tester l'app maintenant", icon: <HeartPulse />, act: () => run("Test de santé", () => api("POST", "/api/health/run")) },
               { label: "Lancer la tâche planifiée", icon: <Settings />, act: () => run("Tâche planifiée", () => fetch("/api/cron?force=1")) },
             ].map((a) => (
-              <Command.Item key={a.label} onSelect={a.act} className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] data-[selected=true]:bg-violet-soft data-[selected=true]:text-violet [&_svg]:size-4">
+              <Command.Item key={a.label} onSelect={a.act} className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] data-[selected=true]:bg-violet data-[selected=true]:text-white [&_svg]:size-4">
                 {a.icon}
                 {a.label}
               </Command.Item>
@@ -338,14 +354,50 @@ function Palette({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
           </Command.Group>
           <Command.Group heading="Pages">
             {ALL.map((i) => (
-              <Command.Item key={i.href} onSelect={() => go(i.href)} className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] data-[selected=true]:bg-violet-soft data-[selected=true]:text-violet [&_svg]:size-4">
+              <Command.Item key={i.href} onSelect={() => go(i.href)} className="flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 text-[14px] data-[selected=true]:bg-violet data-[selected=true]:text-white [&_svg]:size-4">
                 {i.icon}
-                {i.label}
+                <span className="flex-1">{i.label}</span>
+                {SHORTCUT_OF[i.href] && <kbd className="rounded-md border border-current/20 px-1.5 text-[11px] font-semibold opacity-60">G {SHORTCUT_OF[i.href]}</kbd>}
               </Command.Item>
             ))}
           </Command.Group>
         </Command.List>
       </Command>
+    </div>
+  );
+}
+
+/** Raccourcis « G puis lettre » pour aller vite d'une page à l'autre. */
+const SHORTCUTS: Record<string, string> = { a: "/", v: "/ventes", r: "/reseaux", i: "/instagram", p: "/ads", m: "/mails", c: "/clients", t: "/taches", s: "/sante", x: "/prospection", o: "/outils", k: "/connexions" };
+const SHORTCUT_OF = Object.fromEntries(Object.entries(SHORTCUTS).map(([k, v]) => [v, k.toUpperCase()]));
+
+function HelpDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
+  if (!open) return null;
+  return (
+    <div className="fixed inset-0 z-50 flex items-start justify-center px-3 pt-[12vh]" role="dialog" aria-modal="true" aria-label="Raccourcis clavier">
+      <button className="absolute inset-0 bg-night/40 backdrop-blur-[2px]" onClick={onClose} aria-label="Fermer" />
+      <div className="glass-strong rise relative w-full max-w-md rounded-[24px] p-5">
+        <div className="mb-4 flex items-center justify-between">
+          <p className="font-display text-[18px] font-bold">Raccourcis clavier</p>
+          <button onClick={onClose} className="rounded-lg p-1.5 text-ink-3 hover:bg-bg-2 hover:text-ink" aria-label="Fermer">
+            <X className="size-4" />
+          </button>
+        </div>
+        <ul className="grid grid-cols-1 gap-x-6 gap-y-2 text-[14px] sm:grid-cols-2">
+          <li className="flex items-center justify-between gap-3 sm:col-span-2">
+            Rechercher, agir <kbd className="rounded-md border border-line-2 px-1.5 text-[12px] font-semibold">⌘ K</kbd>
+          </li>
+          {Object.entries(SHORTCUTS).map(([k, href]) => (
+            <li key={k} className="flex items-center justify-between gap-3">
+              <span className="truncate text-ink-2">{ALL.find((i) => i.href === href)?.label}</span>
+              <kbd className="shrink-0 rounded-md border border-line-2 px-1.5 text-[12px] font-semibold">G {k.toUpperCase()}</kbd>
+            </li>
+          ))}
+          <li className="flex items-center justify-between gap-3">
+            <span className="text-ink-2">Cette aide</span> <kbd className="rounded-md border border-line-2 px-1.5 text-[12px] font-semibold">?</kbd>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }
@@ -366,25 +418,49 @@ function Heartbeat() {
 
 export function Shell({ children }: { children: ReactNode }) {
   const [palette, setPalette] = useState(false);
+  const [help, setHelp] = useState(false);
+  const router = useRouter();
   useEffect(() => {
+    let lastG = 0;
     const onKey = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPalette((v) => !v);
+        return;
       }
-      if (e.key === "Escape") setPalette(false);
+      if (e.key === "Escape") {
+        setPalette(false);
+        setHelp(false);
+        return;
+      }
+      const el = e.target as HTMLElement | null;
+      if (e.metaKey || e.ctrlKey || e.altKey || el?.closest("input, textarea, select, [contenteditable=true], dialog[open]")) return;
+      const k = e.key.toLowerCase();
+      if (e.key === "?") {
+        setHelp((v) => !v);
+        return;
+      }
+      if (k === "g") {
+        lastG = Date.now();
+        return;
+      }
+      if (Date.now() - lastG < 1200 && SHORTCUTS[k]) {
+        lastG = 0;
+        router.push(SHORTCUTS[k]);
+      }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, []);
+  }, [router]);
   return (
     <div className="flex min-h-dvh">
-      <Sidebar onSearch={() => setPalette(true)} />
+      <Sidebar onSearch={() => setPalette(true)} onHelp={() => setHelp(true)} />
       <div className="min-w-0 flex-1">
         <MobileNav onSearch={() => setPalette(true)} />
-        <main className="mx-auto w-full max-w-[1280px] px-4 pt-6 pb-28 sm:px-6 lg:px-10 lg:pt-9 lg:pb-14">{children}</main>
+        <main className="mx-auto w-full max-w-[1320px] px-4 pt-6 pb-32 sm:px-6 lg:px-10 lg:pt-9 lg:pb-14">{children}</main>
       </div>
       <Palette open={palette} setOpen={setPalette} />
+      <HelpDialog open={help} onClose={() => setHelp(false)} />
       <Heartbeat />
     </div>
   );

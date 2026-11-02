@@ -1,5 +1,5 @@
 "use client";
-import { Calculator, Link2, NotebookPen, Sparkles } from "lucide-react";
+import { Calculator, Link2, NotebookPen, Sparkles, Wrench } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { TrendLine } from "@/components/charts";
 import { Button, Card, CopyButton, Field, Markdown, PageHeader, Skeleton, Stat, Tabs } from "@/components/ui";
@@ -12,7 +12,7 @@ export default function ToolsPage() {
   const [tab, setTab] = useState<Tab>("calculs");
   return (
     <div>
-      <PageHeader title="Outils" subtitle="Calculs de croissance, liens de suivi, atelier d'écriture et bloc-notes." />
+      <PageHeader icon={<Wrench />} title="Outils" subtitle="Calculs de croissance, liens de suivi, atelier d'écriture et bloc-notes." />
       <Tabs
         value={tab}
         onChange={setTab}

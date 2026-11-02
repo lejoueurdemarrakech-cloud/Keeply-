@@ -1,5 +1,5 @@
 "use client";
-import { AlertTriangle, Plus, Search, Trash2 } from "lucide-react";
+import { AlertTriangle, Plus, Search, Store, Trash2 } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Badge, Button, Card, DemoBadge, Empty, Field, Modal, PageHeader, Segmented, Skeleton, Stat, cx } from "@/components/ui";
@@ -47,6 +47,7 @@ export default function ClientsPage() {
   return (
     <div>
       <PageHeader
+        icon={<Store />}
         title="Clients"
         subtitle={
           <>
@@ -63,7 +64,7 @@ export default function ClientsPage() {
         <Stat label="Clients actifs" value={active.length} tone="mint" />
         <Stat label="MRR des clients" value={eur(mrr)} hint={`${eur(active.length ? mrr / active.length : 0)} en moyenne`} tone="honey" />
         <Stat label="En essai" value={clients.filter((c) => c.status === "essai").length} tone="violet" />
-        <Stat label="Taux de départ" value={clients.length ? `${Math.round((churned / clients.length) * 100)} %` : "—"} hint={`${churned} résilié(s)`} tone="coral" />
+        <Stat label="Taux de départ" value={clients.length ? `${Math.round((churned / clients.length) * 100)} %` : "-"} hint={`${churned} résilié(s)`} tone="coral" />
       </div>
       <div className="mb-3 flex flex-wrap items-center gap-3">
         <Segmented value={filter} onChange={setFilter} size="sm" options={[{ value: "tous", label: "Tous" }, { value: "actif", label: "Actifs" }, { value: "essai", label: "Essais" }, { value: "pause", label: "En pause" }, { value: "resilie", label: "Résiliés" }]} />

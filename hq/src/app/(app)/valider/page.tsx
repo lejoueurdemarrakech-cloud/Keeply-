@@ -78,11 +78,11 @@ export default function ValiderPage() {
 
   return (
     <div>
-      <PageHeader title="À valider" subtitle="Ce que Claude a préparé pendant ses tournées. Relis, corrige si besoin, valide : HQ envoie, publie ou programme. Rien ne part sans ton clic." />
+      <PageHeader icon={<ClipboardCheck />} title="À valider" subtitle="Ce que Claude a préparé pendant ses tournées. Relis, corrige si besoin, valide : HQ envoie, publie ou programme. Rien ne part sans ton clic." />
 
       <div className="mb-4 flex flex-wrap gap-1">
         {[["tout", pending.length] as const, ...counts].map(([k, n]) => (
-          <button key={k} onClick={() => setTab(k)} className={cx("rounded-full px-3 py-1.5 text-[13px] font-semibold", tab === k ? "bg-violet text-white" : "bg-surface text-ink-2 ring-1 ring-line hover:text-ink")}>
+          <button key={k} onClick={() => setTab(k)} className={cx("rounded-full px-3 py-1.5 text-[13px] font-semibold", tab === k ? "bg-violet text-white" : "glass text-ink-2 hover:text-ink")}>
             {k === "tout" ? "Tout" : KINDS[k].label} <span className="tnum opacity-70">{n}</span>
           </button>
         ))}

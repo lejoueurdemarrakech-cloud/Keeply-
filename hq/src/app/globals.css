@@ -1,22 +1,33 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Keeply HQ — couleurs et typographie de la marque Keeply.
+   Keeply HQ : couleurs et typographie de la marque Keeply.
    Violet Keeply, miel des tampons, nuit des cartes Wallet.
+   Matière « verre dépoli » : surfaces translucides posées sur un
+   fond aurore fixe (approximation web, pas le Liquid Glass d'Apple).
    ============================================================ */
 
 @custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 :root {
-  --bg: #f6f5fb;
-  --bg-2: #efedf7;
+  --bg: #f3f1fa;
+  --bg-2: rgb(108 92 160 / 0.08);
   --surface: #ffffff;
-  --surface-2: #f9f8fd;
-  --ink: #1d1830;
-  --ink-2: #4d4762;
-  --ink-3: #807a95;
-  --line: #e5e2ef;
-  --line-2: #d6d1e6;
+  --surface-2: rgb(255 255 255 / 0.55);
+  --ink: #1a1530;
+  --ink-2: #463f5e;
+  --ink-3: #6f6987;
+  --line: rgb(78 62 140 / 0.12);
+  --line-2: rgb(78 62 140 / 0.22);
+  /* Verre */
+  --glass: rgb(255 255 255 / 0.62);
+  --glass-strong: rgb(255 255 255 / 0.8);
+  --glass-edge: rgb(255 255 255 / 0.75);
+  --glass-hi: rgb(255 255 255 / 0.9);
+  --glass-blur: 22px;
+  --aurora-1: rgb(107 74 242 / 0.30);
+  --aurora-2: rgb(243 190 114 / 0.34);
+  --aurora-3: rgb(47 111 224 / 0.16);
   --violet: #6b4af2;
   --violet-2: #5638d6;
   --violet-soft: #ece7ff;
@@ -30,7 +41,7 @@
   --sky: #2f6fe0;
   --night: #14111f;
   --night-2: #1c1730;
-  --shadow: 0 1px 2px rgb(29 24 48 / 0.05), 0 8px 24px -16px rgb(48 25 90 / 0.25);
+  --shadow: 0 1px 2px rgb(29 24 48 / 0.04), 0 12px 32px -18px rgb(60 35 130 / 0.28);
   /* Palette des graphiques, ordre fixe, validée (daltonisme + contraste) */
   --chart-1: #6b4af2;
   --chart-2: #e89a2c;
@@ -41,15 +52,22 @@
 }
 
 :root[data-theme="dark"] {
-  --bg: #100d19;
-  --bg-2: #15111f;
+  --bg: #0d0a16;
+  --bg-2: rgb(255 255 255 / 0.06);
   --surface: #1a1628;
-  --surface-2: #211c32;
-  --ink: #f2eef8;
-  --ink-2: #c3bcd6;
-  --ink-3: #8f88a6;
-  --line: #2b2540;
-  --line-2: #3a3354;
+  --surface-2: rgb(255 255 255 / 0.05);
+  --ink: #f4f1fa;
+  --ink-2: #cdc6df;
+  --ink-3: #9a93b0;
+  --line: rgb(255 255 255 / 0.09);
+  --line-2: rgb(255 255 255 / 0.16);
+  --glass: rgb(28 22 46 / 0.58);
+  --glass-strong: rgb(30 24 50 / 0.82);
+  --glass-edge: rgb(255 255 255 / 0.10);
+  --glass-hi: rgb(255 255 255 / 0.14);
+  --aurora-1: rgb(107 74 242 / 0.34);
+  --aurora-2: rgb(243 190 114 / 0.12);
+  --aurora-3: rgb(47 111 224 / 0.16);
   --violet: #8b70ff;
   --violet-2: #a28dff;
   --violet-soft: #2a2152;
@@ -61,7 +79,7 @@
   --mint: #4cd4a6;
   --mint-soft: #15332b;
   --sky: #78a6ff;
-  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 12px 32px -18px rgb(0 0 0 / 0.7);
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 18px 40px -22px rgb(0 0 0 / 0.8);
   --chart-1: #7d63f5;
   --chart-2: #c0822a;
   --chart-3: #4a80ea;
@@ -93,6 +111,8 @@
   --color-sky: var(--sky);
   --color-night: var(--night);
   --color-night-2: var(--night-2);
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-bricolage), var(--font-hanken), ui-sans-serif, sans-serif;
   --shadow-card: var(--shadow);
@@ -110,6 +130,58 @@ body {
   font-size: 15px;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Fond aurore : couche fixe, sans interaction, peinte une seule fois. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(60vw 50vh at 8% -5%, var(--aurora-1), transparent 70%),
+    radial-gradient(45vw 45vh at 100% 10%, var(--aurora-2), transparent 70%),
+    radial-gradient(55vw 55vh at 70% 105%, var(--aurora-3), transparent 70%),
+    radial-gradient(40vw 40vh at 0% 100%, var(--aurora-2), transparent 70%),
+    var(--bg);
+}
+
+/* ---------- Verre dépoli ---------- */
+@layer components {
+.glass {
+  position: relative;
+  background: linear-gradient(160deg, var(--glass-hi) -40%, transparent 35%), var(--glass);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+  backdrop-filter: blur(var(--glass-blur)) saturate(170%);
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-hi), var(--shadow);
+}
+.glass-strong {
+  background: var(--glass-strong);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid var(--glass-edge);
+  box-shadow: inset 0 1px 0 var(--glass-hi), 0 30px 80px -30px rgb(20 10 50 / 0.45);
+}
+.glass-soft {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+}
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass,
+  .glass-strong {
+    background: var(--surface);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+/* Téléphone : flou plus léger pour garder un défilement fluide. */
+@media (max-width: 640px) {
+  :root {
+    --glass-blur: 14px;
+  }
 }
 ::selection {
   background: color-mix(in srgb, var(--violet) 25%, transparent);
@@ -137,9 +209,9 @@ body {
 .field {
   width: 100%;
   border-radius: 10px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  padding: 9px 12px;
+  border: 1px solid var(--line-2);
+  background: var(--glass-strong);
+  padding: 10px 12px;
   color: var(--ink);
   font-size: 14px;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
@@ -166,7 +238,7 @@ select.field {
 
 /* Squelette de chargement */
 .skeleton {
-  background: linear-gradient(90deg, var(--bg-2) 25%, var(--surface-2) 50%, var(--bg-2) 75%);
+  background: linear-gradient(90deg, var(--bg-2) 25%, var(--glass-hi) 50%, var(--bg-2) 75%);
   background-size: 200% 100%;
   animation: shimmer 1.4s ease-in-out infinite;
   border-radius: 10px;

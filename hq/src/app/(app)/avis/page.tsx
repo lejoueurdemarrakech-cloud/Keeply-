@@ -45,6 +45,7 @@ export default function ReviewsPage() {
   return (
     <div>
       <PageHeader
+        icon={<Star />}
         title="Avis"
         subtitle={
           <>
@@ -63,7 +64,7 @@ export default function ReviewsPage() {
         </div>
       ))}
       <div className="mb-5 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-        <Stat label="Note moyenne" value={avg ? avg.toFixed(2).replace(".", ",") : "—"} hint={`${all.length} avis`} tone="honey" />
+        <Stat label="Note moyenne" value={avg ? avg.toFixed(2).replace(".", ",") : "-"} hint={`${all.length} avis`} tone="honey" />
         <Stat label="Avis ce mois-ci" value={recent.length} />
         <Stat label="Sans réponse" value={all.filter((r) => !r.reply).length} tone="violet" />
         <Stat label="Parlent d'un bug" value={all.filter((r) => r.bug).length} tone="coral" />

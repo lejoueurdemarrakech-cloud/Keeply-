@@ -115,6 +115,7 @@ function MailsInner() {
   return (
     <div>
       <PageHeader
+        icon={<Inbox />}
         title="Mails"
         subtitle={
           <>
@@ -179,7 +180,7 @@ function MailsInner() {
             </div>
           </div>
 
-          <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+          <div className="overflow-hidden glass rounded-[20px] ">
             {isLoading ? (
               <div className="space-y-2 p-4">
                 {Array.from({ length: 6 }, (_, i) => (

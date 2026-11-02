@@ -204,7 +204,7 @@ export function Composer({ initial, overview, onSaved }: { initial: Draft; overv
             <div className="grid gap-4 sm:grid-cols-2">
               <Field label="Rubrique">
                 <select className="field" value={d.pillar} onChange={(e) => set({ pillar: e.target.value })}>
-                  <option value="">—</option>
+                  <option value="">-</option>
                   {settings?.instagram.pillars.map((p) => (
                     <option key={p}>{p}</option>
                   ))}

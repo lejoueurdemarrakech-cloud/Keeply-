@@ -10,7 +10,9 @@ Tant qu'un compte n'est pas connecté, chaque écran affiche des **données d'ex
 | --- | --- |
 | **Aujourd'hui** | Objectif du mois en carte à tampons, chiffres clés, liste « À traiter » (mails urgents, pannes, avis négatifs, prospects qui ont répondu), briefing du matin écrit par l'IA. |
 | **Ventes** | App Store + Google Play + Stripe + toute autre plateforme (import CSV ou webhook). Revenu net en euros, ventes, téléchargements, remboursements, MRR, par pays et par produit, comparaison avec la période d'avant. |
-| **Instagram & Ads** | Planning (calendrier), création de posts (photo, carrousel, Reel, story) avec aperçu téléphone, légendes et hashtags par IA, publication programmée ; statistiques (abonnés, portée, meilleurs créneaux, formats, hashtags, audience) ; croissance (coach IA, routine quotidienne, planning de la semaine, idées, accroches de Reels, bio, jeux de hashtags, veille des concurrents) ; publicités Meta (dépenses, résultats, alertes, rédaction d'annonces). |
+| **Réseaux** | Vue d'ensemble Instagram + Meta Ads : chiffres clés des deux canaux, dépense pub et portée Instagram jour par jour, objectif d'abonnés avec date estimée, point de la semaine, prochains posts, raccourcis. |
+| **Instagram** | Planning (calendrier), création de posts (photo, carrousel, Reel, story) avec aperçu téléphone, légendes et hashtags par IA, publication programmée ; **Publications** (galerie triable par portée, engagement, enregistrements, détail d'un post, « refaire un post similaire ») ; statistiques (abonnés, portée, meilleurs créneaux, formats, hashtags, audience) ; croissance (coach IA, routine quotidienne, planning de la semaine, idées, accroches de Reels, bio, jeux de hashtags, veille des concurrents). |
+| **Meta Ads** | Vue d'ensemble (dépense, résultats, coût par résultat, CTR, CPM, ROAS, dépense et résultats par jour, parcours affichages → clics → résultats, répartition du budget, alertes, rentabilité) ; campagnes (filtres, tri, score de santé sur 100, conseils, objectif de coût par résultat) ; simulateur de budget (abonnés obtenus, coût d'un abonné, valeur d'un client, verdict) ; annonces (rédaction IA, aperçu « Sponsorisé », annonces enregistrées, liste de contrôle avant lancement, formats) ; lexique des termes de la pub. |
 | **Mails** | Boîte pro classée par priorité et par catégorie, résumé et action proposés par l'IA, réponse rédigée en un clic, modèles, archivage, **réponse automatique** (« nous avons bien reçu votre mail… ») avec garde-fous. |
 | **Prospection** | Recherche de cafés, restaurants, boulangeries… par pays et par ville (OpenStreetMap gratuit, ou Google Places), visite de leur site pour trouver mail, Instagram et indices, vérification du domaine, score chaud/tiède/froid, mails personnalisés par l'IA avec relances, file d'envoi progressive, arrêt automatique dès qu'un prospect répond, liste d'exclusion. |
 | **Santé de l'app** | Test quotidien : site en ligne, temps de réponse, certificat HTTPS, liens cassés, fiche App Store, fiche Google Play, erreurs Sentry, avis qui parlent de bug, et tests navigateur (ordinateur + téléphone) lancés chaque matin par GitHub Actions. Alerte par mail et tâche créée en cas de panne. |
@@ -21,7 +23,9 @@ Tant qu'un compte n'est pas connecté, chaque écran affiche des **données d'ex
 | **Connexions** | Brancher chaque service, avec le mode d'emploi et un bouton de test. Les clés sont chiffrées. |
 | **Réglages** | Objectif, adresses surveillées, règles de tri des mails, rythme de prospection, rubriques Instagram. |
 
-Raccourci partout : **⌘K / Ctrl+K** pour aller à une page ou lancer une action.
+Raccourcis partout : **⌘K / Ctrl+K** pour aller à une page ou lancer une action, **G puis une lettre** pour changer de page (G R Réseaux, G I Instagram, G P Meta Ads, G V Ventes, G M Mails…), **?** pour la liste complète.
+
+Design : matière « verre dépoli » (surfaces translucides sur un fond aurore), en clair et en sombre. Si l'iPhone ou le Mac a « Réduire la transparence » activé, les surfaces redeviennent opaques automatiquement.
 
 ## Lancer en local
 

@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, ArrowRight, CalendarDays, Plus, Trash2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CalendarDays, ListChecks, Plus, Trash2 } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useRef, useState } from "react";
 import { Badge, Button, PageHeader, Skeleton, cx } from "@/components/ui";
@@ -49,8 +49,8 @@ function TasksInner() {
 
   return (
     <div>
-      <PageHeader title="Tâches" subtitle="Tout ce qu'il reste à faire pour Keeply. Les pannes détectées par la Santé de l'app arrivent ici toutes seules." />
-      <div className="mb-5 flex flex-col gap-2 rounded-2xl border border-line bg-surface p-3 shadow-card sm:flex-row sm:items-center">
+      <PageHeader icon={<ListChecks />} title="Tâches" subtitle="Tout ce qu'il reste à faire pour Keeply. Les pannes détectées par la Santé de l'app arrivent ici toutes seules." />
+      <div className="mb-5 flex flex-col gap-2 glass rounded-[20px] p-3  sm:flex-row sm:items-center">
         <input ref={input} className="field border-0 shadow-none focus:shadow-none" placeholder="Nouvelle tâche… (Entrée pour ajouter)" value={title} onChange={(e) => setTitle(e.target.value)} onKeyDown={(e) => e.key === "Enter" && add()} />
         <div className="flex flex-wrap gap-2">
           <select className="field h-9 w-auto py-1 text-[13px]" value={priority} onChange={(e) => setPriority(e.target.value as Task["priority"])} aria-label="Priorité">
@@ -90,7 +90,7 @@ function TasksInner() {
                       draggable
                       onDragStart={() => setDrag(t.id)}
                       onDragEnd={() => setDrag(null)}
-                      className="group cursor-grab rounded-xl border border-line bg-surface p-3 shadow-card active:cursor-grabbing"
+                      className="group cursor-grab glass rounded-xl p-3 active:cursor-grabbing"
                     >
                       <div className="flex items-start gap-2">
                         <span className={cx("mt-1.5 size-2 shrink-0 rounded-full", PRIO[t.priority].dot)} title={`Priorité ${PRIO[t.priority].label}`} />

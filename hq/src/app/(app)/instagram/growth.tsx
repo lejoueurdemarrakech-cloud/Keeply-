@@ -493,10 +493,10 @@ function Watch() {
                       <span className="block text-[12px] font-normal text-ink-3">{w.checkedAt ? relative(w.checkedAt) : ""}</span>
                     </td>
                     <td className="py-2 text-right">{compact(w.followers)}</td>
-                    <td className={cx("py-2 text-right", diff > 0 ? "text-mint" : diff < 0 ? "text-coral" : "text-ink-3")}>{h.length > 1 ? `${diff > 0 ? "+" : ""}${num(diff)}` : "—"}</td>
+                    <td className={cx("py-2 text-right", diff > 0 ? "text-mint" : diff < 0 ? "text-coral" : "text-ink-3")}>{h.length > 1 ? `${diff > 0 ? "+" : ""}${num(diff)}` : "-"}</td>
                     <td className="py-2 text-right">{num(w.avgLikes)}</td>
                     <td className="py-2 text-right">{(eng * 100).toFixed(1).replace(".", ",")} %</td>
-                    <td className="py-2 text-right">{w.postsPerWeek ?? "—"}</td>
+                    <td className="py-2 text-right">{w.postsPerWeek ?? "-"}</td>
                     <td className="py-2 text-right">
                       <Button
                         size="sm"

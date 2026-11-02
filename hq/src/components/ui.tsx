@@ -8,12 +8,15 @@ export const cx = clsx;
 
 /* ---------- Mise en page ---------- */
 
-export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: ReactNode; actions?: ReactNode }) {
+export function PageHeader({ title, subtitle, actions, icon }: { title: string; subtitle?: ReactNode; actions?: ReactNode; icon?: ReactNode }) {
   return (
-    <header className="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3">
-      <div className="min-w-0">
-        <h1 className="font-display text-[28px] leading-tight font-bold sm:text-[34px]">{title}</h1>
-        {subtitle && <p className="mt-1 max-w-[62ch] text-ink-2">{subtitle}</p>}
+    <header className="rise mb-7 flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+      <div className="flex min-w-0 items-center gap-4">
+        {icon && <div className="glass hidden size-12 shrink-0 place-items-center rounded-2xl text-violet sm:grid [&_svg]:size-6">{icon}</div>}
+        <div className="min-w-0">
+          <h1 className="font-display text-[28px] leading-[1.1] font-bold tracking-tight sm:text-[34px]">{title}</h1>
+          {subtitle && <p className="mt-1.5 max-w-[62ch] text-[15px] text-ink-2">{subtitle}</p>}
+        </div>
       </div>
       {actions && <div className="flex flex-wrap items-center gap-2">{actions}</div>}
     </header>
@@ -22,10 +25,10 @@ export function PageHeader({ title, subtitle, actions }: { title: string; subtit
 
 export function Card({ children, className, title, action, pad = true, id }: { children: ReactNode; className?: string; title?: ReactNode; action?: ReactNode; pad?: boolean; id?: string }) {
   return (
-    <section id={id} className={cx("min-w-0 rounded-2xl border border-line bg-surface shadow-card", className)}>
+    <section id={id} className={cx("glass min-w-0 rounded-[22px]", className)}>
       {(title || action) && (
         <div className="flex items-center justify-between gap-3 px-5 pt-4 pb-1">
-          {title && <h2 className="font-display text-[15.5px] font-semibold">{title}</h2>}
+          {title && <h2 className="font-display text-[16px] font-semibold tracking-tight">{title}</h2>}
           {action}
         </div>
       )}
@@ -46,10 +49,10 @@ export function Button({ variant = "secondary", size = "md", loading, icon, clas
       className={cx(
         "inline-flex shrink-0 items-center justify-center gap-2 rounded-xl font-semibold whitespace-nowrap transition-[background-color,border-color,transform,opacity] duration-150 active:scale-[0.97] disabled:pointer-events-none disabled:opacity-50",
         size === "sm" ? "h-8 px-3 text-[13px]" : "h-10 px-4 text-[14px]",
-        variant === "primary" && "bg-violet text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.2),0_8px_20px_-10px_var(--violet)] hover:bg-violet-2",
-        variant === "secondary" && "border border-line bg-surface text-ink hover:border-line-2 hover:bg-surface-2",
+        variant === "primary" && "bg-violet text-white shadow-[inset_0_1px_0_rgb(255_255_255/0.25),0_10px_24px_-12px_var(--violet)] hover:bg-violet-2",
+        variant === "secondary" && "border border-line-2 bg-glass-strong text-ink backdrop-blur-md hover:border-violet/40",
         variant === "ghost" && "text-ink-2 hover:bg-bg-2 hover:text-ink",
-        variant === "danger" && "border border-line bg-surface text-coral hover:border-coral",
+        variant === "danger" && "border border-line-2 bg-glass-strong text-coral backdrop-blur-md hover:border-coral",
         className,
       )}
     >
@@ -61,16 +64,22 @@ export function Button({ variant = "secondary", size = "md", loading, icon, clas
 
 /* ---------- Indicateurs ---------- */
 
-export function Stat({ label, value, prev, current, hint, tone, invert }: { label: string; value: ReactNode; current?: number; prev?: number; hint?: ReactNode; tone?: "violet" | "honey" | "mint" | "coral"; invert?: boolean }) {
+const TONE_ICON = { violet: "bg-violet-soft text-violet", honey: "bg-honey-soft text-honey", mint: "bg-mint-soft text-mint", coral: "bg-coral-soft text-coral" } as const;
+
+export function Stat({ label, value, prev, current, hint, tone, invert, icon }: { label: string; value: ReactNode; current?: number; prev?: number; hint?: ReactNode; tone?: "violet" | "honey" | "mint" | "coral"; invert?: boolean; icon?: ReactNode }) {
   const d = current !== undefined && prev !== undefined ? delta(current, prev) : null;
   const good = d === null ? null : invert ? d < 0 : d > 0;
   return (
-    <div className="min-w-0 rounded-2xl border border-line bg-surface p-4 shadow-card">
-      <div className="flex items-center gap-2 text-[13px] text-ink-2">
-        {tone && <span className={cx("size-2 rounded-full", { violet: "bg-violet", honey: "bg-honey", mint: "bg-mint", coral: "bg-coral" }[tone])} />}
+    <div className="glass min-w-0 rounded-[20px] p-4">
+      <div className="flex items-center gap-2 text-[13px] font-medium text-ink-2">
+        {icon ? (
+          <span className={cx("grid size-7 shrink-0 place-items-center rounded-lg [&_svg]:size-3.5", TONE_ICON[tone ?? "violet"])}>{icon}</span>
+        ) : (
+          tone && <span className={cx("size-2 shrink-0 rounded-full", { violet: "bg-violet", honey: "bg-honey", mint: "bg-mint", coral: "bg-coral" }[tone])} />
+        )}
         <span className="truncate">{label}</span>
       </div>
-      <div className="font-display tnum mt-1.5 truncate text-[26px] leading-none font-bold">{value}</div>
+      <div className="font-display tnum mt-2 truncate text-[27px] leading-none font-bold tracking-tight">{value}</div>
       <div className="mt-2 flex min-h-5 items-center gap-2 text-[12.5px] text-ink-3">
         {d !== null && Math.abs(d) > 0.0005 && (
           <span className={cx("tnum shrink-0 rounded-md px-1.5 py-0.5 font-semibold whitespace-nowrap", good ? "bg-mint-soft text-mint" : "bg-coral-soft text-coral")}>
@@ -89,7 +98,7 @@ export function Badge({ children, tone = "neutral", className }: { children: Rea
     <span
       className={cx(
         "inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-semibold whitespace-nowrap",
-        tone === "neutral" && "bg-bg-2 text-ink-2",
+        tone === "neutral" && "bg-bg-2 text-ink-2 ring-1 ring-line ring-inset",
         tone === "violet" && "bg-violet-soft text-violet",
         tone === "honey" && "bg-honey-soft text-honey",
         tone === "mint" && "bg-mint-soft text-mint",
@@ -129,7 +138,7 @@ export function Empty({ icon, title, children, action }: { icon?: ReactNode; tit
 }
 
 export function ErrorNote({ children }: { children: ReactNode }) {
-  return <div className="rounded-xl border border-coral/30 bg-coral-soft px-4 py-3 text-[13.5px] text-coral">{children}</div>;
+  return <div className="rounded-2xl border border-coral/30 bg-coral-soft px-4 py-3 text-[13.5px] text-coral">{children}</div>;
 }
 
 /* ---------- Formulaires ---------- */
@@ -161,7 +170,7 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
 
 export function Segmented<T extends string>({ value, onChange, options, size = "md" }: { value: T; onChange: (v: T) => void; options: { value: T; label: ReactNode }[]; size?: "sm" | "md" }) {
   return (
-    <div className="inline-flex max-w-full overflow-x-auto rounded-xl border border-line bg-surface p-0.5">
+    <div className="glass inline-flex max-w-full overflow-x-auto rounded-xl p-0.5">
       {options.map((o) => (
         <button
           key={o.value}
@@ -170,7 +179,7 @@ export function Segmented<T extends string>({ value, onChange, options, size = "
           className={cx(
             "rounded-[10px] font-semibold whitespace-nowrap transition-colors duration-150",
             size === "sm" ? "px-2.5 py-1 text-[12.5px]" : "px-3.5 py-1.5 text-[13.5px]",
-            value === o.value ? "bg-violet-soft text-violet" : "text-ink-2 hover:text-ink",
+            value === o.value ? "bg-violet text-white shadow-[0_4px_12px_-6px_var(--violet)]" : "text-ink-2 hover:text-ink",
           )}
         >
           {o.label}
@@ -182,24 +191,54 @@ export function Segmented<T extends string>({ value, onChange, options, size = "
 
 export function Tabs<T extends string>({ value, onChange, tabs }: { value: T; onChange: (v: T) => void; tabs: { value: T; label: string; icon?: ReactNode; count?: number }[] }) {
   return (
-    <div className="-mx-4 mb-6 overflow-x-auto border-b border-line px-4 sm:mx-0 sm:px-0">
-      <div className="flex gap-1">
-        {tabs.map((t) => (
-          <button
-            key={t.value}
-            onClick={() => onChange(t.value)}
-            className={cx(
-              "relative flex items-center gap-2 px-3 py-2.5 text-[14px] font-semibold whitespace-nowrap transition-colors",
-              value === t.value ? "text-ink" : "text-ink-3 hover:text-ink-2",
-            )}
-          >
-            {t.icon}
-            {t.label}
-            {t.count ? <span className="tnum rounded-full bg-violet-soft px-1.5 text-[11.5px] text-violet">{t.count}</span> : null}
-            {value === t.value && <span className="absolute inset-x-2 -bottom-px h-0.5 rounded-full bg-violet" />}
-          </button>
-        ))}
+    <div className="-mx-4 mb-6 overflow-x-auto px-4 pb-1 sm:mx-0 sm:px-0" role="tablist">
+      <div className="glass inline-flex gap-1 rounded-2xl p-1">
+        {tabs.map((t) => {
+          const on = value === t.value;
+          return (
+            <button
+              key={t.value}
+              role="tab"
+              aria-selected={on}
+              onClick={() => onChange(t.value)}
+              className={cx(
+                "flex items-center gap-2 rounded-xl px-3.5 py-2 text-[14px] font-semibold whitespace-nowrap transition-[background-color,color] duration-150 [&_svg]:size-4",
+                on ? "bg-violet text-white shadow-[0_6px_16px_-8px_var(--violet)]" : "text-ink-2 hover:bg-bg-2 hover:text-ink",
+              )}
+            >
+              {t.icon}
+              {t.label}
+              {t.count ? <span className={cx("tnum rounded-full px-1.5 text-[11.5px]", on ? "bg-white/20 text-white" : "bg-violet-soft text-violet")}>{t.count}</span> : null}
+            </button>
+          );
+        })}
       </div>
+    </div>
+  );
+}
+
+/** Petit titre de section dans une page. */
+export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
+  return (
+    <div className="mt-2 mb-3 flex items-center justify-between gap-3">
+      <h2 className="font-display text-[18px] font-bold tracking-tight">{children}</h2>
+      {action}
+    </div>
+  );
+}
+
+/** Jauge circulaire (score, progression). */
+export function Ring({ value, size = 56, stroke = 6, color = "var(--violet)", children }: { value: number; size?: number; stroke?: number; color?: string; children?: ReactNode }) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const v = Math.max(0, Math.min(1, value));
+  return (
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90" aria-hidden>
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="var(--bg-2)" strokeWidth={stroke} />
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke={color} strokeWidth={stroke} strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - v)} style={{ transition: "stroke-dashoffset 0.6s var(--ease-out-quint)" }} />
+      </svg>
+      <div className="tnum absolute inset-0 grid place-items-center text-[12.5px] font-bold">{children}</div>
     </div>
   );
 }
@@ -220,7 +259,7 @@ export function Modal({ open, onClose, title, children, wide, footer }: { open: 
       onClose={onClose}
       onClick={(e) => e.target === ref.current && onClose()}
       className={cx(
-        "m-auto max-h-[92dvh] w-[calc(100%-24px)] overflow-hidden rounded-2xl border border-line bg-surface p-0 text-ink shadow-2xl backdrop:bg-night/50 backdrop:backdrop-blur-[2px] open:flex open:flex-col",
+        "glass-strong m-auto max-h-[92dvh] w-[calc(100%-24px)] overflow-hidden rounded-[24px] p-0 text-ink backdrop:bg-night/40 backdrop:backdrop-blur-sm open:flex open:flex-col",
         wide ? "max-w-3xl" : "max-w-lg",
       )}
     >

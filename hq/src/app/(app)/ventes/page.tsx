@@ -1,5 +1,5 @@
 "use client";
-import { BarChart3, FileUp, Rows3, Webhook } from "lucide-react";
+import { BarChart3, FileUp, Rows3, TrendingUp, Webhook } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
@@ -41,6 +41,7 @@ export default function SalesPage() {
   return (
     <div>
       <PageHeader
+        icon={<TrendingUp />}
         title="Ventes"
         subtitle={
           <>
@@ -145,7 +146,7 @@ export default function SalesPage() {
         ) : data ? (
           <div className="max-h-[380px] overflow-auto">
             <table className="w-full text-[13.5px]">
-              <thead className="sticky top-0 bg-surface text-left text-ink-3">
+              <thead className="sticky top-0 bg-glass-strong backdrop-blur-md text-left text-ink-3">
                 <tr>
                   <th className="py-2 font-semibold">Jour</th>
                   {sources.map((s) => (
@@ -163,7 +164,7 @@ export default function SalesPage() {
                     <td className="py-1.5">{dateShort(String(r.date))}</td>
                     {sources.map((s) => (
                       <td key={s} className="py-1.5 text-right">
-                        {r[s] ? eur(Number(r[s]), true) : "—"}
+                        {r[s] ? eur(Number(r[s]), true) : "-"}
                       </td>
                     ))}
                     <td className="py-1.5 text-right font-semibold">{eur(Number(r.total), true)}</td>
@@ -212,7 +213,7 @@ export default function SalesPage() {
       <Card className="mt-5" title="Dernières ventes" pad={false}>
         <div className="max-h-[420px] overflow-auto">
           <table className="w-full min-w-[620px] text-[13.5px]">
-            <thead className="sticky top-0 bg-surface text-left text-ink-3">
+            <thead className="sticky top-0 bg-glass-strong backdrop-blur-md text-left text-ink-3">
               <tr className="border-b border-line">
                 <th className="px-5 py-2.5 font-semibold">Date</th>
                 <th className="px-3 py-2.5 font-semibold">Plateforme</th>
@@ -229,7 +230,7 @@ export default function SalesPage() {
                   <td className="px-3 py-2">{labels[r.source] ?? r.source}</td>
                   <td className="max-w-[220px] truncate px-3 py-2">{r.product}</td>
                   <td className="px-3 py-2 text-ink-2">{KIND[r.kind] ?? r.kind}</td>
-                  <td className="px-3 py-2">{r.country ? `${flag(r.country)} ${r.country}` : "—"}</td>
+                  <td className="px-3 py-2">{r.country ? `${flag(r.country)} ${r.country}` : "-"}</td>
                   <td className={cx("tnum px-5 py-2 text-right font-semibold", r.amount < 0 && "text-coral")}>{eur(r.amount, true)}</td>
                 </tr>
               ))}

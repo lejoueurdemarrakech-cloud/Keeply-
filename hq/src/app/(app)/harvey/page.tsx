@@ -115,7 +115,7 @@ export default function HarveyPage() {
   if (isLoading || !data) {
     return (
       <div>
-        <PageHeader title="Harvey" />
+        <PageHeader icon={<Bot />} title="Harvey" />
         <Skeleton className="h-40" />
       </div>
     );
@@ -130,6 +130,7 @@ export default function HarveyPage() {
   return (
     <div>
       <PageHeader
+        icon={<Bot />}
         title="Harvey"
         subtitle="L'agent de prospection qui tourne sur ton Mac avec ton abonnement Claude : il trouve des commerces, lit leurs sites, repère les signaux d'intérêt et écrit des mails qu'il n'envoie qu'après ton accord."
         actions={
@@ -164,7 +165,7 @@ export default function HarveyPage() {
           { l: "Mails à approuver", v: pending.length },
           { l: "Appels Claude aujourd'hui", v: s?.stats?.claude_calls_today ?? 0 },
         ].map((x) => (
-          <div key={x.l} className="rounded-2xl border border-line bg-surface p-4 shadow-card">
+          <div key={x.l} className="glass rounded-[20px] p-4 ">
             <p className="text-[13px] text-ink-2">{x.l}</p>
             <p className={cx("font-display tnum mt-1 text-[24px] leading-none font-bold", (x as { tone?: string }).tone)}>{x.v}</p>
           </div>

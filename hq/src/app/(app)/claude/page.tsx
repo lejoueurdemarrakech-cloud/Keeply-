@@ -55,7 +55,7 @@ function Meter({ label, value, hint }: { label: string; value: number | null | u
     <div>
       <div className="flex items-baseline justify-between text-[13px]">
         <span className="text-ink-2">{label}</span>
-        <span className="font-display tnum font-semibold">{v == null ? "—" : `${Math.round(v)} %`}</span>
+        <span className="font-display tnum font-semibold">{v == null ? "-" : `${Math.round(v)} %`}</span>
       </div>
       <div className="mt-1.5 h-2 overflow-hidden rounded-full bg-bg-2">
         <div className={cx("h-full rounded-full transition-[width] duration-500", v != null && v >= 85 ? "bg-coral" : v != null && v >= 60 ? "bg-honey" : "bg-violet")} style={{ width: `${v ?? 0}%` }} />
@@ -75,7 +75,7 @@ export default function ClaudePage() {
   if (isLoading || !data) {
     return (
       <div>
-        <PageHeader title="Crédits Claude" />
+        <PageHeader icon={<Gauge />} title="Crédits Claude" />
         <div className="grid gap-4 lg:grid-cols-3">
           {Array.from({ length: 3 }, (_, i) => (
             <Skeleton key={i} className="h-36" />
@@ -125,6 +125,7 @@ export default function ClaudePage() {
   return (
     <div>
       <PageHeader
+        icon={<Gauge />}
         title="Crédits Claude"
         subtitle="Tout ce que Claude fait pour HQ passe par ton abonnement, via le pont installé sur ton Mac. Ici tu vois chaque demande, ce qu'elle a consommé, et ce qu'il te reste."
       />
@@ -173,8 +174,8 @@ export default function ClaudePage() {
             </div>
           </div>
           <ul className="mt-4 space-y-1.5 text-[13px] text-ink-2">
-            <li>Claude : {data.bridge?.claude ?? "—"}</li>
-            <li>Harvey : {data.bridge?.harvey ? (data.bridge.harvey.running ? "en marche" : data.bridge.harvey.dashboard ? "prêt, à l'arrêt" : "non lancé") : "—"}</li>
+            <li>Claude : {data.bridge?.claude ?? "-"}</li>
+            <li>Harvey : {data.bridge?.harvey ? (data.bridge.harvey.running ? "en marche" : data.bridge.harvey.dashboard ? "prêt, à l'arrêt" : "non lancé") : "-"}</li>
           </ul>
           {!data.online && <p className="mt-3 text-[12.5px] text-coral">Mac éteint ou en veille : les demandes à Claude attendront son retour.</p>}
         </Card>
@@ -282,7 +283,7 @@ export default function ClaudePage() {
                     </td>
                     <td className="px-3 py-2 text-ink-2">{e.model}</td>
                     <td className="tnum px-3 py-2 text-right">{num(tokensOf(e))}</td>
-                    <td className="tnum px-3 py-2 text-right text-ink-2">{e.durationMs ? `${Math.round(e.durationMs / 1000)} s` : "—"}</td>
+                    <td className="tnum px-3 py-2 text-right text-ink-2">{e.durationMs ? `${Math.round(e.durationMs / 1000)} s` : "-"}</td>
                     <td className="tnum px-5 py-2 text-right">{usd(e.costUsd)}</td>
                   </tr>
                 ))}

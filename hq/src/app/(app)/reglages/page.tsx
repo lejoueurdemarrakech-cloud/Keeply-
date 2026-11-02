@@ -1,5 +1,5 @@
 "use client";
-import { Save } from "lucide-react";
+import { Save, Settings2 } from "lucide-react";
 import { useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { Button, Card, Field, PageHeader, Skeleton, Toggle } from "@/components/ui";
@@ -50,6 +50,7 @@ function SettingsForm({ initial, onSaved }: { initial: Settings; onSaved: (s: Se
   return (
     <div>
       <PageHeader
+        icon={<Settings2 />}
         title="Réglages"
         subtitle="Tes informations, tes objectifs et le comportement des automatisations."
         actions={

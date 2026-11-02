@@ -1,5 +1,5 @@
 "use client";
-import { CircleAlert, CircleCheck, CircleX, Play, Plus, Trash2, TriangleAlert } from "lucide-react";
+import { CircleAlert, CircleCheck, CircleX, HeartPulse, Play, Plus, Trash2, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -50,6 +50,7 @@ export default function HealthPage() {
   return (
     <div>
       <PageHeader
+        icon={<HeartPulse />}
         title="Santé de l'app"
         subtitle="Chaque jour, le site, les fiches App Store et Google Play, les erreurs de l'app et les avis sont passés au crible. Tu es prévenu par mail si quelque chose casse."
         actions={
