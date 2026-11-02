@@ -26,8 +26,14 @@ export async function POST(req: Request) {
       const recent = v.filter((t) => now - t < 3_600_000);
       if (recent.length) out[k] = recent;
     }
-    blocked = (out[ip]?.length ?? 0) >= PER_IP || (!out[ip] && Object.keys(out).length >= MAX_IPS);
+    blocked = (out[ip]?.length ?? 0) >= PER_IP;
     if (!blocked) out[ip] = [...(out[ip] ?? []), now];
+    // Trop d'adresses suivies : on oublie les plus anciennes plutôt que de bloquer tout le monde.
+    const ips = Object.keys(out);
+    if (ips.length > MAX_IPS) {
+      ips.sort((a, b) => Math.max(...out[a]) - Math.max(...out[b]));
+      for (const k of ips.slice(0, ips.length - MAX_IPS)) delete out[k];
+    }
     return out;
   });
   if (blocked) return NextResponse.json({ error: "Trop d'envois, réessayez plus tard." }, { status: 429, headers: cors });
