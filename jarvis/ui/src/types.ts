@@ -124,6 +124,7 @@ export interface State {
   system: SystemStats;
   memory: { id: string; text: string; at: string }[];
   claude: string | null;
+  claudeLogin?: boolean | null;
   feeds: Record<string, string>;
 }
 

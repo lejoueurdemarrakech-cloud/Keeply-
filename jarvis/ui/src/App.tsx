@@ -233,9 +233,9 @@ export default function App() {
       {/* ---------- en-tête ---------- */}
       <header className="top">
         <div className="brand">
-          <span className={`dot ${s?.claude ? "on" : ""}`} />
+          <span className={`dot ${s?.claude && s.claudeLogin !== false ? "on" : ""}`} />
           <b>{(s?.config.name || "Jarvis").toUpperCase()}</b>
-          <span className="muted">{s?.hq.ok ? "HQ connecté" : "HQ hors ligne"} · {s?.claude ? "Claude prêt" : "Claude absent"}</span>
+          <span className="muted">{s?.hq.ok ? "HQ connecté" : "HQ hors ligne"} · {!s?.claude ? "Claude absent" : s.claudeLogin === false ? "Claude non connecté (Terminal : claude puis /login)" : "Claude prêt"}</span>
         </div>
         <Clock weather={s?.weather} />
         <CreditMeter c={credits} />

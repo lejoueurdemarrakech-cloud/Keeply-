@@ -1,4 +1,4 @@
-import { AGENT_DIRS, assistant, ruleFor, runAgent, runOnce } from "./claude.js";
+import { AGENT_DIRS, LOGIN_HELP, assistant, claudeAuth, ruleFor, runAgent, runOnce } from "./claude.js";
 import { crypto, football, fx, mac, newsView, timer, weatherView } from "./fast.js";
 import { getConfig } from "./config.js";
 import { hqAction, hqSnapshot } from "./hq.js";
@@ -363,12 +363,14 @@ const FILLERS = ["Je regarde ça.", "Je cherche.", "Un instant, je vérifie.", "
 
 /** Démarre Claude à l'avance (appelé au lancement du serveur). */
 export function warmUp() {
+  if (claudeAuth.ok === false) return;
   const cfg = getConfig();
   assistant.configure(systemPrompt(cfg), cfg.model);
   assistant.warm();
 }
 
 export async function askClaude(text, emit, signal) {
+  if (claudeAuth.ok === false) return { say: LOGIN_HELP };
   const cfg = getConfig();
   assistant.configure(systemPrompt(cfg), cfg.model);
   const [hq, w] = await Promise.all([hqSnapshot(), weather(cfg.city)]);
@@ -414,6 +416,7 @@ function describe(d) {
 }
 
 export async function askAgent(task, emit, signal, resume = null, extraAllow = []) {
+  if (claudeAuth.ok === false) return { say: LOGIN_HELP };
   emit({ type: "status", text: "Agent au travail" });
   emit({ type: "agent", phase: resume ? "resume" : "start", task });
   const streamer = sayStreamer((s) => emit({ type: "sentence", text: s }));
@@ -433,7 +436,9 @@ export async function askAgent(task, emit, signal, resume = null, extraAllow = [
   const reply = parseReply(res.text);
   const blocked = /<need>/.test(res.text);
   if (res.denials.length && blocked) {
-    const items = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d) })).filter((x) => x.rule);
+    const all = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d) }));
+    const items = all.filter((x) => x.rule);
+    if (!items.length && all.length) return { say: "Cette action ne peut pas être autorisée en toute sécurité depuis Jarvis : fais-la dans le Terminal si tu en as besoin.", view: reply.view, costUsd: res.costUsd };
     if (!items.length) return { ...reply, costUsd: res.costUsd };
     pending = { kind: "approve", sessionId: res.sessionId, rules: [...new Set(items.map((x) => x.rule))], items, task };
     emit({ type: "approval", items });

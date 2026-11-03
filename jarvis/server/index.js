@@ -4,7 +4,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, proposeAgent, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
 import { credits } from "./credits.js";
-import { usageLimit } from "./claude.js";
+import { checkAuth, claudeAuth, usageLimit } from "./claude.js";
 import { claudeVersion } from "./claude.js";
 import { getConfig, publicConfig, updateConfig } from "./config.js";
 import { hqConfigured, hqSnapshot } from "./hq.js";
@@ -140,6 +140,7 @@ const server = http.createServer(async (req, res) => {
         system: sys,
         memory: getMemory(),
         claude: claudeInfo,
+        claudeLogin: claudeAuth.ok,
         feeds: Object.fromEntries(Object.entries(FEEDS).map(([k, v]) => [k, v.label])),
       });
     }
@@ -185,7 +186,8 @@ server.listen(PORT, "127.0.0.1", async () => {
   console.log(claudeInfo ? `Claude Code : ${claudeInfo}` : "Claude Code introuvable : les questions libres ne marcheront pas.");
   if (!hqConfigured()) console.log("Keeply HQ n'est pas configuré : ouvre les réglages de Jarvis.");
   // Tout est prêt avant la première question : Claude démarré, chiffres HQ et météo en cache.
-  if (claudeInfo) warmUp();
+  // Connecté ? (sinon Jarvis explique quoi faire au lieu d'attendre)
+  if (claudeInfo && (await checkAuth())) warmUp();
   void hqSnapshot(true).catch(() => undefined);
   void weather(getConfig().city).catch(() => undefined);
   void credits().catch(() => undefined);

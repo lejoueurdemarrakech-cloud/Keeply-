@@ -26,6 +26,27 @@ const WORKSPACE = path.join(HOME, "workspace");
 fs.mkdirSync(WORKSPACE, { recursive: true });
 const FAST_FLAGS = ["--setting-sources", "local", "--strict-mcp-config"];
 /** Limite d'usage de l'abonnement Claude (ex. « 5-hour limit · resets 7:40am »). */
+/** Claude Code connecté sur ce Mac ? (vérifié au démarrage du serveur) */
+export const claudeAuth = { ok: null };
+export const LOGIN_HELP = "Claude n'est pas connecté sur ce Mac. Ouvre le Terminal, tape claude, puis /login, et je serai prêt.";
+export function checkAuth() {
+  return new Promise((resolve) => {
+    const c = spawn(bin(), ["-p", "Réponds juste ok", "--model", "haiku", "--output-format", "json", ...FAST_FLAGS], { cwd: WORKSPACE, env: process.env });
+    let out = "";
+    c.stdout.on("data", (d) => (out += d));
+    c.on("error", () => resolve((claudeAuth.ok = false)));
+    c.on("close", () => {
+      try {
+        const r = JSON.parse(out);
+        claudeAuth.ok = !(r.is_error && /not logged in|login/i.test(String(r.result)));
+      } catch {
+        claudeAuth.ok = false;
+      }
+      resolve(claudeAuth.ok);
+    });
+    setTimeout(() => c.kill(), 30_000);
+  });
+}
 export const usageLimit = { message: "", resets: "", at: 0 };
 export function noteLimit(text) {
   const t = String(text || "");
@@ -102,6 +123,8 @@ class Warm {
     child.stderr.on("data", (d) => (stderr = (stderr + d).slice(-3000)));
     lines(child.stdout, (ev) => {
       if (child !== this.child) return;
+      // Pas connecté : Claude répond tout de suite par une erreur, on la remonte sans attendre.
+      if (ev.type === "result" && /not logged in|\/login/i.test(String(ev.result))) claudeAuth.ok = false;
       if (ev.session_id) this.sessionId = ev.session_id;
       const c = this.current;
       if (!c) return;
@@ -212,7 +235,8 @@ const AGENT_ALLOW = [
   "Bash(node -v)", "Bash(uptime)",
 ];
 // Jamais, même avec accord.
-const AGENT_DENY = ["WebSearch", "WebFetch", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
+const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", "Outils/keeply-pont/**", "Library/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
+const AGENT_DENY = [...SECRET_READS, "WebSearch", "WebFetch", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
  * Lance une tâche d'agent. `extraAllow` : règles accordées pour cette reprise
@@ -222,7 +246,7 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
   const cfg = getConfig();
   return new Promise((resolve, reject) => {
     const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", cfg.agentModel || "sonnet", ...FAST_FLAGS,
-      "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, `Write(/${JARVIS_DIR}/**)`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
+      "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
     for (const d of AGENT_DIRS) args.push("--add-dir", d);
     if (resume) args.push("--resume", resume);
     const child = spawn(bin(), args, { cwd: AGENT_DIRS[0] || H, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
@@ -255,10 +279,19 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
 }
 
 /** Règle d'autorisation la plus étroite possible pour un refus donné. */
+// Caractères qui changeraient le sens d'une règle (« , » sépare les règles, « * » et « : » font des jokers,
+// les parenthèses ferment la règle) : une commande qui en contient n'est jamais accordée en règle.
+const UNSAFE_RULE = /[,()*\n\r`]|:\s*$/;
 export function ruleFor(d) {
-  if (d.tool === "Bash" && d.input?.command) return `Bash(${String(d.input.command).replace(/[()]/g, "")})`;
+  if (d.tool === "Bash" && d.input?.command) {
+    const cmd = String(d.input.command).trim();
+    return cmd.length <= 400 && !UNSAFE_RULE.test(cmd) ? `Bash(${cmd})` : null;
+  }
   // Écriture : seulement le fichier montré dans la demande d'accord (chemin absolu → « // »).
-  if (/^(Write|Edit|MultiEdit|NotebookEdit)$/.test(d.tool) && d.input?.file_path) return `${d.tool === "Write" ? "Write" : "Edit"}(/${String(d.input.file_path).replace(/[()]/g, "")})`;
+  if (/^(Write|Edit|MultiEdit|NotebookEdit)$/.test(d.tool) && d.input?.file_path) {
+    const f = String(d.input.file_path);
+    return f.startsWith("/") && !UNSAFE_RULE.test(f) && !/\.\.|\.env|\/\.ssh|\/\.jarvis|keeply-pont|LaunchAgents|\.zshrc|\.bash/.test(f) ? `Edit(/${f})` : null; // « Edit(//chemin) » couvre aussi Write (vérifié avec Claude Code 2.1)
+  }
   return null; // autre outil : on ne l'accorde pas en bloc
 }
 
