@@ -209,7 +209,7 @@ export const clearHistory = () => store.set("jarvis:history", []);
 
 /* ---------- Pubs (résumé court) ---------- */
 
-async function adsSummary() {
+export async function adsSummary() {
   const cfg = await configOrNull("metaads").catch(() => null);
   let data: { campaigns: { name: string; status: string; spend: number; results: number; clicks: number; impressions: number }[] };
   let live = false;

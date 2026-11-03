@@ -64,6 +64,7 @@ export class Speaker {
   private aborts: AbortController[] = [];
   private urls: string[] = [];
   private synthActive = false;
+  private primed = false;
   edgeBroken = false;
   speaking = false;
   onChange: (speaking: boolean) => void = () => {};
@@ -99,6 +100,13 @@ export class Speaker {
         this.analyser.connect(this.ctx.destination);
       }
       if (this.ctx.state === "suspended") void this.ctx.resume();
+      // Safari et Chrome n'autorisent la voix du système qu'après un geste : on l'amorce ici.
+      if (typeof speechSynthesis !== "undefined" && !this.primed) {
+        this.primed = true;
+        const u = new SpeechSynthesisUtterance(" ");
+        u.volume = 0;
+        speechSynthesis.speak(u);
+      }
     } catch {
       // Sans Web Audio, le son passe quand même ; seule l'animation est simulée.
     }

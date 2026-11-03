@@ -1,0 +1,33 @@
+{
+  "name": "jarvis",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Jarvis : l'assistant vocal local du fondateur de Keeply, branché sur Keeply HQ et Claude Code.",
+  "scripts": {
+    "start": "node server/index.js",
+    "dev:ui": "vite --config ui/vite.config.ts",
+    "build": "vite build --config ui/vite.config.ts",
+    "check": "tsc -p ui/tsconfig.json --noEmit && node --check server/index.js",
+    "test": "node --test server/*.test.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "msedge-tts": "2.1.1"
+  },
+  "devDependencies": {
+    "@fontsource-variable/inter-tight": "5.3.0",
+    "@fontsource-variable/jetbrains-mono": "5.3.0",
+    "@fontsource/rajdhani": "5.3.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "@vitejs/plugin-react": "6.2.1",
+    "lucide-react": "1.66.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "5.9.3",
+    "vite": "8.3.5"
+  }
+}
