@@ -153,6 +153,9 @@ export default function App() {
     if (abort.current === ac) setMode(ear.listening ? "listen" : "idle");
   }, [show, close, load]);
 
+  useEffect(() => {
+    approvalPending.current = !!agent?.approval?.length;
+  }, [agent?.approval]);
   const approve = useCallback((ok: boolean, all?: boolean) => void run(!ok ? "non" : all ? "oui pour toute la tâche" : "oui"), [run]);
 
   /* ---------- voix ---------- */
@@ -189,6 +192,12 @@ export default function App() {
           const rest = afterWake(t, s?.config.name || "Jarvis");
           // Conversation en cours : plus besoin de redire « Jarvis » pendant 25 s après sa dernière réponse.
           const inConvo = Date.now() < convoUntil.current;
+          // …sauf pour accorder une action : en mains libres, un « oui » doit commencer par « Jarvis »
+          // (un « oui » entendu au hasard, à la télé ou à côté, ne doit rien autoriser).
+          if (rest === null && approvalPending.current && /^(oui|ok|vas y|d accord|autorise|j autorise|confirme|toute la tache)/.test(n)) {
+            setHeard("Pour autoriser, dis « Jarvis, oui » ou clique sur le bouton.");
+            return;
+          }
           if (rest === null && !inConvo) return;
           const q = rest === null ? t : rest;
           convoUntil.current = Date.now() + 25_000;
@@ -208,7 +217,8 @@ export default function App() {
   }, [run, s?.config.name]);
   const handsFreeRef = useRef(handsFree);
   const convoUntil = useRef(0);
-  const watchOnly = useRef(false); // micro ouvert seulement pour entendre « stop » pendant qu'il parle
+  const watchOnly = useRef(false);
+  const approvalPending = useRef(false); // micro ouvert seulement pour entendre « stop » pendant qu'il parle
   handsFreeRef.current = handsFree;
 
   const listen = useCallback(() => {
