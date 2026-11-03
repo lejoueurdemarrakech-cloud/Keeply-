@@ -388,7 +388,7 @@ async function readPlan(n) {
   const start = Math.max(Date.now(), new Date(items[0].date + "T00:00:00").getTime());
   const list = week ? items.filter((i) => new Date(i.date + "T12:00:00") - start < 7 * 864e5) : items;
   const day = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
-  const lines = list.map((i) => `${day(i.date)}, ${i.heure.replace(":", " heures ")}, ${i.kind === "post" ? "post" : "stories"} : ${i.titre}.${i.texte ? " " + i.texte.replace(/\s+/g, " ").trim() + (/[.!?…]$/.test(i.texte.trim()) ? "" : ".") : ""}`);
+  const lines = list.map((i) => `${day(i.date)}, ${i.heure.replace(/:00$/, " heures").replace(":", " heures ")}, ${i.kind === "post" ? "post" : "stories"} : ${i.titre}.${i.texte ? " " + i.texte.replace(/\s+/g, " ").trim() + (/[.!?…]$/.test(i.texte.trim()) ? "" : ".") : ""}`);
   return {
     say: `Voici ${week ? "la semaine" : "tout le plan"}, ${list.length} contenus. Dis stop pour m'arrêter. ${lines.join(" ")}`,
     view: { kind: "plan", title: "Plan Instagram" },
