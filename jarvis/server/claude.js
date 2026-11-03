@@ -38,7 +38,7 @@ export function checkAuth() {
     c.on("close", () => {
       try {
         const r = JSON.parse(out);
-        claudeAuth.ok = !(r.is_error && /not logged in|login/i.test(String(r.result)));
+        claudeAuth.ok = !(r.is_error && /^not logged in/i.test(String(r.result).trim()));
       } catch {
         claudeAuth.ok = false;
       }
@@ -50,7 +50,7 @@ export function checkAuth() {
 export const usageLimit = { message: "", resets: "", at: 0 };
 export function noteLimit(text) {
   const t = String(text || "");
-  if (!/(usage|5-hour|weekly|hour) limit|limit reached|hit your/i.test(t)) return false;
+  if (!/^(you'?ve hit your|claude (ai )?usage limit|.{0,40}(5-hour|weekly) limit)/i.test(t.trim())) return false;
   usageLimit.message = t.slice(0, 200);
   usageLimit.resets = (t.match(/resets? (?:at )?([0-9:apm ]+(?:\([^)]+\))?)/i) || [])[1]?.trim() || "";
   usageLimit.at = Date.now();
@@ -124,7 +124,8 @@ class Warm {
     lines(child.stdout, (ev) => {
       if (child !== this.child) return;
       // Pas connecté : Claude répond tout de suite par une erreur, on la remonte sans attendre.
-      if (ev.type === "result" && /not logged in|\/login/i.test(String(ev.result))) claudeAuth.ok = false;
+      // Seulement une vraie erreur de Claude (jamais le texte d'une réponse, qui peut venir du web).
+      if (ev.type === "result" && ev.is_error && /^not logged in/i.test(String(ev.result).trim())) claudeAuth.ok = false;
       if (ev.session_id) this.sessionId = ev.session_id;
       const c = this.current;
       if (!c) return;
@@ -289,8 +290,12 @@ export function ruleFor(d) {
   }
   // Écriture : seulement le fichier montré dans la demande d'accord (chemin absolu → « // »).
   if (/^(Write|Edit|MultiEdit|NotebookEdit)$/.test(d.tool) && d.input?.file_path) {
-    const f = String(d.input.file_path);
-    return f.startsWith("/") && !UNSAFE_RULE.test(f) && !/\.\.|\.env|\/\.ssh|\/\.jarvis|keeply-pont|LaunchAgents|\.zshrc|\.bash/.test(f) ? `Edit(/${f})` : null; // « Edit(//chemin) » couvre aussi Write (vérifié avec Claude Code 2.1)
+    const f = path.normalize(String(d.input.file_path));
+    // Seulement un fichier précis (aucun joker), dans les dossiers de l'agent, jamais un fichier caché
+    // ni un secret : impossible d'écrire un fichier de démarrage (~/Library, .zshrc, LaunchAgents…).
+    const inside = AGENT_DIRS.some((dir) => f.startsWith(dir + path.sep));
+    const safe = inside && !/[,()*?[\]{}\n\r`!]/.test(f) && !/(^|\/)\.[^/]/.test(f.slice(H.length)) && !/keeply-pont|\.env|\.pem$|\.key$/.test(f);
+    return safe ? `Edit(/${f})` : null; // « Edit(//chemin) » couvre aussi Write (vérifié avec Claude Code 2.1)
   }
   return null; // autre outil : on ne l'accorde pas en bloc
 }
