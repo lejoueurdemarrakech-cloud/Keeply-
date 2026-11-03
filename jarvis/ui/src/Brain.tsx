@@ -12,15 +12,23 @@ import * as THREE from "three";
    ============================================================ */
 
 export type Mode = "idle" | "listen" | "think" | "speak";
+/** Un point de mémoire : tâche, souvenir, contenu du lancement, mail… */
+export interface BrainNode {
+  id: string;
+  label: string;
+  kind: "task" | "memory" | "plan" | "mail";
+}
 export interface BrainHandle {
-  focus: (seed: string) => { x: number; y: number };
+  focus: (seed: string, nodeId?: string) => { x: number; y: number };
   unfocus: () => void;
 }
 interface Props {
   mode: Mode;
   level: () => number; // niveau sonore 0..1 (voix ou micro)
   accent: string; // "r g b"
+  nodes: BrainNode[];
 }
+const NODE_COLOR: Record<BrainNode["kind"], string> = { task: "#FFC15E", memory: "#5EE7FF", plan: "#FF7AC8", mail: "#6CF0A8" };
 
 const N = 7200;
 const rand = (() => {
@@ -78,8 +86,11 @@ const FRAG = /* glsl */ `
     gl_FragColor = vec4(vColor, (core * core + halo) * vAlpha);
   }`;
 
-export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level, accent }, ref) {
+export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level, accent, nodes }, ref) {
   const host = useRef<HTMLDivElement>(null);
+  const labels = useRef<HTMLDivElement>(null);
+  const nodesRef = useRef(nodes);
+  nodesRef.current = nodes;
   const api = useRef<BrainHandle | null>(null);
   const modeRef = useRef(mode);
   const levelRef = useRef(level);
@@ -87,7 +98,7 @@ export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level
   modeRef.current = mode;
   levelRef.current = level;
   accentRef.current = accent;
-  useImperativeHandle(ref, () => ({ focus: (s) => api.current!.focus(s), unfocus: () => api.current?.unfocus() }), []);
+  useImperativeHandle(ref, () => ({ focus: (s, n) => api.current!.focus(s, n), unfocus: () => api.current?.unfocus() }), []);
 
   useEffect(() => {
     const el = host.current!;
@@ -212,15 +223,57 @@ export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level
     })();
     scene.add(halo);
 
+    /* --- points de mémoire : un par tâche, souvenir, contenu du lancement, mail --- */
+    type NodeObj = { id: string; pos: THREE.Vector3; sprite: THREE.Sprite; label: HTMLDivElement; phase: number };
+    const nodeObjs: NodeObj[] = [];
+    const surface = pts.filter((p) => p.length() > 0.62 && p.y > -0.3);
+    let lastKey = "";
+    const syncNodes = () => {
+      const list = nodesRef.current || [];
+      const key = list.map((n) => n.id + n.label).join("|");
+      if (key === lastKey) return;
+      lastKey = key;
+      for (const o of nodeObjs) (brain.remove(o.sprite), o.label.remove());
+      nodeObjs.length = 0;
+      const used = new Set<number>();
+      for (const n of list) {
+        let h = 0;
+        for (const ch of n.id) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+        let idx = h % surface.length;
+        while (used.has(idx)) idx = (idx + 37) % surface.length;
+        used.add(idx);
+        const pos = surface[idx].clone().multiplyScalar(1.03);
+        const mat = new THREE.SpriteMaterial({ map: dotTex, color: new THREE.Color(NODE_COLOR[n.kind]), transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+        const sprite = new THREE.Sprite(mat);
+        sprite.position.copy(pos);
+        brain.add(sprite);
+        const label = document.createElement("div");
+        label.className = `node-label ${n.kind}`;
+        label.textContent = n.label.length > 34 ? n.label.slice(0, 33) + "…" : n.label;
+        labels.current?.appendChild(label);
+        nodeObjs.push({ id: n.id, pos, sprite, label, phase: (h % 100) / 16 });
+      }
+    };
+
     /* --- caméra : zoom vers une étoile --- */
     let target: THREE.Vector3 | null = null;
     let focusK = 0;
     const lookAt = new THREE.Vector3();
     const camGoal = HOME.clone();
     api.current = {
-      focus(seed) {
+      focus(seed, nodeId) {
         let h = 0;
         for (const ch of seed) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+        const node = nodeId ? nodeObjs.find((o) => o.id === nodeId) : null;
+        if (node) {
+          target = node.pos.clone();
+          uniforms.uFocusPos.value.copy(target);
+          const world = target.clone().applyMatrix4(brain.matrixWorld);
+          const dir = world.clone().sub(camera.position).normalize();
+          camGoal.copy(world).sub(dir.multiplyScalar(1.1));
+          const sc = world.clone().project(camera);
+          return { x: ((sc.x + 1) / 2) * el.clientWidth, y: ((1 - sc.y) / 2) * el.clientHeight };
+        }
         // une étoile de surface, du côté visible
         let idx = h % N;
         for (let k = 0; k < 400; k++) {
@@ -285,8 +338,28 @@ export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level
       // de profil, il oscille lentement vers les trois quarts (un cerveau se reconnaît de côté)
       brain.rotation.y = -1.25 + Math.sin(rot) * 0.55 + mouse.x * 0.25 * (1 - focusK);
       brain.rotation.x = 0.12 + mouse.y * 0.12 * (1 - focusK);
-      const breathe = 1 + Math.sin(now / 1600) * 0.012 + lev * 0.05;
+      const breathe = 1 + (Math.sin(now / 1600) * 0.012 + lev * 0.05) * (1 - focusK);
       brain.scale.setScalar(breathe);
+      // points de mémoire : pulsation + étiquettes projetées à l'écran
+      syncNodes();
+      for (const o of nodeObjs) {
+        const k = 0.085 * (1 + Math.sin(now / 420 + o.phase) * 0.18) * (target && target.equals(o.pos) ? 1.8 : 1);
+        o.sprite.scale.set(k, k, 1);
+      }
+      if (labels.current) {
+        const show = 1 - focusK;
+        for (const o of nodeObjs) {
+          const w = o.pos.clone().applyMatrix4(brain.matrixWorld);
+          const front = w.z > -0.05; // côté tourné vers la caméra
+          const p = w.project(camera);
+          const el2 = o.label;
+          const sx = ((p.x + 1) / 2) * el.clientWidth, sy = ((1 - p.y) / 2) * el.clientHeight;
+          el2.style.transform = `translate(${sx + 10}px, ${sy - 9}px)`;
+          // pas d'étiquette sous les panneaux de côté
+          const clear = sx > 340 && sx + el2.offsetWidth + 10 < el.clientWidth - 330;
+          el2.style.opacity = String(front && clear && p.z < 1 ? 0.85 * show : 0);
+        }
+      }
       sky.rotation.y += dt * 0.004;
       // influx
       const speed = 0.4 + act * 2.4 + lev * 1.5;
@@ -322,5 +395,10 @@ export const Brain = forwardRef<BrainHandle, Props>(function Brain({ mode, level
     };
   }, []);
 
-  return <div ref={host} className="brain" aria-hidden />;
+  return (
+    <div className="brain" aria-hidden>
+      <div ref={host} className="brain-gl" />
+      <div ref={labels} className="brain-labels" />
+    </div>
+  );
 });

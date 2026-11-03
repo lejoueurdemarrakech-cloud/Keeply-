@@ -36,3 +36,12 @@ export async function ask(text: string, onEvent: (e: Ev) => void, signal: AbortS
     }
   }
 }
+
+/** Envoie un extrait de voix (PCM 16 kHz mono) à la reconnaissance locale. */
+export async function stt(pcm: Int16Array): Promise<{ text: string; ms: number }> {
+  const h = await headers();
+  const r = await fetch("/api/stt", { method: "POST", headers: { ...h, "Content-Type": "application/octet-stream" }, body: pcm.buffer as ArrayBuffer });
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error((d as { error?: string }).error || `Erreur ${r.status}`);
+  return d as { text: string; ms: number };
+}

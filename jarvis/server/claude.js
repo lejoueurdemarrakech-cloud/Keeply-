@@ -91,7 +91,9 @@ function route(ev, h) {
 
 /* ---------------- 1. Assistant gardé chaud ---------------- */
 
-const ASSIST_TOOLS = "WebSearch,WebFetch";
+const ASSIST_TOOLS = "WebSearch,WebFetch,mcp__browser";
+// Son propre navigateur pour les recherches récentes : Edge piloté par Playwright, invisible, profil jetable.
+const BROWSER_MCP = JSON.stringify({ mcpServers: { browser: { type: "stdio", command: "npx", args: ["-y", "@playwright/mcp@latest", "--browser", "msedge", "--headless", "--isolated"] } } });
 const ASSIST_DENY = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput";
 
 class Warm {
@@ -114,7 +116,7 @@ class Warm {
 
   spawn(resume) {
     const args = ["-p", "--input-format", "stream-json", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", this.model, ...FAST_FLAGS,
-      "--append-system-prompt", this.system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY];
+      "--append-system-prompt", this.system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY, "--mcp-config", BROWSER_MCP];
     if (resume) args.push("--resume", resume);
     const child = spawn(bin(), args, { cwd: WORKSPACE, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
     this.child = child;
@@ -199,9 +201,10 @@ class Warm {
 export const assistant = new Warm();
 
 /** Question ponctuelle (widgets) : processus court, sans conversation. */
-export function runOnce({ prompt, system, model }) {
+export function runOnce({ prompt, system, model, noTools = false }) {
   return new Promise((resolve, reject) => {
-    const child = spawn(bin(), ["-p", "--output-format", "json", "--model", model || getConfig().model, ...FAST_FLAGS, "--append-system-prompt", system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY], { cwd: WORKSPACE, env: process.env });
+    const tools = noTools ? ["--disallowedTools", `${ASSIST_DENY},WebSearch,WebFetch`] : ["--allowedTools", "WebSearch,WebFetch", "--disallowedTools", ASSIST_DENY];
+    const child = spawn(bin(), ["-p", "--output-format", "json", "--model", model || getConfig().model, ...FAST_FLAGS, "--append-system-prompt", system, ...tools], { cwd: WORKSPACE, env: process.env });
     let out = "";
     child.stdout.on("data", (d) => (out += d));
     child.on("error", reject);
@@ -225,7 +228,8 @@ const H = os.homedir();
 // sont protégés par macOS : l'agent y accède seulement si Claude Code a reçu l'autorisation du Mac.
 export const JARVIS_DIR = path.join(H, "Jarvis");
 fs.mkdirSync(JARVIS_DIR, { recursive: true });
-export const AGENT_DIRS = [JARVIS_DIR, path.join(H, "Projet App"), path.join(H, "Outils"), path.join(H, "Documents"), path.join(H, "Downloads")].filter((d) => fs.existsSync(d));
+export const AGENT_DIRS = [JARVIS_DIR, path.join(H, "Projet App"), path.join(H, "Outils"), path.join(H, "Documents"), path.join(H, "Downloads"), path.join(H, "Desktop")].filter((d) => fs.existsSync(d));
+export const SCREEN_FILE = path.join(JARVIS_DIR, "ecran.png");
 // Sans demander : lire, chercher, et quelques commandes sans danger.
 // Seulement des commandes qui ne peuvent ni écrire, ni exécuter autre chose, ni sortir du Mac.
 // L'agent n'a PAS accès au web : rien de ce qu'il lit ne peut partir sur Internet.
@@ -234,6 +238,8 @@ const AGENT_ALLOW = [
   "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc -l:*)",
   "Bash(git status)", "Bash(git branch)", "Bash(git log --oneline -20)",
   "Bash(node -v)", "Bash(uptime)",
+  "Bash(open:*)", // ouvrir une page, un fichier ou une app, comme toi
+  "Bash(mdfind:*)", // recherche Spotlight dans tout le Mac (lecture seule)
 ];
 // Jamais, même avec accord.
 const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", "Outils/keeply-pont/**", "Library/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
@@ -247,10 +253,10 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
   const cfg = getConfig();
   return new Promise((resolve, reject) => {
     const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", cfg.agentModel || "sonnet", ...FAST_FLAGS,
-      "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
-    for (const d of AGENT_DIRS) args.push("--add-dir", d);
+      "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, `Bash(screencapture -x ${SCREEN_FILE})`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
+    args.push("--add-dir", H); // tout le dossier personnel (sauf les secrets, refusés plus haut)
     if (resume) args.push("--resume", resume);
-    const child = spawn(bin(), args, { cwd: AGENT_DIRS[0] || H, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawn(bin(), args, { cwd: H, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
     let text = "";
     let sessionId = resume || null;
     let final = null;

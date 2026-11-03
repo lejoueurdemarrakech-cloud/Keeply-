@@ -312,6 +312,41 @@ function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean)
   );
 }
 
+function MailView({ v }: { v: Rich }) {
+  const items = (v.items as { id: string; from: string; subject: string; date: string; body: string }[]) || [];
+  if (!items.length) return <p className="empty">Aucun mail.</p>;
+  return (
+    <div className="mail-list">
+      {items.map((m, i) => (
+        <div key={m.id + i} className="glass mail-item in" style={st(i)}>
+          <div className="mail-top">
+            <b>{m.from}</b>
+            <span className="muted tiny">{new Date(m.date).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+          </div>
+          <p className="mail-subject">{m.subject}</p>
+          <p className="muted mail-body">{m.body}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AgendaView({ v }: { v: Rich }) {
+  const items = (v.items as { time: string; title: string; sub: string }[]) || [];
+  if (!items.length) return <p className="empty">Rien de prévu.</p>;
+  return (
+    <div className="timeline">
+      {items.map((x, i) => (
+        <div key={i} className="glass tl-item in" style={st(i)}>
+          <span className="tl-date">{x.time}</span>
+          <b>{x.title}</b>
+          <span className="muted">{x.sub}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function Panel({ title, i, children }: { title: string; i: number; children: ReactNode }) {
   return (
     <div className="glass panel in" style={st(i)}>
@@ -335,6 +370,8 @@ export function RichView({ v, s, agent, onApprove }: { v: Rich; s: State; agent:
   if (k === "keeply") return <KeeplyView s={s} />;
   if (k === "prospection") return <ProspectionView s={s} />;
   if (k === "plan") return <PlanView s={s} />;
+  if (k === "mail") return <MailView v={v} />;
+  if (k === "agenda") return <AgendaView v={v} />;
   return (
     <div className="v-generic in" style={st(0)}>
       <ViewRenderer view={v} />

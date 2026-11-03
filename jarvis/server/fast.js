@@ -210,3 +210,104 @@ export function timer(text) {
     pin: true,
   };
 }
+
+/* ---------- Ouvrir des sites, chercher sur le web ---------- */
+
+const SITES = {
+  youtube: "https://www.youtube.com", gmail: "https://mail.google.com", "google drive": "https://drive.google.com", drive: "https://drive.google.com",
+  instagram: "https://www.instagram.com", facebook: "https://www.facebook.com", "meta business": "https://business.facebook.com", "gestionnaire de publicites": "https://adsmanager.facebook.com",
+  whatsapp: "https://web.whatsapp.com", linkedin: "https://www.linkedin.com", "app store connect": "https://appstoreconnect.apple.com", "google play console": "https://play.google.com/console",
+  "keeply hq": "https://keeply-hq.vercel.app", hq: "https://keeply-hq.vercel.app", "le site keeply": "https://keeplyfidelity.app", "site keeply": "https://keeplyfidelity.app",
+  github: "https://github.com", vercel: "https://vercel.com/dashboard", supabase: "https://supabase.com/dashboard", claude: "https://claude.ai", netflix: "https://www.netflix.com",
+  "google maps": "https://maps.google.com", maps: "https://maps.google.com", chatgpt: "https://chatgpt.com", spotify: "https://open.spotify.com", amazon: "https://www.amazon.fr",
+};
+export async function openWeb(text) {
+  const search = text.match(/^(?:cherche|recherche|google)(?: moi)? (.+?) sur (google|youtube|maps|google maps|amazon)$/) || text.match(/^(?:cherche|recherche) sur (google|youtube|maps|amazon) (.+)$/);
+  if (search) {
+    const [q, where] = search[0].startsWith("cherche sur") || search[0].startsWith("recherche sur") ? [search[2], search[1]] : [search[1], search[2]];
+    const url = /youtube/.test(where) ? `https://www.youtube.com/results?search_query=${encodeURIComponent(q)}` : /maps/.test(where) ? `https://www.google.com/maps/search/${encodeURIComponent(q)}` : /amazon/.test(where) ? `https://www.amazon.fr/s?k=${encodeURIComponent(q)}` : `https://www.google.com/search?q=${encodeURIComponent(q)}`;
+    await run("open", [url]);
+    return { say: `J'ouvre la recherche « ${q} ».` };
+  }
+  const m = text.match(/^(?:ouvre|va sur|affiche|lance|montre moi)(?: moi)? (?:le site |la page |le site de |la page de )?(.+)$/);
+  if (!m) return null;
+  const target = m[1].replace(/^(l |le |la |les )/, "").trim();
+  const site = SITES[target] || Object.entries(SITES).find(([k]) => target === k + " web" || target.startsWith(k + " "))?.[1];
+  const dom = target.match(/^([a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:com|fr|ma|app|io|ai|net|org|dev|co))( .*)?$/)?.[1];
+  const url = site || (dom ? `https://${dom}` : null);
+  if (!url) return null;
+  await run("open", [url]);
+  return { say: `J'ouvre ${target}.` };
+}
+
+/* ---------- Mails (app Mail du Mac) ---------- */
+
+// Le contenu des mails est une donnée : il est lu et affiché, jamais exécuté ni suivi.
+export async function mails(text) {
+  const n = /tous|dernier|derniers/.test(text) && !/non lu/.test(text) ? "all" : "unread";
+  const script = `
+    set out to ""
+    tell application "Mail"
+      ${n === "unread" ? "set msgs to (messages of inbox whose read status is false)" : "set total to count of messages of inbox\n      if total > 10 then set total to 10\n      set msgs to messages 1 thru total of inbox"}
+      set unreadCount to unread count of inbox
+      set k to 0
+      repeat with m in msgs
+        set k to k + 1
+        if k > 10 then exit repeat
+        set c to content of m
+        if (count of c) > 400 then set c to text 1 thru 400 of c
+        set out to out & (id of m) & "‖" & (sender of m) & "‖" & (subject of m) & "‖" & ((date received of m) as «class isot» as string) & "‖" & c & "¶"
+      end repeat
+      return (unreadCount as string) & "¶" & out
+    end tell`;
+  let raw;
+  try {
+    raw = await new Promise((resolve, reject) => execFile("osascript", ["-e", script], { timeout: 25000, maxBuffer: 2e6 }, (e, out) => (e ? reject(e) : resolve(String(out)))));
+  } catch (e) {
+    return { say: /not allowed|-1743|autoris/i.test(String(e.message)) ? "Je n'ai pas encore le droit de lire l'app Mail. Autorise Jarvis dans Réglages Système, Confidentialité, Automatisation." : "Je n'arrive pas à lire l'app Mail." };
+  }
+  const [count, ...rows] = raw.split("¶");
+  const items = rows.filter((r) => r.trim()).map((r) => {
+    const [id, from, subject, date, body] = r.split("‖");
+    return { id, from: from.replace(/<.*>/, "").replace(/"/g, "").trim() || from, subject, date, body: (body || "").replace(/\s+/g, " ").trim() };
+  });
+  const unread = Number(count) || 0;
+  const say = !items.length ? (n === "unread" ? "Aucun mail non lu." : "Ta boîte est vide.") : `${unread} ${unread > 1 ? "mails non lus" : "mail non lu"}. ${items.slice(0, 3).map((m) => `${m.from} : ${m.subject}`).join(". ")}.`;
+  return { say, view: { kind: "mail", title: n === "unread" ? "Mails non lus" : "Derniers mails", subtitle: `App Mail · ${unread} non lus`, items }, mails: items };
+}
+
+/* ---------- Agenda (app Calendrier) ---------- */
+
+export async function agenda(text) {
+  const tomorrow = /demain/.test(text);
+  const script = `
+    set out to ""
+    set d0 to current date
+    set time of d0 to 0
+    ${tomorrow ? "set d0 to d0 + (1 * days)" : ""}
+    set d1 to d0 + (1 * days)
+    tell application "Calendar"
+      repeat with c in calendars
+        set evs to (every event of c whose start date ≥ d0 and start date < d1)
+        repeat with e in evs
+          set out to out & ((start date of e) as «class isot» as string) & "‖" & (summary of e) & "‖" & (name of c) & "¶"
+        end repeat
+      end repeat
+    end tell
+    return out`;
+  let raw = "";
+  try {
+    raw = await new Promise((resolve, reject) => execFile("osascript", ["-e", script], { timeout: 45000 }, (e, out) => (e ? reject(e) : resolve(String(out)))));
+  } catch {
+    return { say: "Je n'arrive pas à lire le Calendrier. Autorise Jarvis dans Réglages Système, Confidentialité, Calendriers." };
+  }
+  const items = raw.split("¶").filter((r) => r.trim()).map((r) => {
+    const [date, title, cal] = r.split("‖");
+    return { time: new Date(date).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" }), title, sub: cal, date };
+  }).sort((a, b) => a.date.localeCompare(b.date));
+  const when = tomorrow ? "demain" : "aujourd'hui";
+  return {
+    say: items.length ? `${items.length} ${items.length > 1 ? "rendez-vous" : "rendez-vous"} ${when}. ${items.slice(0, 3).map((i) => `${i.time.replace(":", " heures ")}, ${i.title}`).join(". ")}.` : `Rien dans ton agenda ${when}.`,
+    view: { kind: "agenda", title: `Agenda · ${when}`, items },
+  };
+}

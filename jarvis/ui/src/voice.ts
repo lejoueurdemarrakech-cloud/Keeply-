@@ -2,7 +2,7 @@
    Voix de l'interface :
    - Mouth : lit les phrases au fur et à mesure (audio fourni par le
      serveur local : voix Edge ou voix du Mac), file d'attente + niveau.
-   - Ear : reconnaissance vocale du navigateur (Chrome ou Safari).
+   - Ear : micro + détection de silence, transcription par Whisper sur le Mac.
    ============================================================ */
 
 export class Mouth {
@@ -111,27 +111,23 @@ export class Mouth {
   }
 }
 
-interface Rec {
-  lang: string;
-  continuous: boolean;
-  interimResults: boolean;
-  start(): void;
-  abort(): void;
-  onresult: ((e: { resultIndex: number; results: ArrayLike<{ isFinal: boolean; 0: { transcript: string } }> }) => void) | null;
-  onend: (() => void) | null;
-  onerror: ((e: { error: string }) => void) | null;
-}
-type RecCtor = new () => Rec;
-const Ctor = (): RecCtor | undefined => (window as unknown as { SpeechRecognition?: RecCtor }).SpeechRecognition || (window as unknown as { webkitSpeechRecognition?: RecCtor }).webkitSpeechRecognition;
-export const earSupported = () => typeof window !== "undefined" && !!Ctor();
+/* ---------- Oreille : micro + détection de silence + Whisper local ---------- */
+
+export const earSupported = () => typeof navigator !== "undefined" && !!navigator.mediaDevices?.getUserMedia;
 
 export class Ear {
-  private rec: Rec | null = null;
-  private keep = false;
   private stream: MediaStream | null = null;
   private ctx: AudioContext | null = null;
-  private analyser: AnalyserNode | null = null;
-  private data: Uint8Array<ArrayBuffer> | null = null;
+  private node: ScriptProcessorNode | null = null;
+  private keep = false;
+  private chunks: Float32Array[] = [];
+  private speaking = false;
+  private silentMs = 0;
+  private spokenMs = 0;
+  private waitedMs = 0;
+  private noise = 0.006;
+  private rms = 0;
+  paused = false; // pendant que Jarvis parle (évite qu'il s'entende lui-même)
   listening = false;
   private h = { onInterim: (_: string) => {}, onFinal: (_: string) => {}, onState: (_: boolean) => {}, onError: (_: string) => {} };
 
@@ -140,98 +136,107 @@ export class Ear {
   }
 
   level() {
-    if (!this.listening || !this.analyser || !this.data) return 0;
-    this.analyser.getByteTimeDomainData(this.data);
-    let peak = 0;
-    for (let i = 0; i < this.data.length; i++) peak = Math.max(peak, Math.abs(this.data[i] - 128));
-    return Math.min(1, peak / 55);
+    return this.listening ? Math.min(1, this.rms * 14) : 0;
   }
 
-  private async meter() {
-    if (this.stream) return;
-    try {
-      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
-      this.ctx = new AudioContext();
-      this.analyser = this.ctx.createAnalyser();
-      this.analyser.fftSize = 512;
-      this.data = new Uint8Array(new ArrayBuffer(this.analyser.fftSize));
-      this.ctx.createMediaStreamSource(this.stream).connect(this.analyser);
-    } catch {}
-  }
-
-  private release() {
-    this.stream?.getTracks().forEach((t) => t.stop());
-    this.stream = null;
-    void this.ctx?.close().catch(() => undefined);
-    this.ctx = null;
-    this.analyser = null;
-  }
-
-  start(continuous: boolean) {
-    const C = Ctor();
-    if (!C) {
-      this.h.onError("Reconnaissance vocale indisponible dans ce navigateur : utilise Chrome ou Safari.");
-      return;
-    }
+  async start(continuous: boolean) {
     this.stop();
     this.keep = continuous;
-    const rec = new C();
-    rec.lang = "fr-FR";
-    rec.continuous = continuous;
-    rec.interimResults = true;
-    rec.onresult = (e) => {
-      let interim = "";
-      for (let i = e.resultIndex; i < e.results.length; i++) {
-        const r = e.results[i];
-        if (r.isFinal) this.h.onFinal(r[0].transcript.trim());
-        else interim += r[0].transcript;
-      }
-      this.h.onInterim(interim.trim());
-    };
-    rec.onerror = (e) => {
-      if (e.error === "not-allowed" || e.error === "service-not-allowed") {
-        this.keep = false;
-        this.h.onError("Micro refusé : autorise le micro pour Jarvis (Réglages Système > Confidentialité > Micro, et dans le navigateur).");
-      } else if (e.error === "network") this.h.onError("La reconnaissance vocale a besoin d'Internet.");
-      else if (e.error === "audio-capture") this.h.onError("Aucun micro détecté.");
-    };
-    rec.onend = () => {
-      this.h.onInterim("");
-      if (this.keep && this.rec === rec) {
-        try {
-          rec.start();
-          return;
-        } catch {}
-      }
-      if (this.rec === rec) {
-        this.rec = null;
-        this.listening = false;
-        this.release();
-        this.h.onState(false);
-      }
-    };
-    this.rec = rec;
     try {
-      rec.start();
-      this.listening = true;
-      this.h.onState(true);
-      void this.meter();
+      this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
     } catch {
-      this.rec = null;
+      this.h.onError("Micro refusé : autorise le micro pour Jarvis (Réglages Système > Confidentialité > Micro, puis dans la fenêtre Jarvis).");
+      return;
+    }
+    this.ctx = new AudioContext();
+    if (this.ctx.state === "suspended") await this.ctx.resume();
+    const src = this.ctx.createMediaStreamSource(this.stream);
+    this.node = this.ctx.createScriptProcessor(2048, 1, 1);
+    const frameMs = (2048 / this.ctx.sampleRate) * 1000;
+    this.reset();
+    this.node.onaudioprocess = (e) => {
+      const x = e.inputBuffer.getChannelData(0);
+      let sum = 0;
+      for (let i = 0; i < x.length; i++) sum += x[i] * x[i];
+      this.rms = Math.sqrt(sum / x.length);
+      if (this.paused) return;
+      const loud = this.rms > Math.max(0.012, this.noise * 3.2);
+      if (!this.speaking) {
+        // le bruit de fond s'adapte tant qu'on ne parle pas
+        this.noise = this.noise * 0.97 + this.rms * 0.03;
+        this.chunks.push(new Float32Array(x)); // garde 0,3 s avant le début de la phrase
+        if (this.chunks.length > Math.ceil(300 / frameMs)) this.chunks.shift();
+        this.waitedMs += frameMs;
+        if (loud) {
+          this.speaking = true;
+          this.h.onInterim("…");
+        } else if (!this.keep && this.waitedMs > 9000) {
+          this.h.onInterim("");
+          this.stop();
+        }
+        return;
+      }
+      this.chunks.push(new Float32Array(x));
+      this.spokenMs += frameMs;
+      this.silentMs = loud ? 0 : this.silentMs + frameMs;
+      // fin de phrase : 0,8 s de silence, ou 25 s maximum
+      if ((this.silentMs > 800 && this.spokenMs > 350) || this.spokenMs > 25_000) void this.flush();
+    };
+    src.connect(this.node);
+    this.node.connect(this.ctx.destination);
+    this.listening = true;
+    this.h.onState(true);
+  }
+
+  private reset() {
+    this.chunks = [];
+    this.speaking = false;
+    this.silentMs = this.spokenMs = this.waitedMs = 0;
+  }
+
+  /** Envoie la phrase à Whisper (en 16 kHz) et passe la main. */
+  private async flush() {
+    const rate = this.ctx?.sampleRate || 48000;
+    const parts = this.chunks;
+    this.reset();
+    if (!this.keep) this.stop();
+    const len = parts.reduce((a, c) => a + c.length, 0);
+    const all = new Float32Array(len);
+    let o = 0;
+    for (const c of parts) (all.set(c, o), (o += c.length));
+    const ratio = rate / 16000;
+    const out = new Int16Array(Math.floor(len / ratio));
+    for (let i = 0; i < out.length; i++) {
+      // moyenne sur la fenêtre : rééchantillonnage simple sans repliement audible
+      const a = Math.floor(i * ratio), b = Math.min(len, Math.floor((i + 1) * ratio));
+      let s = 0;
+      for (let k = a; k < b; k++) s += all[k];
+      out[i] = Math.max(-1, Math.min(1, s / Math.max(1, b - a))) * 32767;
+    }
+    this.h.onInterim("Transcription…");
+    try {
+      const { stt } = await import("./api");
+      const r = await stt(out);
+      this.h.onInterim("");
+      if (r.text) this.h.onFinal(r.text);
+    } catch (e) {
+      this.h.onInterim("");
+      this.h.onError(e instanceof Error ? e.message : "Reconnaissance vocale indisponible.");
     }
   }
 
   stop() {
     this.keep = false;
-    if (this.rec) {
-      const r = this.rec;
-      this.rec = null;
-      r.onend = null;
-      r.abort();
+    this.node?.disconnect();
+    this.node = null;
+    this.stream?.getTracks().forEach((t) => t.stop());
+    this.stream = null;
+    void this.ctx?.close().catch(() => undefined);
+    this.ctx = null;
+    if (this.listening) {
+      this.listening = false;
+      this.h.onState(false);
     }
-    this.listening = false;
-    this.release();
-    this.h.onState(false);
   }
 }
 

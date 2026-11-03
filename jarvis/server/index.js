@@ -5,6 +5,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, proposeAgent, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
 import { credits } from "./credits.js";
+import { startStt, sttState, transcribe } from "./stt.js";
 import { checkAuth, claudeAuth, usageLimit } from "./claude.js";
 import { claudeVersion } from "./claude.js";
 import { getConfig, publicConfig, updateConfig } from "./config.js";
@@ -140,7 +141,9 @@ const server = http.createServer(async (req, res) => {
     if (req.method !== "GET") {
       const t = String(req.headers["x-jarvis-token"] || "");
       const okToken = t.length === TOKEN.length && crypto.timingSafeEqual(Buffer.from(t), Buffer.from(TOKEN));
-      if (!okToken || !/application\/json/.test(String(req.headers["content-type"] || ""))) return send(res, 403, { error: "jeton manquant" });
+      const ct = String(req.headers["content-type"] || "");
+      const okType = p === "/api/stt" ? /application\/octet-stream/.test(ct) : /application\/json/.test(ct);
+      if (!okToken || !okType) return send(res, 403, { error: "jeton manquant" });
     }
     lastSeen = Date.now();
     if (p === "/api/state" && req.method === "GET") {
@@ -157,6 +160,7 @@ const server = http.createServer(async (req, res) => {
         memory: getMemory(),
         claude: claudeInfo,
         claudeLogin: claudeAuth.ok,
+        stt: sttState,
         feeds: Object.fromEntries(Object.entries(FEEDS).map(([k, v]) => [k, v.label])),
       });
     }
@@ -164,6 +168,16 @@ const server = http.createServer(async (req, res) => {
     if (p === "/api/credits") return send(res, 200, { ...(await credits()), limit: usageLimit.at && Date.now() - usageLimit.at < 5 * 3600_000 ? usageLimit : null });
     if (p === "/api/approval") return send(res, 200, { pending: pendingApproval()?.items || null });
     if (p === "/api/ask" && req.method === "POST") return ask(req, res);
+    if (p === "/api/stt" && req.method === "POST") {
+      const chunks = [];
+      let size = 0;
+      for await (const c of req) {
+        size += c.length;
+        if (size > 16000 * 2 * 40) return send(res, 413, { error: "Extrait trop long (40 s maximum)." });
+        chunks.push(c);
+      }
+      return send(res, 200, await transcribe(Buffer.concat(chunks)));
+    }
     if (p === "/api/cancel" && req.method === "POST") {
       busy?.abort();
       return send(res, 200, { ok: true });
@@ -202,6 +216,7 @@ server.listen(PORT, "127.0.0.1", async () => {
   console.log(claudeInfo ? `Claude Code : ${claudeInfo}` : "Claude Code introuvable : les questions libres ne marcheront pas.");
   if (!hqConfigured()) console.log("Keeply HQ n'est pas configuré : ouvre les réglages de Jarvis.");
   // Tout est prêt avant la première question : Claude démarré, chiffres HQ et météo en cache.
+  startStt();
   // Connecté ? (sinon Jarvis explique quoi faire au lieu d'attendre)
   if (claudeInfo && (await checkAuth())) warmUp();
   void hqSnapshot(true).catch(() => undefined);

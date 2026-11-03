@@ -1,7 +1,7 @@
 import { Activity, CalendarClock, ChevronRight, Mic, MicOff, Settings2, Sparkles, Target, Terminal, Volume2, VolumeX, X } from "lucide-react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ask, post } from "./api";
-import { Brain, type BrainHandle, type Mode } from "./Brain";
+import { Brain, type BrainHandle, type BrainNode, type Mode } from "./Brain";
 import { Settings } from "./Settings";
 import type { Credits, Ev, State } from "./types";
 import { Ring } from "./ViewRenderer";
@@ -18,7 +18,7 @@ import { Ear, Mouth, afterWake } from "./voice";
 const mouth = new Mouth();
 const ear = new Ear();
 const ACCENT: Record<string, string> = { arc: "94 231 255", keeply: "150 125 255", mark: "255 82 82", nebula: "205 130 255", mono: "235 238 242" };
-const SUGGEST = ["Briefing", "Mes chiffres", "Les matchs ce soir", "Météo", "Les actus", "Le lancement", "Prospection", "Bitcoin"];
+const SUGGEST = ["Briefing", "Mes chiffres", "Résume mes mails", "Mon agenda", "Les matchs ce soir", "Météo", "Les actus", "Le lancement", "Ouvre YouTube", "Regarde mon écran"];
 
 export default function App() {
   const [s, setS] = useState<State | null>(null);
@@ -72,7 +72,9 @@ export default function App() {
     window.clearTimeout(viewTimer.current);
     setView(v);
     if (!open) {
-      const o = brain.current?.focus(v.title || v.kind || "x") ?? { x: innerWidth / 2, y: innerHeight / 2 };
+      const ns = nodesRef.current;
+      const pick = v.kind === "keeply" || v.kind === "tasks" ? ns.find((n) => n.kind === "task") : v.kind === "plan" ? ns.find((n) => n.kind === "plan") : v.kind === "memory" ? ns.find((n) => n.kind === "memory") : v.kind === "mail" ? ns.find((n) => n.kind === "mail") : undefined;
+      const o = brain.current?.focus(v.title || v.kind || "x", pick?.id) ?? { x: innerWidth / 2, y: innerHeight / 2 };
       setOrigin(o);
       // la caméra plonge d'abord, puis l'étoile s'ouvre
       viewTimer.current = window.setTimeout(() => setOpen(true), 380);
@@ -151,7 +153,10 @@ export default function App() {
 
   /* ---------- voix ---------- */
   useEffect(() => {
-    mouth.bind((v) => setMode((m) => (v ? "speak" : m === "speak" ? (ear.listening ? "listen" : "idle") : m)));
+    mouth.bind((v) => {
+      ear.paused = v; // il ne s'entend pas lui-même
+      setMode((m) => (v ? "speak" : m === "speak" ? (ear.listening ? "listen" : "idle") : m));
+    });
     ear.bind({
       onInterim: (t) => t && setHeard(t),
       onFinal: (t) => {
@@ -181,14 +186,14 @@ export default function App() {
     setStarted(true);
     if (ear.listening && !handsFreeRef.current) return ear.stop();
     mouth.stop();
-    ear.start(handsFreeRef.current);
+    void ear.start(handsFreeRef.current);
   }, []);
   const toggleHandsFree = () => {
     const v = !handsFree;
     setHandsFree(v);
     handsFreeRef.current = v;
     ear.stop();
-    if (v) ear.start(true);
+    if (v) void ear.start(true);
   };
 
   /* ---------- clavier ---------- */
@@ -223,11 +228,30 @@ export default function App() {
   }, [open, view, mode, close]);
 
   const level = useCallback(() => Math.max(mouth.level(), ear.level()), []);
+  // Un point du cerveau par tâche, souvenir, contenu à venir et mail urgent.
+  const nodes = useMemo<BrainNode[]>(() => {
+    if (!s) return [];
+    const t = s.hq.today;
+    return [
+      ...(t?.tasks ?? []).slice(0, 8).map((x) => ({ id: "t:" + x.id, label: x.title, kind: "task" as const })),
+      ...(s.memory ?? []).slice(0, 10).map((m) => ({ id: "m:" + m.id, label: m.text, kind: "memory" as const })),
+      ...(s.hq.extra?.plan ?? []).slice(0, 5).map((p) => ({ id: "p:" + p.id, label: p.titre, kind: "plan" as const })),
+      ...(t?.mails?.urgent ?? []).slice(0, 4).map((m) => ({ id: "e:" + m.id, label: m.subject, kind: "mail" as const })),
+    ];
+  }, [s]);
+  const nodesRef = useRef(nodes);
+  nodesRef.current = nodes;
   const accent = ACCENT[s?.layout.theme || "arc"] || ACCENT.arc;
 
   return (
     <div className={`app ${open ? "is-open" : ""}`}>
-      <Brain ref={brain} mode={mode} level={level} accent={accent} />
+      <Brain ref={brain} mode={mode} level={level} accent={accent} nodes={nodes} />
+      <div className="legend">
+        <span><i style={{ color: "#FFC15E", background: "#FFC15E" }} />Tâches</span>
+        <span><i style={{ color: "#5EE7FF", background: "#5EE7FF" }} />Mémoire</span>
+        <span><i style={{ color: "#FF7AC8", background: "#FF7AC8" }} />Lancement</span>
+        <span><i style={{ color: "#6CF0A8", background: "#6CF0A8" }} />Mails</span>
+      </div>
       <div className="vignette" />
 
       {/* ---------- en-tête ---------- */}
@@ -308,7 +332,7 @@ export default function App() {
   );
 }
 
-const KIND: Record<string, string> = { weather: "Météo", matches: "Football", news: "Actualités", crypto: "Marchés", fx: "Change", timer: "Minuteur", music: "Musique", keeply: "Keeply HQ", prospection: "Keeply HQ", plan: "Keeply HQ" };
+const KIND: Record<string, string> = { mail: "Mails", agenda: "Agenda", weather: "Météo", matches: "Football", news: "Actualités", crypto: "Marchés", fx: "Change", timer: "Minuteur", music: "Musique", keeply: "Keeply HQ", prospection: "Keeply HQ", plan: "Keeply HQ" };
 
 /* ---------- petits composants de l'accueil ---------- */
 
