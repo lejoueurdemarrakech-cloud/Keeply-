@@ -257,7 +257,8 @@ const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Ou
   // Même avec un accord « pour toute la tâche » : jamais les crochets Git, les secrets ni les clés.
   .concat(["Edit(//**/.git/**)", "Edit(//**/.husky/**)", "Edit(//**/.env)", "Edit(//**/.env.*)", "Edit(//**/*.pem)", "Edit(//**/*.key)", "Edit(//**/*.p8)", "Edit(//**/.ssh/**)"]);
 // Pas de sous-agents (Task/Agent) : ils pourraient tourner avec d'autres permissions que l'agent lui-même.
-const AGENT_DENY = [...SECRET_READS, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
+const SERENA_DENY = ["search_for_pattern", "list_dir", "find_file", "activate_project", "read_file", "read_memory", "list_memories", "write_memory", "delete_memory", "execute_shell_command", "create_text_file", "replace_symbol_body", "insert_after_symbol", "insert_before_symbol", "replace_content", "rename_symbol", "onboarding"].map((t) => `mcp__serena__${t}`);
+const AGENT_DENY = [...SECRET_READS, ...SERENA_DENY, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
  * Lance une tâche d'agent. `extraAllow` : règles accordées pour cette reprise
@@ -265,8 +266,11 @@ const AGENT_DENY = [...SECRET_READS, "Task", "Agent", "WebSearch", "WebFetch", "
  */
 // Serena (navigation sémantique dans le code) : l'agent lit seulement les symboles utiles au lieu de fichiers
 // entiers, donc beaucoup moins de jetons. Version figée, sans tableau de bord, outils de lecture uniquement.
-const SERENA_READ = ["find_symbol", "get_symbols_overview", "find_referencing_symbols", "search_for_pattern", "list_dir", "find_file", "activate_project", "check_onboarding_performed", "onboarding", "initial_instructions", "list_memories", "read_memory"].map((t) => `mcp__serena__${t}`);
-const AGENT_MCP = JSON.stringify({ mcpServers: { serena: { type: "stdio", command: "uvx", args: ["--from", "git+https://github.com/oraios/serena@v2.1.0", "serena", "start-mcp-server", "--context", "claude-code", "--enable-web-dashboard", "False", "--enable-gui-log-window", "False"] } } });
+// Seulement les outils qui naviguent dans les SYMBOLES du code (pas de recherche de texte, pas de liste de
+// fichiers, pas de changement de projet) : ils ne peuvent pas lire un fichier de secrets.
+const SERENA_READ = ["find_symbol", "get_symbols_overview", "find_referencing_symbols", "initial_instructions"].map((t) => `mcp__serena__${t}`);
+const SERENA_PROJECT = path.join(os.homedir(), "Projet App", "FIDLY V1"); // les projets Keeply, fixés au démarrage
+const AGENT_MCP = JSON.stringify({ mcpServers: fs.existsSync(SERENA_PROJECT) ? { serena: { type: "stdio", command: "uvx", args: ["--from", "git+https://github.com/oraios/serena@v2.1.0", "serena", "start-mcp-server", "--context", "claude-code", "--project", SERENA_PROJECT, "--enable-web-dashboard", "False", "--enable-gui-log-window", "False"] } } : {} });
 
 /** Règle « pour toute la tâche » : écrire partout dans le projet concerné (dossier de 1er ou 2e niveau d'un dossier de travail). */
 export function projectRuleFor(file) {
