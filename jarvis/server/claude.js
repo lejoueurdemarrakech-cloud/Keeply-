@@ -291,10 +291,18 @@ export function ruleFor(d) {
   // Écriture : seulement le fichier montré dans la demande d'accord (chemin absolu → « // »).
   if (/^(Write|Edit|MultiEdit|NotebookEdit)$/.test(d.tool) && d.input?.file_path) {
     const f = path.normalize(String(d.input.file_path));
+    // Le Mac ne distingue pas les majuscules et suit les liens : on compare le vrai chemin, en minuscules.
+    let real = f;
+    try {
+      real = path.join(fs.realpathSync(path.dirname(f)), path.basename(f));
+    } catch {
+      return null; // dossier inexistant ou illisible : pas d'accord en bloc
+    }
+    const low = real.toLowerCase();
     // Seulement un fichier précis (aucun joker), dans les dossiers de l'agent, jamais un fichier caché
     // ni un secret : impossible d'écrire un fichier de démarrage (~/Library, .zshrc, LaunchAgents…).
-    const inside = AGENT_DIRS.some((dir) => f.startsWith(dir + path.sep));
-    const safe = inside && !/[,()*?[\]{}\n\r`!]/.test(f) && !/(^|\/)\.[^/]/.test(f.slice(H.length)) && !/keeply-pont|\.env|\.pem$|\.key$/.test(f);
+    const inside = AGENT_DIRS.some((dir) => low.startsWith(fs.realpathSync(dir).toLowerCase() + path.sep));
+    const safe = real === f && inside && !/[,()*?[\]{}\n\r`!]/.test(f) && !/(^|\/)\.[^/]/.test(low.slice(H.length)) && !/keeply-pont|\.env|\.pem$|\.key$|launchagents|\/library\//.test(low);
     return safe ? `Edit(/${f})` : null; // « Edit(//chemin) » couvre aussi Write (vérifié avec Claude Code 2.1)
   }
   return null; // autre outil : on ne l'accorde pas en bloc
