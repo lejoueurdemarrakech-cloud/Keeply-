@@ -249,7 +249,7 @@ const AGENT_ALLOW = [
   "Read", "Glob", "Grep", "LS", "TodoWrite",
   // Aucune de ces commandes ne lit un fichier : pour lister ou chercher, l'agent utilise Glob/Grep/Read (qui respectent les secrets).
   "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)",
-  "Bash(git status)", "Bash(git branch)", "Bash(git log --oneline -20)",
+  // (pas de git : « git status » peut lancer un programme prévu dans la configuration d'un dépôt)
   "Bash(node -v)", "Bash(uptime)",
 ];
 // Jamais, même avec accord.
