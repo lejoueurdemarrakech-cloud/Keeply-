@@ -4,6 +4,10 @@ import { adsSummary, getMemory } from "@/lib/jarvis";
 import { read, store } from "@/lib/store";
 import { addTask } from "@/lib/tasks";
 import { todayOverview } from "@/lib/today";
+import { PLAN_ITEMS, isoLocal } from "@/lib/launch-calendar";
+import { listProspects } from "@/lib/prospects";
+import { androidWaitlist } from "@/lib/android";
+import type { ActivityEntry } from "@/lib/settings";
 
 /**
  * Accès de l'app Jarvis installée sur le Mac (même jeton que le pont).
@@ -11,8 +15,37 @@ import { todayOverview } from "@/lib/today";
  */
 export const GET = route(async (req: Request) => {
   checkIngestToken(req);
-  const [today, ads, memory] = await Promise.all([todayOverview(), adsSummary().catch(() => null), getMemory()]);
-  return { at: new Date().toISOString(), today, ads, memory };
+  const [today, ads, memory, activity, prospects, android] = await Promise.all([
+    todayOverview(),
+    adsSummary().catch(() => null),
+    getMemory(),
+    read<ActivityEntry[]>("activity", []),
+    listProspects().catch(() => []),
+    androidWaitlist().catch(() => []),
+  ]);
+  // Écran d'accueil de Jarvis : fil d'actu de HQ, calendrier du lancement, prospection.
+  const now = new Date();
+  const from = isoLocal(now);
+  const plan = PLAN_ITEMS.filter((i) => i.date >= from).slice(0, 8).map((i) => ({ kind: i.kind, id: i.id, date: i.date, heure: i.heure, titre: i.titre, format: i.format }));
+  const live = prospects.filter((p) => p.status !== "exclu" && p.score !== "ecarte");
+  const contacted = ["contacte", "envoye", "relance1", "relance2", "repondu", "interesse", "refus", "client"];
+  const byCountry: Record<string, number> = {};
+  for (const p of live) byCountry[p.country] = (byCountry[p.country] ?? 0) + 1;
+  const extra = {
+    activity: activity.slice(0, 12),
+    plan,
+    launchDate: "2026-11-15",
+    prospection: {
+      total: live.length,
+      contacted: live.filter((p) => contacted.includes(p.status)).length,
+      interested: live.filter((p) => ["interesse", "client"].includes(p.status)).length,
+      clients: live.filter((p) => p.status === "client").length,
+      followUps: live.filter((p) => p.nextAction && p.nextAction.at <= now.toISOString() && !["client", "refus"].includes(p.status)).length,
+      byCountry,
+    },
+    android: android.length,
+  };
+  return { at: now.toISOString(), today, ads, memory, extra };
 });
 
 export const POST = route(async (req: Request) => {

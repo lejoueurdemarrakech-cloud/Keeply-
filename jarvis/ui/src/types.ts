@@ -81,6 +81,24 @@ export interface Weather {
   days: { date: string; min: number; max: number; rain: number; label: string }[];
 }
 
+export interface Extra {
+  activity: { id: string; at: string; area: string; message: string; level?: string }[];
+  plan: { kind: "post" | "story"; id: string; date: string; heure: string; titre: string; format: string }[];
+  launchDate: string;
+  prospection: { total: number; contacted: number; interested: number; clients: number; followUps: number; byCountry: Record<string, number> };
+  android: number;
+}
+
+export interface Credits {
+  today: number;
+  month: number;
+  lastHour: number;
+  tokensToday: number;
+  byModel: Record<string, number>;
+  lastActivity: string | null;
+  at: string;
+}
+
 export interface State {
   at: string;
   config: {
@@ -99,7 +117,7 @@ export interface State {
     voices: Record<string, string>;
   };
   layout: Layout;
-  hq: { ok: boolean; stale?: boolean; error?: string; today?: Today; ads?: { spend: number; results: number; cpr: number; live: boolean; active: number } | null };
+  hq: { ok: boolean; stale?: boolean; error?: string; today?: Today; ads?: { spend: number; results: number; cpr: number; live: boolean; active: number } | null; extra?: Extra };
   weather: Weather;
   news: { title: string; source: string; link: string; date: string; feed: string }[];
   system: SystemStats;
@@ -115,4 +133,9 @@ export type Ev =
   | { type: "layout"; layout: Layout }
   | { type: "stop" }
   | { type: "error"; text: string }
-  | { type: "done"; say: string; done: (string | { open: string })[]; via: "instant" | "claude"; focus?: string | null; costUsd?: number };
+  | { type: "home" }
+  | { type: "agent"; phase: "start" | "resume"; task: string }
+  | { type: "step"; tool: string; detail: string }
+  | { type: "stepResult"; ok: boolean; text: string }
+  | { type: "approval"; items: { tool: string; detail: string }[] }
+  | { type: "done"; say: string; done: (string | { open: string })[]; via: "instant" | "claude" | "agent"; focus?: string | null; costUsd?: number; ms?: number; approval?: boolean };

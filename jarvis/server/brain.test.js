@@ -5,7 +5,7 @@ import path from "node:path";
 import { test } from "node:test";
 
 process.env.JARVIS_HOME = fs.mkdtempSync(path.join(os.tmpdir(), "jarvis-test-"));
-const { parseReply, sayStreamer, instant } = await import("./brain.js");
+const { parseReply, sayStreamer, instant, isAgentTask } = await import("./brain.js");
 const { applyUi, getLayout } = await import("./layout.js");
 
 test("parseReply lit les balises et répare un JSON entouré de texte", () => {
@@ -31,7 +31,8 @@ test("commandes d'interface instantanées", async () => {
   assert.deepEqual((await instant("mets le thème rouge")).ui, { theme: "mark" });
   assert.deepEqual((await instant("passe en mode perso")).ui, { preset: "perso" });
   assert.equal((await instant("enlève les actus")).ui.remove, "news");
-  assert.equal(await instant("affiche les matchs de ligue des champions du jour"), null);
+  assert.ok(isAgentTask("en mode terminal liste mes fichiers"));
+  assert.ok(!isAgentTask("les matchs de ce soir"));
   assert.equal(await instant("pourquoi mes ventes baissent"), null);
   assert.ok((await instant("stop")).stop);
 });

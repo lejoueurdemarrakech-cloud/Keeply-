@@ -1,126 +1,253 @@
 import { spawn } from "node:child_process";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import { getConfig } from "./config.js";
 import { HOME } from "./store.js";
 
-/*
- * Appelle Claude Code (CLI `claude`, abonnement du Mac) en mode non interactif.
- * - Outils autorisés : recherche web et lecture de pages, rien d'autre
- *   (pas de commandes, pas d'accès aux fichiers du Mac).
- * - Dossier de travail vide (~/.jarvis/workspace) : Claude ne voit aucun projet.
- * - Sortie en flux : le texte arrive au fil de l'eau pour parler plus tôt.
- */
+/* ============================================================
+   Claude Code (CLI `claude`, abonnement du Mac), en deux modes :
+
+   1. Assistant (voix) : UN processus gardé chaud en permanence
+      (--input-format stream-json). On ne paie pas le démarrage à
+      chaque question : premier mot en ~1,4 s au lieu de ~7 s.
+      Sans plugins ni serveurs MCP (--setting-sources local
+      --strict-mcp-config) : 5× moins de contexte, donc plus rapide
+      et moins cher. Outils : recherche web et lecture de pages.
+
+   2. Agent (« comme dans le terminal ») : un processus par tâche,
+      avec les vrais outils de Claude Code dans tes dossiers.
+      Lecture et recherche libres ; écrire un fichier ou lancer une
+      commande non listée demande ton accord (bouton ou « oui »),
+      puis la tâche reprend là où elle s'était arrêtée.
+   ============================================================ */
 
 const WORKSPACE = path.join(HOME, "workspace");
 fs.mkdirSync(WORKSPACE, { recursive: true });
+const FAST_FLAGS = ["--setting-sources", "local", "--strict-mcp-config"];
+const bin = () => process.env.JARVIS_CLAUDE_BIN || getConfig().claudeBin || "claude";
 
-const ALLOWED = "WebSearch,WebFetch";
-const DENIED = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput";
-let partialSupported = true;
-
-function args({ system, model, resume, partial }) {
-  const a = ["-p", "--output-format", "stream-json", "--verbose", "--model", model, "--append-system-prompt", system, "--allowedTools", ALLOWED, "--disallowedTools", DENIED, "--max-turns", "12"];
-  if (partial) a.push("--include-partial-messages");
-  if (resume) a.push("--resume", resume);
-  return a;
+function lines(stream, onLine) {
+  let buf = "";
+  stream.on("data", (d) => {
+    buf += d;
+    let i;
+    while ((i = buf.indexOf("\n")) >= 0) {
+      const l = buf.slice(0, i).trim();
+      buf = buf.slice(i + 1);
+      if (l) {
+        try {
+          onLine(JSON.parse(l));
+        } catch {}
+      }
+    }
+  });
 }
 
-/**
- * @param {{prompt:string, system:string, model?:string, resume?:string|null,
- *   onText?:(t:string)=>void, onMessage?:()=>void, onTool?:(name:string, input?:any)=>void,
- *   signal?:AbortSignal, timeoutMs?:number}} o
- * @returns {Promise<{text:string, sessionId:string|null, costUsd:number, durationMs:number}>}
- */
-export function runClaude(o) {
-  const cfg = getConfig();
-  const bin = process.env.JARVIS_CLAUDE_BIN || cfg.claudeBin || "claude";
-  const once = (partial) =>
-    new Promise((resolve, reject) => {
-      const child = spawn(bin, args({ system: o.system, model: o.model || cfg.model, resume: o.resume, partial }), { cwd: WORKSPACE, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
-      let buf = "";
-      let stderr = "";
-      let sessionId = null;
-      let final = null;
-      let streamed = "";
-      const timer = setTimeout(() => child.kill("SIGTERM"), o.timeoutMs ?? 180_000);
-      const abort = () => child.kill("SIGTERM");
-      o.signal?.addEventListener("abort", abort, { once: true });
+/** Branche les événements de flux de Claude sur des rappels simples. */
+function route(ev, h) {
+  if (ev.type === "stream_event") {
+    const e = ev.event || {};
+    if (e.type === "message_start") h.onMessage?.();
+    else if (e.type === "content_block_start" && /tool_use/.test(e.content_block?.type || "")) h.onTool?.(e.content_block.name);
+    else if (e.type === "content_block_delta" && e.delta?.type === "text_delta") h.onText?.(e.delta.text);
+  } else if (ev.type === "assistant") {
+    for (const b of ev.message?.content || []) if (/tool_use/.test(b.type)) h.onToolInput?.(b.name, b.input);
+  } else if (ev.type === "user") {
+    for (const b of ev.message?.content || []) if (b.type === "tool_result") h.onToolResult?.(typeof b.content === "string" ? b.content : JSON.stringify(b.content), !!b.is_error);
+  }
+}
 
-      const onLine = (line) => {
-        let ev;
-        try {
-          ev = JSON.parse(line);
-        } catch {
-          return;
-        }
-        if (ev.session_id) sessionId = ev.session_id;
-        if (ev.type === "stream_event") {
-          const e = ev.event || {};
-          if (e.type === "message_start") o.onMessage?.();
-          else if (e.type === "content_block_start" && /tool_use/.test(e.content_block?.type || "")) o.onTool?.(e.content_block.name);
-          else if (e.type === "content_block_delta" && e.delta?.type === "text_delta") {
-            streamed += e.delta.text;
-            o.onText?.(e.delta.text);
-          }
-        } else if (ev.type === "assistant" && !partial) {
-          // Sans flux partiel : on reçoit chaque message entier.
-          o.onMessage?.();
-          for (const b of ev.message?.content || []) {
-            if (b.type === "text") o.onText?.(b.text);
-            else if (/tool_use/.test(b.type)) o.onTool?.(b.name, b.input);
-          }
-        } else if (ev.type === "result") {
-          final = ev;
-        }
-      };
+/* ---------------- 1. Assistant gardé chaud ---------------- */
 
-      child.stdout.on("data", (d) => {
-        buf += d;
-        let i;
-        while ((i = buf.indexOf("\n")) >= 0) {
-          const line = buf.slice(0, i).trim();
-          buf = buf.slice(i + 1);
-          if (line) onLine(line);
-        }
-      });
-      child.stderr.on("data", (d) => {
-        stderr = (stderr + d).slice(-4000);
-      });
-      child.on("error", (e) => {
-        clearTimeout(timer);
-        reject(e.code === "ENOENT" ? new Error("Claude Code n'est pas installé ou introuvable (commande « claude »).") : e);
-      });
-      child.on("close", (code) => {
-        clearTimeout(timer);
-        o.signal?.removeEventListener("abort", abort);
-        if (buf.trim()) onLine(buf.trim());
-        if (o.signal?.aborted) return reject(new Error("annulé"));
-        if (final && !final.is_error) return resolve({ text: String(final.result ?? streamed), sessionId, costUsd: Number(final.total_cost_usd) || 0, durationMs: Number(final.duration_ms) || 0 });
-        const err = new Error(final?.result || stderr.trim().split("\n").slice(-3).join(" ") || `Claude s'est arrêté (code ${code}).`);
-        err.stderr = stderr;
-        reject(err);
-      });
-      child.stdin.end(o.prompt);
-    });
+const ASSIST_TOOLS = "WebSearch,WebFetch";
+const ASSIST_DENY = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput";
 
-  return once(partialSupported).catch((e) => {
-    // Ancienne version de Claude Code : pas de flux partiel, on réessaie sans.
-    if (partialSupported && /include-partial-messages|unknown option/i.test(String(e.stderr || e.message))) {
-      partialSupported = false;
-      return once(false);
+class Warm {
+  child = null;
+  sessionId = null;
+  turns = 0;
+  usedAt = 0;
+  system = "";
+  model = "";
+  current = null; // { resolve, reject, h, text, timer }
+  ready = false;
+
+  configure(system, model) {
+    if (system !== this.system || model !== this.model) {
+      this.system = system;
+      this.model = model;
+      this.restart(false);
     }
-    // Session expirée : on repart sans reprise.
-    if (o.resume && /session|resume|conversation/i.test(String(e.message))) return runClaude({ ...o, resume: null });
-    throw e;
+  }
+
+  spawn(resume) {
+    const args = ["-p", "--input-format", "stream-json", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", this.model, ...FAST_FLAGS,
+      "--append-system-prompt", this.system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY];
+    if (resume) args.push("--resume", resume);
+    const child = spawn(bin(), args, { cwd: WORKSPACE, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    this.child = child;
+    this.turns = 0;
+    let stderr = "";
+    child.stderr.on("data", (d) => (stderr = (stderr + d).slice(-3000)));
+    lines(child.stdout, (ev) => {
+      if (child !== this.child) return;
+      if (ev.session_id) this.sessionId = ev.session_id;
+      const c = this.current;
+      if (!c) return;
+      route(ev, { ...c.h, onText: (t) => ((c.text += t), c.h.onText?.(t)) });
+      if (ev.type === "result") {
+        this.current = null;
+        clearTimeout(c.timer);
+        this.turns++;
+        if (ev.is_error) c.reject(new Error(ev.result || "Erreur de Claude"));
+        else c.resolve({ text: String(ev.result ?? c.text), sessionId: this.sessionId, costUsd: Number(ev.total_cost_usd) || 0 });
+      }
+    });
+    child.on("error", (e) => {
+      if (child !== this.child) return;
+      this.child = null;
+      this.current?.reject(e.code === "ENOENT" ? new Error("Claude Code est introuvable (commande « claude »).") : e);
+      this.current = null;
+    });
+    child.on("close", (code) => {
+      if (child !== this.child) return;
+      this.child = null;
+      if (this.current) {
+        const c = this.current;
+        this.current = null;
+        clearTimeout(c.timer);
+        c.reject(new Error(stderr.trim().split("\n").slice(-2).join(" ") || `Claude s'est arrêté (code ${code}).`));
+      }
+    });
+  }
+
+  /** Démarre le processus à l'avance pour que la première question soit rapide. */
+  warm() {
+    if (!this.child && this.system) this.spawn(null);
+  }
+
+  restart(keep = true) {
+    const old = this.child;
+    this.child = null;
+    old?.kill("SIGTERM");
+    if (!keep) this.sessionId = null;
+    this.current = null;
+  }
+
+  ask(prompt, h, signal) {
+    // Conversation trop longue ou trop ancienne : on repart frais (plus rapide, moins cher).
+    if (this.turns >= 30 || (this.usedAt && Date.now() - this.usedAt > 40 * 60_000)) this.restart(false);
+    if (!this.child) this.spawn(null);
+    this.usedAt = Date.now();
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        this.restart(true);
+        reject(new Error("Claude met trop de temps à répondre."));
+      }, 150_000);
+      this.current = { resolve, reject, h, text: "", timer };
+      signal?.addEventListener("abort", () => {
+        if (this.current?.timer === timer) {
+          clearTimeout(timer);
+          this.current = null;
+          // On coupe la réponse en cours et on relance un processus qui reprend la conversation.
+          const sid = this.sessionId;
+          this.restart(true);
+          this.spawn(sid);
+          reject(new Error("annulé"));
+        }
+      }, { once: true });
+      this.child.stdin.write(JSON.stringify({ type: "user", message: { role: "user", content: prompt } }) + "\n");
+    });
+  }
+}
+
+export const assistant = new Warm();
+
+/** Question ponctuelle (widgets) : processus court, sans conversation. */
+export function runOnce({ prompt, system, model }) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(bin(), ["-p", "--output-format", "json", "--model", model || getConfig().model, ...FAST_FLAGS, "--append-system-prompt", system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY], { cwd: WORKSPACE, env: process.env });
+    let out = "";
+    child.stdout.on("data", (d) => (out += d));
+    child.on("error", reject);
+    child.on("close", () => {
+      try {
+        const r = JSON.parse(out);
+        r.is_error ? reject(new Error(r.result)) : resolve({ text: String(r.result), costUsd: r.total_cost_usd });
+      } catch {
+        reject(new Error("Réponse illisible de Claude."));
+      }
+    });
+    child.stdin.end(prompt);
+    setTimeout(() => child.kill(), 120_000);
   });
+}
+
+/* ---------------- 2. Agent (terminal) ---------------- */
+
+const H = os.homedir();
+// ~/Jarvis : dossier de travail de l'agent (les fichiers qu'il crée). Documents et Téléchargements
+// sont protégés par macOS : l'agent y accède seulement si Claude Code a reçu l'autorisation du Mac.
+export const JARVIS_DIR = path.join(H, "Jarvis");
+fs.mkdirSync(JARVIS_DIR, { recursive: true });
+export const AGENT_DIRS = [JARVIS_DIR, path.join(H, "Projet App"), path.join(H, "Outils"), path.join(H, "Documents"), path.join(H, "Downloads")].filter((d) => fs.existsSync(d));
+// Sans demander : lire, chercher, et quelques commandes sans danger.
+const AGENT_ALLOW = [
+  "Read", "Glob", "Grep", "LS", "TodoWrite", "WebSearch", "WebFetch",
+  "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc:*)", "Bash(head:*)", "Bash(tail:*)",
+  "Bash(git status:*)", "Bash(git log:*)", "Bash(git diff:*)", "Bash(git branch:*)", "Bash(git show:*)",
+  "Bash(open -a:*)", "Bash(which:*)", "Bash(node -v)", "Bash(npm ls:*)", "Bash(ps aux)", "Bash(uptime)", "Bash(mdfind:*)",
+];
+// Jamais, même avec accord.
+const AGENT_DENY = ["Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*|*sh)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)"];
+
+/**
+ * Lance une tâche d'agent. `extraAllow` : règles accordées pour cette reprise
+ * (ex. "Bash(npm run build)" ou "Write"). Renvoie le texte final et les refus éventuels.
+ */
+export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, signal }) {
+  const cfg = getConfig();
+  return new Promise((resolve, reject) => {
+    const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", cfg.agentModel || "sonnet", ...FAST_FLAGS,
+      "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, `Write(/${JARVIS_DIR}/**)`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
+    for (const d of AGENT_DIRS) args.push("--add-dir", d);
+    if (resume) args.push("--resume", resume);
+    const child = spawn(bin(), args, { cwd: AGENT_DIRS[0] || H, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    let text = "";
+    let sessionId = resume || null;
+    let final = null;
+    let stderr = "";
+    const timer = setTimeout(() => child.kill("SIGTERM"), 15 * 60_000);
+    signal?.addEventListener("abort", () => child.kill("SIGTERM"), { once: true });
+    child.stderr.on("data", (d) => (stderr = (stderr + d).slice(-3000)));
+    lines(child.stdout, (ev) => {
+      if (ev.session_id) sessionId = ev.session_id;
+      route(ev, { ...h, onText: (t) => ((text += t), h.onText?.(t)), onMessage: () => ((text = ""), h.onMessage?.()) });
+      if (ev.type === "result") final = ev;
+    });
+    child.on("error", (e) => (clearTimeout(timer), reject(e)));
+    child.on("close", (code) => {
+      clearTimeout(timer);
+      if (signal?.aborted) return reject(new Error("annulé"));
+      if (!final) return reject(new Error(stderr.trim().split("\n").slice(-2).join(" ") || `L'agent s'est arrêté (code ${code}).`));
+      const denials = (final.permission_denials || []).map((d) => ({ tool: d.tool_name, input: d.tool_input }));
+      resolve({ text: String(final.result ?? text), sessionId, costUsd: Number(final.total_cost_usd) || 0, denials, isError: !!final.is_error });
+    });
+    child.stdin.end(prompt);
+  });
+}
+
+/** Règle d'autorisation la plus étroite possible pour un refus donné. */
+export function ruleFor(d) {
+  if (d.tool === "Bash" && d.input?.command) return `Bash(${String(d.input.command).replace(/[()]/g, "")})`;
+  return d.tool;
 }
 
 /** Vérifie que la CLI répond (au démarrage, pour le HUD). */
 export function claudeVersion() {
-  const bin = process.env.JARVIS_CLAUDE_BIN || getConfig().claudeBin || "claude";
   return new Promise((resolve) => {
-    const c = spawn(bin, ["--version"], { stdio: ["ignore", "pipe", "ignore"] });
+    const c = spawn(bin(), ["--version"], { stdio: ["ignore", "pipe", "ignore"] });
     let out = "";
     c.stdout.on("data", (d) => (out += d));
     c.on("error", () => resolve(null));

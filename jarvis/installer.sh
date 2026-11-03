@@ -121,6 +121,9 @@ if ! curl -s -m 2 -o /dev/null "\$U/api/system"; then
 fi
 if [ -d "/Applications/Google Chrome.app" ] || [ -d "\$HOME/Applications/Google Chrome.app" ]; then
   open -na "Google Chrome" --args --app="\$U" --user-data-dir="\$HOME/.jarvis/chrome" --autoplay-policy=no-user-gesture-required --no-first-run --no-default-browser-check --window-size=1512,945
+elif [ -d "/Applications/Microsoft Edge.app" ]; then
+  # Même chose avec Edge : fenêtre d'app sans barre d'adresse, profil à part
+  open -na "Microsoft Edge" --args --app="\$U" --user-data-dir="\$HOME/.jarvis/edge" --autoplay-policy=no-user-gesture-required --no-first-run --no-default-browser-check --window-size=1512,945
 else
   open "\$U"
 fi

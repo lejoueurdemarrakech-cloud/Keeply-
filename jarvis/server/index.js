@@ -2,7 +2,8 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { FEEDS, applyUi, askClaude, forget, getMemory, instant, news, refreshWidget, remember, resetSession, runActions, weather } from "./brain.js";
+import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
+import { credits } from "./credits.js";
 import { claudeVersion } from "./claude.js";
 import { getConfig, publicConfig, updateConfig } from "./config.js";
 import { hqConfigured, hqSnapshot } from "./hq.js";
@@ -63,27 +64,41 @@ async function ask(req, res) {
   req.on("close", () => {
     if (!res.writableEnded) ac.abort();
   });
-  try {
-    const fast = await instant(q);
-    if (fast) {
-      if (fast.stop) emit({ type: "stop" });
-      if (fast.say) emit({ type: "sentence", text: fast.say });
-      if (fast.ui) {
-        const l = applyUi(fast.ui);
-        if (l) emit({ type: "layout", layout: l });
-      }
-      const done = await runActions(fast.actions);
-      emit({ type: "done", say: fast.say, focus: fast.focus ?? null, done, via: "instant" });
-      return res.end();
-    }
-    const r = await askClaude(q, emit, ac.signal);
+  const t0 = Date.now();
+  const n = q.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  const finish = async (r, via) => {
     if (r.view) emit({ type: "view", view: r.view });
     if (r.ui) {
       const l = applyUi(r.ui);
       if (l) emit({ type: "layout", layout: l });
     }
     const done = await runActions(r.actions);
-    emit({ type: "done", say: r.say, done, via: "claude", costUsd: r.costUsd });
+    const agentTask = done.find((d) => d && typeof d === "object" && d.agent)?.agent;
+    emit({ type: "done", say: r.say, done: done.filter((d) => !(d && d.agent)), via, focus: r.focus ?? null, costUsd: r.costUsd, ms: Date.now() - t0, approval: !!r.approval });
+    return agentTask;
+  };
+  try {
+    // Réponse à une demande d'accord de l'agent
+    if (pendingApproval() && /^(oui|ok|vas y|go|autorise|autorise le|c est bon|d accord|confirme|non|annule|refuse|stop)( .*)?$/.test(n)) {
+      const yes = !/^(non|annule|refuse|stop)/.test(n);
+      await finish(await resolveApproval(yes, emit, ac.signal), "agent");
+      return res.end();
+    }
+    const fast = await instant(q);
+    if (fast) {
+      if (fast.stop) emit({ type: "stop" });
+      if (fast.home) emit({ type: "home" });
+      if (fast.say) emit({ type: "sentence", text: fast.say });
+      await finish(fast, "instant");
+      return res.end();
+    }
+    if (isAgentTask(n)) {
+      await finish(await askAgent(q.replace(/^(agent|mode agent|en mode terminal)[ ,:]*/i, ""), emit, ac.signal), "agent");
+      return res.end();
+    }
+    const r = await askClaude(q, emit, ac.signal);
+    const delegated = await finish(r, "claude");
+    if (delegated) await finish(await askAgent(delegated, emit, ac.signal), "agent");
   } catch (e) {
     if (!ac.signal.aborted) emit({ type: "error", text: e.message || "Erreur" });
   } finally {
@@ -120,6 +135,8 @@ const server = http.createServer(async (req, res) => {
       });
     }
     if (p === "/api/system") return send(res, 200, await systemStats());
+    if (p === "/api/credits") return send(res, 200, await credits());
+    if (p === "/api/approval") return send(res, 200, { pending: pendingApproval()?.items || null });
     if (p === "/api/ask" && req.method === "POST") return ask(req, res);
     if (p === "/api/cancel" && req.method === "POST") {
       busy?.abort();
@@ -158,4 +175,11 @@ server.listen(PORT, "127.0.0.1", async () => {
   console.log(`Jarvis prêt sur http://127.0.0.1:${PORT}  (données : ${HOME})`);
   console.log(claudeInfo ? `Claude Code : ${claudeInfo}` : "Claude Code introuvable : les questions libres ne marcheront pas.");
   if (!hqConfigured()) console.log("Keeply HQ n'est pas configuré : ouvre les réglages de Jarvis.");
+  // Tout est prêt avant la première question : Claude démarré, chiffres HQ et météo en cache.
+  if (claudeInfo) warmUp();
+  void hqSnapshot(true).catch(() => undefined);
+  void weather(getConfig().city).catch(() => undefined);
+  void credits().catch(() => undefined);
 });
+// Garde les chiffres HQ frais en mémoire : les questions Keeply répondent sans attendre le réseau.
+setInterval(() => void hqSnapshot(true).catch(() => undefined), 60_000).unref();
