@@ -9,6 +9,7 @@ Tant qu'un compte n'est pas connecté, chaque écran affiche des **données d'ex
 | Page | Ce que tu y fais |
 | --- | --- |
 | **Aujourd'hui** | Objectif du mois en carte à tampons, chiffres clés, liste « À traiter » (mails urgents, pannes, avis négatifs, prospects qui ont répondu), briefing du matin écrit par l'IA. |
+| **Jarvis** | Assistant vocal (page plein écran `/jarvis`, ⌘J) : tu parles ou tu écris, il répond à voix haute. Réponses instantanées sur les données de HQ (briefing, ventes, mails, tâches, santé, Instagram, pubs, prospection, météo, actus), questions ouvertes envoyées à Claude via le pont du Mac, création de tâches, notes, mémoire, ouverture des pages, alertes vocales, mode mains libres avec mot de réveil. |
 | **Ventes** | App Store + Google Play + Stripe + toute autre plateforme (import CSV ou webhook). Revenu net en euros, ventes, téléchargements, remboursements, MRR, par pays et par produit, comparaison avec la période d'avant. |
 | **Réseaux** | Vue d'ensemble Instagram + Meta Ads : chiffres clés des deux canaux, dépense pub et portée Instagram jour par jour, objectif d'abonnés avec date estimée, point de la semaine, prochains posts, raccourcis. |
 | **Instagram** | Planning (calendrier), création de posts (photo, carrousel, Reel, story) avec aperçu téléphone, légendes et hashtags par IA, publication programmée ; **Publications** (galerie triable par portée, engagement, enregistrements, détail d'un post, « refaire un post similaire ») ; statistiques (abonnés, portée, meilleurs créneaux, formats, hashtags, audience) ; croissance (coach IA, routine quotidienne, planning de la semaine, idées, accroches de Reels, bio, jeux de hashtags, veille des concurrents). |
@@ -24,6 +25,8 @@ Tant qu'un compte n'est pas connecté, chaque écran affiche des **données d'ex
 | **Réglages** | Objectif, adresses surveillées, règles de tri des mails, rythme de prospection, rubriques Instagram. |
 
 Raccourcis partout : **⌘K / Ctrl+K** pour aller à une page ou lancer une action, **G puis une lettre** pour changer de page (G R Réseaux, G I Instagram, G P Meta Ads, G V Ventes, G M Mails…), **?** pour la liste complète.
+
+Jarvis : voix réaliste gratuite (voix neuronales Microsoft Edge, sans clé) avec repli automatique sur la voix du Mac ; reconnaissance vocale du navigateur (Chrome ou Safari) ; rien ne tourne en plus sur le Mac à part l'onglet ouvert. Météo par Open-Meteo et actus par flux RSS publics (Google Actualités), gratuits et sans clé. Les questions à Claude comptent dans le plafond du jour (Crédits Claude).
 
 Design : matière « verre dépoli » (surfaces translucides sur un fond aurore), en clair et en sombre. Si l'iPhone ou le Mac a « Réduire la transparence » activé, les surfaces redeviennent opaques automatiquement.
 

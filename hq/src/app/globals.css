@@ -330,3 +330,77 @@ select.field {
 .recharts-tooltip-cursor {
   fill: color-mix(in srgb, var(--violet) 6%, transparent);
 }
+
+/* ============================================================
+   Jarvis : écran immersif, toujours sombre (interface type HUD).
+   ============================================================ */
+.jarvis-root {
+  --ink: #f4f1fa;
+  --ink-2: #cdc6df;
+  --ink-3: #9a93b0;
+  --line: rgb(255 255 255 / 0.09);
+  --line-2: rgb(255 255 255 / 0.16);
+  --surface: #1a1628;
+  --surface-2: rgb(255 255 255 / 0.05);
+  --bg-2: rgb(255 255 255 / 0.06);
+  --glass: rgb(22 17 38 / 0.55);
+  --glass-strong: rgb(24 19 42 / 0.86);
+  --glass-edge: rgb(255 255 255 / 0.10);
+  --glass-hi: rgb(255 255 255 / 0.12);
+  --violet: #8b70ff;
+  --violet-2: #a28dff;
+  --violet-soft: #2a2152;
+  --honey: #f3be72;
+  --honey-soft: #3a2c16;
+  --coral: #ff8a6e;
+  --coral-soft: #3d1f1a;
+  --mint: #4cd4a6;
+  --mint-soft: #15332b;
+  --shadow: 0 1px 2px rgb(0 0 0 / 0.3), 0 18px 40px -22px rgb(0 0 0 / 0.8);
+  color-scheme: dark;
+  color: var(--ink);
+  background:
+    radial-gradient(70vw 60vh at 50% 38%, rgb(107 74 242 / 0.22), transparent 70%),
+    radial-gradient(45vw 45vh at 100% 0%, rgb(243 190 114 / 0.08), transparent 70%),
+    radial-gradient(50vw 50vh at 0% 100%, rgb(47 111 224 / 0.12), transparent 70%),
+    #07050f;
+}
+.jv-card {
+  border-radius: 20px;
+  padding: 16px;
+  background: linear-gradient(160deg, rgb(255 255 255 / 0.07), rgb(255 255 255 / 0.02) 45%), rgb(20 15 36 / 0.55);
+  border: 1px solid rgb(255 255 255 / 0.09);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 20px 50px -30px rgb(0 0 0 / 0.9);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+.jv-bar {
+  background: rgb(18 14 32 / 0.6);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 24px 60px -30px rgb(0 0 0 / 0.9);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  backdrop-filter: blur(24px) saturate(170%);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .jv-card,
+  .jv-bar {
+    background: #161226;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+@keyframes jv-caret {
+  50% {
+    opacity: 0;
+  }
+}
+.jv-caret::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 3px;
+  vertical-align: -0.15em;
+  background: currentColor;
+  animation: jv-caret 1s steps(1) infinite;
+}
