@@ -129,7 +129,8 @@ export class Ear {
   private rms = 0;
   paused = false; // pendant que Jarvis parle (évite qu'il s'entende lui-même)
   listening = false;
-  private h = { onInterim: (_: string) => {}, onFinal: (_: string) => {}, onState: (_: boolean) => {}, onError: (_: string) => {} };
+  private duringSpeech = false; // la phrase a commencé pendant que Jarvis parlait (on n'y cherche que « stop »)
+  private h = { onInterim: (_: string) => {}, onFinal: (_: string, _duringSpeech?: boolean) => {}, onState: (_: boolean) => {}, onError: (_: string) => {} };
 
   bind(h: Ear["h"]) {
     this.h = h;
@@ -166,8 +167,8 @@ export class Ear {
       let sum = 0;
       for (let i = 0; i < x.length; i++) sum += x[i] * x[i];
       this.rms = Math.sqrt(sum / x.length);
-      if (this.paused) return;
-      const loud = this.rms > Math.max(0.012, this.noise * 3.2);
+      // Pendant que Jarvis parle, on écoute quand même (pour « stop »), mais avec un seuil plus haut.
+      const loud = this.rms > Math.max(this.paused ? 0.035 : 0.012, this.noise * (this.paused ? 5 : 3.2));
       if (!this.speaking) {
         // le bruit de fond s'adapte tant qu'on ne parle pas
         this.noise = this.noise * 0.97 + this.rms * 0.03;
@@ -176,7 +177,8 @@ export class Ear {
         this.waitedMs += frameMs;
         if (loud) {
           this.speaking = true;
-          this.h.onInterim("Je t'écoute…");
+          this.duringSpeech = this.paused;
+          if (!this.paused) this.h.onInterim("Je t'écoute…");
         } else if (!this.keep && this.waitedMs > 9000) {
           this.h.onInterim("");
           this.stop();
@@ -186,8 +188,9 @@ export class Ear {
       this.chunks.push(new Float32Array(x));
       this.spokenMs += frameMs;
       this.silentMs = loud ? 0 : this.silentMs + frameMs;
-      // fin de phrase : 0,8 s de silence, ou 25 s maximum
-      if ((this.silentMs > 800 && this.spokenMs > 350) || this.spokenMs > 25_000) void this.flush();
+      // fin de phrase : 0,65 s de silence (1,2 s pour une longue dictée), ou 60 s maximum
+      const pause = this.spokenMs > 6000 ? 1200 : 650;
+      if ((this.silentMs > pause && this.spokenMs > 300) || this.spokenMs > 60_000) void this.flush();
     };
     src.connect(this.node);
     this.node.connect(this.ctx.destination);
@@ -215,8 +218,10 @@ export class Ear {
   private async flush() {
     const rate = this.ctx?.sampleRate || 48000;
     const parts = this.chunks;
+    const during = this.duringSpeech;
     this.reset();
-    if (!this.keep) this.stop();
+    this.duringSpeech = false;
+    if (!this.keep && !during) this.stop();
     const len = parts.reduce((a, c) => a + c.length, 0);
     const all = new Float32Array(len);
     let o = 0;
@@ -230,13 +235,13 @@ export class Ear {
       for (let k = a; k < b; k++) s += all[k];
       out[i] = Math.max(-1, Math.min(1, s / Math.max(1, b - a))) * 32767;
     }
-    this.h.onInterim("Transcription…");
+    if (!during) this.h.onInterim("Transcription…");
     try {
       const { stt, logMic } = await import("./api");
       const r = await stt(out);
       this.h.onInterim("");
-      if (r.text) this.h.onFinal(r.text);
-      else {
+      if (r.text) this.h.onFinal(r.text, during);
+      else if (!during) {
         logMic(`phrase de ${(out.length / 16000).toFixed(1)} s sans texte compris`);
         this.h.onError("Je n'ai pas compris, tu peux répéter ?");
       }

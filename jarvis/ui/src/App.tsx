@@ -18,7 +18,7 @@ import { Ear, Mouth, afterWake } from "./voice";
 const mouth = new Mouth();
 const ear = new Ear();
 const ACCENT: Record<string, string> = { arc: "94 231 255", keeply: "150 125 255", mark: "255 82 82", nebula: "205 130 255", mono: "235 238 242" };
-const SUGGEST = ["Briefing", "Mes chiffres", "Résume mes mails", "Mon agenda", "Les matchs ce soir", "Météo", "Les actus", "Le lancement", "Ouvre YouTube", "Regarde mon écran"];
+const SUGGEST = ["Briefing", "Mes chiffres", "Résume mes mails", "Lis-moi le plan Instagram", "Mon agenda", "Les matchs ce soir", "Météo", "Les actus", "Regarde mon écran"];
 
 export default function App() {
   const [s, setS] = useState<State | null>(null);
@@ -138,7 +138,10 @@ export default function App() {
           setLastMs(e.ms ?? null);
           setStatus("");
           if (e.via === "agent") setAgent((a) => (a ? { ...a, done: !e.approval } : a));
-          for (const d of e.done) if (typeof d === "object" && d.open) window.open(d.open, "_blank");
+          for (const d of e.done) {
+            if (typeof d === "object" && "open" in d && d.open) window.open(d.open, "_blank");
+            if (typeof d === "object" && "draft" in d) show({ kind: "draft", title: "Mail préparé", subtitle: "Ouvert dans l'app Mail : relis-le, puis envoie-le toi-même", blocks: [], draft: d.draft });
+          }
           if (e.done.some((d) => typeof d === "string" && /^Tâche|^Ajouté|^Retenu/.test(d))) void load(true);
         } else if (e.type === "stop") mouth.stop();
       }, ac.signal);
@@ -146,31 +149,56 @@ export default function App() {
       if (!ac.signal.aborted) setSaid(err instanceof Error ? err.message : "Erreur");
     }
     await mouth.idle();
+    convoUntil.current = Date.now() + 25_000;
     if (abort.current === ac) setMode(ear.listening ? "listen" : "idle");
   }, [show, close, load]);
 
-  const approve = useCallback((ok: boolean) => void run(ok ? "oui" : "non"), [run]);
+  const approve = useCallback((ok: boolean, all?: boolean) => void run(!ok ? "non" : all ? "oui pour toute la tâche" : "oui"), [run]);
 
   /* ---------- voix ---------- */
   useEffect(() => {
     mouth.bind((v) => {
       ear.paused = v; // il ne s'entend pas lui-même
-      setMode((m) => (v ? "speak" : m === "speak" ? (ear.listening ? "listen" : "idle") : m));
+      // Micro coupé pendant qu'il parle ? On l'ouvre juste pour entendre « stop », puis on le referme.
+      if (v && !ear.listening) {
+        watchOnly.current = true;
+        void ear.start(true).then(() => (ear.paused = true));
+      } else if (!v && watchOnly.current) {
+        watchOnly.current = false;
+        if (!handsFreeRef.current) ear.stop();
+      }
+      setMode((m) => (v ? "speak" : m === "speak" ? (ear.listening && !watchOnly.current ? "listen" : "idle") : m));
     });
     ear.bind({
       onInterim: (t) => t && setHeard(t),
-      onFinal: (t) => {
+      onFinal: (t, duringSpeech) => {
+        const n = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").trim();
+        // Pendant qu'il parle : seul un ordre d'arrêt compte (le reste est sans doute sa propre voix).
+        if (duringSpeech) {
+          if (/(^| )(stop|arrete|arret|tais toi|silence|chut|ca suffit|c est bon|merci jarvis|attends)( |$)/.test(n)) {
+            mouth.stop();
+            abort.current?.abort();
+            void post("/api/cancel");
+            setMode(ear.listening ? "listen" : "idle");
+            setHeard("« stop »");
+            convoUntil.current = Date.now() + 25_000;
+          }
+          return;
+        }
         if (handsFreeRef.current) {
           const rest = afterWake(t, s?.config.name || "Jarvis");
-          if (rest === null) return;
-          if (!rest) {
+          // Conversation en cours : plus besoin de redire « Jarvis » pendant 25 s après sa dernière réponse.
+          const inConvo = Date.now() < convoUntil.current;
+          if (rest === null && !inConvo) return;
+          const q = rest === null ? t : rest;
+          convoUntil.current = Date.now() + 25_000;
+          if (!q) {
             mouth.stop();
             setHeard("Oui ?");
             return;
           }
-          void run(rest);
+          void run(q);
         } else {
-          ear.stop();
           void run(t);
         }
       },
@@ -179,12 +207,15 @@ export default function App() {
     });
   }, [run, s?.config.name]);
   const handsFreeRef = useRef(handsFree);
+  const convoUntil = useRef(0);
+  const watchOnly = useRef(false); // micro ouvert seulement pour entendre « stop » pendant qu'il parle
   handsFreeRef.current = handsFree;
 
   const listen = useCallback(() => {
     mouth.unlock();
     setStarted(true);
-    if (ear.listening && !handsFreeRef.current) return ear.stop();
+    if (ear.listening && !handsFreeRef.current && !watchOnly.current) return ear.stop();
+    watchOnly.current = false;
     mouth.stop();
     void ear.start(handsFreeRef.current);
   }, []);
@@ -335,7 +366,7 @@ export default function App() {
   );
 }
 
-const KIND: Record<string, string> = { mail: "Mails", agenda: "Agenda", weather: "Météo", matches: "Football", news: "Actualités", crypto: "Marchés", fx: "Change", timer: "Minuteur", music: "Musique", keeply: "Keeply HQ", prospection: "Keeply HQ", plan: "Keeply HQ" };
+const KIND: Record<string, string> = { draft: "Mail", screen: "Écran", mail: "Mails", agenda: "Agenda", weather: "Météo", matches: "Football", news: "Actualités", crypto: "Marchés", fx: "Change", timer: "Minuteur", music: "Musique", keeply: "Keeply HQ", prospection: "Keeply HQ", plan: "Keeply HQ" };
 
 /* ---------- petits composants de l'accueil ---------- */
 

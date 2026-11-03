@@ -29,7 +29,7 @@ export const sttState = { ready: false, error: "", model: "" };
 
 export function startStt() {
   if (child) return;
-  const model = process.env.JARVIS_STT_MODEL || "small";
+  const model = process.env.JARVIS_STT_MODEL || "small"; // rapide pour les phrases courtes
   child = spawn(uvx(), ["--with", "faster-whisper", "--with", "numpy", "python", "-I", WORKER, model], { env: { ...process.env, HF_HUB_DISABLE_TELEMETRY: "1" }, stdio: ["pipe", "pipe", "pipe"] });
   let buf = "";
   child.stdout.on("data", (d) => {
@@ -77,13 +77,15 @@ export async function transcribe(pcm) {
   fs.writeFileSync(file, pcm);
   return new Promise((resolve, reject) => {
     waiting.set(id, { resolve, reject, file });
-    child.stdin.write(JSON.stringify({ id, path: file }) + "\n");
+    // Plus de 10 s de parole : une dictée, on prend le modèle plus précis.
+    const long = pcm.length / 32000 > 10;
+    child.stdin.write(JSON.stringify({ id, path: file, model: long ? process.env.JARVIS_STT_LONG || "medium" : undefined }) + "\n");
     setTimeout(() => {
       if (waiting.has(id)) {
         waiting.delete(id);
         fs.rm(file, () => {});
         reject(new Error("Transcription trop longue."));
       }
-    }, 30_000);
+    }, 60_000);
   });
 }

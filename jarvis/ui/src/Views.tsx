@@ -15,7 +15,7 @@ export type Rich = View & { kind?: string; [k: string]: unknown };
 export interface AgentLog {
   task: string;
   steps: { tool: string; detail: string; ok?: boolean; out?: string }[];
-  approval: { tool: string; detail: string; risk?: string }[] | null;
+  approval: { tool: string; detail: string; risk?: string; scope?: string }[] | null;
   done: boolean;
 }
 
@@ -278,7 +278,7 @@ function PlanView({ s }: { s: State }) {
   );
 }
 
-function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean) => void }) {
+function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean, all?: boolean) => void }) {
   return (
     <div className="v-agent">
       <div className="term glass in" style={st(0)}>
@@ -299,7 +299,7 @@ function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean)
           <ShieldAlert size={20} />
           <div>
             <b>J'ai besoin de ton accord</b>
-            {log.approval.map((a, i) => (
+            {log.approval.filter((a) => a.scope !== "task").map((a, i) => (
               <span key={i} style={{ display: "grid", gap: 2 }}>
                 <code>{a.tool === "Bash" ? "$ " : `${a.tool} · `}{a.detail}</code>
                 {a.risk && <span style={{ color: "rgb(var(--bad))", fontSize: 12.5, fontWeight: 600 }}>⚠ {a.risk}</span>}
@@ -309,6 +309,9 @@ function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean)
           </div>
           <div className="approval-btns">
             <button className="btn ok" onClick={() => onApprove(true)}><Check size={15} /> Autoriser une fois</button>
+            {log.approval.some((a) => a.scope === "task") && (
+              <button className="btn ok" title={log.approval.find((a) => a.scope === "task")?.detail} onClick={() => onApprove(true, true)}><Check size={15} /> Pour toute la tâche</button>
+            )}
             <button className="btn" onClick={() => onApprove(false)}><X size={15} /> Refuser</button>
           </div>
         </div>
@@ -362,7 +365,7 @@ function Panel({ title, i, children }: { title: string; i: number; children: Rea
 }
 const Row = ({ children, hot }: { children: ReactNode; hot?: boolean }) => <div className={`row ${hot ? "hot" : ""}`}>{children}</div>;
 
-export function RichView({ v, s, agent, onApprove }: { v: Rich; s: State; agent: AgentLog | null; onApprove: (ok: boolean) => void }) {
+export function RichView({ v, s, agent, onApprove }: { v: Rich; s: State; agent: AgentLog | null; onApprove: (ok: boolean, all?: boolean) => void }) {
   const k = v.kind;
   if (k === "agent" && agent) return <AgentView log={agent} onApprove={onApprove} />;
   if (k === "weather") return <Weather v={v} />;
@@ -376,6 +379,17 @@ export function RichView({ v, s, agent, onApprove }: { v: Rich; s: State; agent:
   if (k === "prospection") return <ProspectionView s={s} />;
   if (k === "plan") return <PlanView s={s} />;
   if (k === "mail") return <MailView v={v} />;
+  if (k === "draft") {
+    const d = v.draft as { to: string; subject: string; body: string };
+    return (
+      <div className="glass panel in" style={{ ...st(0), maxWidth: 820 }}>
+        <span className="label">À : {d.to || "à compléter"}</span>
+        <b style={{ fontSize: 18 }}>{d.subject}</b>
+        <p style={{ whiteSpace: "pre-wrap", margin: 0, lineHeight: 1.55 }}>{d.body}</p>
+      </div>
+    );
+  }
+  if (k === "screen") return <div className="glass panel in" style={{ ...st(0), maxWidth: 820 }}><p style={{ margin: 0, fontSize: 17, lineHeight: 1.5 }}>{String(v.text)}</p></div>;
   if (k === "agenda") return <AgendaView v={v} />;
   return (
     <div className="v-generic in" style={st(0)}>

@@ -88,9 +88,9 @@ async function ask(req, res) {
   try {
     // Réponse à une demande d'accord de l'agent
     // Seuls un « oui » ou un « non » courts et clairs comptent (« ok merci » n'autorise rien).
-    if (pendingApproval() && /^(oui|oui vas y|vas y|autorise|j autorise|d accord|confirme|oui confirme|non|non merci|annule|refuse|stop)$/.test(n)) {
+    if (pendingApproval() && /^(oui|oui vas y|vas y|autorise|j autorise|d accord|confirme|oui confirme|oui pour toute la tache|autorise toute la tache|toute la tache|non|non merci|annule|refuse|stop)$/.test(n)) {
       const yes = !/^(non|annule|refuse|stop)/.test(n);
-      await finish(await resolveApproval(yes, emit, ac.signal), "agent");
+      await finish(await resolveApproval(yes, emit, ac.signal, /toute la tache/.test(n) ? "task" : "once"), "agent");
       return res.end();
     }
     const fast = await instant(q);
@@ -180,7 +180,7 @@ const server = http.createServer(async (req, res) => {
       let size = 0;
       for await (const c of req) {
         size += c.length;
-        if (size > 16000 * 2 * 40) return send(res, 413, { error: "Extrait trop long (40 s maximum)." });
+        if (size > 16000 * 2 * 65) return send(res, 413, { error: "Extrait trop long (1 minute maximum)." });
         chunks.push(c);
       }
       const out = await transcribe(Buffer.concat(chunks));

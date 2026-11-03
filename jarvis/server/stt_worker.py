@@ -9,7 +9,12 @@ import numpy as np
 from faster_whisper import WhisperModel
 
 MODEL = sys.argv[1] if len(sys.argv) > 1 else "small"
-model = WhisperModel(MODEL, device="cpu", compute_type="int8")
+# « small » pour les phrases courtes (rapide) ; un modèle plus précis, chargé à la demande, pour les longues dictées.
+models = {MODEL: WhisperModel(MODEL, device="cpu", compute_type="int8")}
+def get(name):
+    if name not in models:
+        models[name] = WhisperModel(name, device="cpu", compute_type="int8")
+    return models[name]
 # Les mots qu'il doit reconnaître du premier coup.
 PROMPT = "Jarvis, Keeply, Keeply HQ, Tapas World, Agadir, Marrakech, Instagram, Meta Ads, prospection, Claude."
 print(json.dumps({"ready": True, "model": MODEL}), flush=True)
@@ -19,7 +24,7 @@ for line in sys.stdin:
         job = json.loads(line)
         t = time.time()
         audio = np.fromfile(job["path"], dtype=np.int16).astype(np.float32) / 32768
-        segs, _ = model.transcribe(audio, language="fr", beam_size=1, vad_filter=True, initial_prompt=PROMPT, condition_on_previous_text=False)
+        segs, _ = get(job.get("model") or MODEL).transcribe(audio, language="fr", beam_size=1, vad_filter=True, initial_prompt=PROMPT, condition_on_previous_text=False)
         text = " ".join(s.text.strip() for s in segs).strip()
         # Whisper invente parfois une phrase sur du silence : on l'écarte.
         if text.lower().strip(" .!") in {"", "merci", "sous-titres réalisés par la communauté d'amara.org", "merci d'avoir regardé"}:

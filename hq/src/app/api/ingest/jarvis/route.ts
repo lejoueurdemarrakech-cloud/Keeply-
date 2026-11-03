@@ -27,6 +27,11 @@ export const GET = route(async (req: Request) => {
   const now = new Date();
   const from = isoLocal(now);
   const plan = PLAN_ITEMS.filter((i) => i.date >= from).slice(0, 8).map((i) => ({ kind: i.kind, id: i.id, date: i.date, heure: i.heure, titre: i.titre, format: i.format }));
+  // Tout le plan, avec de quoi le lire à voix haute (accroche des posts, objectif des stories).
+  const planFull = PLAN_ITEMS.filter((i) => i.date >= from).slice(0, 60).map((i) => ({
+    kind: i.kind, id: i.id, date: i.date, heure: i.heure, titre: i.titre, format: i.format,
+    texte: i.kind === "post" ? String(i.post.accroche ?? "").slice(0, 300) : String(i.story.objectif ?? "").slice(0, 300),
+  }));
   const live = prospects.filter((p) => p.status !== "exclu" && p.score !== "ecarte");
   const contacted = ["contacte", "envoye", "relance1", "relance2", "repondu", "interesse", "refus", "client"];
   const byCountry: Record<string, number> = {};
@@ -34,6 +39,7 @@ export const GET = route(async (req: Request) => {
   const extra = {
     activity: activity.slice(0, 12),
     plan,
+    planFull,
     launchDate: "2026-11-15",
     prospection: {
       total: live.length,

@@ -1,4 +1,6 @@
-import { AGENT_DIRS, LOGIN_HELP, SCREEN_FILE, assistant, claudeAuth, ruleFor, runAgent, runOnce } from "./claude.js";
+import { execFile } from "node:child_process";
+import fs from "node:fs";
+import { AGENT_DIRS, LOGIN_HELP, SCREEN_FILE, assistant, claudeAuth, describeImage, projectRuleFor, ruleFor, runAgent, runOnce } from "./claude.js";
 import { agenda, crypto, football, fx, mac, mails, newsView, openWeb, timer, weatherView } from "./fast.js";
 import { getConfig } from "./config.js";
 import { hqAction, hqSnapshot } from "./hq.js";
@@ -85,6 +87,11 @@ export async function instant(raw) {
 
   // Retour à l'accueil
   if (/^(retour|accueil|ferme|fermer|ferme ca|c est bon|merci|ok merci|reviens a l accueil)$/.test(n)) return { say: n.startsWith("merci") ? "Avec plaisir." : "", home: true };
+
+  // Écran : capture faite par Jarvis lui-même, puis Claude décrit l'image (il ne peut lire que ce fichier)
+  if (/(mon ecran|l ecran|ce que je regarde|ce qui est ouvert|capture d ecran)/.test(n) && /(regarde|vois|lis|decris|qu est ce|quoi|aide|explique|resume|ouvert|capture)/.test(n)) return await screen(raw);
+  // Lire le plan Instagram en entier (« stop » l'arrête)
+  if (/(lis|lire|raconte|detaille|donne)( moi)?( tout| en entier| complet)? (le |mon )?(plan|calendrier|planning) (instagram|insta|de lancement|du lancement)|(plan|calendrier) (instagram|insta) (complet|en entier)/.test(n)) return await readPlan(n);
 
   // Données en direct, sans Claude (réponse en moins d'une seconde)
   try {
@@ -204,7 +211,7 @@ const PERSONA = {
 };
 
 const PROTOCOL = `FORMAT DE RÉPONSE (obligatoire, rien en dehors des balises) :
-<say>Ce que tu dis à voix haute : 1 à 3 phrases courtes, naturelles, sans markdown, sans emoji, sans URL. Les nombres écrits simplement.</say>
+<say>Ce que tu dis à voix haute, sans markdown, sans emoji, sans URL, nombres écrits simplement. D'habitude 1 à 3 phrases courtes. Si l'utilisateur demande de lire, détailler ou tout dire, lis TOUT, en entier (il peut dire stop).</say>
 <view>{JSON facultatif : ce qu'il faut AFFICHER quand la réponse contient des données, une liste, des résultats, des chiffres. Omets la balise si une phrase suffit.}</view>
 <ui>{JSON facultatif : seulement si l'utilisateur demande de modifier son interface.}</ui>
 <actions>[JSON facultatif : seulement si l'utilisateur le demande.]</actions>
@@ -230,7 +237,8 @@ UI (modifie l'écran de l'utilisateur, il peut tout demander à la voix) :
 {"remove":"identifiant ou titre du widget"}   {"move":"identifiant","side":"left|right"}   {"reset":true}
 Plusieurs changements : combine les clés dans un même objet.
 
-ACTIONS : [{"type":"task","text":"…"}] (tâche dans Keeply HQ), {"type":"note","text":"…"}, {"type":"remember","text":"…"}, {"type":"open","url":"https://…"}
+MAIL DICTÉ : quand l'utilisateur dicte ou demande d'écrire un mail, rédige-le en entier, propre, dans le ton voulu, corrige toutes les fautes d'orthographe et de grammaire de la dictée sans changer le sens, vouvoiement par défaut pour un client. Mets-le dans l'action mail_draft (il est seulement préparé dans l'app Mail, jamais envoyé) et dis-lui en une phrase de relire puis d'envoyer.
+ACTIONS : [{"type":"mail_draft","to":"adresse ou vide","subject":"…","body":"texte complet"}], {"type":"task","text":"…"} (tâche dans Keeply HQ), {"type":"note","text":"…"}, {"type":"remember","text":"…"}, {"type":"open","url":"https://…"}
 
 RÈGLES :
 - Pour toute information récente ou factuelle (sport, actualité, bourse, horaires, météo ailleurs, prix…), fais une recherche web avant de répondre. Si la recherche ne suffit pas (page dynamique, site à parcourir), utilise ton navigateur (outils browser_…). N'invente jamais un score, un horaire ou un chiffre.
@@ -312,6 +320,18 @@ export function sayStreamer(onSentence) {
   };
 }
 
+/** Prépare le mail dans l'app Mail (fenêtre ouverte). Rien n'est envoyé : l'utilisateur relit et envoie lui-même. */
+function mailDraft(a) {
+  const esc = (x) => String(x || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  const to = String(a.to || "").trim();
+  const script = `tell application "Mail"
+    set m to make new outgoing message with properties {subject:"${esc(a.subject)}", content:"${esc(a.body)}", visible:true}
+    ${/^[^\s@"]+@[^\s@"]+\.[a-z]{2,}$/i.test(to) ? `tell m to make new to recipient at end of to recipients with properties {address:"${esc(to)}"}` : ""}
+    activate
+  end tell`;
+  return new Promise((resolve) => execFile("osascript", ["-e", script], { timeout: 15000 }, () => resolve()));
+}
+
 export async function runActions(actions) {
   const done = [];
   for (const a of (actions || []).slice(0, 5)) {
@@ -326,6 +346,9 @@ export async function runActions(actions) {
       } else if (a.type === "remember" && text) {
         remember(text);
         done.push(`Retenu : ${text}`);
+      } else if (a.type === "mail_draft" && String(a.body || "").trim()) {
+        await mailDraft(a);
+        done.push({ draft: { to: String(a.to || ""), subject: String(a.subject || ""), body: String(a.body) } });
       } else if (a.type === "agent" && String(a.task || "").trim()) {
         done.push({ agent: String(a.task).trim().slice(0, 2000) });
       } else if (a.type === "open" && /^https?:\/\//.test(a.url || "")) {
@@ -336,6 +359,39 @@ export async function runActions(actions) {
     }
   }
   return done;
+}
+
+/* ---------- Écran ---------- */
+
+const SCREEN_HELP = "Je n'ai pas le droit de voir ton écran. Ouvre Réglages Système, Confidentialité et sécurité, Enregistrement de l'écran, clique sur plus et ajoute le programme node qui se trouve dans le dossier usr, local, bin. Puis relance Jarvis.";
+async function screen(question) {
+  fs.rmSync(SCREEN_FILE, { force: true });
+  const ok = await new Promise((r) => execFile("screencapture", ["-x", "-t", "png", SCREEN_FILE], { timeout: 10000 }, (e) => r(!e)));
+  const size = ok && fs.existsSync(SCREEN_FILE) ? fs.statSync(SCREEN_FILE).size : 0;
+  if (!size) return { say: SCREEN_HELP };
+  try {
+    const say = await describeImage(SCREEN_FILE, `Question de l'utilisateur : « ${question} ».`);
+    return { say, view: { kind: "screen", title: "Ton écran", text: say } };
+  } catch (e) {
+    return { say: `Je n'ai pas réussi à lire la capture : ${String(e.message).slice(0, 80)}.` };
+  }
+}
+
+/* ---------- Plan Instagram lu en entier ---------- */
+
+async function readPlan(n) {
+  const hq = await hqSnapshot();
+  const items = hq.ok ? hq.data.extra?.planFull || [] : [];
+  if (!items.length) return { say: "Je n'ai pas le plan Instagram pour l'instant." };
+  const week = /(semaine|7 jours|prochains jours)/.test(n);
+  const list = week ? items.filter((i) => new Date(i.date + "T12:00:00") - Date.now() < 7 * 864e5) : items;
+  const day = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const lines = list.map((i) => `${day(i.date)}, ${i.heure.replace(":", " heures ")}, ${i.kind === "post" ? "post" : "stories"} : ${i.titre}.${i.texte ? " " + i.texte.replace(/\s+/g, " ").trim() + (/[.!?…]$/.test(i.texte.trim()) ? "" : ".") : ""}`);
+  return {
+    say: `Voici ${week ? "la semaine" : "tout le plan"}, ${list.length} contenus. Dis stop pour m'arrêter. ${lines.join(" ")}`,
+    view: { kind: "plan", title: "Plan Instagram" },
+    keeply: true,
+  };
 }
 
 /* ---------- Résumés parlés des écrans Keeply ---------- */
@@ -359,7 +415,7 @@ async function keeplySay(kind) {
 
 /* ---------- Claude : assistant (voix) ---------- */
 
-const AGENT_RE = /(mon ecran|sur l ecran|ce que je regarde|capture d ecran|terminal|commande|fichier|fichiers|dossier|dossiers|script|code source|mon code|projet|repo|depot|git |npm |compile|build|deploie|installe|serveur local|readme|cree un fichier|ecris dans|modifie le|renomme|range mes|trie mes|cherche dans mes|dans mes documents|dans mes telechargements|sur mon mac|mode agent|en mode terminal)/;
+const AGENT_RE = /(terminal|commande|fichier|fichiers|dossier|dossiers|script|code source|mon code|projet|repo|depot|git |npm |compile|build|deploie|installe|serveur local|readme|cree un fichier|ecris dans|modifie le|renomme|range mes|trie mes|cherche dans mes|dans mes documents|dans mes telechargements|sur mon mac|mode agent|en mode terminal)/;
 export const isAgentTask = (n) => AGENT_RE.test(n) || /^agent /.test(n);
 
 function systemPrompt(cfg) {
@@ -419,7 +475,10 @@ export async function askClaude(text, emit, signal) {
 let pending = null; // tâche en attente d'accord : { sessionId, rules, items, task }
 export const pendingApproval = () => pending;
 
-const AGENT_SYSTEM = `Tu es Jarvis en mode agent sur le Mac du fondateur de Keeply : tu agis comme Claude Code dans son terminal.
+const AGENT_SYSTEM = `Tu es Jarvis en mode agent sur le Mac du fondateur de Keeply : tu travailles exactement comme Claude Code (Opus) dans son terminal, sur ses vrais projets.
+Projets Keeply : site vitrine ${os.homedir()}/Projet App/FIDLY V1/Keeply-Site ; pubs et vidéos ${os.homedir()}/Projet App/FIDLY V1/Keeply-Pub et Keeply-Tutos/remotion ; app iOS ${os.homedir()}/Projet App/FIDLY V1/Fidly ; Android Keeply-Android ; Keeply HQ ${os.homedir()}/Outils/keeply-hq/hq.
+- Sois COMPLET : lis entièrement ce qui compte (fichiers, plans, consignes), fais toute la tâche, vérifie le résultat (compile, relis), ne t'arrête pas à la moitié. Utilise Serena (find_symbol, get_symbols_overview…) pour lire le code sans gaspiller de jetons.
+- Règles permanentes : ne déploie jamais en production, ne pousse rien sur GitHub, n'envoie aucun mail ni message, ne publie rien : prépare et dis-le. Le serveur de production et le worker keeplyfidelity.app sont intouchables.
 Dossiers accessibles : ${AGENT_DIRS.join(", ")}.
 - Tu peux lire ces dossiers : ${AGENT_DIRS.join(", ")}, et chercher avec mdfind. Ouvrir une page, un fichier ou une app (« open ») demande l'accord de l'utilisateur.
 - Pour voir l'écran de l'utilisateur : lance exactement « screencapture -x ${SCREEN_FILE} » puis lis l'image ${SCREEN_FILE} avec Read.
@@ -466,7 +525,9 @@ export async function askAgent(task, emit, signal, resume = null, extraAllow = [
     const items = all.filter((x) => x.rule);
     if (!items.length && all.length) return { say: "Cette action ne peut pas être autorisée en toute sécurité depuis Jarvis : fais-la dans le Terminal si tu en as besoin.", view: reply.view, costUsd: res.costUsd };
     if (!items.length) return { ...reply, costUsd: res.costUsd };
-    pending = { kind: "approve", sessionId: res.sessionId, rules: [...new Set(items.map((x) => x.rule))], items, task };
+    const proj = res.denials.map((d) => (/^(Write|Edit|MultiEdit)$/.test(d.tool) ? projectRuleFor(d.input?.file_path) : null)).find(Boolean);
+    pending = { kind: "approve", sessionId: res.sessionId, rules: [...new Set(items.map((x) => x.rule))], items, task, project: proj };
+    if (proj) items.push({ tool: "Projet", detail: `Ou bien : écrire partout dans ${proj.root} pour toute la tâche`, rule: proj.rule, scope: "task" });
     emit({ type: "approval", items });
     return { say: reply.say && !/^je m/i.test(reply.say) ? reply.say : `J'ai besoin de ton accord pour : ${items[0].tool === "Bash" ? "lancer une commande" : "modifier un fichier"}.`, view: reply.view, costUsd: res.costUsd, approval: true };
   }
@@ -481,13 +542,14 @@ export function proposeAgent(task, emit) {
   return { say: "Pour ça, je dois passer en mode terminal sur ton Mac. Je lance ? Dis oui ou non.", approval: true };
 }
 
-export async function resolveApproval(ok, emit, signal) {
+export async function resolveApproval(ok, emit, signal, scope = "once") {
   const p = pending;
   pending = null;
   if (!p) return { say: "Rien n'attend ton accord." };
   if (!ok) return { say: "D'accord, je n'y touche pas." };
   if (p.kind === "delegate") return askAgent(p.task, emit, signal);
-  return askAgent(p.task, emit, signal, p.sessionId, p.rules);
+  const rules = p.rules.filter((r) => r !== p.project?.rule);
+  return askAgent(p.task, emit, signal, p.sessionId, scope === "task" && p.project ? [...rules, p.project.rule] : rules);
 }
 
 /** Rafraîchit un widget de contenu généré (matchs, bourse…). */
