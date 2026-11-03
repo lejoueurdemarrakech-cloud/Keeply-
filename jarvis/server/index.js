@@ -1,3 +1,4 @@
+import crypto from "node:crypto";
 import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
@@ -24,6 +25,10 @@ const PORT = Number(process.env.JARVIS_PORT || cfg.port || 4777);
 let claudeInfo = null;
 let lastSeen = 0;
 let busy = null; // demande en cours (une seule à la fois)
+// Jeton tiré au hasard à chaque démarrage : seule l'interface de Jarvis (même origine) peut le lire,
+// et chaque ordre (POST, DELETE) doit le présenter. Une page web d'un autre site ne peut ni le lire
+// (pas de CORS) ni envoyer l'en-tête sans pré-vérification (refusée).
+const TOKEN = crypto.randomBytes(24).toString("hex");
 
 const TYPES = { ".html": "text/html; charset=utf-8", ".js": "text/javascript", ".css": "text/css", ".svg": "image/svg+xml", ".png": "image/png", ".woff2": "font/woff2", ".woff": "font/woff", ".json": "application/json", ".ico": "image/x-icon" };
 
@@ -126,6 +131,17 @@ const server = http.createServer(async (req, res) => {
   if (origin && !/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origin)) return send(res, 403, { error: "origine refusée" });
   try {
     if (!p.startsWith("/api/")) return serveStatic(req, res);
+    if (req.method === "OPTIONS") return send(res, 403, { error: "interdit" });
+    if (p === "/api/token" && req.method === "GET") {
+      // Lisible seulement depuis la même origine (navigateur) : la page de Jarvis.
+      if (req.headers["sec-fetch-site"] && req.headers["sec-fetch-site"] !== "same-origin") return send(res, 403, { error: "interdit" });
+      return send(res, 200, { token: TOKEN });
+    }
+    if (req.method !== "GET") {
+      const t = String(req.headers["x-jarvis-token"] || "");
+      const okToken = t.length === TOKEN.length && crypto.timingSafeEqual(Buffer.from(t), Buffer.from(TOKEN));
+      if (!okToken || !/application\/json/.test(String(req.headers["content-type"] || ""))) return send(res, 403, { error: "jeton manquant" });
+    }
     lastSeen = Date.now();
     if (p === "/api/state" && req.method === "GET") {
       const c = getConfig();
