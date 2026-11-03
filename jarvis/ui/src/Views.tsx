@@ -15,7 +15,7 @@ export type Rich = View & { kind?: string; [k: string]: unknown };
 export interface AgentLog {
   task: string;
   steps: { tool: string; detail: string; ok?: boolean; out?: string }[];
-  approval: { tool: string; detail: string }[] | null;
+  approval: { tool: string; detail: string; risk?: string }[] | null;
   done: boolean;
 }
 
@@ -299,7 +299,12 @@ function AgentView({ log, onApprove }: { log: AgentLog; onApprove: (ok: boolean)
           <ShieldAlert size={20} />
           <div>
             <b>J'ai besoin de ton accord</b>
-            {log.approval.map((a, i) => <code key={i}>{a.tool === "Bash" ? "$ " : `${a.tool} · `}{a.detail}</code>)}
+            {log.approval.map((a, i) => (
+              <span key={i} style={{ display: "grid", gap: 2 }}>
+                <code>{a.tool === "Bash" ? "$ " : `${a.tool} · `}{a.detail}</code>
+                {a.risk && <span style={{ color: "rgb(var(--bad))", fontSize: 12.5, fontWeight: 600 }}>⚠ {a.risk}</span>}
+              </span>
+            ))}
             <p className="muted">Dis « oui » ou « non », ou clique.</p>
           </div>
           <div className="approval-btns">

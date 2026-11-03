@@ -97,7 +97,12 @@ function route(ev, h) {
 const BROWSER_TOOLS = ["navigate", "navigate_back", "snapshot", "click", "type", "press_key", "wait_for", "tabs"].map((t) => `mcp__browser__browser_${t}`);
 const ASSIST_TOOLS = ["WebSearch", "WebFetch", ...BROWSER_TOOLS].join(",");
 const LOCAL = ["localhost", "127.0.0.1", "[::1]", "0.0.0.0"].flatMap((h) => ["", ":80", ":3000", ":4777", ":4788", ":5173", ":5177", ":5560", ":8000", ":8080", ":8765"].flatMap((p) => [`http://${h}${p}`, `https://${h}${p}`]));
-const BROWSER_MCP = JSON.stringify({ mcpServers: { browser: { type: "stdio", command: "npx", args: ["-y", "@playwright/mcp@0.0.84", "--browser", "msedge", "--headless", "--isolated", "--block-service-workers", "--blocked-origins", [...LOCAL, "http://192.168.1.1", "http://192.168.0.1", "http://169.254.169.254"].join(";")] } } });
+// Tout le trafic du navigateur passe par le relais de Jarvis (guard-proxy.js), qui refuse le Mac et le réseau local
+// même après une redirection ou via un nom de domaine qui pointe vers le Mac. « <-loopback> » : Chromium passe
+// aussi les adresses locales par le relais au lieu de les contacter directement.
+let proxyPort = 0;
+export const setProxyPort = (p) => (proxyPort = p);
+const browserMcp = () => JSON.stringify({ mcpServers: proxyPort ? { browser: { type: "stdio", command: "npx", args: ["-y", "@playwright/mcp@0.0.84", "--browser", "msedge", "--headless", "--isolated", "--block-service-workers", "--proxy-server", `http://127.0.0.1:${proxyPort}`, "--proxy-bypass", "<-loopback>", "--blocked-origins", [...LOCAL, "http://169.254.169.254"].join(";")] } } : {} });
 const ASSIST_DENY = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput,mcp__browser__browser_file_upload,mcp__browser__browser_evaluate,mcp__browser__browser_run_code,mcp__browser__browser_install";
 
 class Warm {
@@ -120,7 +125,7 @@ class Warm {
 
   spawn(resume) {
     const args = ["-p", "--input-format", "stream-json", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", this.model, ...FAST_FLAGS,
-      "--append-system-prompt", this.system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY, "--mcp-config", BROWSER_MCP];
+      "--append-system-prompt", this.system, "--allowedTools", ASSIST_TOOLS, "--disallowedTools", ASSIST_DENY, "--mcp-config", browserMcp()];
     if (resume) args.push("--resume", resume);
     const child = spawn(bin(), args, { cwd: WORKSPACE, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
     this.child = child;
@@ -232,7 +237,8 @@ const H = os.homedir();
 // sont protégés par macOS : l'agent y accède seulement si Claude Code a reçu l'autorisation du Mac.
 export const JARVIS_DIR = path.join(H, "Jarvis");
 fs.mkdirSync(JARVIS_DIR, { recursive: true });
-export const AGENT_DIRS = [JARVIS_DIR, path.join(H, "Projet App"), path.join(H, "Outils"), path.join(H, "Documents"), path.join(H, "Downloads"), path.join(H, "Desktop")].filter((d) => fs.existsSync(d));
+// Dossiers de travail lisibles par l'agent (liste positive : les dossiers cachés de configuration ne le sont jamais).
+export const AGENT_DIRS = [JARVIS_DIR, ...["Projet App", "Outils", "Documents", "Downloads", "Desktop", "Pictures", "Movies", "Music"].map((d) => path.join(H, d))].filter((d) => fs.existsSync(d));
 export const SCREEN_FILE = path.join(JARVIS_DIR, "ecran.png");
 // Sans demander : lire, chercher, et quelques commandes sans danger.
 // Seulement des commandes qui ne peuvent ni écrire, ni exécuter autre chose, ni sortir du Mac.
@@ -258,9 +264,9 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
   return new Promise((resolve, reject) => {
     const args = ["-p", "--output-format", "stream-json", "--verbose", "--include-partial-messages", "--model", cfg.agentModel || "sonnet", ...FAST_FLAGS,
       "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, `Bash(screencapture -x ${SCREEN_FILE})`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
-    args.push("--add-dir", H); // tout le dossier personnel (sauf les secrets, refusés plus haut)
+    for (const d of AGENT_DIRS) args.push("--add-dir", d);
     if (resume) args.push("--resume", resume);
-    const child = spawn(bin(), args, { cwd: H, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    const child = spawn(bin(), args, { cwd: JARVIS_DIR, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
     let text = "";
     let sessionId = resume || null;
     let final = null;

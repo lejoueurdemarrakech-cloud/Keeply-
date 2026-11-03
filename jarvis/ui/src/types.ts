@@ -139,5 +139,5 @@ export type Ev =
   | { type: "agent"; phase: "start" | "resume"; task: string }
   | { type: "step"; tool: string; detail: string }
   | { type: "stepResult"; ok: boolean; text: string }
-  | { type: "approval"; items: { tool: string; detail: string }[] }
+  | { type: "approval"; items: { tool: string; detail: string; risk?: string }[] }
   | { type: "done"; say: string; done: (string | { open: string })[]; via: "instant" | "claude" | "agent"; focus?: string | null; costUsd?: number; ms?: number; approval?: boolean };

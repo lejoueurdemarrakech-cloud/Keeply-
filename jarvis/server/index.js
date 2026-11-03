@@ -6,7 +6,8 @@ import { fileURLToPath } from "node:url";
 import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, proposeAgent, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
 import { credits } from "./credits.js";
 import { startStt, sttState, transcribe } from "./stt.js";
-import { checkAuth, claudeAuth, usageLimit } from "./claude.js";
+import { checkAuth, claudeAuth, setProxyPort, usageLimit } from "./claude.js";
+import { startGuardProxy } from "./guard-proxy.js";
 import { claudeVersion } from "./claude.js";
 import { getConfig, publicConfig, updateConfig } from "./config.js";
 import { hqConfigured, hqSnapshot } from "./hq.js";
@@ -217,6 +218,7 @@ server.listen(PORT, "127.0.0.1", async () => {
   if (!hqConfigured()) console.log("Keeply HQ n'est pas configuré : ouvre les réglages de Jarvis.");
   // Tout est prêt avant la première question : Claude démarré, chiffres HQ et météo en cache.
   startStt();
+  setProxyPort(await startGuardProxy().catch(() => 0)); // sans relais, pas de navigateur
   // Connecté ? (sinon Jarvis explique quoi faire au lieu d'attendre)
   if (claudeInfo && (await checkAuth())) warmUp();
   void hqSnapshot(true).catch(() => undefined);

@@ -421,7 +421,7 @@ export const pendingApproval = () => pending;
 
 const AGENT_SYSTEM = `Tu es Jarvis en mode agent sur le Mac du fondateur de Keeply : tu agis comme Claude Code dans son terminal.
 Dossiers accessibles : ${AGENT_DIRS.join(", ")}.
-- Tu peux lire tout le dossier personnel (${os.homedir()}) et chercher avec mdfind. Ouvrir une page, un fichier ou une app (« open ») demande l'accord de l'utilisateur.
+- Tu peux lire ces dossiers : ${AGENT_DIRS.join(", ")}, et chercher avec mdfind. Ouvrir une page, un fichier ou une app (« open ») demande l'accord de l'utilisateur.
 - Pour voir l'écran de l'utilisateur : lance exactement « screencapture -x ${SCREEN_FILE} » puis lis l'image ${SCREEN_FILE} avec Read.
 - Les nouveaux fichiers vont dans ${AGENT_DIRS[0]} sauf si on te donne un autre endroit. macOS peut bloquer Documents et Téléchargements (EPERM) : dans ce cas, dis-le simplement.
 - Fais la tâche jusqu'au bout avec tes outils, efficacement, sans demander de confirmation (le système demande lui-même l'accord pour les actions sensibles).
@@ -460,7 +460,9 @@ export async function askAgent(task, emit, signal, resume = null, extraAllow = [
   const reply = parseReply(res.text);
   const blocked = /<need>/.test(res.text);
   if (res.denials.length && blocked) {
-    const all = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d) }));
+    // Une commande qui touche Internet est signalée en rouge sur la carte d'accord (elle pourrait envoyer des données).
+    const NET = /(https?:\/\/|\bcurl\b|\bwget\b|\bnc\b|\bscp\b|\bssh\b|\bftp\b|\brsync\b|\bgit push\b|\bnpm publish\b|\bopen\b.*:\/\/)/i;
+    const all = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d), risk: NET.test(describe(d)) ? "Cette action contacte Internet : vérifie qu'elle n'envoie pas tes fichiers." : "" }));
     const items = all.filter((x) => x.rule);
     if (!items.length && all.length) return { say: "Cette action ne peut pas être autorisée en toute sécurité depuis Jarvis : fais-la dans le Terminal si tu en as besoin.", view: reply.view, costUsd: res.costUsd };
     if (!items.length) return { ...reply, costUsd: res.costUsd };
