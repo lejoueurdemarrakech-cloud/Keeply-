@@ -246,7 +246,8 @@ const AGENT_ALLOW = [
 ];
 // Jamais, même avec accord.
 const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
-const AGENT_DENY = [...SECRET_READS, "WebSearch", "WebFetch", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
+// Pas de sous-agents (Task/Agent) : ils pourraient tourner avec d'autres permissions que l'agent lui-même.
+const AGENT_DENY = [...SECRET_READS, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
  * Lance une tâche d'agent. `extraAllow` : règles accordées pour cette reprise
