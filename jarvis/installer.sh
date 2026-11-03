@@ -105,7 +105,9 @@ cat > "$PLIST" <<PLIST
 </plist>
 PLIST
 launchctl bootout "gui/$(id -u)/$LABEL" >/dev/null 2>&1 || true
-launchctl bootstrap "gui/$(id -u)" "$PLIST"
+# macOS met un instant à arrêter l'ancien service : on attend, puis on réessaie si besoin.
+for _ in 1 2 3 4 5; do launchctl print "gui/$(id -u)/$LABEL" >/dev/null 2>&1 || break; sleep 1; done
+for i in 1 2 3; do launchctl bootstrap "gui/$(id -u)" "$PLIST" 2>/dev/null && break; [ "$i" = 3 ] && fail "Impossible de démarrer le service Jarvis (launchctl)."; sleep 2; done
 launchctl kickstart -k "gui/$(id -u)/$LABEL" >/dev/null 2>&1 || true
 
 say_step "Création de l'app Jarvis"
