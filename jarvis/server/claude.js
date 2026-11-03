@@ -91,10 +91,14 @@ function route(ev, h) {
 
 /* ---------------- 1. Assistant gardé chaud ---------------- */
 
-const ASSIST_TOOLS = "WebSearch,WebFetch,mcp__browser";
 // Son propre navigateur pour les recherches récentes : Edge piloté par Playwright, invisible, profil jetable.
-const BROWSER_MCP = JSON.stringify({ mcpServers: { browser: { type: "stdio", command: "npx", args: ["-y", "@playwright/mcp@latest", "--browser", "msedge", "--headless", "--isolated"] } } });
-const ASSIST_DENY = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput";
+// Version figée ; seulement naviguer, lire, cliquer, écrire dans un champ (pas d'envoi de fichier, pas de
+// code exécuté dans la page) ; les services du Mac lui-même (localhost, Jarvis, Harvey…) sont bloqués.
+const BROWSER_TOOLS = ["navigate", "navigate_back", "snapshot", "click", "type", "press_key", "wait_for", "tabs"].map((t) => `mcp__browser__browser_${t}`);
+const ASSIST_TOOLS = ["WebSearch", "WebFetch", ...BROWSER_TOOLS].join(",");
+const LOCAL = ["localhost", "127.0.0.1", "[::1]", "0.0.0.0"].flatMap((h) => ["", ":80", ":3000", ":4777", ":4788", ":5173", ":5177", ":5560", ":8000", ":8080", ":8765"].flatMap((p) => [`http://${h}${p}`, `https://${h}${p}`]));
+const BROWSER_MCP = JSON.stringify({ mcpServers: { browser: { type: "stdio", command: "npx", args: ["-y", "@playwright/mcp@0.0.84", "--browser", "msedge", "--headless", "--isolated", "--block-service-workers", "--blocked-origins", [...LOCAL, "http://192.168.1.1", "http://192.168.0.1", "http://169.254.169.254"].join(";")] } } });
+const ASSIST_DENY = "Bash,Edit,Write,MultiEdit,NotebookEdit,Read,Glob,Grep,Task,TodoWrite,KillShell,BashOutput,mcp__browser__browser_file_upload,mcp__browser__browser_evaluate,mcp__browser__browser_run_code,mcp__browser__browser_install";
 
 class Warm {
   child = null;
@@ -238,11 +242,10 @@ const AGENT_ALLOW = [
   "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc -l:*)",
   "Bash(git status)", "Bash(git branch)", "Bash(git log --oneline -20)",
   "Bash(node -v)", "Bash(uptime)",
-  "Bash(open:*)", // ouvrir une page, un fichier ou une app, comme toi
   "Bash(mdfind:*)", // recherche Spotlight dans tout le Mac (lecture seule)
 ];
 // Jamais, même avec accord.
-const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", "Outils/keeply-pont/**", "Library/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
+const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
 const AGENT_DENY = [...SECRET_READS, "WebSearch", "WebFetch", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
