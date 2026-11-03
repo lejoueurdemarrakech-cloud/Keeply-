@@ -253,7 +253,9 @@ const AGENT_ALLOW = [
 // Jamais, même avec accord.
 const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat([".env", ".env.*", "*.pem", "*.p8", "*.key", "id_rsa*", "*.keystore"].map((x) => `Read(/${H}/**/${x})`)) // chemins absolus : valables partout, pas seulement dans le dossier de travail
   // L'agent ne peut jamais écrire de réglages Claude (il ne pourra pas s'accorder plus de droits).
-  .concat(["Edit(//**/.claude/**)", "Edit(//**/CLAUDE.md)", "Edit(//**/.mcp.json)"]);
+  .concat(["Edit(//**/.claude/**)", "Edit(//**/CLAUDE.md)", "Edit(//**/.mcp.json)"])
+  // Même avec un accord « pour toute la tâche » : jamais les crochets Git, les secrets ni les clés.
+  .concat(["Edit(//**/.git/**)", "Edit(//**/.husky/**)", "Edit(//**/.env)", "Edit(//**/.env.*)", "Edit(//**/*.pem)", "Edit(//**/*.key)", "Edit(//**/*.p8)", "Edit(//**/.ssh/**)"]);
 // Pas de sous-agents (Task/Agent) : ils pourraient tourner avec d'autres permissions que l'agent lui-même.
 const AGENT_DENY = [...SECRET_READS, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
@@ -274,7 +276,16 @@ export function projectRuleFor(file) {
   const parts = f.slice(base.length + 1).split(path.sep);
   if (parts.length < 2) return null;
   const root = path.join(base, ...parts.slice(0, Math.min(2, parts.length - 1)));
-  if (!/^[\p{L}\p{N} ._@+\/-]+$/u.test(root) || /(^|\/)\./.test(root.slice(H.length))) return null;
+  // Mêmes contrôles que pour un fichier : vrai chemin (ni lien ni majuscules trompeuses), caractères simples,
+  // pas de dossier caché ni sensible.
+  let real;
+  try {
+    real = fs.realpathSync(root);
+  } catch {
+    return null;
+  }
+  if (real !== root || !fs.realpathSync(base).length) return null;
+  if (!/^[\p{L}\p{N} ._@+\/-]+$/u.test(root) || /(^|\/)\./.test(root.slice(H.length)) || /keeply-pont|launchagents|\/library\//i.test(root)) return null;
   return { rule: `Edit(/${root}/**)`, root };
 }
 
