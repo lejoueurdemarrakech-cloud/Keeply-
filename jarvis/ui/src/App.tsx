@@ -194,8 +194,8 @@ export default function App() {
           const inConvo = Date.now() < convoUntil.current;
           // …sauf pour accorder une action : en mains libres, un « oui » doit commencer par « Jarvis »
           // (un « oui » entendu au hasard, à la télé ou à côté, ne doit rien autoriser).
-          if (rest === null && approvalPending.current && /^(oui|ok|vas y|d accord|autorise|j autorise|confirme|toute la tache)/.test(n)) {
-            setHeard("Pour autoriser, dis « Jarvis, oui » ou clique sur le bouton.");
+          if (rest === null && approvalPending.current) {
+            setHeard("Une action attend ton accord : dis « Jarvis, oui » ou « Jarvis, non », ou clique sur le bouton.");
             return;
           }
           if (rest === null && !inConvo) return;
