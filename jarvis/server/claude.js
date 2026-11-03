@@ -251,7 +251,9 @@ const AGENT_ALLOW = [
   "Bash(mdfind:*)", // recherche Spotlight dans tout le Mac (lecture seule)
 ];
 // Jamais, même avec accord.
-const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat(["Read(**/.env)", "Read(**/.env.*)", "Read(**/*.pem)", "Read(**/*.p8)", "Read(**/*.key)"]);
+const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat([".env", ".env.*", "*.pem", "*.p8", "*.key", "id_rsa*", "*.keystore"].map((x) => `Read(/${H}/**/${x})`)) // chemins absolus : valables partout, pas seulement dans le dossier de travail
+  // L'agent ne peut jamais écrire de réglages Claude (il ne pourra pas s'accorder plus de droits).
+  .concat(["Edit(//**/.claude/**)", "Edit(//**/CLAUDE.md)", "Edit(//**/.mcp.json)"]);
 // Pas de sous-agents (Task/Agent) : ils pourraient tourner avec d'autres permissions que l'agent lui-même.
 const AGENT_DENY = [...SECRET_READS, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
@@ -266,7 +268,8 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
       "--append-system-prompt", system, "--allowedTools", [...AGENT_ALLOW, `Edit(/${JARVIS_DIR}/**)`, `Bash(screencapture -x ${SCREEN_FILE})`, ...extraAllow].join(","), "--disallowedTools", AGENT_DENY.join(","), "--max-turns", "40"];
     for (const d of AGENT_DIRS) args.push("--add-dir", d);
     if (resume) args.push("--resume", resume);
-    const child = spawn(bin(), args, { cwd: JARVIS_DIR, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
+    // Dossier de travail hors de portée en écriture : aucun réglage du projet ne peut y être glissé.
+    const child = spawn(bin(), args, { cwd: WORKSPACE, env: process.env, stdio: ["pipe", "pipe", "pipe"] });
     let text = "";
     let sessionId = resume || null;
     let final = null;

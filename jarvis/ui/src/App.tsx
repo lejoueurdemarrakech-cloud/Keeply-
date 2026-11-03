@@ -316,7 +316,10 @@ export default function App() {
         ) : (
           <div className="controls">
             <button className="icon-btn" onClick={toggleHandsFree} title="Mains libres : dites « Jarvis, … »" data-on={handsFree}><Sparkles size={17} /></button>
-            <button className={`mic ${mode === "listen" ? "on" : ""}`} onClick={listen} aria-label="Parler">{mode === "listen" ? <MicOff size={26} /> : <Mic size={26} />}</button>
+            <button className={`mic ${mode === "listen" ? "on" : ""}`} onClick={listen} aria-label="Parler">
+              <MicLevel on={mode === "listen"} />
+              {mode === "listen" ? <MicOff size={26} /> : <Mic size={26} />}
+            </button>
             <button className="icon-btn" onClick={() => { mouth.unlock(); const m = !muted; setMuted(m); mouth.muted = m; if (m) mouth.stop(); }} title="Voix">{muted ? <VolumeX size={17} /> : <Volume2 size={17} />}</button>
           </div>
         )}
@@ -335,6 +338,23 @@ export default function App() {
 const KIND: Record<string, string> = { mail: "Mails", agenda: "Agenda", weather: "Météo", matches: "Football", news: "Actualités", crypto: "Marchés", fx: "Change", timer: "Minuteur", music: "Musique", keeply: "Keeply HQ", prospection: "Keeply HQ", plan: "Keeply HQ" };
 
 /* ---------- petits composants de l'accueil ---------- */
+
+/** Anneau autour du micro qui suit le volume de ta voix : tu vois tout de suite s'il t'entend. */
+function MicLevel({ on }: { on: boolean }) {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    if (!on) return;
+    let raf = 0;
+    const tick = () => {
+      const l = ear.level();
+      if (ref.current) ref.current.style.transform = `scale(${1 + l * 0.55})`;
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [on]);
+  return <span ref={ref} className="mic-level" style={{ opacity: on ? 1 : 0 }} />;
+}
 
 function Clock({ weather }: { weather?: State["weather"] }) {
   const [now, setNow] = useState(new Date());

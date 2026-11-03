@@ -1078,3 +1078,15 @@ button.card:active {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
+
+.mic {
+  position: relative;
+}
+.mic-level {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px solid rgb(var(--a) / 0.8);
+  pointer-events: none;
+  transition: opacity 200ms ease;
+}

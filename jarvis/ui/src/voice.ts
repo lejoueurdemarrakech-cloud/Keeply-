@@ -142,12 +142,19 @@ export class Ear {
   async start(continuous: boolean) {
     this.stop();
     this.keep = continuous;
+    const { logMic } = await import("./api");
     try {
       this.stream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true } });
-    } catch {
-      this.h.onError("Micro refusé : autorise le micro pour Jarvis (Réglages Système > Confidentialité > Micro, puis dans la fenêtre Jarvis).");
+    } catch (e) {
+      const name = e instanceof Error ? `${e.name}: ${e.message}` : String(e);
+      logMic(`refus du micro : ${name}`);
+      this.h.onError(/system|NotAllowed/i.test(name)
+        ? "Le Mac bloque le micro pour Edge : Réglages Système > Confidentialité et sécurité > Microphone > active Microsoft Edge, puis relance Jarvis."
+        : `Micro indisponible (${name}).`);
       return;
     }
+    const track = this.stream.getAudioTracks()[0];
+    logMic(`micro ouvert : ${track?.label || "sans nom"} · ${track?.readyState} · muet=${track?.muted}`);
     this.ctx = new AudioContext();
     if (this.ctx.state === "suspended") await this.ctx.resume();
     const src = this.ctx.createMediaStreamSource(this.stream);
@@ -169,7 +176,7 @@ export class Ear {
         this.waitedMs += frameMs;
         if (loud) {
           this.speaking = true;
-          this.h.onInterim("…");
+          this.h.onInterim("Je t'écoute…");
         } else if (!this.keep && this.waitedMs > 9000) {
           this.h.onInterim("");
           this.stop();
@@ -186,6 +193,16 @@ export class Ear {
     this.node.connect(this.ctx.destination);
     this.listening = true;
     this.h.onState(true);
+    logMic(`écoute : ${this.ctx.sampleRate} Hz, état ${this.ctx.state}, mode ${this.keep ? "mains libres" : "une phrase"}`);
+    // Si rien ne bouge au bout de 3 s, le Mac donne sans doute un micro muet à Edge.
+    let peak = 0;
+    const probe = setInterval(() => (peak = Math.max(peak, this.rms)), 100);
+    setTimeout(() => {
+      clearInterval(probe);
+      if (!this.listening) return;
+      logMic(`niveau max sur 3 s : ${peak.toFixed(4)}`);
+      if (peak < 0.0005) this.h.onError("Je n'entends rien : le micro est muet. Vérifie Réglages Système > Confidentialité > Microphone (Microsoft Edge) et le micro choisi dans Son > Entrée.");
+    }, 3000);
   }
 
   private reset() {
@@ -215,10 +232,14 @@ export class Ear {
     }
     this.h.onInterim("Transcription…");
     try {
-      const { stt } = await import("./api");
+      const { stt, logMic } = await import("./api");
       const r = await stt(out);
       this.h.onInterim("");
       if (r.text) this.h.onFinal(r.text);
+      else {
+        logMic(`phrase de ${(out.length / 16000).toFixed(1)} s sans texte compris`);
+        this.h.onError("Je n'ai pas compris, tu peux répéter ?");
+      }
     } catch (e) {
       this.h.onInterim("");
       this.h.onError(e instanceof Error ? e.message : "Reconnaissance vocale indisponible.");

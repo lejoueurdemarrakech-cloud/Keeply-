@@ -11,7 +11,15 @@ import net from "node:net";
    changement d'adresse en cours de route ne passent.
    ============================================================ */
 
+// Liste de blocage du système (gère toutes les écritures d'adresses, dont IPv4 dans IPv6).
+// Deux listes séparées : Node compare sinon chaque IPv4 à la règle « IPv4 dans IPv6 » et bloquerait tout.
+const BLOCK4 = new net.BlockList();
+const BLOCK6 = new net.BlockList();
+for (const [n, p] of [["0.0.0.0", 8], ["10.0.0.0", 8], ["100.64.0.0", 10], ["127.0.0.0", 8], ["169.254.0.0", 16], ["172.16.0.0", 12], ["192.0.0.0", 24], ["192.168.0.0", 16], ["198.18.0.0", 15], ["224.0.0.0", 3]]) BLOCK4.addSubnet(n, p, "ipv4");
+for (const [n, p] of [["::", 127], ["::ffff:0:0", 96], ["64:ff9b::", 96], ["100::", 64], ["fc00::", 7], ["fe80::", 10], ["ff00::", 8], ["2001:db8::", 32]]) BLOCK6.addSubnet(n, p, "ipv6");
+
 function privateIp(ip) {
+  if (net.isIPv4(ip) ? BLOCK4.check(ip, "ipv4") : net.isIPv6(ip) ? BLOCK6.check(ip, "ipv6") : true) return true;
   if (net.isIPv4(ip)) {
     const [a, b] = ip.split(".").map(Number);
     return a === 0 || a === 10 || a === 127 || (a === 169 && b === 254) || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168) || (a === 100 && b >= 64 && b <= 127) || a >= 224;

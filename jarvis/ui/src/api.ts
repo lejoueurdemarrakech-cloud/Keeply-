@@ -45,3 +45,8 @@ export async function stt(pcm: Int16Array): Promise<{ text: string; ms: number }
   if (!r.ok) throw new Error((d as { error?: string }).error || `Erreur ${r.status}`);
   return d as { text: string; ms: number };
 }
+
+/** Diagnostic du micro (va dans ~/.jarvis/jarvis.log). */
+export function logMic(msg: string) {
+  void headers().then((h) => fetch("/api/log", { method: "POST", headers: h, body: JSON.stringify({ msg }) })).catch(() => undefined);
+}

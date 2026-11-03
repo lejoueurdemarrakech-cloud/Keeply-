@@ -169,6 +169,12 @@ const server = http.createServer(async (req, res) => {
     if (p === "/api/credits") return send(res, 200, { ...(await credits()), limit: usageLimit.at && Date.now() - usageLimit.at < 5 * 3600_000 ? usageLimit : null });
     if (p === "/api/approval") return send(res, 200, { pending: pendingApproval()?.items || null });
     if (p === "/api/ask" && req.method === "POST") return ask(req, res);
+    if (p === "/api/log" && req.method === "POST") {
+      // Diagnostic du micro envoyé par l'interface (aucun contenu de conversation)
+      const { msg } = await body(req);
+      console.log(`[micro ${new Date().toLocaleTimeString("fr-FR")}] ${String(msg).slice(0, 200)}`);
+      return send(res, 200, { ok: true });
+    }
     if (p === "/api/stt" && req.method === "POST") {
       const chunks = [];
       let size = 0;
@@ -177,7 +183,9 @@ const server = http.createServer(async (req, res) => {
         if (size > 16000 * 2 * 40) return send(res, 413, { error: "Extrait trop long (40 s maximum)." });
         chunks.push(c);
       }
-      return send(res, 200, await transcribe(Buffer.concat(chunks)));
+      const out = await transcribe(Buffer.concat(chunks));
+      console.log(`[micro ${new Date().toLocaleTimeString("fr-FR")}] reçu ${(size / 32000).toFixed(1)} s, transcrit en ${out.ms} ms, ${out.text ? out.text.split(" ").length + " mots" : "rien compris"}`);
+      return send(res, 200, out);
     }
     if (p === "/api/cancel" && req.method === "POST") {
       busy?.abort();
