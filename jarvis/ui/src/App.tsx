@@ -88,7 +88,7 @@ export default function App() {
   }, []);
 
   /* ---------- une demande ---------- */
-  const run = useCallback(async (text: string) => {
+  const run = useCallback(async (text: string, via = "direct") => {
     const q = text.trim();
     if (!q) return;
     mouth.unlock();
@@ -144,7 +144,7 @@ export default function App() {
           }
           if (e.done.some((d) => typeof d === "string" && /^Tâche|^Ajouté|^Retenu/.test(d))) void load(true);
         } else if (e.type === "stop") mouth.stop();
-      }, ac.signal);
+      }, ac.signal, via);
     } catch (err) {
       if (!ac.signal.aborted) setSaid(err instanceof Error ? err.message : "Erreur");
     }
@@ -206,7 +206,7 @@ export default function App() {
             setHeard("Oui ?");
             return;
           }
-          void run(q);
+          void run(q, rest === null ? "handsfree" : "wake");
         } else {
           void run(t);
         }

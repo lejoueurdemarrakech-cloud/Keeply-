@@ -13,8 +13,9 @@ export async function post<T = unknown>(url: string, body?: unknown, method = "P
 }
 
 /** Envoie une demande et lit le flux d'événements au fil de l'eau. */
-export async function ask(text: string, onEvent: (e: Ev) => void, signal: AbortSignal) {
-  const r = await fetch("/api/ask", { method: "POST", headers: await headers(), body: JSON.stringify({ text }), signal });
+/** via : d'où vient la phrase (« handsfree » = entendue en mains libres SANS « Jarvis » : ne peut rien autoriser). */
+export async function ask(text: string, onEvent: (e: Ev) => void, signal: AbortSignal, via = "direct") {
+  const r = await fetch("/api/ask", { method: "POST", headers: await headers(), body: JSON.stringify({ text, via }), signal });
   if (!r.ok || !r.body) throw new Error(`Jarvis ne répond pas (${r.status}).`);
   const reader = r.body.getReader();
   const dec = new TextDecoder();

@@ -61,7 +61,7 @@ function serveStatic(req, res) {
 
 /** Flux d'événements (SSE) pour une demande. */
 async function ask(req, res) {
-  const { text } = await body(req);
+  const { text, via } = await body(req);
   const q = String(text || "").trim().slice(0, 2000);
   if (!q) return send(res, 400, { error: "Demande vide." });
   res.writeHead(200, { "Content-Type": "text/event-stream", "Cache-Control": "no-store", Connection: "keep-alive" });
@@ -88,6 +88,13 @@ async function ask(req, res) {
   try {
     // Réponse à une demande d'accord de l'agent
     // Seuls un « oui » ou un « non » courts et clairs comptent (« ok merci » n'autorise rien).
+    // Accord : jamais depuis une phrase en mains libres sans « Jarvis » (le serveur décide, pas seulement l'interface).
+    const approvalAllowed = via !== "handsfree";
+    if (pendingApproval() && !approvalAllowed && /^(oui|ok|vas y|autorise|j autorise|d accord|confirme|toute la tache)/.test(n)) {
+      emit({ type: "sentence", text: "Pour autoriser, dis « Jarvis, oui » ou clique sur le bouton." });
+      emit({ type: "done", say: "", done: [], via: "instant" });
+      return res.end();
+    }
     if (pendingApproval() && /^(oui|oui vas y|vas y|autorise|j autorise|d accord|confirme|oui confirme|oui pour toute la tache|autorise toute la tache|toute la tache|non|non merci|annule|refuse|stop)$/.test(n)) {
       const yes = !/^(non|annule|refuse|stop)/.test(n);
       await finish(await resolveApproval(yes, emit, ac.signal, /toute la tache/.test(n) ? "task" : "once"), "agent");

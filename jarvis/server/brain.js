@@ -482,7 +482,7 @@ Projets Keeply : site vitrine ${os.homedir()}/Projet App/FIDLY V1/Keeply-Site ; 
 - Sois COMPLET : lis entièrement ce qui compte (fichiers, plans, consignes), fais toute la tâche, vérifie le résultat (compile, relis), ne t'arrête pas à la moitié. Utilise Serena (find_symbol, get_symbols_overview…) pour lire le code sans gaspiller de jetons.
 - Règles permanentes : ne déploie jamais en production, ne pousse rien sur GitHub, n'envoie aucun mail ni message, ne publie rien : prépare et dis-le. Le serveur de production et le worker keeplyfidelity.app sont intouchables.
 Dossiers accessibles : ${AGENT_DIRS.join(", ")}.
-- Tu peux lire ces dossiers : ${AGENT_DIRS.join(", ")}, et chercher avec mdfind. Ouvrir une page, un fichier ou une app (« open ») demande l'accord de l'utilisateur.
+- Tu peux lire ces dossiers : ${AGENT_DIRS.join(", ")}. Pour lister ou chercher, utilise Glob et Grep (pas ls, find ni mdfind). Ouvrir une page, un fichier ou une app (« open ») demande l'accord de l'utilisateur.
 - Pour voir l'écran de l'utilisateur : lance exactement « screencapture -x ${SCREEN_FILE} » puis lis l'image ${SCREEN_FILE} avec Read.
 - Les nouveaux fichiers vont dans ${AGENT_DIRS[0]} sauf si on te donne un autre endroit. macOS peut bloquer Documents et Téléchargements (EPERM) : dans ce cas, dis-le simplement.
 - Fais la tâche jusqu'au bout avec tes outils, efficacement, sans demander de confirmation (le système demande lui-même l'accord pour les actions sensibles).

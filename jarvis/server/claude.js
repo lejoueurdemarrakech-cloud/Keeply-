@@ -238,17 +238,19 @@ const H = os.homedir();
 export const JARVIS_DIR = path.join(H, "Jarvis");
 fs.mkdirSync(JARVIS_DIR, { recursive: true });
 // Dossiers de travail lisibles par l'agent (liste positive : les dossiers cachés de configuration ne le sont jamais).
-export const AGENT_DIRS = [JARVIS_DIR, ...["Projet App", "Outils", "Documents", "Downloads", "Desktop", "Pictures", "Movies", "Music"].map((d) => path.join(H, d))].filter((d) => fs.existsSync(d));
+// Pas de Téléchargements (clés App Store Connect) ni de tout « Outils » (jeton du pont) : Claude Code
+// laisse passer d'office les commandes de lecture DANS ces dossiers, donc les secrets doivent rester dehors.
+export const AGENT_DIRS = [JARVIS_DIR, ...["Projet App", path.join("Outils", "keeply-hq"), "Documents", "Desktop", "Pictures", "Movies", "Music"].map((d) => path.join(H, d))].filter((d) => fs.existsSync(d));
 export const SCREEN_FILE = path.join(JARVIS_DIR, "ecran.png");
 // Sans demander : lire, chercher, et quelques commandes sans danger.
 // Seulement des commandes qui ne peuvent ni écrire, ni exécuter autre chose, ni sortir du Mac.
 // L'agent n'a PAS accès au web : rien de ce qu'il lit ne peut partir sur Internet.
 const AGENT_ALLOW = [
   "Read", "Glob", "Grep", "LS", "TodoWrite",
-  "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc -l:*)",
+  // Aucune de ces commandes ne lit un fichier : pour lister ou chercher, l'agent utilise Glob/Grep/Read (qui respectent les secrets).
+  "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)",
   "Bash(git status)", "Bash(git branch)", "Bash(git log --oneline -20)",
   "Bash(node -v)", "Bash(uptime)",
-  "Bash(mdfind:*)", // recherche Spotlight dans tout le Mac (lecture seule)
 ];
 // Jamais, même avec accord.
 const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Outils/keeply-pont/**", "Library/**", ".aws/**", ".config/**", ".npmrc", ".netrc", ".git-credentials", ".kube/**", ".docker/**", ".gnupg/**", ".zsh_history", ".bash_history", ".supabase/**", ".vercel/**", ".local/share/**"].map((p) => `Read(/${path.join(H, p)})`).concat([".env", ".env.*", "*.pem", "*.p8", "*.key", "id_rsa*", "*.keystore"].map((x) => `Read(/${H}/**/${x})`)) // chemins absolus : valables partout, pas seulement dans le dossier de travail
@@ -260,7 +262,7 @@ const SECRET_READS = [".ssh/**", ".jarvis/**", ".claude/**", ".claude.json", "Ou
 const SERENA_DENY = ["search_for_pattern", "list_dir", "find_file", "activate_project", "read_file", "read_memory", "list_memories", "write_memory", "delete_memory", "execute_shell_command", "create_text_file", "replace_symbol_body", "insert_after_symbol", "insert_before_symbol", "replace_content", "rename_symbol", "onboarding"].map((t) => `mcp__serena__${t}`);
 // Commandes de lecture du Terminal interdites : Claude Code les autorise parfois tout seul et elles ne
 // respectent pas la liste des secrets. L'agent lit avec Read/Grep/Glob, qui la respectent.
-const SHELL_READERS = ["cat", "less", "more", "head", "tail", "grep", "egrep", "rg", "awk", "sed", "strings", "xxd", "od", "hexdump", "base64", "find", "cut", "sort", "uniq", "tr", "nl", "pr", "fold", "column", "plutil", "defaults", "sqlite3", "tar", "zip", "unzip", "cp", "mv", "ln", "open"].map((c) => `Bash(${c}:*)`);
+const SHELL_READERS = ["ls", "du", "wc", "mdfind", "mdls", "stat", "file", "cat", "less", "more", "head", "tail", "grep", "egrep", "rg", "awk", "sed", "strings", "xxd", "od", "hexdump", "base64", "find", "cut", "sort", "uniq", "tr", "nl", "pr", "fold", "column", "plutil", "defaults", "sqlite3", "tar", "zip", "unzip", "cp", "mv", "ln", "open"].map((c) => `Bash(${c}:*)`);
 const AGENT_DENY = [...SECRET_READS, ...SERENA_DENY, ...SHELL_READERS, "Task", "Agent", "WebSearch", "WebFetch", "NotebookEdit", "Bash(env:*)", "Bash(printenv:*)", "Bash(python:*)", "Bash(python3:*)", "Bash(node -e:*)", "Bash(bash -c:*)", "Bash(sh -c:*)", "Bash(zsh -c:*)", "Bash(eval:*)", "Bash(launchctl:*)", "Bash(crontab:*)", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
