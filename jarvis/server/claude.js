@@ -25,6 +25,16 @@ import { HOME } from "./store.js";
 const WORKSPACE = path.join(HOME, "workspace");
 fs.mkdirSync(WORKSPACE, { recursive: true });
 const FAST_FLAGS = ["--setting-sources", "local", "--strict-mcp-config"];
+/** Limite d'usage de l'abonnement Claude (ex. « 5-hour limit · resets 7:40am »). */
+export const usageLimit = { message: "", resets: "", at: 0 };
+export function noteLimit(text) {
+  const t = String(text || "");
+  if (!/(usage|5-hour|weekly|hour) limit|limit reached|hit your/i.test(t)) return false;
+  usageLimit.message = t.slice(0, 200);
+  usageLimit.resets = (t.match(/resets? (?:at )?([0-9:apm ]+(?:\([^)]+\))?)/i) || [])[1]?.trim() || "";
+  usageLimit.at = Date.now();
+  return true;
+}
 const bin = () => process.env.JARVIS_CLAUDE_BIN || getConfig().claudeBin || "claude";
 
 function lines(stream, onLine) {
@@ -100,7 +110,7 @@ class Warm {
         this.current = null;
         clearTimeout(c.timer);
         this.turns++;
-        if (ev.is_error) c.reject(new Error(ev.result || "Erreur de Claude"));
+        if (ev.is_error) (noteLimit(ev.result), c.reject(new Error(ev.result || "Erreur de Claude")));
         else c.resolve({ text: String(ev.result ?? c.text), sessionId: this.sessionId, costUsd: Number(ev.total_cost_usd) || 0 });
       }
     });
@@ -193,14 +203,16 @@ export const JARVIS_DIR = path.join(H, "Jarvis");
 fs.mkdirSync(JARVIS_DIR, { recursive: true });
 export const AGENT_DIRS = [JARVIS_DIR, path.join(H, "Projet App"), path.join(H, "Outils"), path.join(H, "Documents"), path.join(H, "Downloads")].filter((d) => fs.existsSync(d));
 // Sans demander : lire, chercher, et quelques commandes sans danger.
+// Seulement des commandes qui ne peuvent ni écrire, ni exécuter autre chose, ni sortir du Mac.
+// L'agent n'a PAS accès au web : rien de ce qu'il lit ne peut partir sur Internet.
 const AGENT_ALLOW = [
-  "Read", "Glob", "Grep", "LS", "TodoWrite", "WebSearch", "WebFetch",
-  "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc:*)", "Bash(head:*)", "Bash(tail:*)",
-  "Bash(git status:*)", "Bash(git log:*)", "Bash(git diff:*)", "Bash(git branch:*)", "Bash(git show:*)",
-  "Bash(open -a:*)", "Bash(which:*)", "Bash(node -v)", "Bash(npm ls:*)", "Bash(ps aux)", "Bash(uptime)", "Bash(mdfind:*)",
+  "Read", "Glob", "Grep", "LS", "TodoWrite",
+  "Bash(ls:*)", "Bash(pwd)", "Bash(date)", "Bash(whoami)", "Bash(sw_vers)", "Bash(df -h)", "Bash(du -sh:*)", "Bash(wc -l:*)",
+  "Bash(git status)", "Bash(git branch)", "Bash(git log --oneline -20)",
+  "Bash(node -v)", "Bash(uptime)",
 ];
 // Jamais, même avec accord.
-const AGENT_DENY = ["Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*|*sh)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)"];
+const AGENT_DENY = ["WebSearch", "WebFetch", "Bash(rm -rf:*)", "Bash(sudo:*)", "Bash(git push --force:*)", "Bash(curl:*)", "Bash(wget:*)", "Bash(nc:*)", "Bash(scp:*)", "Bash(ssh:*)", "Bash(shutdown:*)", "Bash(reboot:*)", "Bash(diskutil:*)", "Bash(security:*)", "Bash(osascript:*)"];
 
 /**
  * Lance une tâche d'agent. `extraAllow` : règles accordées pour cette reprise
@@ -231,6 +243,10 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
       clearTimeout(timer);
       if (signal?.aborted) return reject(new Error("annulé"));
       if (!final) return reject(new Error(stderr.trim().split("\n").slice(-2).join(" ") || `L'agent s'est arrêté (code ${code}).`));
+      if (final.is_error) {
+        noteLimit(final.result);
+        return reject(new Error(String(final.result || "L'agent a échoué.")));
+      }
       const denials = (final.permission_denials || []).map((d) => ({ tool: d.tool_name, input: d.tool_input }));
       resolve({ text: String(final.result ?? text), sessionId, costUsd: Number(final.total_cost_usd) || 0, denials, isError: !!final.is_error });
     });
@@ -241,7 +257,9 @@ export function runAgent({ prompt, system, resume, extraAllow = [], h = {}, sign
 /** Règle d'autorisation la plus étroite possible pour un refus donné. */
 export function ruleFor(d) {
   if (d.tool === "Bash" && d.input?.command) return `Bash(${String(d.input.command).replace(/[()]/g, "")})`;
-  return d.tool;
+  // Écriture : seulement le fichier montré dans la demande d'accord (chemin absolu → « // »).
+  if (/^(Write|Edit|MultiEdit|NotebookEdit)$/.test(d.tool) && d.input?.file_path) return `${d.tool === "Write" ? "Write" : "Edit"}(/${String(d.input.file_path).replace(/[()]/g, "")})`;
+  return null; // autre outil : on ne l'accorde pas en bloc
 }
 
 /** Vérifie que la CLI répond (au démarrage, pour le HUD). */

@@ -433,8 +433,9 @@ export async function askAgent(task, emit, signal, resume = null, extraAllow = [
   const reply = parseReply(res.text);
   const blocked = /<need>/.test(res.text);
   if (res.denials.length && blocked) {
-    const items = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d) }));
-    pending = { sessionId: res.sessionId, rules: [...new Set(items.map((x) => x.rule))], items, task };
+    const items = res.denials.slice(0, 4).map((d) => ({ tool: d.tool, detail: describe(d), rule: ruleFor(d) })).filter((x) => x.rule);
+    if (!items.length) return { ...reply, costUsd: res.costUsd };
+    pending = { kind: "approve", sessionId: res.sessionId, rules: [...new Set(items.map((x) => x.rule))], items, task };
     emit({ type: "approval", items });
     return { say: reply.say && !/^je m/i.test(reply.say) ? reply.say : `J'ai besoin de ton accord pour : ${items[0].tool === "Bash" ? "lancer une commande" : "modifier un fichier"}.`, view: reply.view, costUsd: res.costUsd, approval: true };
   }
@@ -442,11 +443,19 @@ export async function askAgent(task, emit, signal, resume = null, extraAllow = [
   return { ...reply, costUsd: res.costUsd };
 }
 
+/** L'assistant (qui lit le web) propose de passer en mode terminal : on demande d'abord. */
+export function proposeAgent(task, emit) {
+  pending = { kind: "delegate", task, items: [{ tool: "Agent", detail: task.slice(0, 300) }] };
+  emit({ type: "approval", items: pending.items });
+  return { say: "Pour ça, je dois passer en mode terminal sur ton Mac. Je lance ? Dis oui ou non.", approval: true };
+}
+
 export async function resolveApproval(ok, emit, signal) {
   const p = pending;
   pending = null;
   if (!p) return { say: "Rien n'attend ton accord." };
   if (!ok) return { say: "D'accord, je n'y touche pas." };
+  if (p.kind === "delegate") return askAgent(p.task, emit, signal);
   return askAgent(p.task, emit, signal, p.sessionId, p.rules);
 }
 

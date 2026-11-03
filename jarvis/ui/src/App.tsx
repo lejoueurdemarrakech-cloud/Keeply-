@@ -125,7 +125,10 @@ export default function App() {
             steps[steps.length - 1] = { ...steps[steps.length - 1], ok: e.ok, out: e.text.split("\n").slice(0, 6).join("\n") };
             return { ...a, steps };
           });
-        else if (e.type === "approval") setAgent((a) => (a ? { ...a, approval: e.items } : a));
+        else if (e.type === "approval") {
+          setAgent((a) => (a ? { ...a, approval: e.items } : { task: e.items[0]?.detail || "Mode terminal", steps: [], approval: e.items, done: false }));
+          show({ kind: "agent", title: "Mode terminal", subtitle: "En attente de ton accord", blocks: [] });
+        }
         else if (e.type === "error") {
           setSaid(e.text);
           mouth.say(e.text);
@@ -405,7 +408,24 @@ function LaunchCard({ s, onOpen }: { s: State | null; onOpen: () => void }) {
 }
 
 function FeedCard({ s }: { s: State | null }) {
-  const items = s?.hq.extra?.activity ?? [];
+  // Le journal de HQ, complété par ce qui compte en ce moment (vraies données, rien d'inventé).
+  const items = useMemo(() => {
+    const x = s?.hq.extra;
+    const t = s?.hq.today;
+    const now = ""; // infos du moment : affichées « maintenant »
+    const live: { id: string; at: string; area: string; message: string; level?: string }[] = [];
+    if (x) {
+      const days = Math.ceil((new Date(x.launchDate + "T00:00:00").getTime() - Date.now()) / 864e5);
+      if (days > 0) live.push({ id: "l", at: now, area: "lancement", message: `Lancement Instagram dans ${days} jour${days > 1 ? "s" : ""}` });
+      for (const i of x.plan.filter((i) => (new Date(i.date + "T12:00:00").getTime() - Date.now()) / 864e5 <= 2))
+        live.push({ id: "p" + i.id, at: now, area: "à préparer", message: `${i.kind === "post" ? "Post" : "Stories"} : ${i.titre}`, level: "succes" });
+      live.push({ id: "pr", at: now, area: "prospection", message: `${x.prospection.total} établissements, ${x.prospection.contacted} contactés${x.prospection.followUps ? `, ${x.prospection.followUps} relances dues` : ""}` });
+      if (x.android) live.push({ id: "a", at: now, area: "android", message: `${x.android} commerçant${x.android > 1 ? "s" : ""} sur la liste Android` });
+    }
+    if (t?.mails?.urgentCount) live.push({ id: "m", at: now, area: "mails", message: `${t.mails.urgentCount} mail${t.mails.urgentCount > 1 ? "s" : ""} urgent${t.mails.urgentCount > 1 ? "s" : ""}`, level: "erreur" });
+    if (t?.failedPosts) live.push({ id: "f", at: now, area: "instagram", message: `${t.failedPosts} post(s) en échec`, level: "erreur" });
+    return [...live, ...(x?.activity ?? [])];
+  }, [s]);
   return (
     <div className="glass card feed">
       <div className="card-head"><span className="label"><Activity size={12} /> Actu Keeply HQ</span></div>
@@ -413,7 +433,7 @@ function FeedCard({ s }: { s: State | null }) {
         <ul>
           {items.slice(0, 7).map((a) => (
             <li key={a.id} className={a.level}>
-              <span className="muted tiny">{new Date(a.at).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · {a.area}</span>
+              <span className="muted tiny">{!a.at ? "maintenant" : new Date(a.at).toLocaleString("fr-FR", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })} · {a.area}</span>
               <span>{a.message}</span>
             </li>
           ))}

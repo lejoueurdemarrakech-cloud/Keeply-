@@ -55,6 +55,7 @@ export interface Today {
   health: { score: number; at: string; problems: { checkId: string; name: string; detail: string; severity: string }[] } | null;
   tasks: Task[];
   posts: { id: string; caption: string; scheduledAt?: string }[];
+  failedPosts?: number;
   prospects: { replied: { id: string; name: string; city: string }[]; toApprove: number; sentToday: number; dailyLimit: number };
 }
 

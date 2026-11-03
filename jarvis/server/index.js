@@ -2,8 +2,9 @@ import fs from "node:fs";
 import http from "node:http";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
+import { FEEDS, applyUi, askAgent, askClaude, forget, getMemory, instant, isAgentTask, news, pendingApproval, proposeAgent, refreshWidget, remember, resetSession, resolveApproval, runActions, warmUp, weather } from "./brain.js";
 import { credits } from "./credits.js";
+import { usageLimit } from "./claude.js";
 import { claudeVersion } from "./claude.js";
 import { getConfig, publicConfig, updateConfig } from "./config.js";
 import { hqConfigured, hqSnapshot } from "./hq.js";
@@ -79,7 +80,8 @@ async function ask(req, res) {
   };
   try {
     // Réponse à une demande d'accord de l'agent
-    if (pendingApproval() && /^(oui|ok|vas y|go|autorise|autorise le|c est bon|d accord|confirme|non|annule|refuse|stop)( .*)?$/.test(n)) {
+    // Seuls un « oui » ou un « non » courts et clairs comptent (« ok merci » n'autorise rien).
+    if (pendingApproval() && /^(oui|oui vas y|vas y|autorise|j autorise|d accord|confirme|oui confirme|non|non merci|annule|refuse|stop)$/.test(n)) {
       const yes = !/^(non|annule|refuse|stop)/.test(n);
       await finish(await resolveApproval(yes, emit, ac.signal), "agent");
       return res.end();
@@ -98,9 +100,16 @@ async function ask(req, res) {
     }
     const r = await askClaude(q, emit, ac.signal);
     const delegated = await finish(r, "claude");
-    if (delegated) await finish(await askAgent(delegated, emit, ac.signal), "agent");
+    // L'assistant lit des pages web : il ne lance jamais l'agent lui-même, il demande.
+    if (delegated) await finish(proposeAgent(delegated, emit), "agent");
   } catch (e) {
-    if (!ac.signal.aborted) emit({ type: "error", text: e.message || "Erreur" });
+    const msg = String(e.message || "Erreur");
+    if (!ac.signal.aborted) {
+      if (usageLimit.at && Date.now() - usageLimit.at < 5000) {
+        const when = usageLimit.resets ? ` Ça repart à ${usageLimit.resets.replace(/\s*\(.*\)/, "").replace(/(\d+):(\d+)\s*am/i, "$1 h $2").replace(/(\d+):(\d+)\s*pm/i, (_, h, m) => `${Number(h) + 12} h ${m}`)}.` : "";
+        emit({ type: "error", text: `J'ai atteint la limite de Claude pour l'instant.${when} Les réponses instantanées, Keeply, la météo et les matchs marchent toujours.` });
+      } else emit({ type: "error", text: msg });
+    }
   } finally {
     if (busy === ac) busy = null;
     res.end();
@@ -135,7 +144,7 @@ const server = http.createServer(async (req, res) => {
       });
     }
     if (p === "/api/system") return send(res, 200, await systemStats());
-    if (p === "/api/credits") return send(res, 200, await credits());
+    if (p === "/api/credits") return send(res, 200, { ...(await credits()), limit: usageLimit.at && Date.now() - usageLimit.at < 5 * 3600_000 ? usageLimit : null });
     if (p === "/api/approval") return send(res, 200, { pending: pendingApproval()?.items || null });
     if (p === "/api/ask" && req.method === "POST") return ask(req, res);
     if (p === "/api/cancel" && req.method === "POST") {
