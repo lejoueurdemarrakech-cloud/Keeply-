@@ -298,6 +298,12 @@ export function ruleFor(d) {
     } catch {
       return null; // dossier inexistant ou illisible : pas d'accord en bloc
     }
+    // Le fichier lui-même ne doit pas être un raccourci vers ailleurs.
+    try {
+      if (fs.lstatSync(f).isSymbolicLink()) return null;
+    } catch {} // fichier pas encore créé : normal
+    // Caractères simples seulement : rien que Claude Code puisse lire comme un motif (#, !, \, *, ?, [ ]…).
+    if (!/^[\p{L}\p{N} ._@+\/-]+$/u.test(f)) return null;
     const low = real.toLowerCase();
     // Seulement un fichier précis (aucun joker), dans les dossiers de l'agent, jamais un fichier caché
     // ni un secret : impossible d'écrire un fichier de démarrage (~/Library, .zshrc, LaunchAgents…).
