@@ -384,7 +384,9 @@ async function readPlan(n) {
   const items = hq.ok ? hq.data.extra?.planFull || [] : [];
   if (!items.length) return { say: "Je n'ai pas le plan Instagram pour l'instant." };
   const week = /(semaine|7 jours|prochains jours)/.test(n);
-  const list = week ? items.filter((i) => new Date(i.date + "T12:00:00") - Date.now() < 7 * 864e5) : items;
+  // « la semaine » : les 7 prochains jours, ou la première semaine du plan si rien n'est encore prévu d'ici là.
+  const start = Math.max(Date.now(), new Date(items[0].date + "T00:00:00").getTime());
+  const list = week ? items.filter((i) => new Date(i.date + "T12:00:00") - start < 7 * 864e5) : items;
   const day = (d) => new Date(d + "T12:00:00").toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
   const lines = list.map((i) => `${day(i.date)}, ${i.heure.replace(":", " heures ")}, ${i.kind === "post" ? "post" : "stories"} : ${i.titre}.${i.texte ? " " + i.texte.replace(/\s+/g, " ").trim() + (/[.!?…]$/.test(i.texte.trim()) ? "" : ".") : ""}`);
   return {
