@@ -149,7 +149,7 @@ export default function App() {
       if (!ac.signal.aborted) setSaid(err instanceof Error ? err.message : "Erreur");
     }
     await mouth.idle();
-    convoUntil.current = Date.now() + 25_000;
+    convoUntil.current = Date.now() + 15_000;
     if (abort.current === ac) setMode(ear.listening ? "listen" : "idle");
   }, [show, close, load]);
 
@@ -174,7 +174,7 @@ export default function App() {
     });
     ear.bind({
       onInterim: (t) => t && setHeard(t),
-      onFinal: (t, duringSpeech) => {
+      onFinal: (t, duringSpeech, level = 0) => {
         const n = t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z ]/g, " ").trim();
         // Pendant qu'il parle : seul un ordre d'arrêt compte (le reste est sans doute sa propre voix).
         if (duringSpeech) {
@@ -184,14 +184,16 @@ export default function App() {
             void post("/api/cancel");
             setMode(ear.listening ? "listen" : "idle");
             setHeard("« stop »");
-            convoUntil.current = Date.now() + 25_000;
+            convoUntil.current = Date.now() + 15_000;
           }
           return;
         }
         if (handsFreeRef.current) {
           const rest = afterWake(t, s?.config.name || "Jarvis");
           // Conversation en cours : plus besoin de redire « Jarvis » pendant 25 s après sa dernière réponse.
-          const inConvo = Date.now() < convoUntil.current;
+          // …et seulement pour une voix à peu près aussi forte que celle qui a dit « Jarvis » (toi, près du micro ;
+          // la télé ou quelqu'un plus loin est plus faible).
+          const inConvo = Date.now() < convoUntil.current && level >= wakeLevel.current * 0.55;
           // …sauf pour accorder une action : en mains libres, un « oui » doit commencer par « Jarvis »
           // (un « oui » entendu au hasard, à la télé ou à côté, ne doit rien autoriser).
           if (rest === null && approvalPending.current) {
@@ -200,7 +202,8 @@ export default function App() {
           }
           if (rest === null && !inConvo) return;
           const q = rest === null ? t : rest;
-          convoUntil.current = Date.now() + 25_000;
+          if (rest !== null) wakeLevel.current = level;
+          convoUntil.current = Date.now() + 15_000;
           if (!q) {
             mouth.stop();
             setHeard("Oui ?");
@@ -208,6 +211,7 @@ export default function App() {
           }
           void run(q, rest === null ? "handsfree" : "wake");
         } else {
+          wakeLevel.current = level;
           void run(t);
         }
       },
@@ -218,7 +222,8 @@ export default function App() {
   const handsFreeRef = useRef(handsFree);
   const convoUntil = useRef(0);
   const watchOnly = useRef(false);
-  const approvalPending = useRef(false); // micro ouvert seulement pour entendre « stop » pendant qu'il parle
+  const approvalPending = useRef(false);
+  const wakeLevel = useRef(0); // volume de ta voix quand tu as dit « Jarvis » // micro ouvert seulement pour entendre « stop » pendant qu'il parle
   handsFreeRef.current = handsFree;
 
   const listen = useCallback(() => {

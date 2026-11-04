@@ -127,10 +127,17 @@ export class Ear {
   private waitedMs = 0;
   private noise = 0.006;
   private rms = 0;
+  // Bruit de fond mesuré en continu (télé, ventilation…) : 25e centile du volume des 8 dernières secondes.
+  private history: number[] = [];
+  private floor = 0.004;
+  private loudMs = 0;
+  private loudSum = 0;
+  private loudFrames = 0;
+  private startRun = 0;
   paused = false; // pendant que Jarvis parle (évite qu'il s'entende lui-même)
   listening = false;
   private duringSpeech = false; // la phrase a commencé pendant que Jarvis parlait (on n'y cherche que « stop »)
-  private h = { onInterim: (_: string) => {}, onFinal: (_: string, _duringSpeech?: boolean) => {}, onState: (_: boolean) => {}, onError: (_: string) => {} };
+  private h = { onInterim: (_: string) => {}, onFinal: (_: string, _duringSpeech?: boolean, _level?: number) => {}, onState: (_: boolean) => {}, onError: (_: string) => {} };
 
   bind(h: Ear["h"]) {
     this.h = h;
@@ -167,15 +174,27 @@ export class Ear {
       let sum = 0;
       for (let i = 0; i < x.length; i++) sum += x[i] * x[i];
       this.rms = Math.sqrt(sum / x.length);
-      // Pendant que Jarvis parle, on écoute quand même (pour « stop »), mais avec un seuil plus haut.
-      const loud = this.rms > Math.max(this.paused ? 0.035 : 0.012, this.noise * (this.paused ? 5 : 3.2));
+      this.history.push(this.rms);
+      if (this.history.length > Math.ceil(8000 / frameMs)) this.history.shift();
+      if (this.history.length % 8 === 0) {
+        const sorted = [...this.history].sort((a, b) => a - b);
+        this.floor = Math.max(0.002, sorted[Math.floor(sorted.length * 0.25)]);
+      }
+      // Seuil relatif au bruit de fond : une voix proche du micro (toi) le dépasse nettement, la télé non.
+      // Pendant que Jarvis parle, on écoute quand même (pour « stop »), avec un seuil encore plus haut.
+      const startAt = Math.max(this.paused ? 0.04 : 0.016, this.floor * (this.paused ? 7 : 4.5), this.noise * 3.2);
+      const keepAt = Math.max(0.01, this.floor * 2.6);
+      const loud = this.rms > (this.speaking ? keepAt : startAt);
       if (!this.speaking) {
         // le bruit de fond s'adapte tant qu'on ne parle pas
         this.noise = this.noise * 0.97 + this.rms * 0.03;
         this.chunks.push(new Float32Array(x)); // garde 0,3 s avant le début de la phrase
         if (this.chunks.length > Math.ceil(300 / frameMs)) this.chunks.shift();
         this.waitedMs += frameMs;
-        if (loud) {
+        // il faut ~0,13 s de voix forte d'affilée pour démarrer (un bruit bref ne déclenche rien)
+        this.startRun = loud ? this.startRun + 1 : 0;
+        if (this.startRun >= 3) {
+          this.startRun = 0;
           this.speaking = true;
           this.duringSpeech = this.paused;
           if (!this.paused) this.h.onInterim("Je t'écoute…");
@@ -187,6 +206,11 @@ export class Ear {
       }
       this.chunks.push(new Float32Array(x));
       this.spokenMs += frameMs;
+      if (this.rms > startAt * 0.8) {
+        this.loudMs += frameMs;
+        this.loudSum += this.rms;
+        this.loudFrames++;
+      }
       this.silentMs = loud ? 0 : this.silentMs + frameMs;
       // fin de phrase : 0,65 s de silence (1,2 s pour une longue dictée), ou 60 s maximum
       const pause = this.spokenMs > 6000 ? 1200 : 650;
@@ -212,6 +236,7 @@ export class Ear {
     this.chunks = [];
     this.speaking = false;
     this.silentMs = this.spokenMs = this.waitedMs = 0;
+    this.loudMs = this.loudSum = this.loudFrames = 0;
   }
 
   /** Envoie la phrase à Whisper (en 16 kHz) et passe la main. */
@@ -219,7 +244,14 @@ export class Ear {
     const rate = this.ctx?.sampleRate || 48000;
     const parts = this.chunks;
     const during = this.duringSpeech;
+    const loudMs = this.loudMs;
+    const level = this.loudFrames ? this.loudSum / this.loudFrames : 0; // volume moyen de la voix : proche = fort
     this.reset();
+    // Trop court ou trop peu de voix nette : sans doute un bruit ou une voix lointaine (la télé). On ignore.
+    if (loudMs < 350) {
+      if (!this.keep && !during) this.stop();
+      return;
+    }
     this.duringSpeech = false;
     if (!this.keep && !during) this.stop();
     const len = parts.reduce((a, c) => a + c.length, 0);
@@ -240,7 +272,7 @@ export class Ear {
       const { stt, logMic } = await import("./api");
       const r = await stt(out);
       this.h.onInterim("");
-      if (r.text) this.h.onFinal(r.text, during);
+      if (r.text) this.h.onFinal(r.text, during, level);
       else if (!during) {
         logMic(`phrase de ${(out.length / 16000).toFixed(1)} s sans texte compris`);
         this.h.onError("Je n'ai pas compris, tu peux répéter ?");

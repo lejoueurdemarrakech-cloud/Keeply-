@@ -25,7 +25,9 @@ for line in sys.stdin:
         t = time.time()
         audio = np.fromfile(job["path"], dtype=np.int16).astype(np.float32) / 32768
         segs, _ = get(job.get("model") or MODEL).transcribe(audio, language="fr", beam_size=1, vad_filter=True, initial_prompt=PROMPT, condition_on_previous_text=False)
-        text = " ".join(s.text.strip() for s in segs).strip()
+        # On garde seulement ce que Whisper a entendu clairement (une voix lointaine ou la télé donne une
+        # transcription peu sûre : probabilité de « pas de parole » haute ou confiance basse).
+        text = " ".join(s.text.strip() for s in segs if s.no_speech_prob < 0.6 and s.avg_logprob > -1.0).strip()
         # Whisper invente parfois une phrase sur du silence : on l'écarte.
         if text.lower().strip(" .!") in {"", "merci", "sous-titres réalisés par la communauté d'amara.org", "merci d'avoir regardé"}:
             text = ""
