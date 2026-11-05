@@ -44,8 +44,22 @@ async function asc(cfg: Cfg, path: string, init: RequestInit = {}) {
 const DOWNLOAD_TYPES = new Set(["1", "1F", "1T", "1E", "1EP", "1EU", "F1", "FI1"]);
 const UPDATE_TYPES = new Set(["7", "7F", "7T", "3", "3F"]);
 
-async function dailyReport(cfg: Cfg, day: string): Promise<SaleRecord[]> {
-  const cacheKey = `sales:appstore:${day}`;
+/** SKU de l'app suivie : les abonnements la citent en « Parent Identifier » dans les rapports. */
+async function appSku(cfg: Cfg): Promise<string | null> {
+  if (!cfg.appId) return null;
+  const cacheKey = `appstore:sku:${cfg.appId}`;
+  const cached = await read<string | null>(cacheKey, null);
+  if (cached) return cached;
+  const res = await asc(cfg, `/apps/${cfg.appId}?fields[apps]=sku`);
+  if (!res.ok) throw new Error(`App Store Connect ${res.status} : impossible de lire l'app ${cfg.appId}.`);
+  const sku = ((await res.json()) as { data: { attributes: { sku: string } } }).data.attributes.sku;
+  await store.set(cacheKey, sku);
+  return sku;
+}
+
+async function dailyReport(cfg: Cfg, day: string, sku: string | null): Promise<SaleRecord[]> {
+  // Le rapport Apple couvre tout le compte (Keeply + Game Night…) : on ne garde que l'app choisie.
+  const cacheKey = cfg.appId ? `sales:appstore:${cfg.appId}:${day}` : `sales:appstore:${day}`;
   const cached = await read<SaleRecord[] | null>(cacheKey, null);
   if (cached) return cached;
   const qs = new URLSearchParams({
@@ -74,6 +88,7 @@ async function dailyReport(cfg: Cfg, day: string): Promise<SaleRecord[]> {
   for (const r of rows) {
     const type = r["Product Type Identifier"];
     if (UPDATE_TYPES.has(type)) continue;
+    if (cfg.appId && r["Apple Identifier"] !== cfg.appId && r["Parent Identifier"] !== sku) continue;
     const units = Number(r["Units"]) || 0;
     const proceeds = Number(r["Developer Proceeds"]) || 0;
     const amount = await toEur(units * proceeds, r["Currency of Proceeds"]);
@@ -97,9 +112,10 @@ export async function appStoreSales(cfg: Cfg, from: string, to: string) {
   const yesterday = new Date(Date.now() - 864e5).toISOString().slice(0, 10);
   const limit = new Date(Date.now() - 365 * 864e5).toISOString().slice(0, 10);
   const days = daysBetween(from < limit ? limit : from, to > yesterday ? yesterday : to);
+  const sku = await appSku(cfg);
   const out: SaleRecord[] = [];
   for (let i = 0; i < days.length; i += 8) {
-    const chunk = await Promise.all(days.slice(i, i + 8).map((d) => dailyReport(cfg, d)));
+    const chunk = await Promise.all(days.slice(i, i + 8).map((d) => dailyReport(cfg, d, sku)));
     chunk.forEach((c) => out.push(...c));
   }
   return out;
@@ -109,7 +125,9 @@ export async function testAppStore(cfg: Cfg) {
   const res = await asc(cfg, "/apps?limit=5&fields[apps]=name,bundleId");
   if (!res.ok) throw new Error(`Apple a refusé la clé (${res.status}). Vérifie Issuer ID, Key ID et la clé .p8.`);
   const data = (await res.json()) as { data: { id: string; attributes: { name: string } }[] };
-  return `Connecté. Apps : ${data.data.map((a) => `${a.attributes.name} (${a.id})`).join(", ") || "aucune"}.`;
+  const tracked = data.data.find((a) => a.id === cfg.appId);
+  const apps = data.data.map((a) => `${a.attributes.name} (${a.id})`).join(", ") || "aucune";
+  return tracked ? `Connecté. Suivie : ${tracked.attributes.name}. Les autres apps du compte sont ignorées.` : `Connecté. Apps : ${apps}. Mets l'Apple ID de l'app à suivre, sinon les ventes de toutes les apps sont additionnées.`;
 }
 
 export async function appStoreReviews(cfg: Cfg): Promise<Review[]> {
