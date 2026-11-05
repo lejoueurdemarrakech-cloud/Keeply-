@@ -10,8 +10,19 @@ import type { Review, SaleRecord } from "@/lib/types";
 type Cfg = Record<string, string>;
 const API = "https://api.appstoreconnect.apple.com/v1";
 
+/** Remet la clé .p8 au format PEM, quelle que soit la façon dont elle a été collée (sans retours à la ligne, sans en-tête, guillemets…). */
+function pem(raw: string) {
+  const body = raw
+    .replace(/\\n/g, "\n")
+    .replace(/-----(BEGIN|END)[^-]*-----/g, "")
+    .replace(/[^A-Za-z0-9+/=]/g, "");
+  return `-----BEGIN PRIVATE KEY-----\n${body.match(/.{1,64}/g)?.join("\n") ?? ""}\n-----END PRIVATE KEY-----`;
+}
+
 async function token(cfg: Cfg) {
-  const key = await importPKCS8(cfg.privateKey.trim(), "ES256");
+  const key = await importPKCS8(pem(cfg.privateKey), "ES256").catch(() => {
+    throw new Error("La clé .p8 n'est pas reconnue. Ouvre le fichier AuthKey_….p8 avec TextEdit et colle tout son contenu.");
+  });
   return new SignJWT({ aud: "appstoreconnect-v1" })
     .setProtectedHeader({ alg: "ES256", kid: cfg.keyId, typ: "JWT" })
     .setIssuer(cfg.issuerId)
