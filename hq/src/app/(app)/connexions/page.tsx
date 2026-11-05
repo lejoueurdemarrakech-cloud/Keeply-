@@ -158,7 +158,28 @@ function ConnectorCard({ def, status, open, onToggle, onChange }: { def: Connect
                   hint={st.fromEnv ? `Défini par la variable ${f.env} sur le serveur.` : st.hint ? `Enregistré (${st.hint}). Laisse vide pour garder la valeur actuelle.` : f.help}
                 >
                   {f.type === "textarea" ? (
-                    <textarea className="field h-24 font-mono text-[12.5px]" disabled={st.fromEnv} placeholder={f.placeholder} value={values[f.key] ?? ""} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
+                    <div className="space-y-2">
+                      <textarea className="field h-24 font-mono text-[12.5px]" disabled={st.fromEnv} placeholder={f.placeholder} value={values[f.key] ?? ""} onChange={(e) => setValues({ ...values, [f.key]: e.target.value })} />
+                      {!st.fromEnv && (
+                        <label className="inline-flex h-8 cursor-pointer items-center rounded-xl border border-line-2 bg-glass-strong px-3 text-[13px] font-semibold text-ink backdrop-blur-md transition-[border-color,transform] duration-150 hover:border-violet/40 active:scale-[0.97]">
+                          Choisir le fichier ({f.key === "privateKey" ? ".p8" : ".json"})
+                          <input
+                            type="file"
+                            className="hidden"
+                            accept={f.key === "privateKey" ? ".p8,.pem,.txt" : ".json,.txt"}
+                            onChange={async (e) => {
+                              const file = e.target.files?.[0];
+                              if (!file) return;
+                              const text = await file.text();
+                              // AuthKey_XXXXXXXXXX.p8 : le nom du fichier contient la Key ID.
+                              const keyId = file.name.match(/AuthKey_([A-Z0-9]{10})/)?.[1];
+                              setValues((v) => ({ ...v, [f.key]: text, ...(keyId && def.fields.some((x) => x.key === "keyId") ? { keyId } : {}) }));
+                              e.target.value = "";
+                            }}
+                          />
+                        </label>
+                      )}
+                    </div>
                   ) : (
                     <div className="relative">
                       {secret && <KeyRound className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-ink-3" />}
