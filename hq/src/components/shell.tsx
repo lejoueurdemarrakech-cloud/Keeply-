@@ -27,8 +27,7 @@ import {
   Sun,
   TrendingUp,
   Wrench,
-  X,
-} from "lucide-react";
+  X, WalletCards } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
@@ -60,6 +59,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
       { href: "/reseaux", label: "Vue réseaux", icon: <Share2 /> },
       { href: "/instagram", label: "Instagram", icon: <Aperture /> },
       { href: "/ads", label: "Meta Ads", icon: <Megaphone /> },
+      { href: "/cartes", label: "Studio cartes", icon: <WalletCards /> },
     ],
   },
   {
