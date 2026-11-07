@@ -206,11 +206,11 @@ export default function SalesPage() {
             <Skeleton className="h-40" />
           )}
         </Card>
-        <Card title="Par pays">{data ? <RankBars rows={data.byCountry.slice(0, 8).map((c) => ({ label: `${flag(c.country)} ${countryName(c.country)}`, value: c.revenue }))} /> : <Skeleton className="h-40" />}</Card>
+        <Card title="Par pays">{data ? <RankBars rows={data.byCountry.slice(0, 8).map((c) => ({ label: `${flag(c.country)} ${countryName(c.country)}`, value: c.revenue, sub: c.downloads ? `${num(c.downloads)} tél.` : undefined }))} /> : <Skeleton className="h-40" />}</Card>
         <Card title="Par produit">{data ? <RankBars rows={data.byProduct.slice(0, 8).map((p) => ({ label: p.product, value: p.revenue, sub: `${num(p.units)}×` }))} color="var(--chart-2)" /> : <Skeleton className="h-40" />}</Card>
       </div>
 
-      <Card className="mt-5" title="Dernières ventes" pad={false}>
+      <Card className="mt-5" title="Dernières ventes et téléchargements" pad={false}>
         <div className="max-h-[420px] overflow-auto">
           <table className="w-full min-w-[620px] text-[13.5px]">
             <thead className="sticky top-0 bg-glass-strong backdrop-blur-md text-left text-ink-3">
@@ -231,7 +231,7 @@ export default function SalesPage() {
                   <td className="max-w-[220px] truncate px-3 py-2">{r.product}</td>
                   <td className="px-3 py-2 text-ink-2">{KIND[r.kind] ?? r.kind}</td>
                   <td className="px-3 py-2">{r.country ? `${flag(r.country)} ${r.country}` : "-"}</td>
-                  <td className={cx("tnum px-5 py-2 text-right font-semibold", r.amount < 0 && "text-coral")}>{eur(r.amount, true)}</td>
+                  <td className={cx("tnum px-5 py-2 text-right font-semibold", r.amount < 0 && "text-coral")}>{r.kind === "telechargement" ? `${num(r.units)}×` : eur(r.amount, true)}</td>
                 </tr>
               ))}
             </tbody>

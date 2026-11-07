@@ -29,7 +29,7 @@ export interface SalesSummary {
   previous: { revenue: number; units: number; downloads: number; refunds: number; orders: number };
   series: Array<Record<string, number | string>>;
   bySource: Array<{ source: string; label: string; revenue: number; units: number }>;
-  byCountry: Array<{ country: string; revenue: number; units: number }>;
+  byCountry: Array<{ country: string; revenue: number; units: number; downloads: number }>;
   byProduct: Array<{ product: string; revenue: number; units: number }>;
   recent: SaleRecord[];
   subscriptions?: { mrr: number; active: number; trials: number; churnRate?: number; source: string };

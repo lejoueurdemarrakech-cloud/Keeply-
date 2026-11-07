@@ -77,6 +77,24 @@ function totalsOf(rows: SaleRecord[]) {
   return t;
 }
 
+/** Pays des ventes ET des téléchargements gratuits (sinon un téléchargement n'a pas de pays visible). */
+function byCountry(records: SaleRecord[]) {
+  const m = new Map<string, { revenue: number; units: number; downloads: number }>();
+  for (const r of records) {
+    const k = r.country || "—";
+    const cur = m.get(k) ?? { revenue: 0, units: 0, downloads: 0 };
+    if (r.kind === "telechargement") cur.downloads += r.units;
+    else {
+      cur.revenue += r.amount;
+      cur.units += r.units;
+    }
+    m.set(k, cur);
+  }
+  return [...m.entries()]
+    .map(([country, v]) => ({ country, revenue: Math.round(v.revenue * 100) / 100, units: v.units, downloads: v.downloads }))
+    .sort((a, b) => b.revenue - a.revenue || b.downloads - a.downloads);
+}
+
 export async function salesSummary(from: string, to: string): Promise<SalesSummary> {
   const span = daysBetween(from, to).length;
   const prevTo = isoDay(new Date(new Date(from + "T00:00:00Z").getTime() - 864e5));
@@ -135,9 +153,9 @@ export async function salesSummary(from: string, to: string): Promise<SalesSumma
     previous: totalsOf(prev.records),
     series: [...byDay.values()],
     bySource: group((r) => r.source).map((g) => ({ source: g.k, label: SOURCE_LABELS[g.k] ?? g.k, revenue: g.revenue, units: g.units })),
-    byCountry: group((r) => r.country).map((g) => ({ country: g.k, revenue: g.revenue, units: g.units })).slice(0, 12),
+    byCountry: byCountry(records).slice(0, 12),
     byProduct: group((r) => r.product).map((g) => ({ product: g.k, revenue: g.revenue, units: g.units })).slice(0, 10),
-    recent: paid.sort((a, b) => b.date.localeCompare(a.date)).slice(0, 60),
+    recent: [...records].sort((a, b) => b.date.localeCompare(a.date)).slice(0, 60),
     subscriptions,
     sources: sources.sort((a, b) => a.label.localeCompare(b.label)),
   };
