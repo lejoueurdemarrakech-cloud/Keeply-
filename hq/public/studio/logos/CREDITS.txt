@@ -1,0 +1,2 @@
+Logos dessinés pour Keeply (restaurants fictifs) : libres d'usage.
+Pictogrammes : Lucide (licence ISC, usage commercial autorisé). Générés par scripts/make-studio-logos.py.

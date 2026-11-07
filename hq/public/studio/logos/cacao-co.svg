@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="98" fill="#3A251B"/><circle cx="100" cy="100" r="86" fill="none" stroke="#E6C9A8" stroke-width="1.2"/><circle cx="100" cy="100" r="81" fill="none" stroke="#E6C9A8" stroke-width="0.6"/><text x="100" y="116" font-family="Didot, 'Bodoni 72', Georgia, 'Times New Roman', serif" font-size="46" font-style="normal" fill="#E6C9A8" text-anchor="middle" letter-spacing="2">C&amp;C</text><g transform="translate(88.0 38.0) scale(1.0000)" fill="none" stroke="#E6C9A8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M10 7v10.9" />
+  <path d="M14 6.1V17" />
+  <path d="M16 7V3a1 1 0 0 1 1.707-.707 2.5 2.5 0 0 0 2.152.717 1 1 0 0 1 1.131 1.131 2.5 2.5 0 0 0 .717 2.152A1 1 0 0 1 21 8h-4" />
+  <path d="M16.536 7.465a5 5 0 0 0-7.072 0l-2 2a5 5 0 0 0 0 7.07 5 5 0 0 0 7.072 0l2-2a5 5 0 0 0 0-7.07" />
+  <path d="M8 17v4a1 1 0 0 1-1.707.707 2.5 2.5 0 0 0-2.152-.717 1 1 0 0 1-1.131-1.131 2.5 2.5 0 0 0-.717-2.152A1 1 0 0 1 3 16h4" />
+</g><text x="100" y="152" font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#E6C9A8" text-anchor="middle">CHOCOLATIER</text></svg>

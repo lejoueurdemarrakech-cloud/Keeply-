@@ -4,11 +4,28 @@
 import * as Icons from "lucide-react";
 import QRCode from "qrcode";
 import { useEffect, useState, type PointerEvent as ReactPointerEvent } from "react";
-import { rgba, shade, type StudioCard } from "@/lib/card-studio";
+import { cachedImageSize, imageSize, rgba, shade, stripWindow, type StudioCard } from "@/lib/card-studio";
 
 export const CARD_WIDTH = 320;
 const STRIP_H = (CARD_WIDTH * 144) / 375;
 const FONT = '-apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif';
+
+export type Framing = { posX: number; posY: number };
+
+/** Taille réelle d'une photo, connue après chargement. */
+export function useImageSize(src: string | null) {
+  const [loaded, setLoaded] = useState<{ src: string; w: number; h: number } | null>(null);
+  useEffect(() => {
+    if (!src || cachedImageSize(src)) return;
+    let alive = true;
+    imageSize(src).then((s) => alive && setLoaded({ src, ...s }), () => {});
+    return () => {
+      alive = false;
+    };
+  }, [src]);
+  if (!src) return null;
+  return cachedImageSize(src) ?? (loaded?.src === src ? loaded : null);
+}
 
 function useQr(payload: string) {
   const [src, setSrc] = useState<string | null>(null);
@@ -57,18 +74,25 @@ function Logo({ c }: { c: StudioCard }) {
   );
 }
 
-function Strip({ c, onPan }: { c: StudioCard; onPan?: (dx: number, dy: number) => void }) {
+function Strip({ c, onFrame }: { c: StudioCard; onFrame?: (f: Framing) => void }) {
   const overPhoto = c.strip === "photo" && !!c.photo;
   const gradient = `radial-gradient(260px 260px at 15% 0%, rgba(255,255,255,0.22), transparent 70%), linear-gradient(135deg, ${shade(c.bg, 0.16)}, ${c.bg} 50%, ${shade(c.bg, -0.2)})`;
+  const nat = useImageSize(overPhoto ? c.photo : null);
+  const win = nat ? stripWindow(nat.w, nat.h, c.zoom, c.posX, c.posY) : null;
+  const k = win ? CARD_WIDTH / win.vw : 1;
 
+  // Glisser la photo directement sur la carte : la photo suit le doigt.
   function down(e: ReactPointerEvent<HTMLDivElement>) {
-    if (!onPan || !overPhoto) return;
-    e.currentTarget.setPointerCapture(e.pointerId);
-    let last = { x: e.clientX, y: e.clientY };
+    if (!onFrame || !overPhoto || !nat) return;
     const el = e.currentTarget;
+    try { el.setPointerCapture(e.pointerId); } catch {}
+    const screen = el.getBoundingClientRect().width / CARD_WIDTH;
+    const start = { x: e.clientX, y: e.clientY, w: stripWindow(nat.w, nat.h, c.zoom, c.posX, c.posY) };
     const move = (ev: PointerEvent) => {
-      onPan(ev.clientX - last.x, ev.clientY - last.y);
-      last = { x: ev.clientX, y: ev.clientY };
+      const dx = (ev.clientX - start.x) / (screen * k);
+      const dy = (ev.clientY - start.y) / (screen * k);
+      const next = stripWindow(nat.w, nat.h, c.zoom, ((start.w.cx - dx) / nat.w) * 100, ((start.w.cy - dy) / nat.h) * 100);
+      onFrame({ posX: next.posX, posY: next.posY });
     };
     const up = () => {
       el.removeEventListener("pointermove", move);
@@ -87,10 +111,19 @@ function Strip({ c, onPan }: { c: StudioCard; onPan?: (dx: number, dy: number) =
   const fraction = Math.min(Math.max(c.points / Math.max(c.pointsGoal, 1), 0), 1);
 
   return (
-    <div onPointerDown={down} style={{ position: "relative", height: STRIP_H, overflow: "hidden", background: c.strip === "solid" ? c.bg : gradient, cursor: onPan && overPhoto ? "grab" : undefined, touchAction: onPan && overPhoto ? "none" : undefined }}>
+    <div onPointerDown={down} style={{ position: "relative", height: STRIP_H, overflow: "hidden", background: c.strip === "solid" ? c.bg : gradient, cursor: onFrame && overPhoto ? "grab" : undefined, touchAction: onFrame && overPhoto ? "none" : undefined }}>
       {overPhoto && (
         <>
-          <img src={c.photo!} alt="" draggable={false} style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", objectPosition: `${c.posX}% ${c.posY}%`, transform: `scale(${c.zoom})`, transformOrigin: `${c.posX}% ${c.posY}%`, pointerEvents: "none", userSelect: "none" }} />
+          <img
+            src={c.photo!}
+            alt=""
+            draggable={false}
+            style={
+              win && nat
+                ? { position: "absolute", left: -win.x * k, top: -win.y * k, width: nat.w * k, height: nat.h * k, maxWidth: "none", pointerEvents: "none", userSelect: "none" }
+                : { position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", pointerEvents: "none" }
+            }
+          />
           <div style={{ position: "absolute", inset: 0, background: `rgba(0,0,0,${c.dim})` }} />
         </>
       )}
@@ -150,7 +183,7 @@ function Field({ label, value, align, c }: { label: string; value: string; align
   );
 }
 
-export function WalletCard({ c, onPan, shadow = true }: { c: StudioCard; onPan?: (dx: number, dy: number) => void; shadow?: boolean }) {
+export function WalletCard({ c, onFrame, shadow = true }: { c: StudioCard; onFrame?: (f: Framing) => void; shadow?: boolean }) {
   const qr = useQr(`keeply://c/${c.id.toUpperCase()}`);
   return (
     <div style={{ width: CARD_WIDTH, background: c.bg, borderRadius: 12, overflow: "hidden", fontFamily: FONT, color: c.fg, boxShadow: shadow ? "0 6px 24px rgba(0,0,0,0.18)" : undefined, WebkitFontSmoothing: "antialiased" }}>
@@ -162,7 +195,7 @@ export function WalletCard({ c, onPan, shadow = true }: { c: StudioCard; onPan?:
           <div style={{ fontSize: 17, lineHeight: 1.15 }}>{c.rewards}</div>
         </div>
       </div>
-      <Strip c={c} onPan={onPan} />
+      <Strip c={c} onFrame={onFrame} />
       <div style={{ display: "flex", gap: 8, padding: "10px 12px 8px" }}>
         <Field label={c.primaryLabel} value={c.primaryValue} align="left" c={c} />
         <Field label={c.secondaryLabel} value={c.secondaryValue} align="left" c={c} />

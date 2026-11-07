@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="98" fill="#F3E3C9"/><circle cx="100" cy="100" r="88" fill="none" stroke="#9A3B1C" stroke-width="2.5"/><circle cx="100" cy="100" r="56" fill="none" stroke="#9A3B1C" stroke-width="1.5"/><path id="t" d="M 34 100 A 66 66 0 0 1 166 100" fill="none"/><text font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#9A3B1C" text-anchor="middle"><textPath href="#t" startOffset="50%">DAR TAJINE</textPath></text><path id="b" d="M 23.200000000000003 100 A 76.8 76.8 0 0 0 176.8 100" fill="none"/><text font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#9A3B1C" text-anchor="middle"><textPath href="#b" startOffset="50%">CUISINE MAISON</textPath></text><circle cx="44" cy="104" r="3" fill="#9A3B1C"/><circle cx="156" cy="104" r="3" fill="#9A3B1C"/><g transform="translate(73.0 73.0) scale(2.2500)" fill="none" stroke="#9A3B1C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M2 12h20" />
+  <path d="M20 12v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8" />
+  <path d="m4 8 16-4" />
+  <path d="m8.86 6.78-.45-1.81a2 2 0 0 1 1.45-2.43l1.94-.48a2 2 0 0 1 2.43 1.46l.45 1.8" />
+</g></svg>

@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="98" fill="#2B2F3A"/><circle cx="100" cy="100" r="86" fill="none" stroke="#D9B95B" stroke-width="1.2"/><circle cx="100" cy="100" r="81" fill="none" stroke="#D9B95B" stroke-width="0.6"/><text x="100" y="122" font-family="Didot, 'Bodoni 72', Georgia, 'Times New Roman', serif" font-size="64" font-style="normal" fill="#D9B95B" text-anchor="middle" letter-spacing="2">CA</text><g transform="translate(88.0 38.0) scale(1.0000)" fill="none" stroke="#D9B95B" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8" />
+  <path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7" />
+  <path d="m2.1 21.8 6.4-6.3" />
+  <path d="m19 5-7 7" />
+</g><text x="100" y="152" font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="600" font-size="11" letter-spacing="4" fill="#D9B95B" text-anchor="middle">BISTROT</text></svg>

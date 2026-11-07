@@ -4,8 +4,9 @@ import { toBlob, toPng } from "html-to-image";
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { Button, Card, Field, PageHeader, Segmented, Toggle, cx } from "@/components/ui";
-import { CARD_WIDTH, LucideByName, WalletCard } from "@/components/wallet-card";
-import { LOGO_ICONS, PALETTE, PHOTOS, PRESETS, autoColors, fromPreset, newId, photoUrl, randomCard, shade, type StudioCard } from "@/lib/card-studio";
+import { CARD_WIDTH, LucideByName, WalletCard, type Framing } from "@/components/wallet-card";
+import { FramingEditor } from "@/components/strip-framing";
+import { LOGO_ICONS, PALETTE, PHOTOS, PRESETS, logoUrl, autoColors, fromPreset, newId, photoUrl, randomCard, shade, type StudioCard } from "@/lib/card-studio";
 
 const STORE_KEY = "hq-studio-cartes";
 
@@ -185,7 +186,7 @@ export default function CardStudio() {
               </div>
             )}
             <Stage format={format}>
-              <Scene ref={sceneRef} card={card} format={format} backdrop={backdrop} size={size} tilt={tilt} onPan={(dx, dy, scale) => set({ posX: clamp(card.posX - (dx * 100) / (CARD_WIDTH * scale * card.zoom)), posY: clamp(card.posY - (dy * 300) / (CARD_WIDTH * scale * card.zoom)) })} />
+              <Scene ref={sceneRef} card={card} format={format} backdrop={backdrop} size={size} tilt={tilt} onFrame={set} />
             </Stage>
             <p className="mt-3 flex items-center gap-1.5 text-[12.5px] text-ink-3">
               <Crop className="size-3.5" /> Glisse la photo sur la carte pour la recadrer. {FORMATS.find((f) => f.value === format)!.hint}.
@@ -229,7 +230,6 @@ export default function CardStudio() {
   );
 }
 
-const clamp = (v: number) => Math.max(0, Math.min(100, v));
 
 /** Fait tenir la scène dans la colonne, sans changer sa taille réelle (celle de l'export). */
 function Stage({ format, children }: { format: Format; children: ReactNode }) {
@@ -268,12 +268,12 @@ function backdropStyle(b: Backdrop, c: StudioCard) {
   }
 }
 
-function Scene({ card, format, backdrop, size, tilt, onPan, ref }: { card: StudioCard; format: Format; backdrop: Backdrop; size: number; tilt: boolean; onPan: (dx: number, dy: number, scale: number) => void; ref: React.Ref<HTMLDivElement> }) {
+function Scene({ card, format, backdrop, size, tilt, onFrame, ref }: { card: StudioCard; format: Format; backdrop: Backdrop; size: number; tilt: boolean; onFrame: (f: Framing) => void; ref: React.Ref<HTMLDivElement> }) {
   const f = FORMATS.find((x) => x.value === format)!;
   if (!f.w) {
     return (
       <div ref={ref} style={{ padding: 28 }}>
-        <WalletCard c={card} onPan={(dx, dy) => onPan(dx, dy, 1)} />
+        <WalletCard c={card} onFrame={onFrame} />
       </div>
     );
   }
@@ -289,7 +289,7 @@ function Scene({ card, format, backdrop, size, tilt, onPan, ref }: { card: Studi
         </>
       )}
       <div style={{ transform: `scale(${scale}) rotate(${tilt ? -6 : 0}deg)`, filter: backdrop === "transparent" ? undefined : "drop-shadow(0 18px 30px rgba(0,0,0,0.28))" }}>
-        <WalletCard c={card} shadow={backdrop === "transparent"} onPan={(dx, dy) => onPan(dx, dy, scale)} />
+        <WalletCard c={card} shadow={backdrop === "transparent"} onFrame={onFrame} />
       </div>
     </div>
   );
@@ -360,7 +360,7 @@ function Editor({ card, set }: { card: StudioCard; set: (p: Partial<StudioCard>)
           <input className="field" value={card.name} maxLength={32} onChange={(e) => set({ name: e.target.value })} />
         </Field>
         <div className="flex flex-wrap items-center gap-2">
-          <Segmented size="sm" value={card.logoKind} onChange={(v) => set({ logoKind: v })} options={[{ value: "icon", label: "Icône" }, { value: "monogram", label: "Initiales" }, { value: "emoji", label: "Emoji" }, { value: "image", label: "Mon logo" }]} />
+          <Segmented size="sm" value={card.logoKind} onChange={(v) => set({ logoKind: v })} options={[{ value: "icon", label: "Icône" }, { value: "monogram", label: "Initiales" }, { value: "emoji", label: "Emoji" }, { value: "image", label: "Logo" }]} />
           <Segmented size="sm" value={card.logoShape} onChange={(v) => set({ logoShape: v })} options={[{ value: "square", label: "Carré" }, { value: "circle", label: "Rond" }, { value: "none", label: "Sans cadre" }]} />
         </div>
         {card.logoKind === "icon" && (
@@ -383,8 +383,17 @@ function Editor({ card, set }: { card: StudioCard; set: (p: Partial<StudioCard>)
           </Field>
         )}
         {card.logoKind === "image" && (
+          <div className="grid grid-cols-8 gap-1.5">
+            {PRESETS.map((p) => (
+              <button key={p.logo} title={p.name} onClick={() => set({ logoImage: logoUrl(p.logo), logoShape: "none" })} className={cx("rounded-lg p-1 transition-colors", card.logoImage === logoUrl(p.logo) ? "bg-violet-soft ring-2 ring-violet" : "hover:bg-bg-2")}>
+                <img src={logoUrl(p.logo)} alt={p.name} className="aspect-square w-full" />
+              </button>
+            ))}
+          </div>
+        )}
+        {card.logoKind === "image" && (
           <div className="flex items-center gap-3">
-            <UploadButton label={card.logoImage ? "Changer le logo" : "Importer un logo"} onFile={async (f) => set({ logoImage: await shrink(f, 400, "image/png") })} />
+            <UploadButton label="Importer mon logo" onFile={async (f) => set({ logoImage: await shrink(f, 400, "image/png") })} />
             <span className="text-[12px] text-ink-3">PNG détouré conseillé</span>
           </div>
         )}
@@ -430,9 +439,7 @@ function Editor({ card, set }: { card: StudioCard; set: (p: Partial<StudioCard>)
                 Recentrer
               </Button>
             </div>
-            <Range label="Zoom" value={card.zoom} min={1} max={3} step={0.01} onChange={(v) => set({ zoom: v })} format={(v) => `${Math.round(v * 100)} %`} />
-            <Range label="Position verticale" value={card.posY} min={0} max={100} onChange={(v) => set({ posY: v })} format={(v) => `${Math.round(v)} %`} />
-            <Range label="Position horizontale" value={card.posX} min={0} max={100} onChange={(v) => set({ posX: v })} format={(v) => `${Math.round(v)} %`} />
+            {card.photo && <FramingEditor card={card} set={set} />}
             <Range label="Assombrir" value={card.dim} min={0} max={0.7} step={0.01} onChange={(v) => set({ dim: v })} format={(v) => `${Math.round(v * 100)} %`} />
           </>
         )}
