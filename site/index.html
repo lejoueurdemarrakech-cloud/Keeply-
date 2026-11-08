@@ -447,6 +447,36 @@ body[data-route="confidentialite"] #view-confidentialite{display:block}
 .storyphone__u{font-family:var(--f-display);font-weight:700;font-size:10.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .storyphone__t{font-size:9.5px;opacity:.6;margin-left:auto;flex:none}
 .scene--story .scene__pin{position:relative;top:auto;left:auto;width:100%}
+/* Comme l'app : affiche posée sur les 4 coins mesurés, imprimée dans la photo (multiplier) */
+.pxscenes .scene__pin--store,.pxscenes .scene__pin--table,.pxscenes .scene__pin--caisse{inset:0;top:0;left:0;width:auto;transform:none;mix-blend-mode:multiply}
+.pxscenes .scene__pin--store::after,.pxscenes .scene__pin--table::after,.pxscenes .scene__pin--caisse::after,.pxscenes .scene__pin--store::before,.pxscenes .scene__pin--table::before,.pxscenes .scene__pin--caisse::before{display:none}
+.pxscenes .scene__pin .poster{position:absolute;top:0;left:0;aspect-ratio:auto;border-radius:0;box-shadow:none;transform-origin:0 0;filter:saturate(.94) contrast(.97) brightness(1.06) blur(.35px)}
+.pxscenes .scene__pin .poster::after{display:none}
+/* Story : storyLayout de l'app, base 320 */
+.poster.poster--story{padding:0;display:block;background:none;border-radius:0}
+#pxMain .poster--story{width:min(290px,100%);margin:0 auto;border-radius:18px;box-shadow:0 6px 24px rgba(0,0,0,.16)}
+.poster--story::before{display:none}
+.st{--u:calc(100cqw / 320);position:absolute;inset:0;display:flex;flex-direction:column;padding:calc(28*var(--u)) calc(24*var(--u)) calc(20*var(--u));color:var(--pv-fg);text-align:left;font-family:ui-rounded,"SF Pro Rounded",-apple-system,BlinkMacSystemFont,sans-serif;
+  background:radial-gradient(calc(320*var(--u)) calc(320*var(--u)) at 20% 10%,color-mix(in srgb,var(--pv-fg) 22%,transparent),transparent),linear-gradient(135deg,var(--pv-bg),color-mix(in srgb,var(--pv-bg) 55%,#000))}
+.st__top{display:flex;align-items:center;gap:calc(8*var(--u))}
+.st__mark{width:calc(30*var(--u));height:calc(30*var(--u));border-radius:calc(8*var(--u));background:var(--pv-fg);color:var(--pv-bg);display:grid;place-items:center;overflow:hidden;flex:none}
+.st__mark svg{width:60%;height:60%}.st__mark img{width:100%;height:100%;object-fit:cover}
+.st__top b{flex:1;min-width:0;font-size:calc(13*var(--u));font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.st__new{font-size:calc(8.5*var(--u));font-weight:900;letter-spacing:calc(1*var(--u));color:var(--pv-bg);background:var(--pv-fg);padding:calc(4*var(--u)) calc(8*var(--u));border-radius:999px}
+.st__head{margin-top:calc(18*var(--u));font-size:calc(28*var(--u));font-weight:800;line-height:1.1;letter-spacing:-.01em}
+.st__card{margin:auto auto;width:calc(210.8*var(--u));padding:calc(8*var(--u)) 0;perspective:calc(600*var(--u))}
+.st__tilt{transform:rotateX(8deg) rotate(-3deg);filter:drop-shadow(0 calc(12*var(--u)) calc(18*var(--u)) rgba(0,0,0,.35));overflow:visible}
+.st__tilt .wp{width:300px;max-width:none;box-shadow:none}
+.st__tilt .wp__code{display:none}
+.st__card{padding:calc(4*var(--u)) 0}
+.st__sticker{align-self:flex-start;font-size:calc(14*var(--u));font-weight:700;color:var(--pv-bg);background:var(--pv-fg);padding:calc(10*var(--u)) calc(14*var(--u));border-radius:calc(14*var(--u));transform:rotate(-2deg);box-shadow:0 calc(4*var(--u)) calc(8*var(--u)) rgba(0,0,0,.25);line-height:1.25}
+.st__add{margin-top:calc(16*var(--u));display:flex;flex-direction:column;gap:calc(8*var(--u))}
+.st__add b{font-size:calc(13*var(--u));font-weight:700}
+.st__link{height:calc(46*var(--u));border-radius:calc(14*var(--u));background:color-mix(in srgb,var(--pv-fg) 14%,transparent);border:calc(1.2*var(--u)) dashed color-mix(in srgb,var(--pv-fg) 40%,transparent);display:flex;align-items:center;justify-content:center;gap:calc(5*var(--u));font-size:calc(11*var(--u));font-weight:600;color:color-mix(in srgb,var(--pv-fg) 75%,transparent)}
+.st__link svg{width:calc(12*var(--u));height:calc(12*var(--u))}
+.st__add small{font-size:calc(10*var(--u));font-weight:500;color:color-mix(in srgb,var(--pv-fg) 75%,transparent);line-height:1.3}
+.st__sig{margin-top:calc(14*var(--u));display:flex;align-items:center;justify-content:center;gap:calc(5*var(--u));font-size:calc(8.5*var(--u));font-weight:600;color:color-mix(in srgb,var(--pv-fg) 70%,transparent)}
+.st__sig i{width:calc(16*var(--u));height:calc(16*var(--u));border-radius:calc(4*var(--u));background:var(--keeply-logo) center/cover}
 .scene--story .scene__pin .poster{border-radius:5px 5px 0 0;box-shadow:none}
 @media (max-width:760px){.pxscenes{grid-template-columns:1fr}.scene[data-scene="table"],.scene[data-scene="caisse"],.scene--story{max-width:360px;margin-inline:auto;width:100%}}
 
@@ -3493,12 +3523,14 @@ html{-webkit-tap-highlight-color:transparent}
         ? "Cumulez des points à chaque passage et gagnez des réductions."
         : "1 visite = 1 tampon. Votre première remise dès 10 tampons.";
       var head='<div class="poster__head">−10 % dès votre première visite</div>';
-      if(fmt==="story") return '<div class="poster poster--story" style="--pv-bg:'+(o.bg||"#6B4AF2")+'">'
-        +'<div class="poster__top"><span class="poster__logo">'+(o.logo||LOGOS.shop)+'</span><span class="poster__name">'+esc(o.name)+'</span><span class="poster__new">NOUVEAU</span></div>'
-        +head+'<div class="poster__chip">Puis des récompenses à chaque passage.</div>'
-        +mini(o)
-        +'<div class="poster__add"><b>Ajoutez votre carte en un geste 👇</b><span>'+mech+'</span></div>'
-        +'<span class="poster__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Votre lien ici</span></div>';
+      if(fmt==="story") return '<div class="poster poster--story" style="--pv-bg:'+(o.bg||"#6B4AF2")+'"><div class="st">'
+        +'<div class="st__top"><span class="st__mark">'+(o.logo||LOGOS.shop)+'</span><b>'+esc(o.name)+'</b><span class="st__new">NOUVEAU</span></div>'
+        +'<div class="st__head">−10 % dès votre première visite</div>'
+        +'<div class="st__card"><div class="st__tilt">'+storyCard(o)+'</div></div>'
+        +'<div class="st__sticker">Puis des récompenses à chaque passage.</div>'
+        +'<div class="st__add"><b>Ajoutez votre carte en un geste 👇</b><span class="st__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Votre lien ici</span><small>'+mech+'</small></div>'
+        +'<div class="st__sig"><i></i>Carte propulsée par Keeply</div>'
+        +'</div></div>';
       return '<div class="poster '+(fmt==="a4"?"poster--a4":"poster--a5")+'" style="--pv-bg:'+(o.bg||"#6B4AF2")+'">'
         +'<span class="poster__logo">'+(o.logo||LOGOS.shop)+'</span>'
         +'<span class="poster__name">'+esc(o.name)+'</span>'
@@ -3506,6 +3538,21 @@ html{-webkit-tap-highlight-color:transparent}
         +'<div class="poster__scan"><div class="poster__qr"><i></i></div><span class="lab">SCANNEZ-MOI</span></div>'
         +STEPS+'<div class="poster__mech">'+mech+'</div>'
         +'<div class="poster__foot"><div class="poster__badges">'+BADGES+'</div><span class="poster__km">Carte propulsée par Keeply</span></div></div>';
+    }
+    // La vraie carte Wallet, comme realCard() dans l'app : à son échelle naturelle, puis réduite.
+    function storyCard(o){
+      if(!window.__keeplyPass || !window.__kc) return "";
+      var c=window.__kc("comptoir-anna",{name:o.name, bg:o.bg, fg:null, lb:null, model:o.model, stamps:3, total:10, stamp:"★", icon:"★", points:120, step:350, reward:"−10 %", rewards:0, member:"CAMILLE", status:"MEMBRE", since:"2026"});
+      var h=window.__keeplyPass(c);
+      return h.replace(/<span class="wp__logo">[\s\S]*?<\/span>/,'<span class="wp__logo">'+(o.logo||LOGOS.shop)+'</span>');
+    }
+    function fitStory(){
+      d.querySelectorAll(".st__card").forEach(function(box){
+        var wp=box.querySelector(".wp"); if(!wp) return;
+        var k=box.clientWidth/wp.offsetWidth; if(!k) return;
+        wp.style.transform="scale("+k+")"; wp.style.transformOrigin="0 0";
+        box.querySelector(".st__tilt").style.height=(wp.offsetHeight*k)+"px";
+      });
     }
     function chat(o){
       return '<div class="pxchat"><div class="pxchat__hd"><span class="pxchat__ava">'+(o.logo||LOGOS.shop)+'</span><div><b>'+esc(o.name)+'</b><small>Message à vos habitués</small></div></div>'
@@ -3523,7 +3570,9 @@ html{-webkit-tap-highlight-color:transparent}
     /* ---- exact 4-corner warp of the affiche onto a photographed blank card ---- */
     /* corners = [TL,TR,BR,BL] as [x%,y%] of the scene box */
     var QUADS={
-      "scene__pin--caisse":[[52.6,29.3],[89.8,30.9],[85.2,75.2],[48.7,72.0]]
+      "scene__pin--caisse":[[56.66,31.73],[89.62,32.36],[81.38,76.18],[49.10,72.64]],
+      "scene__pin--table":[[36.79,40.91],[62.64,41.00],[62.98,69.45],[36.34,69.64]],
+      "scene__pin--store":[[41.91,28.36],[58.00,28.51],[58.09,65.79],[41.91,65.79]]
     };
     function adj(m){return[m[4]*m[8]-m[5]*m[7],m[2]*m[7]-m[1]*m[8],m[1]*m[5]-m[2]*m[4],
       m[5]*m[6]-m[3]*m[8],m[0]*m[8]-m[2]*m[6],m[2]*m[3]-m[0]*m[5],
@@ -3537,9 +3586,10 @@ html{-webkit-tap-highlight-color:transparent}
         var pin=d.querySelector("."+cls); if(!pin) return;
         var poster=pin.firstElementChild; if(!poster) return;
         var r=pin.getBoundingClientRect(), W=r.width, H=r.height; if(!W||!H) return;
-        var q=QUADS[cls], D=[];
+        var q=QUADS[cls], D=[], pw=340, ph=340*210/148;
+        poster.style.width=pw+"px"; poster.style.height=ph+"px";
         for(var i=0;i<4;i++){ D.push(q[i][0]/100*W); D.push(q[i][1]/100*H); }
-        var S=[0,0, W,0, W,H, 0,H];
+        var S=[0,0, pw,0, pw,ph, 0,ph];
         var t=proj(S,D);
         for(var k=0;k<9;k++) t[k]=t[k]/t[8];
         poster.style.transformOrigin="0 0";
@@ -3549,8 +3599,8 @@ html{-webkit-tap-highlight-color:transparent}
     }
     function renderAll(){
       var cur=state.ch==="posters"?FMT[state.fmt]:FMT[state.ch];
-      var mn=d.getElementById("pxMain"); if(mn){ mn.hidden=state.ch!=="posters"; mn.innerHTML=build(cur.fmt||"a4",state); }
-      var sto=d.getElementById("pxStory"); if(sto) sto.hidden=state.ch!=="instagram";
+      var mn=d.getElementById("pxMain"); if(mn){ mn.hidden=state.ch==="messages"; mn.innerHTML=build(state.ch==="instagram"?"story":(cur.fmt||"a4"),state); }
+      var sto=d.getElementById("pxStory"); if(sto) sto.hidden=true;
       var ch=d.getElementById("pxChat"); if(ch){ ch.hidden=state.ch!=="messages"; ch.innerHTML=chat(state); }
       var ff=d.getElementById("pxFmtField"); if(ff) ff.hidden=state.ch!=="posters";
       [["pxInfoK",cur.k],["pxInfoT",cur.t],["pxInfoTip",cur.tip],["pxInfoF",cur.f]].forEach(function(x){ var e=d.getElementById(x[0]); if(e) e.textContent=x[1]; });
@@ -3563,7 +3613,7 @@ html{-webkit-tap-highlight-color:transparent}
       var ava=d.getElementById("pxStoryAva"), u=d.getElementById("pxStoryU");
       if(ava) ava.innerHTML=state.logo||LOGOS.shop;
       if(u) u.textContent=handle(state.name);
-      requestAnimationFrame(warpAll);
+      requestAnimationFrame(function(){ warpAll(); fitStory(); });
     }
     function wireRadio(sel,cb){
       var b=[].slice.call(d.querySelectorAll(sel)); if(!b.length) return;
