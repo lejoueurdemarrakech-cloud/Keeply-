@@ -8,12 +8,13 @@ export type PlanItem =
 
 const MONTHS: Record<string, string> = { "janv.": "01", "févr.": "02", mars: "03", "avr.": "04", mai: "05", juin: "06", "juil.": "07", août: "08", "sept.": "09", "oct.": "10", "nov.": "11", "déc.": "12" };
 
-/** « dimanche 15 nov. » ou « mardi 1er déc. » → 2026-11-15. */
+/** « dimanche 15 nov. » ou « mardi 1er déc. » → 2026-11-15 ; janvier tombe en 2027 (le plan finit début janvier). */
 export function planDate(jour: string, year = 2026) {
   const m = jour.match(/(\d{1,2})(?:er)?\s+([a-zéû.]+)/i);
   if (!m) return "";
   const month = MONTHS[m[2].toLowerCase()] ?? MONTHS[m[2].toLowerCase() + "."];
-  return month ? `${year}-${month}-${m[1].padStart(2, "0")}` : "";
+  if (!month) return "";
+  return `${month === "01" ? year + 1 : year}-${month}-${m[1].padStart(2, "0")}`;
 }
 
 export const PLAN_ITEMS: PlanItem[] = [
@@ -42,7 +43,7 @@ export function longDate(iso: string) {
 export function promptFor(i: PlanItem) {
   const when = `${longDate(i.date)} à ${i.heure}`;
   const common =
-    "Utilise mes nouvelles cartes Keeply (entières, bien cadrées, jamais l'ancienne carte photo plein écran), la direction artistique « Ils reviennent » (phrases courtes, beaucoup de blanc) et les règles Keeply (aucun faux témoignage, produit offert = coupon, options activables). Keeply est sur l'App Store dans tous nos pays, Android bientôt sur Google Play. Range les fichiers dans Keeply-Pub/insta/lancement/" +
+    "Utilise les cartes du Studio HQ (entières, bien cadrées, jamais l'ancienne carte photo plein écran), la plateforme de marque v6 « Fidéliser, c'est devenu facile » (une idée par visuel, des chiffres vrais, beaucoup de blanc, signature « Keeply. La fidélité, facile. ») et les règles Keeply (aucun faux témoignage, produit offert = coupon, options activables, carton jamais en sujet). Keeply est sur l'App Store au Maroc, au Canada et en Suisse ; France, Belgique, Luxembourg et Monaco à l'ouverture Apple ; app commerçant Android bientôt. Passe les textes au skill unslop. Range les fichiers dans Keeply-Pub/insta/lancement/" +
     i.id +
     "/ et montre-moi le résultat avant de publier.";
   if (i.kind === "post") {

@@ -14,12 +14,13 @@ import { emptyDraft } from "./composer";
 
 const FORMAT: Record<string, PostFormat> = { Reel: "reel", Carrousel: "carrousel", Photo: "image", Story: "story" };
 const WEEKS: Record<number, string> = {
-  0: "Semaine 0 · lancement, du 15 au 21 nov. (avant les pubs du 23)",
-  1: "Semaine 1 · du 22 au 28 nov.",
-  2: "Semaine 2 · du 29 nov. au 5 déc.",
-  3: "Semaine 3 · du 6 au 12 déc.",
-  4: "Semaine 4 · du 13 au 19 déc.",
-  5: "Semaine 5 · du 20 au 26 déc.",
+  0: "Semaine 0 · ouverture du compte, du 24 au 30 nov.",
+  1: "Semaine 1 · lancement, du 1er au 6 déc.",
+  2: "Semaine 2 · du 7 au 13 déc.",
+  3: "Semaine 3 · du 14 au 20 déc.",
+  4: "Semaine 4 · du 21 au 27 déc.",
+  5: "Semaine 5 · du 28 déc. au 5 janv.",
+  9: "Vague 2 · le jour où la France ouvre (date fixée par Apple)",
 };
 const TONE: Record<string, "violet" | "honey" | "mint" | "sky"> = { Reel: "violet", Carrousel: "honey", Photo: "mint", Story: "sky" };
 

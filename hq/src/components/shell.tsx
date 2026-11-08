@@ -1,33 +1,6 @@
 "use client";
 import { Command } from "cmdk";
-import {
-  AudioLines,
-  Aperture,
-  Bot,
-  Calculator,
-  Keyboard,
-  Megaphone,
-  Share2,
-  ClipboardCheck,
-  Gauge,
-  HeartPulse,
-  Inbox,
-  ListChecks,
-  LogOut,
-  Monitor,
-  Moon,
-  MoreHorizontal,
-  Plug,
-  Plus,
-  Radar,
-  Search,
-  Settings,
-  Star,
-  Store,
-  Sun,
-  TrendingUp,
-  Wrench,
-  X, WalletCards } from "lucide-react";
+import { Aperture, AudioLines, Bot, Calculator, ClipboardCheck, Gauge, HeartPulse, Inbox, Keyboard, ListChecks, LogOut, Megaphone, Monitor, Moon, MoreHorizontal, Music2, Plug, Plus, Radar, Search, Settings, Share2, Star, Store, Sun, TrendingUp, WalletCards, Wrench, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
@@ -58,6 +31,7 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     items: [
       { href: "/reseaux", label: "Vue réseaux", icon: <Share2 /> },
       { href: "/instagram", label: "Instagram", icon: <Aperture /> },
+      { href: "/tiktok", label: "TikTok", icon: <Music2 /> },
       { href: "/ads", label: "Meta Ads", icon: <Megaphone /> },
       { href: "/cartes", label: "Studio cartes", icon: <WalletCards /> },
     ],

@@ -1,798 +1,1245 @@
 /*
- * Plan de lancement v4 « Ils reviennent » : compte global (App Store dans tous nos pays,
- * Android bientôt), lancement le 15 novembre 2026, pub 100 € par mois à partir du 23 novembre,
- * ciblage des patrons de restaurants et de cafés. Plateforme de marque dans brand.ts,
- * stories dans stories-plan.ts. Crochets [ ] = vrai vécu à remplir.
+ * Plan de lancement v6 « Fidéliser, c'est devenu facile » (08/11/2026).
+ * Compte ouvert le 24 novembre, lancement le 1er décembre 2026, Instagram + TikTok + Meta Ads (100 € par mois max).
+ * Vague 1 : Maroc, Canada, Suisse (l'app y est en ligne). Vague 2 : France, Belgique, Luxembourg, Monaco, le jour où
+ * Apple ouvre l'App Store chez eux (vérification DSA). Plateforme de marque dans brand.ts, stories dans stories-plan.ts.
+ * Crochets [ ] = vrai vécu ou vrais chiffres à remplir. Généré depuis le scratchpad de la session du 08/11.
  */
 export type LaunchPost = (typeof INSTAGRAM_PLAN)["posts"][number];
+export type TikTokVideo = (typeof TIKTOK_PLAN)["videos"][number];
 
 export const INSTAGRAM_PLAN = {
-  "objectif": "Lancer @keeply le dimanche 15 novembre 2026, jour où Keeply est disponible sur l'App Store en France, Belgique, Suisse, Luxembourg, Monaco, Maroc et Canada, puis en 6 semaines (jusqu'au 26 décembre) en faire le compte que les restaurateurs francophones associent à une idée simple : avec Keeply, les clients reviennent. Un seul compte global, en français, qui parle à tous les gérants de fast-foods, cafés et restaurants, quel que soit leur pays. Semaine 0 (15 au 21 nov.) : annoncer la disponibilité et remplir la grille pour que le profil soit prêt avant les publicités du lundi 23 novembre. Semaines 1 à 5 : transformer l'attention en essais gratuits de 14 jours démarrés depuis l'App Store via keeplyfidelity.app, et récolter les commerçants sur Android (bientôt sur Google Play) pour les prévenir à l'ouverture. Les tournages réels sont faits par le fondateur, à Agadir ; les textes sont universels et les exemples de commerces varient d'un pays à l'autre sans en faire un sujet. Indicateurs rois : essais démarrés depuis Instagram (UTM du lien bio, stickers et DM) et commerçants Android récoltés. Indicateurs de croissance : vues non-abonnés des Reels, rétention de la série « Ils reviennent », sauvegardes et partages.",
-  "positionnement": "Ils reviennent. Keeply n'est pas une carte de fidélité de plus : c'est ce qui fait repasser la porte à vos clients. Votre marque dans leur Wallet, votre offre sur leur écran verrouillé, des relances qui partent toutes seules et que vous coupez quand vous voulez. Le niveau des grandes chaînes, pour le commerce du coin, à Lyon comme à Montréal, Genève ou Casablanca. Signature : Keeply. Ils reviennent.",
+  "objectif": "Ouvrir le compte le mardi 24 novembre, lancer Keeply le mardi 1er décembre et, d'ici début janvier, faire de Keeply le nom auquel un patron de snack, de café ou de restaurant francophone pense quand il entend « carte de fidélité ». Le compte a deux rôles : la vitrine (un patron venu d'une pub, de TikTok ou d'un mail de Harvey regarde le profil avant de télécharger) et la conversion (lien en bio, stories, messages). Indicateur roi : les essais gratuits démarrés depuis Instagram (lien en bio avec UTM, messages). Indicateurs de croissance : vues des Reels chez les non-abonnés, sauvegardes, partages.",
+  "positionnement": "Fidéliser, c'est devenu facile. La carte de fidélité des grandes chaînes, dans le Wallet des clients de n'importe quel commerce, prête en quelques minutes, pour 1,33 € par jour.",
   "piliers": [
     {
-      "nom": "« Ils reviennent » (série)",
-      "part_pourcent": 28,
-      "pourquoi": "Une série de 5 épisodes en POV client : le même client, le même snack, une carte qui se remplit d'un épisode à l'autre. Elle démarre le jour du lancement, incarne la grande idée, crée un rendez-vous et donne une raison de s'abonner. Tournée à Agadir, racontée sans frontière : aucun pays n'est nommé dans les textes. L'épisode final sert de créa principale pour la publicité."
+      "nom": "Facile",
+      "part_pourcent": 30,
+      "pourquoi": "La série « Chrono » (création réelle chronométrée) et le geste du scan. On prouve la simplicité par l'écran et le chronomètre."
     },
     {
-      "nom": "Vitrine : écran verrouillé et Wallet",
-      "part_pourcent": 22,
-      "pourquoi": "L'écran verrouillé et le Wallet sont les deux images les plus désirables du produit. Des visuels qui ressemblent à une vraie notification ou à un vrai Wallet arrêtent le scroll et vendent un résultat, pas une fonction. Les commerces fictifs montrés varient entre plusieurs pays francophones."
+      "nom": "Peu coûteux",
+      "part_pourcent": 20,
+      "pourquoi": "La série « Le calcul » : prix clair, calcul que le patron refait avec son propre panier, iPhone suffit. Deux posts prix en tout, jamais de promo criarde."
     },
     {
-      "nom": "Votre marque, la collection",
-      "part_pourcent": 17,
-      "pourquoi": "Les nouvelles cartes du fondateur traitées comme une collection produit : drop avec teasing, chrono de création, comparaison avec les grandes chaînes. On vend la fierté d'avoir une carte à sa marque."
+      "nom": "Le résultat",
+      "part_pourcent": 20,
+      "pourquoi": "« Ils reviennent », mini-série en trois épisodes, et l'écran verrouillé. On montre pourquoi fidéliser vaut le coup."
     },
     {
-      "nom": "Coulisses fondateur",
-      "part_pourcent": 17,
-      "pourquoi": "Sans témoignage clients pour l'instant, la confiance vient d'un fondateur réel, d'un vrai micro-trottoir et d'un vrai comptoir. Ces vidéos sont tournées à Agadir mais racontées pour tous : un gérant de Bruxelles ou de Québec doit s'y reconnaître autant qu'un gérant de Casablanca. Tout ce qui est entre crochets est rempli avec du vécu, rien n'est inventé."
+      "nom": "Fondateur et questions de patrons",
+      "part_pourcent": 20,
+      "pourquoi": "Le fondateur filmé vrai et les réponses vidéo aux vraies objections. Sans témoignages clients pour l'instant, c'est notre preuve de confiance."
     },
     {
-      "nom": "Offre",
-      "part_pourcent": 16,
-      "pourquoi": "Peu de posts, tous boostés : essai gratuit 14 jours sur l'App Store, un seul post prix (dès 39,99 €/mois en France, prix adaptés dans chaque pays, environ 1,33 € par jour en France), mention « Android : bientôt sur Google Play » quand elle est utile. Aucun autre prix ni devise dans les posts. Ils convertissent l'attention gagnée par les autres piliers."
+      "nom": "La vitrine",
+      "part_pourcent": 10,
+      "pourquoi": "Les cartes du Studio comme une collection : la fierté d'avoir une belle carte à son nom."
     }
   ],
-  "rythme": "Lancement le dimanche 15 novembre 2026 à 21:00 (heure de Paris). Semaine 0 (15 au 21 nov.) : 3 posts, dimanche 15, mardi 17 et jeudi 19, pour annoncer la disponibilité et remplir la grille avant les publicités qui démarrent le lundi 23 novembre. Semaines 1 à 4 (22 nov. au 19 déc.) : 3 posts par semaine, mardi, jeudi et samedi. Semaine 5 (20 au 26 déc.) : rythme adapté aux fêtes, dimanche 20, mardi 22 et mercredi 23, puis aucun post du 24 au 26 (Stories légères seulement). Un épisode « Ils reviennent » environ toutes les semaines et demie, le final avant Noël. Horaires uniquement à 13:00 (pause avant le rush), 15:30 (creux après le déjeuner) ou 21:00 (fin de soirée), toujours en heure de Paris : c'est la même heure en Belgique, Suisse, Luxembourg et Monaco, une heure plus tôt au Maroc en hiver, six heures plus tôt au Québec ; vérifier chaque semaine les statistiques par pays et décaler un horaire si l'audience canadienne grossit. 11 Reels, 4 carrousels, 3 photos. Les exemples de commerces (noms fictifs, villes en légende ou en visuel) tournent entre France, Belgique, Suisse, Maroc et Canada, avec Luxembourg et Monaco ponctuellement, sans jamais en faire un sujet. Stories tous les jours (3 à 5). Teaser 24 h en Story avant le drop de la collection (p05) et avant chaque épisode. Heure dorée : le fondateur reste disponible 60 minutes après chaque post. Boosts à partir de la semaine 1, uniquement les posts marqués boost, audience unique : gérants de restauration dans les 7 pays disponibles, objectif essai gratuit ; lire ensuite le coût par résultat par pays et couper les pays trop chers.",
-  "bio": "La carte de fidélité qui vit dans le Wallet de vos clients.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt",
-  "lien_bio": "Nom du profil : Keeply · Carte de fidélité\nLien 1 · « Télécharger Keeply · essai gratuit 14 jours » → keeplyfidelity.app/app (ouvre l'App Store sur iPhone, Google Play sur Android dès sa sortie, la page Android en attendant)\nLien 2 · « Le site » → keeplyfidelity.app (le site vitrine, dès qu'il est en ligne sur le domaine)\nInstagram n'affiche que le premier lien sous la bio (+1 en petit) : l'ordre compte, téléchargement d'abord.",
+  "rythme": "Trois posts par semaine, mardi, jeudi et dimanche : 13 h (pause avant le rush du soir) ou 21 h (fin de service), heure de Paris, soit une heure plus tôt au Maroc et six heures plus tôt au Québec. Chaque Reel est d'abord publié en « Reel d'essai » quand l'option est proposée (montré aux non-abonnés, publié sur le profil s'il marche). Les mêmes vidéos partent sur TikTok et YouTube Shorts, sans filigrane. Stories tous les jours. Pas de post du 24 au 26 décembre.",
+  "bio": "Votre carte de fidélité, dans le Wallet de vos clients.\nFast-foods · Cafés · Restaurants\nEssai gratuit 14 jours ↓",
+  "lien_bio": "Nom du profil : Keeply · Carte de fidélité\nLien 1 · « Télécharger Keeply · essai 14 jours » → keeplyfidelity.app/app (ouvre l'App Store sur iPhone ; ailleurs, la page de liste d'attente)\nLien 2 · « France, Belgique : liste d'attente » → keeplyfidelity.app/bientot (à retirer le jour de l'ouverture française)\nTant que le domaine n'a pas ces pages : lien direct App Store avec suivi de campagne (ct=instagram-bio).",
   "highlights": [
-    "Démo",
-    "Ils reviennent",
+    "Comment ça marche",
+    "Chrono",
+    "Le calcul",
     "Cartes",
-    "Prix",
-    "Android",
-    "Fondateur",
-    "FAQ"
+    "Questions",
+    "Fondateur"
   ],
   "posts": [
     {
       "id": "p01",
       "semaine": 0,
-      "jour": "dimanche 15 nov.",
+      "jour": "mardi 24 nov.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "« Ils reviennent » (série)",
-      "titre": "Lancement · Ils reviennent, épisode 1 : le premier passage",
-      "accroche": "Il ne vous connaît pas. Encore.",
-      "visuel": "Reel vertical 18 s, POV client, filmé à hauteur d'yeux par le fondateur, sans voix, sous-titres. Commerce : snack tacos (nom fictif « Le Comptoir »), aucun pays nommé à l'écran. Plan 1 (0-2 s) : la main du client pousse la porte, texte d'accroche en haut du cadre. Plan 2 (2-5 s) : il commande, l'affiche QR Keeply posée près de la caisse entre dans le champ. Plan 3 (5-8 s) : il scanne, la NOUVELLE carte style fast-food (couleurs vives, logo du snack) glisse dans Apple Wallet, carte entière, centrée, aucun bord coupé. Plan 4 (8-11 s) : le gérant scanne en caisse, 1 tampon sur 10 s'allume. Plan 5 (11-14 s) : il sort, téléphone en poche. Écran noir : « Épisode 1. Reviendra-t-il ? » Plan 6 (14-18 s), carton de lancement sur fond blanc : « Keeply est disponible. » puis « Essai gratuit 14 jours. Sur l'App Store. » et la signature « Keeply. Ils reviennent. »",
-      "legende": "Keeply est disponible aujourd'hui sur l'App Store.\n\nEt tout commence par un premier passage.\nUn scan, sa carte est dans son Wallet.\nPas d'app. Pas d'inscription.\n\nReviendra-t-il ? Suite le mardi 24 novembre.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\nAndroid : bientôt sur Google Play.\n\nKeeply. Ils reviennent.",
+      "pilier": "Écran verrouillé",
+      "titre": "Ouverture · la carte qui glisse",
+      "accroche": "Le 1er décembre.",
+      "visuel": "Reel 7 s en boucle, sans voix, son « clic » du Wallet. Fond blanc. Une carte du Studio (Le Comptoir d'Anna, café) glisse du bas et se range dans un Wallet, carte entière, aucun bord coupé. Texte unique au centre, police du site : « Fidéliser, c'est devenu facile. » puis « Le 1er décembre. ». Dernière image = première image pour que la boucle soit invisible.",
+      "legende": "Fidéliser, c'est devenu facile.\n\nLe 1er décembre.",
       "hashtags": [
-        "#ilsreviennent",
         "#keeply",
-        "#restaurateur",
-        "#fastfood",
         "#cartedefidelite",
-        "#applewallet",
-        "#commercelocal"
+        "#fideliteclient",
+        "#restaurateur",
+        "#applewallet"
       ],
-      "pourquoi": "Le post de lancement du 15 novembre : il annonce la disponibilité tout en ouvrant la série, donc le compte démarre avec une histoire plutôt qu'un communiqué. Il prépare le profil avant les publicités du lundi 23 novembre : quiconque arrive par une pub trouve d'abord l'annonce et l'épisode 1. À épingler en premier. Indicateurs : taux de visionnage complet, abonnés gagnés, clics sur le lien bio (utm_content=p01).",
-      "cta": "Essai gratuit 14 jours. Sur l'App Store. Abonnez-vous pour l'épisode 2.",
-      "asset_existant": "Vidéo verticale 46 s « carte » (extraire le plan carte vers Wallet, avec la nouvelle carte style fast-food à la place de l'ancienne carte photo)",
+      "pourquoi": "Le premier post donne le ton de toute la marque : une phrase, un geste, beaucoup de blanc. La boucle de 7 s fait monter le taux de revisionnage, le premier signal que l'algorithme regarde sur un compte neuf. À publier en « Reel d'essai » (montré d'abord aux non-abonnés).",
+      "cta": "Activez les notifications du compte.",
+      "asset_existant": "Studio cartes HQ (Le Comptoir d'Anna) + teaser HyperFrames (plan carte)",
       "boost": false
     },
     {
       "id": "p02",
       "semaine": 0,
-      "jour": "mardi 17 nov.",
+      "jour": "jeudi 26 nov.",
       "heure": "13:00",
-      "format": "Photo",
-      "pilier": "Vitrine : écran verrouillé et Wallet",
-      "titre": "La notification plein écran",
-      "accroche": "Votre vitrine. Sur leur écran verrouillé.",
-      "visuel": "Photo 4:5, le post EST un écran verrouillé d'iPhone en plein cadre : fond d'écran flou, grande heure 12:58. Une seule notification Wallet au centre : icône de la carte, « Le Beffroi Burger · Lille » (fast-food fictif), texte « -15 % sur votre menu jusqu'à 15 h ». En dessous, la NOUVELLE carte style fast-food du burger affichée entière en aperçu. Aucun autre texte dans l'image, logo Keeply minuscule en bas à droite.",
-      "legende": "Ils regardent leur écran verrouillé des dizaines de fois par jour.\nVotre offre peut y apparaître.\nSans pub payante. Sans app à installer.\n\nVous décidez quand. Ou jamais.\n\nEssai gratuit 14 jours. Sur l'App Store.\n\nKeeply. Ils reviennent.",
+      "format": "Reel",
+      "pilier": "Facile",
+      "titre": "Ouverture · un scan",
+      "accroche": "Un scan. Elle est dans son Wallet.",
+      "visuel": "Reel 9 s, filmé à la main au-dessus d'un comptoir réel (Agadir, aucun pays nommé). Plan 1 : un client tend son iPhone vers l'affiche Keeply (format Caisse A5). Plan 2 : la carte apparaît, « Ajouter à Apple Wallet », tap. Plan 3 : la carte rangée dans le Wallet, gros plan. Texte en haut : « Un scan. » puis « Elle est dans son Wallet. ». Fin : « 1er décembre. »",
+      "legende": "Votre client scanne.\nSa carte est dans son Wallet, à côté de sa carte bancaire.\nIl n'installe rien, il ne crée aucun compte.\n\nLe 1er décembre.",
       "hashtags": [
         "#keeply",
-        "#ilsreviennent",
-        "#fastfood",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#fidelisationclient",
-        "#applewallet",
-        "#lille"
+        "#fastfood",
+        "#snack"
       ],
-      "pourquoi": "Un visuel qui arrête le pouce parce qu'il ressemble à une vraie notification. Il installe l'avantage le plus désirable de Keeply en une image et prépare le profil avant les publicités du lundi 23 novembre : c'est la deuxième vignette que verra un visiteur. Indicateurs : partages et sauvegardes rapportés à la portée.",
-      "cta": "Enregistrez ce post",
-      "asset_existant": null,
+      "pourquoi": "Avant même d'annoncer quoi que ce soit, on montre le geste le plus simple du produit. C'est la preuve n°1 de « facile », vue du côté client, et c'est un plan que tout patron comprend sans son.",
+      "cta": "Le 1er décembre.",
+      "asset_existant": "Scènes Activation du site (affiche Caisse A5)",
       "boost": false
     },
     {
       "id": "p03",
       "semaine": 0,
-      "jour": "jeudi 19 nov.",
+      "jour": "dimanche 29 nov.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "Coulisses fondateur",
-      "titre": "Fait à Agadir",
-      "accroche": "Fait à Agadir. Par une seule personne.",
-      "visuel": "Reel face caméra 30 s, téléphone, lumière naturelle. Plan 1 (0-2 s) : en mouvement, le fondateur entre dans le cadre, texte « Fait à Agadir ». Plan 2 : vraie capture de son écran de travail (l'app ou le code ouvert). Plan 3 : sur son iPhone, trois NOUVELLES cartes défilent (fast-food à Bruxelles, café à Montréal, restaurant à Casablanca), chacune entière à l'écran. Plan 4 : retour visage, il dit en une phrase pourquoi il a créé Keeply [raison réelle]. Plan 5 : la page App Store de Keeply, « Disponible dans 7 pays. » Plan 6 : « Écrivez-moi. C'est moi qui réponds. » Sous-titres incrustés.",
-      "legende": "Je m'appelle [prénom].\nJ'ai créé Keeply depuis [ville réelle], parce que [raison réelle, une phrase].\n\nDepuis dimanche, Keeply est sur l'App Store en France, en Belgique, en Suisse, au Luxembourg, à Monaco, au Maroc et au Canada.\nAndroid : bientôt sur Google Play.\n\nUne question ? Écrivez-moi, je réponds moi-même.\n\nKeeply. Ils reviennent.",
+      "pilier": "Fondateur",
+      "titre": "Ouverture · pourquoi j'ai fait Keeply",
+      "accroche": "Mardi, je lance mon app. Voilà pourquoi.",
+      "visuel": "Reel 30 à 40 s, face caméra, le fondateur assis dans un vrai commerce (lumière du soir), sous-titres mot à mot. Trois temps : 1) [le déclic vécu, avec un vrai commerce et une vraie scène]. 2) « Les grandes chaînes ont leur carte dans le téléphone de leurs clients. Le snack d'en bas, non. » 3) « Mardi, ça change. » Plan final : la carte dans le Wallet.",
+      "legende": "Je m'appelle [prénom]. Mardi, je lance Keeply.\n\n[Deux phrases vraies : la scène qui t'a donné l'idée.]\n\nLes grandes chaînes ont leur carte de fidélité dans le téléphone de leurs clients. Je voulais que le snack d'en bas, le café du coin et le petit resto aient la même chose, sans payer une fortune.\n\nRendez-vous mardi.",
       "hashtags": [
         "#keeply",
-        "#entrepreneur",
-        "#startup",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#commercelocal",
-        "#agadir"
+        "#entrepreneur",
+        "#startup"
       ],
-      "pourquoi": "Sans avis clients, la confiance passe par un visage réel et vérifiable. Dernier post avant les publicités du lundi 23 novembre : il complète le profil (annonce, produit, fondateur) pour que les visiteurs venus des pubs sachent qui est derrière. Indicateurs : DM reçus et abonnés gagnés. Les crochets sont à remplir avec du vrai, rien n'est inventé.",
-      "cta": "Écrivez-moi en DM",
-      "asset_existant": null,
+      "pourquoi": "Un compte de marque sans visage ne crée pas la confiance dont un commerçant a besoin pour payer un abonnement. Le fondateur, filmé vrai, fait ce travail. Les crochets se remplissent avec du vécu, rien n'est inventé.",
+      "cta": "Rendez-vous mardi.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p04",
       "semaine": 1,
-      "jour": "mardi 24 nov.",
-      "heure": "13:00",
+      "jour": "mardi 1er déc.",
+      "heure": "12:30",
       "format": "Reel",
-      "pilier": "« Ils reviennent » (série)",
-      "titre": "Ils reviennent, épisode 2 : la deuxième visite",
-      "accroche": "Le plus dur ? La deuxième fois.",
-      "visuel": "Reel vertical 15 s, même client, même snack « Le Comptoir », même cadrage POV que l'épisode 1. Plan 1 (0-2 s) : son téléphone posé sur un bureau, l'écran s'allume. Plan 2 (2-5 s) : plein écran sur la notification Wallet « Le Comptoir : -10 % sur votre menu ce jeudi ». Plan 3 (5-8 s) : il range le téléphone, se lève. Plan 4 (8-11 s) : la porte du snack, même angle que l'épisode 1 (effet miroir). Plan 5 (11-13 s) : scan en caisse, 2 tampons sur 10, carte entière bien cadrée. Plan 6 (13-15 s) : « Épisode 2. Il est revenu. » puis « Keeply. Ils reviennent. »",
-      "legende": "Le premier passage, c'est le hasard.\nLe deuxième, c'est vous.\nUne notification au bon moment, et il repasse la porte.\n\nL'offre, le jour, le montant : vous gardez la main.\n\nEssai gratuit 14 jours. Sur l'App Store.\n\nKeeply. Ils reviennent.",
+      "pilier": "Lancement",
+      "titre": "Lancement · le teaser",
+      "accroche": "Créez votre carte.",
+      "visuel": "Le teaser de lancement HyperFrames (18 s, 9:16) tel quel : cartes qui se retournent, scan, tampons, écran verrouillé, mur de cartes, logo. Ajouter un son de la bibliothèque Instagram (instrumental, montée douce) au moment de publier.",
+      "legende": "Keeply est disponible.\n\nVotre carte de fidélité à votre nom, dans le Wallet de vos clients. Prête en quelques minutes, depuis votre iPhone.\n\nEssai gratuit 14 jours sur l'App Store.\nDisponible au Maroc, au Canada et en Suisse. La France, la Belgique, le Luxembourg et Monaco arrivent : liste d'attente en bio.",
       "hashtags": [
-        "#ilsreviennent",
         "#keeply",
-        "#fidelisationclient",
-        "#fastfood",
-        "#restauration",
         "#cartedefidelite",
-        "#restaurateur"
+        "#fideliteclient",
+        "#restaurateur",
+        "#lancement",
+        "#applewallet",
+        "#fastfood",
+        "#cafe"
       ],
-      "pourquoi": "Le cœur de la promesse : le deuxième passage, celui que tout commerçant perd. Premier post boosté, au lendemain du démarrage des pubs, il doit faire comprendre la valeur en 15 s. Indicateurs : rétention à 3 s, part de vues non-abonnés, clics sur le profil.",
-      "cta": "Regardez l'épisode 1 sur le profil",
-      "asset_existant": "Vidéo verticale 46 s « carte » (plan scan en caisse, avec la nouvelle carte fast-food)",
+      "pourquoi": "Le jour J s'ouvre sur le film le plus soigné qu'on ait. Publié à 12 h 30 pour toucher le Maroc et l'Europe à la pause, et rester en tête du fil quand le Québec se réveille. À épingler en premier. Boosté dès qu'il dépasse la médiane des vues du compte.",
+      "cta": "Essai gratuit 14 jours. Lien en bio.",
+      "asset_existant": "videos/teaser-lancement/keeply-teaser-lancement.mp4",
       "boost": true
     },
     {
       "id": "p05",
       "semaine": 1,
-      "jour": "jeudi 26 nov.",
-      "heure": "15:30",
+      "jour": "jeudi 3 déc.",
+      "heure": "13:00",
       "format": "Carrousel",
-      "pilier": "Votre marque, la collection",
-      "titre": "Le drop : la collection",
-      "accroche": "La collection.",
-      "visuel": "Carrousel 7 slides 1080x1350, fond très clair, une carte par slide, carte entière centrée avec beaucoup de blanc, numérotation 1/7. Teaser la veille (mercredi 25 nov.) en Story : silhouette floutée d'une carte + compte à rebours. Slide 1 : les cartes en éventail, mot « La collection. » Slide 2 : « Votre carte. Votre style. » Slide 3 : style fast-food, carte d'un snack à Casablanca. Slide 4 : style café, carte d'un café à Lyon (tons crème et bois). Slide 5 : style restaurant de quartier, carte d'une brasserie à Bruxelles. Slide 6 : style haut de gamme, carte noire et or d'une table à Genève. Slide 7 : « Laquelle est la vôtre ? » + @keeply. Noms de commerces fictifs. Utiliser les vrais noms des styles tels qu'ils apparaissent dans l'app.",
-      "legende": "Quatre styles. Une seule règle : votre marque d'abord.\nVos couleurs, votre logo, dans le Wallet de vos clients.\n\nLaquelle est la vôtre ? Dites-le en commentaire.\n\nKeeply. Ils reviennent.",
+      "pilier": "Facile",
+      "titre": "Comment ça marche, en trois gestes",
+      "accroche": "Trois gestes. C'est tout.",
+      "visuel": "Carrousel 6 slides 1080×1350, fond blanc, une capture d'app par slide. 1 « Trois gestes. C'est tout. » 2 « Vous créez votre carte. » (écran Studio de l'app) 3 « Votre client scanne. » (affiche + iPhone) 4 « Elle vit dans son Wallet. » (Wallet) 5 « Vous choisissez ce qui part tout seul. » (interrupteurs des offres auto, deux allumés, un éteint) 6 « Essai gratuit 14 jours. » + badges App Store.",
+      "legende": "1. Vous créez votre carte : couleurs, logo, récompenses.\n2. Votre client scanne l'affiche au comptoir.\n3. Sa carte vit dans son Wallet, et ses remises aussi.\n\nLes offres automatiques (anniversaire, retour après une absence) s'allument ou s'éteignent en un geste. Vous gardez la main.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#lacollection",
         "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#cafe",
-        "#fastfood",
-        "#bruxelles",
-        "#geneve"
+        "#restaurant",
+        "#commercelocal"
       ],
-      "pourquoi": "Traiter les nouvelles cartes comme un produit désirable, pas comme une option de réglage. Le choix de style en commentaire crée de l'engagement facile. Indicateurs : commentaires, sauvegardes, taux de swipe jusqu'à la slide 7.",
-      "cta": "Commentez votre style préféré",
-      "asset_existant": "Carrousel C « Votre carte, votre marque » (remplacer toutes les cartes par les nouvelles cartes du fondateur, une par style)",
-      "boost": false
+      "pourquoi": "Le carrousel explicatif est celui qu'on sauvegarde et qu'on envoie à un associé. C'est aussi la page que les visiteurs venus d'une pub ouvrent en premier. La slide 5 glisse la règle « vous gardez la main ».",
+      "cta": "Enregistrez-le pour votre associé.",
+      "asset_existant": "",
+      "boost": true
     },
     {
       "id": "p06",
       "semaine": 1,
-      "jour": "samedi 28 nov.",
+      "jour": "dimanche 6 déc.",
       "heure": "21:00",
-      "format": "Photo",
-      "pilier": "Vitrine : écran verrouillé et Wallet",
-      "titre": "Wallet flex",
-      "accroche": "En bonne compagnie.",
-      "visuel": "Photo 4:5, plan très serré sur un iPhone tenu en main, Apple Wallet ouvert : la NOUVELLE carte d'un café de Montréal (style café, nom fictif) empilée entre une carte bancaire générique (sans logo de banque) et un billet d'avion générique (sans compagnie réelle). La carte du café est la seule entièrement visible, bien cadrée. Lumière douce, fond neutre. Aucun texte dans l'image.",
-      "legende": "Sa carte bancaire.\nSon billet d'avion.\nEt votre café.\n\nLes grandes chaînes ont une app. Vous avez mieux : leur Wallet.\n\nKeeply. Ils reviennent.",
+      "format": "Reel",
+      "pilier": "Facile",
+      "titre": "Chrono n°1 · un fast-food",
+      "accroche": "Carte de fidélité pour un fast-food. Chrono lancé.",
+      "visuel": "Reel 25 s : enregistrement d'écran réel de l'app, chrono visible en haut, la main du fondateur en incrustation. On crée la carte d'un fast-food (carte Studio « Smash Burger » ou équivalent) : nom, couleurs, logo, récompenses −10 % / −15 % / −25 %. Le chrono s'arrête quand la carte est dans le Wallet de test. Accélérer les temps morts, jamais le chrono.",
+      "legende": "Une carte de fidélité pour un fast-food, du premier écran au Wallet.\n\nTemps réel : [temps chronométré].\n\nC'est le premier épisode de « Chrono ». Prochain commerce : un café.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#applewallet",
-        "#cafe",
-        "#coffeeshop",
-        "#commercelocal",
-        "#montreal"
+        "#cartedefidelite",
+        "#fideliteclient",
+        "#restaurateur",
+        "#fastfood",
+        "#burger",
+        "#chrono"
       ],
-      "pourquoi": "Vendre un statut : le petit commerce rangé au même endroit que les choses importantes. Image pensée pour être partagée entre commerçants. Indicateurs : partages en DM et visites du profil.",
-      "cta": "Partagez à un gérant de café",
-      "asset_existant": null,
+      "pourquoi": "« Facile » se prouve avec un chronomètre, pas avec un adjectif. Le temps affiché est le vrai temps mesuré au tournage : on n'annonce jamais un chiffre qu'on n'a pas filmé. Format série = rendez-vous et abonnements.",
+      "cta": "Abonnez-vous pour le prochain chrono.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p07",
       "semaine": 2,
-      "jour": "mardi 1er déc.",
-      "heure": "15:30",
+      "jour": "mardi 8 déc.",
+      "heure": "13:00",
       "format": "Reel",
-      "pilier": "Votre marque, la collection",
-      "titre": "Chrono 60 secondes",
-      "accroche": "60 secondes. Montre en main.",
-      "visuel": "Reel vertical 60 s en temps réel, chronomètre en haut de l'écran dès la première image. Plan 1 (0-2 s) : doigt qui lance le chrono, texte d'accroche. Plans suivants, enregistrement d'écran de l'app : choix du style haut de gamme, logo d'un restaurant gastronomique de Lausanne (nom fictif) importé, couleurs, récompense « -10 % au 8e passage », aperçu. Vers 50 s : la carte apparaît dans un Wallet, entière, bien cadrée. Fin : chrono figé sur le vrai temps obtenu, puis « Keeply. Ils reviennent. » Musique minimale, pas de voix.",
-      "legende": "Une carte à votre image.\nMoins d'une minute.\nAucun graphiste.\n\nTampons, points, remises : tout se règle, tout se modifie.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\n\nKeeply. Ils reviennent.",
+      "pilier": "Peu coûteux",
+      "titre": "Le calcul n°1 · combien de clients pour payer Keeply",
+      "accroche": "Combien de clients doivent revenir pour payer Keeply ?",
+      "visuel": "Reel 20 s, plan fixe sur un comptoir, la main du fondateur écrit sur un carnet ou dans l'app Notes, voix off posée. « Keeply : 39,99 € par mois. Panier moyen : 10 €. Quatre passages de plus par mois. » Gros chiffre final « 4 » au centre, mention discrète « exemple : panier moyen 10 € ».",
+      "legende": "Keeply coûte 39,99 € par mois en France.\nPrenez un panier moyen de 10 € (exemple).\n\nQuatre passages de plus par mois, et l'abonnement est couvert. Sur un mois entier. Pour tout votre commerce.\n\nÀ l'année, c'est moins d'1 € par jour.\n\nPrix adaptés dans chaque pays. Essai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#restaurateur",
-        "#restauration",
-        "#fidelisationclient",
         "#cartedefidelite",
-        "#applewallet",
-        "#lausanne"
+        "#fideliteclient",
+        "#restaurateur",
+        "#gestionrestaurant",
+        "#chiffredaffaires"
       ],
-      "pourquoi": "Tuer l'objection « ça doit être compliqué » avec une preuve filmée. Le chrono donne une raison de regarder jusqu'au bout. Indicateurs : taux de visionnage complet et clics sur le lien en bio. Afficher le vrai temps, ne pas tricher sur le montage.",
-      "cta": "Essai gratuit 14 jours. Sur l'App Store. Lien en bio.",
-      "asset_existant": "Pub « extras » (plan final de la carte dans le Wallet, refait avec la nouvelle carte haut de gamme)",
+      "pourquoi": "« Peu coûteux » est la moitié de notre base. Un calcul simple, que le patron refait de tête avec son propre panier moyen, vaut mieux que n'importe quelle promesse. Le chiffre est marqué « exemple » : aucun résultat n'est promis.",
+      "cta": "Refaites le calcul avec votre panier moyen.",
+      "asset_existant": "",
       "boost": true
     },
     {
       "id": "p08",
       "semaine": 2,
-      "jour": "jeudi 3 déc.",
+      "jour": "jeudi 10 déc.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "Vitrine : écran verrouillé et Wallet",
-      "titre": "ASMR : le son d'un client qui revient",
-      "accroche": "Écoutez.",
-      "visuel": "Reel vertical 12 s, ASMR, aucune voix, aucune musique, à regarder avec le son. Tourné par le fondateur dans un vrai café (avec accord), aucun lieu nommé. Plan 1 (0-2 s) : noir, le mot « Écoutez. » Plan 2 : macro sur le moulin à café. Plan 3 : macro du téléphone du client approché du lecteur, bip du scan. Plan 4 : la vibration d'un téléphone posé sur le comptoir, la carte style café s'affiche entière. Plan 5 : le son de la notification, écran verrouillé avec « Café Lumière : votre 5e café à -20 % » (nom fictif). Fin : « Keeply. Ils reviennent. »",
-      "legende": "Un bip.\nUne vibration.\nUn client qui revient.\n\nMettez le son.\n\nKeeply. Ils reviennent.",
+      "pilier": "Le résultat",
+      "titre": "Ils reviennent · épisode 1",
+      "accroche": "Il ne vous connaît pas. Encore.",
+      "visuel": "Reel 15 s, POV client à hauteur d'yeux, sans voix, sous-titres. Un café (carte Studio café). Il entre, commande, scanne l'affiche, la carte entre dans son Wallet, 1 tampon sur 10. Il sort. Écran noir : « Épisode 1. Reviendra-t-il ? »",
+      "legende": "Premier passage. Un scan, sa carte est dans son Wallet.\n\nReviendra-t-il ? Épisode 2 dimanche 20.",
       "hashtags": [
         "#keeply",
-        "#asmr",
-        "#cafe",
-        "#coffeelovers",
-        "#commercelocal",
-        "#cartedefidelite"
+        "#cartedefidelite",
+        "#fideliteclient",
+        "#restaurateur",
+        "#ilsreviennent",
+        "#cafe"
       ],
-      "pourquoi": "Format sensoriel très rewatchable et sans langue, donc lisible dans tous les pays, qui associe un son à la marque. La boucle courte augmente les revues. Indicateurs : nombre de lectures répétées et partages.",
-      "cta": "Mettez le son",
-      "asset_existant": null,
+      "pourquoi": "La mini-série garde ce qui marchait dans « Ils reviennent » (le fondateur l'aimait) en trois épisodes au lieu de cinq. Elle montre le résultat, là où Chrono et Le calcul montrent la facilité et le prix.",
+      "cta": "Épisode 2 dimanche 20.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p09",
       "semaine": 2,
-      "jour": "samedi 5 déc.",
-      "heure": "15:30",
+      "jour": "dimanche 13 déc.",
+      "heure": "21:00",
       "format": "Carrousel",
-      "pilier": "Offre",
-      "titre": "Le prix d'un café par jour",
-      "accroche": "Le prix d'un café par jour.",
-      "visuel": "Carrousel 6 slides, fond blanc, typo très grande, une phrase par slide, numérotation. Slide 1 : une tasse de café vue du dessus + accroche. Slide 2 : « Dès 39,99 € par mois en France. » et en dessous, plus petit : « Prix adaptés dans chaque pays. » Slide 3 : « Environ 1,33 € par jour en France. » Slide 4 : deux NOUVELLES cartes style café côte à côte dans un Wallet, entières : un café de Liège et un café de Québec (noms fictifs), légende « Ce que vous obtenez ». Slide 5 (récap à capturer) : « Votre carte. Vos notifications. Vos offres automatiques. Vos statistiques. » Slide 6 : « Essai gratuit 14 jours. Sur l'App Store. » et en petit « Android : bientôt sur Google Play. »",
-      "legende": "Dès 39,99 € par mois en France, environ 1,33 € par jour.\nLe prix d'un café par jour.\nPrix adaptés dans chaque pays, affichés sur l'App Store.\n\nPour une carte à votre marque dans le Wallet de vos clients.\n14 jours d'essai gratuit pour juger.\nChaque option s'active ou se coupe. Vous gardez la main.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\nAndroid : bientôt sur Google Play.\n\nKeeply. Ils reviennent.",
+      "pilier": "La vitrine",
+      "titre": "La collection · choisissez votre style",
+      "accroche": "Choisissez votre style.",
+      "visuel": "Carrousel 8 slides : les cartes du Studio HQ, une par slide, entières et centrées sur un fond de la couleur de la carte. Mélange : fast-food, café, resto de quartier, resto chic, ramen, crêperie, boulangerie, cave. Slide 1 : grille de 6 cartes + « Choisissez votre style. » Dernière slide : « La vôtre est prête en quelques minutes. »",
+      "legende": "Burger, café, tajine, ramen, cave à vin.\nChaque carte est faite pour son commerce : couleurs, logo, photo, récompenses.\n\nLaquelle ressemble à la vôtre ?\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#essaigratuit",
-        "#cafe",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#commercelocal",
-        "#liege",
-        "#quebec"
+        "#design",
+        "#branding"
       ],
-      "pourquoi": "Le seul post prix, formulé de façon prudente et vérifiable : 39,99 € par mois ≈ 1,33 € par jour en France, et « prix adaptés dans chaque pays » sans aucun chiffre inventé en DH, CHF ou $ CA. Il attire les vrais décideurs. Prix à confirmer par le fondateur avant publication. Indicateurs : clics sur le lien bio avec utm_content=p09 et essais démarrés.",
-      "cta": "Essai gratuit 14 jours. Sur l'App Store. Lien en bio.",
-      "asset_existant": null,
-      "boost": true
+      "pourquoi": "La fierté d'avoir une belle carte à son nom fait vendre autant que le prix. Les 32 cartes du Studio sont prêtes : aucun tournage. La question en légende appelle des commentaires, que l'algorithme valorise.",
+      "cta": "Dites-nous laquelle en commentaire.",
+      "asset_existant": "Studio cartes HQ (32 cartes)",
+      "boost": false
     },
     {
       "id": "p10",
       "semaine": 3,
-      "jour": "mardi 8 déc.",
+      "jour": "mardi 15 déc.",
       "heure": "13:00",
       "format": "Reel",
-      "pilier": "« Ils reviennent » (série)",
-      "titre": "Ils reviennent, épisode 3 : il pleut",
-      "accroche": "Il pleut. L'offre part toute seule.",
-      "visuel": "Reel vertical 15 s. Même client, même snack « Le Comptoir ». Plan 1 (0-2 s) : gouttes sur une vitre, accroche. Plan 2 (2-5 s) : l'app côté gérant, l'interrupteur « Offre jour de pluie » activé (bien lisible, on voit qu'il se coupe aussi). Plan 3 (5-8 s) : le client sous un abri, son écran verrouillé affiche « Le Comptoir : il pleut, -15 % sur les boissons chaudes ». Plan 4 (8-12 s) : il entre, secoue sa veste, scan, 5 tampons sur 10, carte entière. Plan 5 (12-15 s) : « Épisode 3. » puis « Keeply. Ils reviennent. » Si la pluie manque au tournage, simuler les gouttes sur vitre (arrosage), rien d'autre.",
-      "legende": "Il pleut, la rue se vide.\nVotre offre part toute seule.\nAnniversaire, client absent depuis 30 jours, jour de pluie : même principe.\n\nChaque automatisme s'active ou se coupe.\n\nKeeply. Ils reviennent.",
+      "pilier": "Questions de patrons",
+      "titre": "Questions de patrons n°1 · et mes clients sur Android ?",
+      "accroche": "« Et mes clients qui ont un Android ? »",
+      "visuel": "Reel 20 s, réponse en vidéo à un vrai commentaire ou à un vrai message (capture du commentaire en haut, avec accord ou anonymisé). Le fondateur montre deux téléphones : un iPhone (Apple Wallet) et un Android (Google Wallet), la même carte sur les deux.",
+      "legende": "La question qu'on nous pose le plus.\n\nVos clients sur iPhone ont leur carte dans Apple Wallet, ceux sur Android dans Google Wallet. Même carte, même scan.\n\nL'app pour vous, le commerçant, est sur iPhone. Android arrive bientôt.",
       "hashtags": [
-        "#ilsreviennent",
         "#keeply",
-        "#fastfood",
-        "#offresautomatiques",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#fidelisationclient"
+        "#android",
+        "#googlewallet"
       ],
-      "pourquoi": "Montrer qu'un logiciel travaille pendant que le gérant sert, sans le déposséder (l'interrupteur est à l'écran). Décembre est pluvieux dans la plupart des pays visés : le sujet tombe juste. Indicateurs : partages et rétention à 3 s, à comparer aux épisodes 1 et 2.",
-      "cta": "Commentez « PLUIE » pour la liste des offres auto",
-      "asset_existant": "Carrousel B « Pendant que vous servez » (reprendre l'ambiance pour le plan interrupteur, nouvelle carte fast-food)",
-      "boost": true
+      "pourquoi": "Les objections tuent l'essai plus que le prix. On y répond une par une, en vidéo, à partir de vraies questions : c'est aussi le format qui pousse l'algorithme à reproposer nos vidéos à ceux qui ont commenté.",
+      "cta": "Posez votre question en commentaire.",
+      "asset_existant": "",
+      "boost": false
     },
     {
       "id": "p11",
       "semaine": 3,
-      "jour": "jeudi 10 déc.",
-      "heure": "15:30",
+      "jour": "jeudi 17 déc.",
+      "heure": "21:00",
       "format": "Reel",
-      "pilier": "Coulisses fondateur",
-      "titre": "Micro-trottoir : combien de cartes sur vous ?",
-      "accroche": "Combien de cartes de fidélité avez-vous sur vous ?",
-      "visuel": "Reel 30 à 40 s, micro-trottoir réel tourné par le fondateur (Agadir ou une autre ville où il se trouve), vraies personnes filmées avec leur accord écrit. Plan 1 (0-2 s) : la question posée face caméra à un passant, texte à l'écran. Plans suivants : 4 à 6 réponses réelles, coupées serré, sous-titres verbatim [réponses réelles uniquement]. Si quelqu'un sort une carte en carton froissée, la garder (clin d'œil). Avant-dernier plan : le fondateur montre la NOUVELLE carte style fast-food dans son Wallet, entière. Fin : « Keeply. Ils reviennent. »",
-      "legende": "On a posé une seule question dans la rue.\nLes réponses sont dans la vidéo, sans retouche.\n\nEt vous, combien ? Répondez en commentaire, d'où que vous soyez.\n\nKeeply. Ils reviennent.",
+      "pilier": "Facile",
+      "titre": "Chrono n°2 · un café",
+      "accroche": "Carte de fidélité pour un café. Chrono lancé.",
+      "visuel": "Même grammaire que p06 : écran réel, chrono en haut, main en incrustation. Commerce : café (carte Studio). Récompenses en tampons 10 / 20 / 30 pour −10 % / −15 % / −25 %. Fin : la carte dans le Wallet, puis notification test « Votre café vous attend ».",
+      "legende": "Une carte pour un café, du premier écran au Wallet.\n\nTemps réel : [temps chronométré].\n\nProchain Chrono : un restaurant gastronomique.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#microtrottoir",
         "#cartedefidelite",
-        "#fidelisationclient",
-        "#commercelocal",
-        "#[ville réelle du tournage]"
+        "#fideliteclient",
+        "#restaurateur",
+        "#cafe",
+        "#coffeeshop",
+        "#chrono"
       ],
-      "pourquoi": "Du contenu humain et vrai, très partageable, qui parle aussi aux clients finaux. La question est la même partout : chaque restaurateur peut répondre pour son pays en commentaire. C'est l'un des deux clins d'œil autorisés au carton. Indicateurs : commentaires et partages. Aucune réponse ne doit être écrite à l'avance ni rejouée.",
-      "cta": "Répondez en commentaire",
-      "asset_existant": null,
+      "pourquoi": "Le deuxième épisode installe la série et change de commerce : on montre que ça marche pour tous.",
+      "cta": "Abonnez-vous pour le prochain chrono.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p12",
       "semaine": 3,
-      "jour": "samedi 12 déc.",
+      "jour": "dimanche 20 déc.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "Offre",
-      "titre": "Split-screen : avant et après la notification",
-      "accroche": "15 h. Une notification. 15 h 40.",
-      "visuel": "Reel vertical 20 s, écran partagé haut et bas, mention discrète « scène reconstituée ». Tourné par le fondateur dans un vrai restaurant de quartier (avec accord), nom fictif à l'écran « Le Petit Zinc », aucun pays nommé. Haut, plan 1 (0-3 s) : salle vide à 15 h, horloge visible. Bas : le gérant ouvre Keeply et envoie « -15 % sur le café et la pâtisserie jusqu'à 17 h ». Plan 2 (3-8 s) : bas, trois écrans verrouillés qui s'allument, la carte style restaurant de quartier entière en aperçu. Plan 3 (8-16 s) : haut, des tables qui se remplissent, horloge 15 h 40. Plan 4 (16-20 s) : « Essai gratuit 14 jours. Sur l'App Store. » puis « Keeply. Ils reviennent. »",
-      "legende": "Le creux de 15 h, vous le connaissez.\nUne notification gratuite, envoyée quand vous voulez.\nÀ vous de voir ce qu'elle change chez vous.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\nAndroid : bientôt sur Google Play.\n\nKeeply. Ils reviennent.",
+      "pilier": "Le résultat",
+      "titre": "Ils reviennent · épisode 2 (spécial fêtes)",
+      "accroche": "Il pleut. Votre offre part toute seule.",
+      "visuel": "Reel 15 s, suite de p08. Le client est chez lui, soir de pluie. Son iPhone s'allume sur l'écran verrouillé : notification de la carte du café « Ce soir, −10 % sur votre boisson chaude. ». Il regarde par la fenêtre, attrape sa veste. Écran noir : « Épisode 2. » Mention discrète en bas : « Offre automatique, activable ou non. »",
+      "legende": "Une offre qui part toute seule, au bon moment, sur l'écran verrouillé de vos clients.\n\nVous choisissez lesquelles s'activent. Vous pouvez tout couper.\n\nÉpisode 3 mardi 29.",
       "hashtags": [
         "#keeply",
-        "#restaurant",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#essaigratuit",
-        "#commercelocal"
+        "#ilsreviennent",
+        "#noel"
       ],
-      "pourquoi": "Rendre visible l'usage concret qui justifie l'abonnement : remplir un creux. C'est une illustration, pas un résultat client, d'où la mention et la légende prudente. Indicateurs : clics sur le lien et essais démarrés (utm_content=p12).",
-      "cta": "Essai gratuit 14 jours. Sur l'App Store. Lien en bio.",
-      "asset_existant": null,
-      "boost": true
+      "pourquoi": "L'écran verrouillé est l'image la plus désirable du produit. La mention « activable ou non » respecte la règle : on ne donne jamais l'impression d'imposer une mécanique.",
+      "cta": "Épisode 3 mardi 29.",
+      "asset_existant": "",
+      "boost": false
     },
     {
       "id": "p13",
       "semaine": 4,
-      "jour": "mardi 15 déc.",
-      "heure": "15:30",
+      "jour": "mardi 22 déc.",
+      "heure": "13:00",
       "format": "Carrousel",
-      "pilier": "Vitrine : écran verrouillé et Wallet",
-      "titre": "Pendant que vous dormez, édition fêtes",
-      "accroche": "Pendant que vous dormez. Même à Noël.",
-      "visuel": "Carrousel 7 slides, fond nuit bleu très sombre avec une touche discrète de fêtes (une guirlande floue en bord de cadre, pas de sapin cliché), une notification d'écran verrouillé par slide, numérotation. Slide 1 : écran verrouillé à 2:14, accroche. Slide 2 : « Anniversaire. » notification d'une brasserie de Bruxelles avec un coupon « dessert offert », carte style restaurant de quartier entière. Slide 3 : « Absent depuis 30 jours. » notification d'un fast-food de Casablanca « -20 % pour votre retour ». Slide 4 : « Jour de pluie. » notification d'une pizzeria de Marseille « il pleut, -10 % sur votre pizza ». Slide 5 : « Avant les fêtes. » une notification programmée par le gérant d'un café de Genève « Ouvert le 31 jusqu'à 18 h. -10 % sur les boissons chaudes. » Slide 6 (récap à capturer) : « Fermé quelques jours ? Coupez tout. Rallumez en janvier. » avec l'écran des interrupteurs dans l'app, « Tout s'active. Tout se coupe. » Slide 7 : « Enregistrez. Réglez-le avant le 24. »",
-      "legende": "Trois offres qui partent toutes seules.\nPendant le service. Pendant la nuit. Pendant les fêtes.\n\nVous fermez quelques jours ? Coupez les automatismes, rallumez-les à la réouverture.\nEn janvier, l'offre « absent depuis 30 jours » relance ceux qui ne sont pas revenus.\nC'est vous qui choisissez lesquelles, et vous pouvez tout couper.\n\nEnregistrez ce post pour vos réglages de fin d'année.\n\nKeeply. Ils reviennent.",
+      "pilier": "Peu coûteux",
+      "titre": "Le calcul, version complète",
+      "accroche": "Ce que coûte vraiment une carte de fidélité.",
+      "visuel": "Carrousel 6 slides, fond blanc, gros chiffres façon relevé bancaire. 1 « Ce que coûte vraiment une carte de fidélité. » 2 « 39,99 € par mois. » 3 « Moins d'1 € par jour à l'année (359,99 €). » 4 « Votre iPhone suffit. » 5 « Quatre passages de plus par mois. » (exemple : panier moyen 10 €) 6 « 14 jours pour essayer. » + badges.",
+      "legende": "Le prix, sans astérisque.\n\n39,99 € par mois en France, ou 359,99 € à l'année (moins d'1 € par jour). Votre iPhone suffit pour scanner. Les prix sont adaptés dans chaque pays.\n\nAvec un panier moyen de 10 € (exemple), quatre passages de plus par mois couvrent l'abonnement.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
         "#keeply",
-        "#offresautomatiques",
-        "#fidelisationclient",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#bruxelles",
-        "#geneve"
+        "#gestionrestaurant",
+        "#prix"
       ],
-      "pourquoi": "Le post saisonnier utile de fin d'année : une checklist de réglages à faire avant les fêtes (notification programmée, coupure pendant les jours de fermeture, relance de janvier), dans le format du carrousel « Pendant que vous dormez ». La règle produit est respectée : le produit gratuit passe par un coupon, les autres offres sont des remises. Indicateur principal : taux de sauvegarde.",
-      "cta": "Enregistrez ce post",
-      "asset_existant": "Carrousel B « Pendant que vous servez » (ambiance nuit et frise horaire, cartes refaites avec les nouvelles cartes)",
-      "boost": false
+      "pourquoi": "La version à sauvegarder du calcul. Un patron compare des prix : on lui donne les chiffres sans détour, comme une banque en ligne le ferait. Seul post prix du plan avec p07.",
+      "cta": "Enregistrez pour comparer.",
+      "asset_existant": "",
+      "boost": true
     },
     {
       "id": "p14",
       "semaine": 4,
-      "jour": "jeudi 17 déc.",
-      "heure": "13:00",
+      "jour": "dimanche 27 déc.",
+      "heure": "21:00",
       "format": "Reel",
-      "pilier": "Coulisses fondateur",
-      "titre": "La première affiche",
-      "accroche": "J'ai posé la première affiche.",
-      "visuel": "Reel vlog 30 s filmé par le fondateur. Plan 1 (0-2 s) : en marchant, l'affiche QR Keeply roulée sous le bras, accroche. Plan 2 : devanture du commerce [nom réel, uniquement avec son accord, sinon flouté]. Plan 3 : il pose l'affiche au comptoir. Plan 4 : le premier vrai client qui scanne [si cela arrive vraiment pendant le tournage, sinon couper ce plan]. Plan 5 : retour visage, ce qu'il a appris [leçon réelle]. Fin : « Keeply. Ils reviennent. »",
-      "legende": "Aujourd'hui, j'ai posé une affiche Keeply chez [commerce réel, avec accord].\nCe que j'en retiens : [leçon réelle, une phrase].\n\nVous voulez la vôtre ? L'affiche se crée depuis l'app, où que vous soyez. Écrivez-moi si vous avez une question.\n\nKeeply. Ils reviennent.",
+      "pilier": "Fondateur",
+      "titre": "Le premier mois, en vrai",
+      "accroche": "Le premier mois de Keeply, en vrais chiffres.",
+      "visuel": "Reel 30 s face caméra, le fondateur chez lui ou au comptoir. Il montre à l'écran les vrais chiffres du mois : téléchargements, commerces inscrits, pays [à remplir depuis HQ > Ventes]. Une leçon apprise, une chose ratée, la suite.",
+      "legende": "Un mois après le lancement, les chiffres sans maquillage.\n\n[Chiffres réels du mois, depuis HQ.]\n[Une leçon, une erreur, la suite.]\n\nMerci aux premiers commerces.",
       "hashtags": [
         "#keeply",
-        "#coulisses",
+        "#cartedefidelite",
+        "#fideliteclient",
+        "#restaurateur",
         "#entrepreneur",
-        "#startup",
-        "#commercelocal",
-        "#restaurateur"
+        "#buildinpublic"
       ],
-      "pourquoi": "Prouver que Keeply existe dans la vraie vie, sur un vrai comptoir, sans inventer de témoignage. Si aucun commerçant n'a encore accepté, reporter ce post plutôt que le simuler. Indicateurs : DM de commerçants et visites du profil.",
-      "cta": "Écrivez-moi en DM",
-      "asset_existant": null,
+      "pourquoi": "La transparence fait plus pour la confiance qu'un faux avis. Si les chiffres sont petits, on le dit : c'est précisément ce qui rend le compte crédible. À remplir uniquement avec les vrais chiffres.",
+      "cta": "Suivez la suite.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p15",
       "semaine": 4,
-      "jour": "samedi 19 déc.",
+      "jour": "mardi 29 déc.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "« Ils reviennent » (série)",
-      "titre": "Ils reviennent, épisode 4 : statut Argent",
-      "accroche": "Il passe Argent.",
-      "visuel": "Reel vertical 15 s, même client, snack « Le Comptoir ». Plan 1 (0-2 s) : sa carte style fast-food plein cadre change de couleur, badge « Argent », accroche. Plan 2 (2-6 s) : il arrive au comptoir, le gérant le salue par son prénom. Plan 3 (6-10 s) : scan, l'écran affiche « Statut Argent : -10 % sur chaque commande », carte entière bien cadrée. Plan 4 (10-13 s) : dans l'app gérant, l'écran des paliers Bronze, Argent, Or avec leur interrupteur. Plan 5 (13-15 s) : « Épisode 4. » puis « Keeply. Ils reviennent. »",
-      "legende": "Bronze. Argent. Or.\nVos habitués ont enfin un statut.\nEt une remise qui va avec.\n\nLes paliers se règlent ou se coupent, comme vous voulez.\n\nLe final mardi.\n\nKeeply. Ils reviennent.",
+      "pilier": "Le résultat",
+      "titre": "Ils reviennent · épisode 3, le final",
+      "accroche": "Il est revenu.",
+      "visuel": "Reel 18 s. Le client repasse la porte du café. Scan en caisse : la carte passe à 10 tampons, « Remise débloquée · −10 % ». Le gérant sourit. Il ressort. Carton final blanc : « Ils reviennent. » puis « Keeply. La fidélité, facile. »",
+      "legende": "Il est revenu. Puis encore. Sa dixième visite lui a débloqué −10 %.\n\nC'est tout ce qu'on fait : donner à vos clients une raison de repasser la porte.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
-        "#ilsreviennent",
         "#keeply",
-        "#fastfood",
-        "#fidelisationclient",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#cartedefidelite"
+        "#ilsreviennent",
+        "#restaurant"
       ],
-      "pourquoi": "Faire désirer les statuts comme dans les grandes enseignes, appliqués au snack du coin. Indicateurs : commentaires et évolution de la rétention de la série d'un épisode à l'autre.",
-      "cta": "Abonnez-vous pour le final",
-      "asset_existant": null,
-      "boost": false
+      "pourquoi": "La fin de la série donne la créa de pub la plus émotionnelle pour janvier. La récompense est une remise, jamais un produit offert.",
+      "cta": "Essai gratuit 14 jours. Lien en bio.",
+      "asset_existant": "",
+      "boost": true
     },
     {
       "id": "p16",
       "semaine": 5,
-      "jour": "dimanche 20 déc.",
-      "heure": "15:30",
-      "format": "Carrousel",
-      "pilier": "Votre marque, la collection",
-      "titre": "Le niveau des grandes chaînes",
-      "accroche": "Le niveau des grandes chaînes.",
-      "visuel": "Carrousel 7 slides, noir et blanc, aucune marque ni logo de chaîne réelle. Slide 1 : accroche + « Pour le snack d'en bas. » Slide 2 : « Elles ont une carte à leur image. » carte style haut de gamme d'une table de Monaco (nom fictif). Slide 3 : « Elles ont des statuts. » carte avec badge Or. Slide 4 : « Elles vous écrivent au bon moment. » écran verrouillé. Slide 5 : « Elles savent qui revient. » écran statistiques de l'app. Slide 6 (récap) : « Vous aussi. Dès aujourd'hui. » quatre cartes de la collection, entières : un fast-food à Lille, une brasserie à Luxembourg, un café à Québec, une table à Marrakech. Slide 7 : « Laquelle pour vous ? Lien en bio. »",
-      "legende": "Les grandes chaînes ont des équipes entières pour ça.\nVous avez Keeply.\nMême carte à votre image. Mêmes statuts. Même écran verrouillé.\n\nDu snack d'en bas à la table gastronomique.\n\nEssai gratuit 14 jours. Sur l'App Store.\n\nKeeply. Ils reviennent.",
+      "jour": "jeudi 31 déc.",
+      "heure": "13:00",
+      "format": "Photo",
+      "pilier": "La vitrine",
+      "titre": "2027",
+      "accroche": "En 2027, ils reviennent.",
+      "visuel": "Image 1080×1350 : une seule carte Studio (resto chic) au centre, fond profond de la couleur de la carte, une ligne de texte « En 2027, ils reviennent. » en bas, logo minuscule.",
+      "legende": "Bonne année à tous les commerces qui ouvrent leurs portes le 2 janvier.\n\nEn 2027, ils reviennent.",
       "hashtags": [
         "#keeply",
         "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#commercelocal",
-        "#monaco",
-        "#quebec"
+        "#bonneannee"
       ],
-      "pourquoi": "Ancrer le positionnement premium : le petit commerce joue dans la même cour que les enseignes. Publié le dimanche pour libérer la fin de semaine des fêtes. Indicateurs : sauvegardes et partages, surtout auprès des restaurants haut de gamme qui nous suivent.",
-      "cta": "Partagez à un associé",
-      "asset_existant": null,
+      "pourquoi": "Un post calme et beau entre deux fêtes, quand personne ne veut être démarché. Il garde le compte vivant sans rien vendre.",
+      "cta": "Bonne année.",
+      "asset_existant": "",
       "boost": false
     },
     {
       "id": "p17",
       "semaine": 5,
-      "jour": "mardi 22 déc.",
+      "jour": "dimanche 3 janv.",
       "heure": "21:00",
       "format": "Reel",
-      "pilier": "« Ils reviennent » (série)",
-      "titre": "Ils reviennent, épisode 5 : le final",
-      "accroche": "Dix passages plus tard.",
-      "visuel": "Reel vertical 25 s, final de la série. Plan 1 (0-2 s) : la carte style fast-food du snack « Le Comptoir » à 10 tampons sur 10, entière, accroche. Plan 2 (2-6 s) : montage rapide des 4 épisodes précédents (porte, notification, pluie, statut). Plan 3 (6-10 s) : récompense débloquée « -20 % sur votre prochain menu », et un coupon séparé « boisson offerte » envoyé par le gérant. Plan 4 (10-18 s) : la même porte, d'autres clients, d'autres commerces : un café à Lyon, une brasserie à Bruxelles, un fast-food à Montréal, une table à Genève, un resto de quartier à Fès, chaque carte entière (cartes et notifications en maquette, la porte filmée reste celle du tournage). Plan 5 (18-22 s) : clin d'œil, une vieille carte en carton reste au fond d'un tiroir qui se ferme. Plan 6 : « Ils reviennent. » puis « Keeply. » et « Essai gratuit 14 jours. Sur l'App Store. » Version par défaut entièrement en français.",
-      "legende": "Un premier passage.\nUne notification.\nUn jour de pluie. Un statut.\nEt dix passages.\n\nC'est tout le métier de Keeply.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\n\nKeeply. Ils reviennent.",
+      "pilier": "Peu coûteux",
+      "titre": "Le calcul n°2 · le mois où les clients disparaissent",
+      "accroche": "Janvier : le mois où vos clients disparaissent.",
+      "visuel": "Reel 20 s, voix off, plans de rues calmes en janvier puis écran verrouillé : notification d'offre automatique « Vous nous manquez : −10 % cette semaine ». Texte : « Janvier. » / « Ils dépensent moins. » / « Faites-les revenir. » Mention : « Relance automatique, activable ou non. »",
+      "legende": "Après les fêtes, beaucoup de commerces voient leurs clients réguliers disparaître quelques semaines.\n\nAvec Keeply, une relance part toute seule quand un client n'est pas revenu depuis un moment. Vous fixez la remise et le délai, ou vous la coupez.\n\nEssai gratuit 14 jours sur l'App Store.",
       "hashtags": [
-        "#ilsreviennent",
         "#keeply",
-        "#fidelisationclient",
-        "#restauration",
-        "#fastfood",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#cartedefidelite"
+        "#janvier",
+        "#gestionrestaurant"
       ],
-      "pourquoi": "Le Reel signature, conçu pour devenir la meilleure créa publicitaire. Il condense la grande idée et clôt la série avant Noël, quand les restaurateurs pensent déjà à janvier. C'est le second clin d'œil au carton. Indicateurs : vues non-abonnés, partages, clics sur le profil.",
-      "cta": "Revoyez la série sur le profil",
-      "asset_existant": "Animatic Blender v3 de la pub « à travers les âges » (pour le rythme du montage final, si cohérent) + plans des épisodes 1 à 4",
+      "pourquoi": "Le creux de janvier est un vrai souci de patron : on lui parle de son problème du moment, avec la fonction qui y répond (relance automatique « retour après absence »). C'est aussi le mois où la pub coûte le moins cher : ce Reel devient la créa principale de janvier.",
+      "cta": "Essai gratuit 14 jours. Lien en bio.",
+      "asset_existant": "",
       "boost": true
     },
     {
       "id": "p18",
       "semaine": 5,
-      "jour": "mercredi 23 déc.",
+      "jour": "mardi 5 janv.",
       "heure": "13:00",
-      "format": "Photo",
-      "pilier": "Offre",
-      "titre": "14 jours pour voir qui revient",
-      "accroche": "14 jours. Voyez qui revient.",
-      "visuel": "Photo 4:5, fond blanc, centré : un iPhone affichant la NOUVELLE carte d'une pizzeria de Québec (nom fictif), entière, bien cadrée. Au-dessus, l'accroche en grand. En dessous, sur une ligne : « Essai gratuit 14 jours. Sur l'App Store. » En bas, plus petit : « Android : bientôt sur Google Play. » Logo Keeply discret. Aucun prix.",
-      "legende": "Créez votre carte.\nPosez votre affiche.\nEt regardez qui revient.\n\nCommencez avant janvier : 14 jours pour juger.\nTout s'active, tout se coupe.\n\nEssai gratuit 14 jours. Sur l'App Store. Lien en bio.\nAndroid : bientôt sur Google Play.\n\nKeeply. Ils reviennent.",
+      "format": "Reel",
+      "pilier": "Questions de patrons",
+      "titre": "Questions de patrons n°2 · je peux tout couper ?",
+      "accroche": "« Et si je ne veux pas envoyer de notifications ? »",
+      "visuel": "Reel 18 s, réponse vidéo à un vrai commentaire. Écran de l'app : le fondateur éteint une à une les offres automatiques, les statuts, les notifications. Il reste la carte et les tampons. « Vous gardez seulement ce que vous voulez. »",
+      "legende": "Vous pouvez tout couper : offres automatiques, statuts Bronze, Argent, Or, notifications. Il vous reste une carte de fidélité simple, dans le Wallet de vos clients.\n\nVous allumez le reste quand vous voulez.",
       "hashtags": [
         "#keeply",
-        "#essaigratuit",
+        "#cartedefidelite",
+        "#fideliteclient",
         "#restaurateur",
-        "#restauration",
-        "#commercelocal",
-        "#pizzeria",
-        "#quebec"
+        "#restaurant"
       ],
-      "pourquoi": "Post de conversion pur pour clore les 6 semaines, avant la pause de Noël, à garder épinglé en deuxième position après l'annonce. Indicateurs : clics sur le lien bio (utm_content=p18) et essais de 14 jours démarrés. Vérifier la formulation de l'essai (renouvellement automatique App Store) avant publication.",
-      "cta": "Essai gratuit 14 jours. Sur l'App Store. Lien en bio.",
-      "asset_existant": null,
+      "pourquoi": "Beaucoup de patrons ont peur de « harceler » leurs clients. Montrer qu'on peut tout éteindre lève l'objection et applique la règle de la marque.",
+      "cta": "Posez votre question en commentaire.",
+      "asset_existant": "",
+      "boost": false
+    },
+    {
+      "id": "p19",
+      "semaine": 9,
+      "jour": "le jour où la France ouvre",
+      "heure": "12:30",
+      "format": "Reel",
+      "pilier": "Lancement",
+      "titre": "Vague 2 · la France, la Belgique, le Luxembourg et Monaco ouvrent",
+      "accroche": "La France ouvre.",
+      "visuel": "Reprise du teaser p04 avec un dernier plan changé : la carte se range dans un Wallet et le texte devient « Maintenant en France, en Belgique, au Luxembourg et à Monaco. ». Publier le jour où l'app apparaît sur l'App Store français (vérifier itunes.apple.com/lookup?id=6816728580&country=fr).",
+      "legende": "Keeply est maintenant disponible en France, en Belgique, au Luxembourg et à Monaco.\n\nVotre carte de fidélité dans le Wallet de vos clients, prête en quelques minutes.\n\nEssai gratuit 14 jours sur l'App Store.",
+      "hashtags": [
+        "#keeply",
+        "#cartedefidelite",
+        "#fideliteclient",
+        "#restaurateur",
+        "#france",
+        "#belgique",
+        "#lancement"
+      ],
+      "pourquoi": "Le blocage Apple (vérification DSA) devient un deuxième moment de lancement, comme les grandes marques qui ouvrent pays par pays. La liste d'attente reçoit le mail le même jour.",
+      "cta": "Essai gratuit 14 jours. Lien en bio.",
+      "asset_existant": "videos/teaser-lancement",
       "boost": true
     }
   ],
   "stories_quotidiennes": [
-    "Dimanche 15 nov. (lancement) : séquence de 4 Stories, « Keeply est disponible. » puis la liste des pays sur l'App Store (France, Belgique, Suisse, Luxembourg, Monaco, Maroc, Canada), partage de l'épisode 1, sticker lien « Essai gratuit 14 jours ». À ranger dans le highlight « Démo ».",
-    "Séquence « Android : bientôt » (le jour du lancement, puis une fois par semaine) : Story 1 « Vous êtes sur Android ? » ; Story 2 « Keeply arrive bientôt sur Google Play. » ; Story 3 sondage « iPhone ou Android au comptoir ? » ; Story 4 « Répondez ANDROID en DM ou touchez le lien, on vous prévient à l'ouverture. » avec sticker lien vers keeplyfidelity.app/android (utm_content=story_android). Aucune date promise. Noter chaque réponse en DM dans une liste. À ranger dans le highlight « Android ».",
-    "Sondage d'ouverture, une fois par semaine : « Votre commerce est dans quel pays ? » (quiz à 4 choix : France, Belgique ou Suisse, Maroc, Canada ou autre) pour lire la répartition réelle de l'audience et varier les exemples.",
-    "Sondage du jour pour tous les gérants : « Combien de vos clients reviennent dans le mois ? Vous le savez ? » ou « Le creux de votre journée : 15 h ou 17 h ? ».",
-    "Curseur émoji : « À quel point votre carte de fidélité actuelle vous ressemble ? » puis renvoi vers le drop de la collection.",
-    "Quiz rapide : « Combien de fois par jour regarde-t-on son écran verrouillé ? » avec une réponse sourcée ou formulée sans chiffre inventé, puis renvoi vers p02.",
-    "Teaser 24 h avant chaque épisode de la série et avant le drop (carte floutée, sticker compte à rebours).",
-    "Partage en Story de chaque nouveau post dans l'heure, avec une question ou le sticker « Nouveau post ».",
-    "« Une carte par jour » : une nouvelle carte de la collection, en variant les commerces fictifs et les villes (fast-food à Lille, café à Montréal, brasserie à Bruxelles, table à Genève, snack à Casablanca, pizzeria à Québec, café à Luxembourg), carte entière, sticker lien. À ranger dans « Cartes ».",
-    "Sticker lien « Essai gratuit 14 jours » vers l'App Store via keeplyfidelity.app, avec utm_content propre à chaque Story ; la mention « Android : bientôt sur Google Play » en petit quand le sujet s'y prête.",
-    "Coulisses du fondateur en 1 à 3 Stories, sans mise en scène : ce qu'il construit aujourd'hui, une affiche imprimée, une question reçue d'un gérant (pays indiqué seulement si le gérant est d'accord).",
-    "Une fois par semaine : capture de l'écran des interrupteurs (offres auto, paliers) avec « Vous gardez la main ».",
-    "Semaine 4 et 5 : Stories « réglages des fêtes » (couper les automatismes pendant la fermeture, programmer une notification pour le 31), en renvoi vers p13. Du 24 au 26 déc. : Stories légères seulement, pas de vente.",
-    "Boîte à questions hebdomadaire, réponses face caméra dans le highlight « FAQ » ; les questions sur les prix vont aussi dans « Prix » (prix affichés sur l'App Store pour chaque pays), celles sur Android dans « Android ».",
-    "Republier en Story (avec accord) toute mention réelle d'un commerçant, quel que soit son pays ; tant qu'il n'y en a pas, ne rien simuler."
+    "Lundi · « La question de la semaine » : sticker question, on y répond en Reel le mardi (Questions de patrons).",
+    "Mardi et dimanche · partage du post du jour + sticker lien vers l'App Store, une phrase de contexte.",
+    "Mercredi · coulisses : le fondateur au travail (prospection, tournage, une nouvelle carte), 2 à 3 stories sans montage.",
+    "Jeudi · sondage d'une question pour un patron (« Vos clients réguliers, vous les connaissez par leur prénom ? Oui / Pas tous »).",
+    "Vendredi · une carte du Studio en plein écran + sticker « Ajoutez la vôtre » (lien).",
+    "Samedi · repos ou une story calme (une notification, une carte), jamais de vente.",
+    "Chaque fois qu'un vrai commerce installe Keeply et accepte : une story avec sa carte, en le mentionnant. Jamais d'avis inventé."
   ],
   "regles_engagement": [
-    "Routine de 20 minutes par jour entre 15:00 et 16:00 (heure de Paris), le creux de service en Europe et au Maroc ; une deuxième passe de 10 minutes vers 21:00 pour les commerces du Québec, alors en milieu de journée.",
-    "Répondre à chaque commentaire et DM en vouvoyant, avec une vraie phrase et une question en retour, jamais un simple merci.",
-    "Commenter 10 posts récents par jour de fast-foods, cafés et restaurants francophones, en tournant entre les pays : France (Paris, Lyon, Lille, Bordeaux, Marseille), Belgique (Bruxelles, Liège), Suisse (Genève, Lausanne), Luxembourg, Monaco, Maroc (Casablanca, Marrakech, Agadir, Rabat, Tanger) et Canada (Montréal, Québec). Commenter le plat ou le lieu, sans lien ni pitch.",
-    "3 DM personnalisés par jour, uniquement à des commerçants qui ont déjà interagi (like, commentaire, réponse à une Story) ; jamais de DM à froid en masse.",
-    "En DM, même réponse pour tous les pays disponibles : essai gratuit 14 jours sur l'App Store ou démo en appel vidéo. Aux commerçants sur Android : « Keeply arrive bientôt sur Google Play », proposer de les prévenir (lien keeplyfidelity.app/android ou noter le contact), sans date inventée.",
-    "Heure dorée : rester disponible 60 minutes après chaque post et répondre dans les 15 minutes.",
-    "Mots-clés en commentaire (ex. « PLUIE » sur p10) : répondre en DM avec la vraie liste des offres automatiques, à la main.",
-    "DM en moins de 2 heures en journée ; démo en appel vidéo pour tous, passage en personne seulement si le commerce est près du fondateur.",
-    "Prix : renvoyer vers le prix affiché sur l'App Store du pays du commerçant ; ne citer de chiffre que pour la France (dès 39,99 €/mois) et ne jamais inventer un prix en DH, CHF ou $ CA.",
-    "Jamais d'abonnés achetés ni de groupes d'engagement.",
-    "Jamais de faux avis, faux chiffre ni citation inventée ; jamais de date de sortie Android inventée ; produit gratuit uniquement via coupon ; récompenses et paliers en remises % ou € ; rappeler que chaque option s'active ou se coupe.",
-    "Chaque vendredi : relire les statistiques de la semaine, comparer la rétention des épisodes de la série, regarder la répartition des vues et des abonnés par pays, et varier les exemples des posts suivants en conséquence."
+    "La première heure après chaque post : répondre à chaque commentaire avec une vraie phrase, pas un emoji.",
+    "Chaque jour, 15 minutes chez les autres : commenter 10 posts de restaurants, snacks et cafés des pays ouverts (des commentaires utiles, jamais de pub).",
+    "Message de bienvenue automatique et réponses rapides (prix, comment ça marche, Android) réglés dans Meta Business Suite : c'est gratuit.",
+    "Mot-clé en commentaire : « Écrivez CARTE » sous les posts boostés, puis réponse manuelle en message avec le lien de l'essai. Pas d'outil payant au début.",
+    "Collab : chaque commerce réel qui utilise Keeply est invité à une publication en collaboration (le post apparaît sur les deux comptes).",
+    "Interdit : acheter des abonnés, des vues ou des likes, les groupes d'engagement, le follow puis unfollow. Ça tue la portée des vrais posts."
   ],
   "kpi": [
     {
-      "nom": "Abonnés qualifiés",
-      "cible_6_semaines": "400 à 700 abonnés au 26 décembre, majorité de commerces et de professionnels de la restauration, répartis sur plusieurs des 7 pays disponibles",
-      "comment_lire": "Vérifier chaque semaine qui s'abonne et la répartition par pays dans les statistiques. Si un seul pays dépasse 70 %, varier davantage les exemples et vérifier le ciblage des boosts."
+      "nom": "Essais démarrés depuis Instagram",
+      "cible_6_semaines": "10 à 30",
+      "comment_lire": "Lien en bio avec UTM + messages qui finissent en essai. Le seul chiffre qui paie les factures."
     },
     {
-      "nom": "Vues non-abonnés des Reels",
-      "cible_6_semaines": "Au moins 60 % des vues des Reels, et un Reel organique au-delà de 5 000 vues",
-      "comment_lire": "Lire aussi la part de vues par pays. Si la part non-abonnés baisse, retravailler la première seconde et l'accroche à l'écran avant le reste."
+      "nom": "Vues des Reels chez les non-abonnés",
+      "cible_6_semaines": "plus de 60 % des vues",
+      "comment_lire": "Statistiques du Reel. En dessous, l'accroche des 2 premières secondes est à revoir."
     },
     {
-      "nom": "Rétention à 3 secondes",
-      "cible_6_semaines": "Au moins 50 % sur les Reels",
-      "comment_lire": "Mesure la force de l'accroche. Sous 40 %, changer le premier plan."
+      "nom": "Sauvegardes + partages par post",
+      "cible_6_semaines": "plus de 3 % de la portée",
+      "comment_lire": "Le signal le plus fort pour l'algorithme d'Instagram. Les carrousels Le calcul et Comment ça marche doivent le dépasser."
     },
     {
-      "nom": "Fidélité à la série « Ils reviennent »",
-      "cible_6_semaines": "Vues des épisodes 2 à 5 au moins égales à 70 % de l'épisode 1",
-      "comment_lire": "L'épisode 1 profite du lancement : comparer surtout les épisodes 2 à 5 entre eux. Si un épisode décroche, regarder son premier plan et son heure de publication."
+      "nom": "Visites du profil → clics sur le lien",
+      "cible_6_semaines": "plus de 8 %",
+      "comment_lire": "Si ça baisse : la bio ou le post épinglé ne font pas leur travail."
     },
     {
-      "nom": "Sauvegardes et partages",
-      "cible_6_semaines": "Au moins 3 % de la portée sur les carrousels et les visuels notification",
-      "comment_lire": "Les partages en DM entre commerçants sont le meilleur signal : repérer quels types de commerces et quels pays partagent le plus, et reproduire ce qui marche."
+      "nom": "Messages reçus",
+      "cible_6_semaines": "30 et plus",
+      "comment_lire": "Chaque message est un patron intéressé : réponse sous 2 heures."
     },
     {
-      "nom": "DM qualifiés de commerçants",
-      "cible_6_semaines": "30 conversations avec de vrais commerces, tous pays confondus",
-      "comment_lire": "L'indicateur le plus proche de la vente pour un fondateur seul. Noter le pays et le téléphone (iPhone ou Android) de chaque conversation."
-    },
-    {
-      "nom": "Clics sur le lien bio et les stickers",
-      "cible_6_semaines": "300 clics",
-      "comment_lire": "Lire via utm_source=instagram et comparer les utm_content pour savoir quels posts et quelles Stories envoient du trafic."
-    },
-    {
-      "nom": "Essais gratuits démarrés depuis Instagram",
-      "cible_6_semaines": "15 à 30 essais de 14 jours, tous pays confondus",
-      "comment_lire": "Indicateur roi. Croiser UTM, DM, les statistiques App Store par pays et la question « Comment avez-vous connu Keeply ? », puis suivre le passage à l'abonnement."
-    },
-    {
-      "nom": "Commerçants Android récoltés",
-      "cible_6_semaines": "30 à 60 contacts (inscrits sur keeplyfidelity.app/android ou réponses ANDROID en DM)",
-      "comment_lire": "Mesure la demande Android avant l'ouverture sur Google Play. À l'ouverture, écrire à chacun et mesurer combien démarrent l'essai."
-    },
-    {
-      "nom": "Coût par résultat des boosts",
-      "cible_6_semaines": "Suivi chaque semaine à partir du 23 novembre, coût par clic vers l'App Store et coût par essai, ventilé par pays",
-      "comment_lire": "Garder le budget sur les deux posts les moins chers par résultat, couper les autres, et exclure un pays dont le coût reste trop élevé deux semaines de suite."
+      "nom": "Inscrits liste d'attente France",
+      "cible_6_semaines": "100 et plus",
+      "comment_lire": "Le public du deuxième lancement. Mail le jour de l'ouverture."
     }
   ],
   "bio_alternatives": [
-    "Votre fidélité, rangée dans leur Wallet.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt",
-    "Faites revenir vos clients, depuis leur Wallet.\nRestaurants · Cafés · Fast-foods\nApp Store 🇫🇷🇧🇪🇨🇭🇱🇺🇲🇨🇲🇦🇨🇦 · Android bientôt"
+    "Fidéliser, c'est devenu facile.\nLa carte de fidélité dans le Wallet de vos clients.\nEssai gratuit 14 jours ↓",
+    "La carte de fidélité des grandes chaînes, pour votre commerce.\nFast-foods · Cafés · Restaurants\nEssai gratuit 14 jours ↓"
+  ]
+};
+
+export const TIKTOK_PLAN = {
+  "role": "TikTok fait connaître Keeply. Instagram le fait choisir. Sur TikTok, le compte est porté par le fondateur (« je lance une app depuis Agadir ») et par des vidéos produit très courtes et satisfaisantes. Les patrons y sont, et leurs clients aussi : un client qui voit qu'un snack peut avoir sa carte dans le Wallet en parle à son snack.",
+  "objectif": "Des vues réelles, gagnées sans payer : 20 vidéos du 24 novembre au 3 janvier, une série par jour de la semaine, et un compte qui dépasse 1 000 abonnés (le seuil qui débloque le lien cliquable dans la bio sur un compte pro, selon les règles du moment : à vérifier dans l'app).",
+  "compte": "Nom : Keeply · [prénom du fondateur]\nBio : « Je lance une app pour les restaurants. Carte de fidélité dans le Wallet de tes clients. »\nCompte Entreprise (statistiques, lien en bio quand il est disponible). Photo : le logo Keeply violet.",
+  "rythme": "5 vidéos par semaine au début (du mardi au dimanche, une pause), 19 h heure de Paris (le soir après le service du midi) et 12 h à 12 h 30 le week-end. Chaque vidéo Instagram repart sur TikTok sans filigrane, et l'inverse. Les vidéos « Depuis Agadir » sont propres à TikTok.",
+  "series": [
+    {
+      "nom": "Depuis Agadir",
+      "promesse": "Le journal du fondateur : lancer une app seul, avec les vrais chiffres.",
+      "frequence": "1 à 2 par semaine"
+    },
+    {
+      "nom": "Chrono",
+      "promesse": "Une carte de fidélité créée en temps réel, un commerce différent à chaque fois.",
+      "frequence": "1 par semaine"
+    },
+    {
+      "nom": "Écran verrouillé",
+      "promesse": "Des vidéos de 6 à 10 s, scan, Wallet, notification, en boucle parfaite.",
+      "frequence": "1 par semaine"
+    },
+    {
+      "nom": "Questions de patrons",
+      "promesse": "Réponses vidéo aux vraies questions des commentaires et des messages.",
+      "frequence": "1 par semaine"
+    },
+    {
+      "nom": "Ils reviennent",
+      "promesse": "La mini-série POV en trois épisodes, reprise d'Instagram.",
+      "frequence": "3 épisodes en décembre"
+    }
+  ],
+  "regles_vues": [
+    "La première seconde fait tout : image qui bouge, phrase écrite à l'écran et phrase dite en même temps. Jamais de logo ni d'introduction.",
+    "Court : 7 à 25 s. Une vidéo qui boucle bien se revoit, et le revisionnage est le signal le plus fort.",
+    "Mots-clés dits et écrits (« carte de fidélité », « fidéliser ses clients », « restaurant ») : TikTok est devenu un moteur de recherche, on y apparaît quand un patron cherche.",
+    "Répondre à chaque commentaire, et répondre en vidéo aux meilleurs : ces réponses repartent dans les fils.",
+    "Sons : la voix du fondateur en priorité. Pour les vidéos sans voix, un son tendance de la bibliothèque commerciale de TikTok (le compte entreprise n'a pas droit à tous les sons).",
+    "Régularité plutôt que perfection : 5 vidéos honnêtes valent mieux qu'une vidéo parfaite par semaine.",
+    "Ne jamais supprimer une vidéo qui marche mal : la passer en privé si besoin. Les vieilles vidéos repartent parfois des semaines plus tard.",
+    "Commenter 10 minutes par jour sous les vidéos de restaurateurs et de snacks des pays ouverts, avec de vrais commentaires."
+  ],
+  "interdits": [
+    "Acheter des vues, des abonnés ou des likes, utiliser des robots ou des groupes d'engagement : TikTok les détecte et coupe la portée du compte.",
+    "Republier la vidéo d'un autre ou utiliser un son protégé sur un compte entreprise.",
+    "Faux clients, faux avis, fausses réactions de commerçants.",
+    "Publier des liens dans les commentaires des autres."
+  ],
+  "pub": "Pas de pub TikTok au lancement : le gestionnaire de pubs de TikTok demande au moins 50 $ par jour par campagne et 20 $ par jour par groupe d'annonces, impossible avec 100 € par mois. Le petit outil « Promouvoir » de l'app accepte des budgets plus faibles, mais sa disponibilité au Maroc n'est pas confirmée : à regarder dans l'app. On ne l'utilisera, éventuellement, que sur une vidéo qui marche déjà seule, et jamais pour « acheter des vues pour faire joli ».",
+  "kpi": [
+    {
+      "nom": "Vues moyennes par vidéo",
+      "cible": "500 à 2 000 au début",
+      "lecture": "En dessous de 300 pendant deux semaines : revoir les accroches, pas le rythme."
+    },
+    {
+      "nom": "Durée moyenne regardée",
+      "cible": "plus de 60 % de la vidéo",
+      "lecture": "Le chiffre qui décide de la diffusion. Couper tout ce qui traîne."
+    },
+    {
+      "nom": "Abonnés",
+      "cible": "1 000 début janvier",
+      "lecture": "Le seuil du lien cliquable en bio sur la plupart des comptes."
+    },
+    {
+      "nom": "Visites du profil → App Store",
+      "cible": "à mesurer dès que le lien existe",
+      "lecture": "Lien avec suivi de campagne (ct=tiktok)."
+    }
+  ],
+  "videos": [
+    {
+      "id": "t01",
+      "date": "2026-11-24",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Jour 1 · je lance une app",
+      "accroche": "J'ai codé une app pour les restaurants. Je la lance dans 7 jours.",
+      "script": "Face caméra, téléphone tenu à la main, en marchant ou au comptoir. 0-2 s : la phrase d'accroche. 2-15 s : ce que fait l'app en une phrase (« une carte de fidélité dans le téléphone des clients, sans app à installer ») et montre la carte dans ton Wallet. 15-25 s : « Je documente tout ici jusqu'au lancement. Jour 1. »",
+      "texte_ecran": "Jour 1 / 7",
+      "legende": "Je lance Keeply le 1er décembre. Je raconte tout ici, jour après jour.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "startup",
+        "entrepreneur"
+      ],
+      "pourquoi": "Le format journal de fondateur est un des plus regardés de TikTok : il crée une raison de revenir chaque jour. Il démarre une semaine avant le lancement pour que le compte ait déjà un public le jour J.",
+      "reprise_instagram": null,
+      "duree": "25 s"
+    },
+    {
+      "id": "t02",
+      "date": "2026-11-25",
+      "heure": "19:00",
+      "serie": "Écran verrouillé",
+      "titre": "Le son du Wallet",
+      "accroche": "Le bruit le plus satisfaisant pour un patron.",
+      "script": "Gros plan, iPhone posé sur un comptoir, son réel. Scan de l'affiche, la carte glisse dans le Wallet, puis notification « Remise débloquée · −10 % » sur l'écran verrouillé. Aucun texte superflu. Boucle parfaite.",
+      "texte_ecran": "Le bruit le plus satisfaisant pour un patron.",
+      "legende": "Un scan, et votre client a votre carte dans son Wallet.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "asmr",
+        "satisfying"
+      ],
+      "pourquoi": "Les vidéos « satisfaisantes » de 7 à 9 s sont regardées plusieurs fois de suite : c'est le signal qui fait monter une vidéo sur un compte neuf.",
+      "reprise_instagram": "p01",
+      "duree": "8 s"
+    },
+    {
+      "id": "t03",
+      "date": "2026-11-26",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Jour 3 · ce que ça coûte",
+      "accroche": "Combien coûte une carte de fidélité comme celle des grandes chaînes ?",
+      "script": "Face caméra. Tu montres la carte d'une grande enseigne dans ton Wallet (sans logo lisible), puis la carte d'un snack faite avec Keeply. « Eux paient une équipe entière pour ça. Toi, 39,99 € par mois. »",
+      "texte_ecran": "Jour 3 / 7",
+      "legende": "Prix en France. Adapté dans chaque pays.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "prix",
+        "gestion restaurant"
+      ],
+      "pourquoi": "Annonce l'argument « peu coûteux » sous forme d'histoire de fondateur, avant le lancement.",
+      "reprise_instagram": null,
+      "duree": "20 s"
+    },
+    {
+      "id": "t04",
+      "date": "2026-11-28",
+      "heure": "12:00",
+      "serie": "Écran verrouillé",
+      "titre": "Six cartes, six commerces",
+      "accroche": "Laquelle tu mettrais dans ton snack ?",
+      "script": "Défilement rapide de 6 cartes du Studio (burger, café, tacos, ramen, resto chic, boulangerie) qui se rangent une à une dans un Wallet, rythmées sur le son. Fin : le Wallet plein.",
+      "texte_ecran": "Laquelle tu mettrais dans ton commerce ?",
+      "legende": "Chaque commerce a sa carte. La tienne est prête en quelques minutes.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "design",
+        "branding"
+      ],
+      "pourquoi": "La question appelle des commentaires (« la 3 ! ») : chaque commentaire relance la diffusion.",
+      "reprise_instagram": "p09",
+      "duree": "10 s"
+    },
+    {
+      "id": "t05",
+      "date": "2026-11-29",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Jour 6 · la veille",
+      "accroche": "Demain je lance. Voilà ce qui m'empêche de dormir.",
+      "script": "Face caméra, le soir. Une vraie inquiétude (Apple, le premier client, [ton vécu]). Ce qui est prêt. « Rendez-vous demain midi. »",
+      "texte_ecran": "Demain.",
+      "legende": "Lancement de Keeply demain, mardi 1er décembre.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "startup"
+      ],
+      "pourquoi": "La vulnérabilité réelle (pas jouée) fait revenir le lendemain. Crochets à remplir avec du vrai.",
+      "reprise_instagram": null,
+      "duree": "25 s"
+    },
+    {
+      "id": "t06",
+      "date": "2026-12-01",
+      "heure": "12:30",
+      "serie": "Lancement",
+      "titre": "C'est en ligne",
+      "accroche": "Keeply est disponible.",
+      "script": "Le teaser HyperFrames 18 s, puis 5 s ajoutées face caméra : « C'est en ligne. Le lien est sur mon profil. Dis-moi ce que tu en penses. »",
+      "texte_ecran": "C'est en ligne.",
+      "legende": "Keeply est disponible sur l'App Store au Maroc, au Canada et en Suisse. La France arrive.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "lancement",
+        "app"
+      ],
+      "pourquoi": "Le jour J sur TikTok mêle le film soigné et la voix du fondateur : la marque et la personne.",
+      "reprise_instagram": "p04",
+      "duree": "23 s"
+    },
+    {
+      "id": "t07",
+      "date": "2026-12-02",
+      "heure": "19:00",
+      "serie": "Chrono",
+      "titre": "Une carte pour un fast-food en temps réel",
+      "accroche": "Carte de fidélité pour un fast-food. Chrono lancé.",
+      "script": "Version TikTok de p06 : écran de l'app plein cadre, chrono en haut, voix off du fondateur qui commente comme un défi.",
+      "texte_ecran": "Chrono lancé.",
+      "legende": "Du premier écran au Wallet, en temps réel.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "fast food",
+        "chrono"
+      ],
+      "pourquoi": "Le défi chronométré est un format natif TikTok : on reste pour voir le temps final.",
+      "reprise_instagram": "p06",
+      "duree": "25 s"
+    },
+    {
+      "id": "t08",
+      "date": "2026-12-04",
+      "heure": "19:00",
+      "serie": "Questions de patrons",
+      "titre": "Le calcul en 15 secondes",
+      "accroche": "Combien de clients doivent revenir pour payer cette app ?",
+      "script": "Format écran vert : le fondateur devant la capture « 39,99 € », écrit le calcul (panier moyen 10 €, exemple) et entoure « 4 ».",
+      "texte_ecran": "4 passages par mois.",
+      "legende": "Exemple avec un panier moyen de 10 €. Refais-le avec le tien en commentaire.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "chiffre d'affaires"
+      ],
+      "pourquoi": "Les patrons refont le calcul avec leurs chiffres en commentaire : engagement fort et public parfaitement ciblé.",
+      "reprise_instagram": "p07",
+      "duree": "15 s"
+    },
+    {
+      "id": "t09",
+      "date": "2026-12-06",
+      "heure": "19:00",
+      "serie": "Questions de patrons",
+      "titre": "La carte en carton",
+      "accroche": "Ta carte en carton finit où ?",
+      "script": "Une main pose une carte en carton tamponnée sur un comptoir, un tiroir s'ouvre : il est plein de cartes oubliées. Coupe : l'iPhone, la carte dans le Wallet. 6 s en tout. Aucun discours.",
+      "texte_ecran": "Celle-ci reste dans leur téléphone.",
+      "legende": "La seule fois qu'on en parle.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet"
+      ],
+      "pourquoi": "Le seul clin d'œil au carton de tout le plan : rapide, visuel, sans en faire notre argument.",
+      "reprise_instagram": null,
+      "duree": "6 s"
+    },
+    {
+      "id": "t10",
+      "date": "2026-12-08",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Une semaine après",
+      "accroche": "Une semaine après le lancement. Les vrais chiffres.",
+      "script": "Face caméra. Les vrais chiffres de la semaine (téléchargements, commerces, pays) [depuis HQ > Ventes]. Une chose apprise.",
+      "texte_ecran": "Semaine 1.",
+      "legende": "Les chiffres réels, sans maquillage.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "buildinpublic"
+      ],
+      "pourquoi": "Les chiffres honnêtes, même petits, sont ce qui rend un fondateur crédible sur TikTok.",
+      "reprise_instagram": null,
+      "duree": "25 s"
+    },
+    {
+      "id": "t11",
+      "date": "2026-12-10",
+      "heure": "19:00",
+      "serie": "Ils reviennent",
+      "titre": "Épisode 1",
+      "accroche": "Il ne vous connaît pas. Encore.",
+      "script": "Reprise de p08 (POV client, café).",
+      "texte_ecran": "Épisode 1",
+      "legende": "Reviendra-t-il ?",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "pov"
+      ],
+      "pourquoi": "La série en POV, reprise telle quelle depuis Instagram.",
+      "reprise_instagram": "p08",
+      "duree": "15 s"
+    },
+    {
+      "id": "t12",
+      "date": "2026-12-12",
+      "heure": "12:00",
+      "serie": "Questions de patrons",
+      "titre": "Réponse à un commentaire",
+      "accroche": "Réponse à @[pseudo] : « Ça marche sans internet ? »",
+      "script": "Fonction « répondre en vidéo » sur un vrai commentaire. Réponse courte à l'écran de l'app. Si aucune question n'est arrivée, choisir une vraie question reçue par Harvey ou en message.",
+      "texte_ecran": "Réponse à ta question.",
+      "legende": "Pose ta question, je réponds en vidéo.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet"
+      ],
+      "pourquoi": "Les réponses vidéo aux commentaires sont reproposées à ceux qui ont commenté et à leurs abonnés. Ne jamais inventer la question.",
+      "reprise_instagram": null,
+      "duree": "20 s"
+    },
+    {
+      "id": "t13",
+      "date": "2026-12-14",
+      "heure": "19:00",
+      "serie": "Chrono",
+      "titre": "Une carte pour un café",
+      "accroche": "Carte de fidélité pour un café. Chrono lancé.",
+      "script": "Reprise de p11 avec voix off.",
+      "texte_ecran": "Chrono lancé.",
+      "legende": "Prochain : un resto gastronomique.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "café",
+        "coffee shop"
+      ],
+      "pourquoi": "Deuxième épisode de la série, autre commerce.",
+      "reprise_instagram": "p11",
+      "duree": "25 s"
+    },
+    {
+      "id": "t14",
+      "date": "2026-12-16",
+      "heure": "19:00",
+      "serie": "Questions de patrons",
+      "titre": "Android ?",
+      "accroche": "Et mes clients qui ont un Android ?",
+      "script": "Reprise de p10 : deux téléphones, même carte.",
+      "texte_ecran": "Apple Wallet + Google Wallet.",
+      "legende": "Même carte, même scan.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "android",
+        "google wallet"
+      ],
+      "pourquoi": "L'objection la plus fréquente, réglée en 20 secondes.",
+      "reprise_instagram": "p10",
+      "duree": "20 s"
+    },
+    {
+      "id": "t15",
+      "date": "2026-12-18",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Démarcher un commerce en vrai",
+      "accroche": "Je suis entré dans un snack pour lui proposer mon app.",
+      "script": "Vlog réel, avec l'accord du gérant (sinon flouter et ne rien nommer). La porte, la discussion (sous-titrée), la réaction vraie, oui ou non. Aucun faux client.",
+      "texte_ecran": "Il a dit…",
+      "legende": "[Ce qui s'est vraiment passé.]",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "vlog",
+        "prospection"
+      ],
+      "pourquoi": "Le démarchage filmé est un format très regardé et montre le produit dans un vrai commerce. Uniquement avec un vrai gérant d'accord pour être filmé.",
+      "reprise_instagram": null,
+      "duree": "40 s"
+    },
+    {
+      "id": "t16",
+      "date": "2026-12-20",
+      "heure": "19:00",
+      "serie": "Ils reviennent",
+      "titre": "Épisode 2",
+      "accroche": "Il pleut. Votre offre part toute seule.",
+      "script": "Reprise de p12.",
+      "texte_ecran": "Épisode 2",
+      "legende": "Offre automatique, que vous pouvez couper.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "pov"
+      ],
+      "pourquoi": "Montre les offres automatiques et rappelle qu'elles sont optionnelles.",
+      "reprise_instagram": "p12",
+      "duree": "15 s"
+    },
+    {
+      "id": "t17",
+      "date": "2026-12-22",
+      "heure": "19:00",
+      "serie": "Chrono",
+      "titre": "Une carte pour un resto chic",
+      "accroche": "Carte de fidélité pour un restaurant gastronomique. Chrono lancé.",
+      "script": "Même grammaire que Chrono, carte Studio sombre et élégante (cave ou gastronomique), récompenses −10 % / −15 % / −25 %.",
+      "texte_ecran": "Chrono lancé.",
+      "legende": "Même pour une belle table, c'est l'affaire de quelques minutes.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "gastronomie"
+      ],
+      "pourquoi": "Troisième commerce de la série : on montre que Keeply n'est pas qu'un outil de snack.",
+      "reprise_instagram": null,
+      "duree": "25 s"
+    },
+    {
+      "id": "t18",
+      "date": "2026-12-27",
+      "heure": "19:00",
+      "serie": "Depuis Agadir",
+      "titre": "Un mois",
+      "accroche": "Un mois de Keeply. Ce qui a marché, ce qui a raté.",
+      "script": "Reprise de p14, version plus personnelle.",
+      "texte_ecran": "1 mois.",
+      "legende": "[Les vrais chiffres.]",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "buildinpublic"
+      ],
+      "pourquoi": "Bilan honnête du premier mois.",
+      "reprise_instagram": "p14",
+      "duree": "30 s"
+    },
+    {
+      "id": "t19",
+      "date": "2026-12-29",
+      "heure": "19:00",
+      "serie": "Ils reviennent",
+      "titre": "Le final",
+      "accroche": "Il est revenu.",
+      "script": "Reprise de p15.",
+      "texte_ecran": "Il est revenu.",
+      "legende": "Sa dixième visite lui a débloqué −10 %.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "pov"
+      ],
+      "pourquoi": "Fin de la série.",
+      "reprise_instagram": "p15",
+      "duree": "18 s"
+    },
+    {
+      "id": "t20",
+      "date": "2027-01-03",
+      "heure": "19:00",
+      "serie": "Questions de patrons",
+      "titre": "Janvier",
+      "accroche": "Janvier : le mois où tes clients disparaissent.",
+      "script": "Reprise de p17 avec voix off du fondateur.",
+      "texte_ecran": "Janvier.",
+      "legende": "Une relance part toute seule quand un client ne revient pas. Tu peux la couper.",
+      "mots_cles": [
+        "carte de fidélité",
+        "fidéliser ses clients",
+        "restaurant",
+        "Apple Wallet",
+        "janvier"
+      ],
+      "pourquoi": "Le problème du moment de tous les patrons, avec la fonction qui y répond.",
+      "reprise_instagram": "p17",
+      "duree": "20 s"
+    }
   ]
 };
 
 export const META_ADS_PLAN = {
-  "resume": "Budget : 100 € par mois maximum, à partir du lundi 23 novembre (une semaine après le lancement du compte le 15).\nKeeply est sur l'App Store dans tous nos pays (France, Belgique, Suisse, Luxembourg, Monaco, Maroc, Canada), Android arrive bientôt. Une seule stratégie pour tous, on ne découpe que là où les prix de la pub l'imposent.\nObjectif unique : des essais gratuits de 14 jours au meilleur prix. 70 € vers la page Keeply puis l'App Store, 20 € pour tester les conversations (démo en message), 10 € pour booster le meilleur Reel.\nLes pubs ne s'affichent que sur iPhone tant qu'Android n'est pas sorti, pour ne pas payer des clics qui ne peuvent pas installer l'app.\nGrande idée de toutes les pubs : « Ils reviennent ».",
+  "resume": "Budget : 100 € par mois maximum. On ne paie que pour montrer ce qui a déjà marché gratuitement : chaque pub est un Reel organique qui a dépassé la moyenne du compte.\nDécembre : 50 € seulement, à partir du mardi 8. Le prix de la pub est au plus haut de l'année en fin d'année, et les restaurateurs sont en plein rush des fêtes.\nJanvier : 100 €, le mois où la pub coûte le moins cher et où les patrons cherchent à faire revenir leurs clients.\nPays : seulement ceux où l'app est vraiment disponible (Maroc, Canada francophone, Suisse romande). La France, la Belgique, le Luxembourg et Monaco recevront de la pub le jour où Apple ouvre l'app chez eux. D'ici là : liste d'attente et contenus gratuits.\nCiblage : large, le tri se fait par la première phrase de la pub (« Vous avez un snack ? »). Depuis la mise à jour Andromeda de Meta, ce sont des créas vraiment différentes qui trouvent le bon public, pas les centres d'intérêt.",
   "prerequis": [
-    "1. Lancement du compte le dimanche 15 novembre, 3 posts avant la première pub : un commerçant qui clique regarde le profil avant tout.",
-    "2. Page Facebook Keeply + Instagram en compte professionnel, reliés dans l'Espace Comptes.",
-    "3. Portefeuille Meta Business, UN compte publicitaire en euros, limite de dépense réglée à 100 € par mois.",
-    "4. Carte bancaire avec paiements internationaux activés.",
-    "5. Pixel Meta sur keeplyfidelity.app + événement « ClicAppStore » sur le bouton App Store. Liens App Store avec paramètre de campagne (ct=meta) pour lire les installations dans App Store Connect.",
-    "6. Sur la page : un petit bloc « Sur Android ? Prévenez-moi » (mail + case de consentement) : cette liste recevra le mail « Keeply est disponible sur Android ». Le formulaire exige un lien vers la politique de confidentialité.",
-    "7. Messages : WhatsApp Business relié à la Page et réponses rapides Instagram (prix, comment ça marche, démo). Message d'accueil prêt.",
-    "8. Badge bleu (Meta Verified pour les entreprises) : dès que le statut d'auto-entrepreneur est obtenu (il faut une activité enregistrée). Il rassure un commerçant qui découvre le compte : à prendre avant de monter le budget pub.",
-    "9. Audience personnalisée depuis la liste Harvey : exporter en CSV les prospects (colonnes email, téléphone au format international +212 / +33 / +1, prénom et nom si connus, ville, pays), puis Audiences > Créer une audience > Audience personnalisée > Liste de clients. Meta chiffre les données avant de les comparer. Les pages Instagram ne s'importent pas : elles servent au contact direct. Les mails pro (contact@...) sont rarement liés à un compte Facebook : le téléphone donne en général plus de correspondances (taux de correspondance à lire dans Meta, estimation 20 à 50 %). Il faut au moins 100 personnes reconnues pour diffuser. RGPD : base légale intérêt légitime B2B (proposer un outil pro à un commerce), écrite dans un court registre ; ne jamais importer les personnes qui ont refusé ou se sont désinscrites (garder une liste d'opposition et la retirer avant chaque import) ; ajouter dans la politique de confidentialité de keeplyfidelity.app une phrase du type « Nous pouvons utiliser les coordonnées professionnelles de commerçants pour leur montrer nos publicités sur Meta ; vous pouvez vous y opposer à tout moment à [mail] ». Mettre à jour la liste chaque mois.",
-    "10. Audiences similaires 1 % : une à partir de la liste Harvey, une à partir des personnes qui interagissent avec le compte Instagram Keeply (abonnés et interactions, 365 jours). Lieux : les pays de la zone concernée. Elles ne servent qu'en suggestion ou en test : une similaire 1 % compte des centaines de milliers de personnes, dont beaucoup de clients de restaurants."
+    "1. Compte Instagram pro et Page Facebook Keeply reliés, au moins 6 posts publiés : un patron qui clique regarde le profil.",
+    "2. Portefeuille Meta Business, un compte publicitaire en euros, limite de dépense du compte réglée à 100 € par mois.",
+    "3. Carte bancaire avec paiements internationaux activés.",
+    "4. Liens App Store avec suivi de campagne (App Store Connect > Analytics > Générateur de liens de campagne) : ct=meta-ma, ct=meta-ca, ct=meta-ch. On lit les téléchargements par pub sans SDK dans l'app.",
+    "5. Plus tard, quand keeplyfidelity.app/app est en ligne : pixel Meta + événement « ClicAppStore », pour des audiences de relance plus fines.",
+    "6. Réponses rapides et message de bienvenue réglés dans Meta Business Suite (prix, Android, comment ça marche).",
+    "7. Liste d'attente France/Belgique sur keeplyfidelity.app/bientot (mail + consentement + lien vers la politique de confidentialité), protégée par Cloudflare Turnstile.",
+    "8. Audience personnalisée « liste Harvey » (prospects des pays ouverts, au format Meta, après retrait des personnes qui ont refusé ou se sont désinscrites), mise à jour chaque mois."
   ],
   "phases": [
     {
-      "nom": "Mois 1 · Lancement",
-      "semaines": "23 nov. au 20 déc.",
-      "budget_jour": "environ 3,30 € au total",
-      "budget_total": "100 €",
-      "objectif_meta": "Trafic (vues de la page de destination) + test Messages",
-      "pourquoi": "On cherche vite la pub et le message qui donnent des essais au meilleur prix. Une seule campagne principale, deux zones de prix (la pub coûte 3 à 5 fois moins cher au Maroc qu'en Europe ou au Canada : sans séparation, Meta mettrait tout là-bas).",
-      "ciblage": "Principe : on cherche des PATRONS, pas leurs clients. Meta traite les centres d'intérêt comme de simples suggestions (audience Advantage+) : c'est la première ligne de la pub (« Vous gérez un café ? ») qui fait le vrai tri.\nRecette ensemble de pubs Zone 1 (45 €) : Lieux : France, Belgique, Suisse, Luxembourg, Monaco, Canada (Québec en priorité), option « Personnes qui vivent dans ce lieu ». Âge minimum : 25 ans (contrôle strict) ; âge maximum suggéré : 60 ans. Langue : français. Audience Advantage+ activée, suggestions à saisir, en gardant seulement celles que le moteur de recherche propose encore (sinon prendre l'alternative que Meta affiche) : comportement « Administrateurs de Page Facebook > Administrateurs de Pages Alimentation et restaurants » (Food and restaurant page admins), « Propriétaires de petites entreprises », centres d'intérêt « Restauration (secteur) » / « Foodservice », « Gestion de restaurant », « Restaurant Business », « Point de vente » (Point of sale), « Entrepreneuriat », salons « Sirha » et « Food Hotel Tech ». En suggestion aussi, dès qu'elles existent : l'audience personnalisée de la liste Harvey et les audiences d'engagement Instagram et Page.\nRecette ensemble de pubs Zone 2 (25 €) : Maroc, mêmes réglages, langues français et arabe (darija à l'écrit dans la pub seulement si validée par le fondateur), même liste de suggestions, plus « Horeca » si proposé.\nExclusions : les exclusions par centre d'intérêt (étudiants, employés de grandes chaînes) n'existent plus depuis 2025. On exclut seulement des audiences personnalisées : visiteurs ayant déjà cliqué « ClicAppStore » (30 jours), inscrits « Sur Android ? Prévenez-moi », et plus tard les clients déjà abonnés (liste importée). Les étudiants et serveurs sont filtrés par l'âge minimum et par l'accroche.\nAppareils : Placements Advantage+ > Plus d'options > Appareils mobiles uniquement > iOS. Si l'option n'apparaît pas, garder le ciblage et vérifier la répartition iOS / Android dans la ventilation Appareil chaque lundi.\nTest Messages (20 €) : même recette, Zone 2 en priorité (WhatsApp).",
-      "placements": "Advantage+ (Reels et Stories Instagram en priorité)",
+      "nom": "Avant la pub · on laisse parler l'organique",
+      "semaines": "24 nov. au 7 déc.",
+      "budget_jour": "0 €",
+      "budget_total": "0 €",
+      "objectif_meta": "Aucune campagne",
+      "pourquoi": "Deux semaines pour savoir quels Reels marchent vraiment, et pour remplir les audiences d'engagement (personnes qui ont regardé, aimé, enregistré) qui serviront de relance.",
+      "ciblage": "Aucun.",
+      "placements": "Aucun.",
       "creas": [
-        "70 € · campagne Trafic vers keeplyfidelity.app : P1 « Votre fast-food. Sur leur écran verrouillé. », P2 « Votre nom. Près de leur carte bancaire. », P3 « Ils reviennent » épisode 1",
-        "20 € · test Messages (Instagram et WhatsApp) : P4 fondateur « 10 minutes avec moi » et P5 « Il pleut ? »",
-        "10 € · boost du meilleur Reel de la semaine (visites du profil = de vrais abonnés)",
-        "Relance dès la semaine 3, prise sur les 70 € : P6 « Ils reviennent. Vous aussi. » aux personnes qui ont vu 50 % d'une vidéo ou visité la page"
+        "On observe : vues chez les non-abonnés, durée regardée, sauvegardes."
       ],
       "kpi_cible": {
-        "cpc_zone1": "moins de 0,80 € (bon), 1,50 € (couper)",
-        "cpc_zone2": "moins de 0,25 €",
-        "cout_conversation": "moins de 3 €",
-        "cout_par_essai": "moins de 25 €"
+        "reels_au_dessus_de_la_moyenne": "au moins 2"
       },
-      "regle_stop_ou_scale": "Rien ne bouge pendant 4 jours. Chaque lundi : couper la pub la plus chère de chaque zone, garder les 2 meilleures. Si les Messages donnent un essai moins cher que le Trafic après 20 € chacun, leur donner 40 € le mois suivant."
+      "regle_stop_ou_scale": "Le 7 décembre, on retient les 2 ou 3 Reels qui ont le plus de vues non-abonnés et de durée regardée : ce seront les pubs."
     },
     {
-      "nom": "Mois 2 · Garder le gagnant",
-      "semaines": "21 déc. au 17 janv.",
-      "budget_jour": "environ 3,30 € au total",
-      "budget_total": "100 €",
-      "objectif_meta": "Celui qui a donné le meilleur coût par essai (Trafic ou Messages)",
-      "pourquoi": "70 % sur la pub et la zone gagnantes, 20 % sur une nouvelle pub tirée des meilleurs posts, 10 % de relance. Fin décembre la pub coûte plus cher (fêtes) : on reste au même budget et on juge sur le coût par essai, pas sur le nombre de clics.",
-      "ciblage": "Recette de la zone gagnante du mois 1, sans toucher aux réglages de base (lieux, âge minimum 25 ans, langue, iOS). On ajoute en suggestion : l'audience personnalisée « Prospects Harvey » et la similaire 1 % (liste Harvey + abonnés Instagram), dès que la liste compte au moins 100 personnes reconnues par Meta. Si Meta dépense trop vite vers les clients (commentaires du type « c'est où ? », conversations de particuliers), revenir au ciblage détaillé restauration seul pendant 7 jours. Exclusions : mêmes audiences personnalisées qu'au mois 1, plus les personnes déjà en essai (liste importée).",
-      "placements": "Advantage+",
+      "nom": "Décembre · amplifier les gagnants",
+      "semaines": "8 au 31 déc.",
+      "budget_jour": "environ 2,10 €",
+      "budget_total": "50 €",
+      "objectif_meta": "Trafic vers l'App Store (clics sur le lien)",
+      "pourquoi": "Petit budget, fin d'année chère : on vérifie seulement quelles créas font cliquer des patrons, pays par pays, sans chercher à gagner des volumes.",
+      "ciblage": "Une campagne, deux ensembles de pubs (budget fixé par ensemble pour que Meta ne mette pas tout sur le pays le moins cher).\nEnsemble A · Maroc (20 €) : 25 à 60 ans, français et arabe, audience Advantage+ avec en suggestion la liste Harvey, les audiences d'engagement Instagram, et les centres d'intérêt restauration (« Administrateurs de pages restaurants », « Petites entreprises », « Restauration »).\nEnsemble B · Québec + Suisse romande (30 €) : mêmes réglages, langue française.\nAppareils : iPhone uniquement (l'app commerçant n'existe pas encore sur Android).\nExclusions : les personnes qui ont déjà cliqué vers l'App Store depuis une pub (30 jours).",
+      "placements": "Reels et Stories Instagram et Facebook (Advantage+ en limitant aux formats verticaux).",
       "creas": [
-        "70 % · la pub gagnante (changer seulement l'accroche quand la fréquence dépasse 3)",
-        "20 % · une nouvelle pub tirée des meilleurs posts organiques",
-        "10 % · relance essai 14 jours"
+        "Les 2 ou 3 meilleurs Reels organiques, publiés comme pubs depuis le post existant (on garde les vues et les commentaires).",
+        "Une pub « Le calcul » (P2) si le Reel p07 n'est pas parmi les gagnants : c'est l'argument prix."
       ],
       "kpi_cible": {
+        "cout_par_clic_maroc": "moins de 0,20 €",
+        "cout_par_clic_ca_ch": "moins de 1 €",
+        "taux_de_clic": "plus de 1 %",
+        "frequence": "moins de 2,5"
+      },
+      "regle_stop_ou_scale": "Après 7 € dépensés sur une pub : la couper si elle a moins de 0,7 % de taux de clic. Une pub qui donne des téléchargements (lus dans App Store Connect) garde tout le budget."
+    },
+    {
+      "nom": "Janvier · le mois de la relance",
+      "semaines": "1er au 31 janv.",
+      "budget_jour": "environ 3,30 €",
+      "budget_total": "100 €",
+      "objectif_meta": "Trafic vers l'App Store + relance",
+      "pourquoi": "La pub coûte moins cher en janvier, et le message colle au problème du moment : les clients disparaissent après les fêtes. Créa principale : p17 « Janvier : le mois où vos clients disparaissent ».",
+      "ciblage": "70 € · découverte : les deux ensembles de décembre avec la meilleure créa de décembre + p17.\n20 € · relance : personnes qui ont vu au moins 50 % d'une vidéo Keeply, ont interagi avec le compte ou cliqué sans télécharger (60 jours), tous pays ouverts. Message : « 14 jours gratuits, et vous coupez quand vous voulez. »\n10 € · test : une nouvelle créa, idée différente (voir Tests).",
+      "placements": "Reels et Stories.",
+      "creas": [
+        "P1 « Le calcul »",
+        "P3 « Janvier »",
+        "P4 « Ils reviennent » (relance)",
+        "La meilleure de décembre"
+      ],
+      "kpi_cible": {
+        "cout_par_telechargement": "moins de 8 €",
         "cout_par_essai": "moins de 25 €",
-        "cout_par_abonne": "moins de 100 €",
-        "frequence": "moins de 3 sur 7 jours"
+        "frequence": "moins de 3"
       },
-      "regle_stop_ou_scale": "Augmenter seulement si un abonné payant coûte moins de 100 € de pub deux mois de suite, et jamais de plus de 20 % par semaine."
+      "regle_stop_ou_scale": "Monter au-delà de 100 € seulement si un abonné payant coûte moins de 80 € de pub deux mois de suite, et jamais plus de 20 % de hausse par semaine."
     },
     {
-      "nom": "Sortie Android",
-      "semaines": "Le jour où l'app arrive sur Google Play",
-      "budget_jour": "même budget",
-      "budget_total": "100 € ce mois-là",
-      "objectif_meta": "Trafic vers la page, tous appareils",
-      "pourquoi": "Le jour de la sortie, l'essentiel est gratuit : mail « Keeply est disponible sur Android » à la liste, post et story. Ensuite on ouvre les pubs aux téléphones Android : la moitié des commerçants qu'on ne pouvait pas toucher.",
-      "ciblage": "Tous les pays, tous les appareils (retirer le filtre iOS), même âge minimum 25 ans, même langue et mêmes suggestions restauration. Relance en priorité des personnes déjà touchées (vidéos vues, visiteurs, conversations, engagement Instagram et Page), puis de la liste Harvey complète : des prospects Android jusque là ignorés. Exclure les inscrits « Sur Android ? Prévenez-moi » (ils reçoivent le mail).",
-      "placements": "Advantage+",
+      "nom": "Vague 2 · la France ouvre",
+      "semaines": "Le jour où Apple ouvre l'App Store français",
+      "budget_jour": "même enveloppe",
+      "budget_total": "100 € ce mois-là, moitié pour la France et la Belgique",
+      "objectif_meta": "Trafic vers l'App Store",
+      "pourquoi": "Le premier jour est gratuit : mail à la liste d'attente, post p19, stories. Ensuite, 50 € passent sur la France et la Belgique avec les pubs déjà éprouvées au Maroc et au Canada.",
+      "ciblage": "France, Belgique, Luxembourg, Monaco, mêmes réglages que l'ensemble B. Suggestion prioritaire : les prospects français et belges de la prospection HQ et les inscrits de la liste d'attente (en suggestion, ils reçoivent aussi le mail).",
+      "placements": "Reels et Stories.",
       "creas": [
-        "« Maintenant sur Android. » : la pub gagnante, avec les badges App Store et Google Play",
-        "Relance des visiteurs Android des mois précédents"
+        "« La France ouvre. » (teaser p19)",
+        "La meilleure pub du moment"
       ],
       "kpi_cible": {
         "cout_par_essai": "moins de 25 €"
       },
-      "regle_stop_ou_scale": "Mêmes règles que le mois 2."
-    }
-  ],
-  "tests_creatifs": [
-    {
-      "hypothese": "Une démo en message donne des essais moins chers qu'un clic vers la page.",
-      "variante_a": "Campagne Trafic (P1, P2, P3)",
-      "variante_b": "Campagne Messages (P4, P5)",
-      "indicateur": "Coût par essai gratuit lancé, après 20 € chacun"
-    },
-    {
-      "hypothese": "La notification plein écran (écran verrouillé) arrête mieux le scroll d'un gérant que le Wallet flex, plus statutaire mais plus discret.",
-      "variante_a": "P1 « Votre fast-food. Sur leur écran verrouillé. » (fast-food)",
-      "variante_b": "P2 « Votre nom. Près de leur carte bancaire. » (Wallet flex)",
-      "indicateur": "Taux d'arrêt (lecture 3 s ou temps passé / impressions), puis CTR lien et coût par vue de page de destination après 2 000 impressions chacune"
-    },
-    {
-      "hypothese": "Une promesse de résultat (« Ils reviennent. ») accroche mieux qu'une promesse de simplicité (« Zéro app. Zéro inscription. Zéro excuse. »).",
-      "variante_a": "Reel P3 avec accroche et texte à l'écran « Ils reviennent. »",
-      "variante_b": "Même Reel P3, accroche et texte à l'écran « Zéro app. Zéro inscription. Zéro excuse. »",
-      "indicateur": "Taux de lecture 3 s et ThruPlay, puis CTR lien ; seul le premier plan et la première ligne changent"
-    },
-    {
-      "hypothese": "Le fondateur face caméra inspire plus confiance et génère plus de conversations qualifiées qu'une pub produit sans visage.",
-      "variante_a": "P4 « Fait à Agadir » (fondateur face caméra)",
-      "variante_b": "P5 « Il pleut ? » (produit seul, offres automatiques)",
-      "indicateur": "Coût par conversation WhatsApp démarrée ET part des conversations venant d'un vrai commerçant"
-    },
-    {
-      "hypothese": "Ramener le prix au « prix d'un café » rassure davantage qu'un simple essai gratuit, et filtre les curieux.",
-      "variante_a": "P6 avec « dès 39,99 €/mois en France » et la description « Le prix d'un café par jour »",
-      "variante_b": "P6 avec seulement « Essai gratuit de 14 jours », sans prix",
-      "indicateur": "CTR lien en reciblage, taux de ClicAppStore sur la page et essais démarrés (tableur)"
-    },
-    {
-      "hypothese": "Le statut (« La fidélité des grandes chaînes. Pour le snack d'en bas. ») parle plus aux gérants de fast-food que le problème concret (« Le plus dur, c'est la deuxième visite. On s'en occupe. »).",
-      "variante_a": "Image 4:5, nouvelle carte d'un snack de Fès : « La fidélité des grandes chaînes. Pour le snack d'en bas. »",
-      "variante_b": "Même image : « Le plus dur, c'est la deuxième visite. On s'en occupe. »",
-      "indicateur": "CTR lien, coût par vue de page de destination et type de commerce déclaré dans les conversations WhatsApp"
-    },
-    {
-      "hypothese": "Une audience Advantage+ ouverte, triée par l'accroche « Vous gérez un restaurant ? », donne des essais aussi peu chers qu'un ciblage détaillé restauration, avec plus de volume.",
-      "variante_a": "Zone 1, mois 1 : ensemble de pubs Advantage+ sans suggestion (lieux, âge minimum 25 ans, langue, iOS seulement), pub P6 avec première ligne « Vous gérez un restaurant ? »",
-      "variante_b": "Même pub, ensemble de pubs avec les suggestions restauration (administrateurs de Pages Alimentation et restaurants, propriétaires de petites entreprises, gestion de restaurant, point de vente)",
-      "indicateur": "Coût par vue de page de destination, taux de ClicAppStore et part des conversations venant d'un vrai commerçant, après 15 € chacun (test A/B Meta, budget pris sur les 45 € de la zone 1)"
-    },
-    {
-      "hypothese": "Les prospects réels de la liste Harvey convertissent mieux que leur audience similaire 1 %, mais la similaire donne plus de volume.",
-      "variante_a": "Mois 2 : ensemble de pubs visant l'audience personnalisée « Prospects Harvey » (si au moins 100 personnes reconnues), pub gagnante",
-      "variante_b": "Même pub, ensemble de pubs visant la similaire 1 % de la liste Harvey et des abonnés Instagram",
-      "indicateur": "Coût par essai démarré et fréquence (si la liste Harvey dépasse une fréquence de 4 sur 7 jours, elle est épuisée : la passer en relance), après 15 € chacun"
+      "regle_stop_ou_scale": "Mêmes règles que janvier."
     }
   ],
   "textes_pubs": [
     {
-      "nom": "P1 - Votre vitrine (écran verrouillé, fast-food)",
-      "format": "Image fixe 9:16 (1080 x 1920) pour Stories et Reels + 4:5 (1080 x 1350) pour le fil",
-      "texte_principal": "Votre fast-food. Sur leur écran verrouillé.\nIls le regardent toute la journée.\nVotre offre y apparaît, gratuitement.\nVous choisissez quand. Vous gardez la main.\nKeeply. Ils reviennent.",
-      "titre": "Votre vitrine, sur leur écran",
-      "description": "Essai gratuit de 14 jours",
-      "cta_bouton": "En savoir plus",
-      "visuel": "Le visuel EST un écran verrouillé d'iPhone, plein cadre, fond d'écran sombre et sobre, heure 12:41. Une seule notification Wallet au centre : nouvelle carte du fondateur d'un fast-food de démonstration (ex. « Snack Atlas, Marrakech ») : « Il vous manque 1 tampon. Un coupon menu vous attend au prochain passage. » Aucun autre texte à l'image, logo Keeply minuscule en bas. Commerce fictif, signalé comme exemple dans la page d'atterrissage. Option Maroc (darija, à valider par le fondateur) : accroche secondaire « Kayrj3o. » sous la notification."
-    },
-    {
-      "nom": "P2 - Wallet flex (restaurant haut de gamme)",
-      "format": "Image fixe 4:5 + 9:16, ou boucle animée de 6 s (la carte glisse dans la pile)",
-      "texte_principal": "Restaurateurs : votre nom, près de leur carte bancaire.\nPas dans une app oubliée.\nDans leur Wallet, avec leur billet d'avion.\nPaliers Bronze, Argent, Or : -5 %, -10 %, -15 % sur l'addition.\nKeeply. Ils reviennent.",
-      "titre": "Les grandes chaînes ont une app.",
-      "description": "Vous avez mieux : leur Wallet",
-      "cta_bouton": "En savoir plus",
-      "visuel": "Plan très serré, lumière douce, sur un Wallet d'iPhone : une carte bancaire, la nouvelle carte (style sombre et élégant) d'un restaurant gastronomique de démonstration à Casablanca, une carte d'embarquement. La carte du restaurant entière et bien cadrée, au premier plan. Fond noir, aucun texte sauf la signature « Keeply. Ils reviennent. » en bas. Aucun logo de marque tierce lisible sur la carte bancaire ni sur le billet. Les remises de palier sont des exemples, réglables par le commerçant."
-    },
-    {
-      "nom": "P3 - Ils reviennent, épisode 1 (café)",
-      "format": "Reel 9:16, 10 à 12 s, son ASMR sans voix, sous-titres à l'écran (version 4:5 pour le fil)",
-      "texte_principal": "Vous gérez un café ? Ils reviennent.\nUn scan. Deux secondes. Un client de plus.\nSans app ni inscription pour eux.\nVotre carte à vos couleurs, prête en quelques minutes.\nÉpisode 1. Elle reviendra.",
-      "titre": "Le plus dur, c'est la deuxième visite",
-      "description": "On s'en occupe. Essai 14 jours",
-      "cta_bouton": "En savoir plus",
-      "visuel": "POV client dans un café de Rabat le matin. 0-2 s : la main approche l'iPhone du QR code sur le comptoir, bip du scan. 2-5 s : la nouvelle carte du café (style clair, tons crème) entre dans le Wallet, carte entière cadrée. 5-8 s : vibration, un tampon s'ajoute (1 sur 8). 8-12 s : écran noir, texte « Ils reviennent. » puis « Keeply. » Aucun dialogue, sound design uniquement. Épisodes suivants : même client, carte à 4 puis 8 tampons, récompense en coupon boisson. Variante de test : accroche à l'écran « Zéro app. Zéro inscription. Zéro excuse. »"
-    },
-    {
-      "nom": "P4 - Fait à Agadir (fondateur face caméra)",
-      "format": "Reel 9:16, 20 à 30 s, face caméra, sous-titres gros et lisibles",
-      "texte_principal": "Vous tenez un comptoir ? Fait à Agadir, pour vous.\nJe m'appelle [prénom], j'ai créé Keeply [pourquoi, en une phrase vraie].\nVos clients gardent votre carte dans leur téléphone. Ils reviennent.\nVous voulez voir ? 10 minutes sur WhatsApp, avec moi.",
-      "titre": "10 minutes avec le fondateur",
-      "description": "Démo sur WhatsApp",
-      "cta_bouton": "Envoyer un message",
-      "visuel": "Le fondateur filmé au téléphone, lumière naturelle, devant un comptoir ou dans un café d'Agadir, plan fixe poitrine. Script : « Je suis [prénom]. [Ce qui vous a donné l'idée, vécu réel]. Keeply met votre carte dans le Wallet de vos clients. Un scan, c'est tout. [Une phrase sur ce que vous voulez pour les commerçants]. Écrivez-moi, je vous montre en 10 minutes. » À 0:12, il montre l'iPhone avec une de ses nouvelles cartes, carte entière à l'écran. Plan final : « Keeply. Ils reviennent. » Aucun chiffre de résultat, aucun nom de client."
-    },
-    {
-      "nom": "P5 - Il pleut ? (offres automatiques, restaurant de quartier)",
-      "format": "Image 4:5 + 9:16, ou Reel 6 s (pluie sur la vitre, notification qui arrive)",
-      "texte_principal": "Restaurateurs : il pleut ? Votre offre part toute seule.\nAnniversaire, client absent depuis 30 jours, jour de pluie.\nKeeply relance pendant que vous servez.\nChaque offre s'active ou se coupe. Vous gardez la main.\nLa carte en carton, elle, n'a jamais souhaité un anniversaire.",
-      "titre": "Pendant que vous servez, il relance",
-      "description": "Démo de 10 minutes par message",
-      "cta_bouton": "Envoyer un message",
-      "visuel": "Vitre d'un restaurant de quartier de Tanger sous la pluie, lumière chaude à l'intérieur, flou. Au premier plan, un iPhone posé sur une table avec une notification : « Il pleut. -15 % sur votre tajine ce soir. » Sous l'iPhone, discret : la nouvelle carte du restaurant (style chaleureux, tons terre). Un seul message à l'image : « Il pleut ? Votre offre part toute seule. » Commerce de démonstration, remise donnée en exemple."
-    },
-    {
-      "nom": "P6 - Vous aussi (relance essai 14 jours)",
-      "format": "Story 9:16 (1080 x 1920) + carré 1:1 pour le fil",
-      "texte_principal": "Vous gérez un restaurant ? Ils reviennent. Vous aussi.\nVotre essai gratuit de 14 jours vous attend.\nEnsuite dès 39,99 €/mois en France, prix adaptés à chaque pays.\nChaque option s'active ou se coupe. Résiliable depuis l'App Store.\nSur iPhone. Android bientôt sur Google Play.",
-      "titre": "14 jours pour les voir revenir",
-      "description": "Le prix d'un café par jour",
+      "nom": "P1 · Le calcul",
+      "format": "Reel 20 s (p07)",
       "cta_bouton": "Télécharger",
-      "visuel": "Fond blanc, beaucoup d'espace. Au centre, trois nouvelles cartes du fondateur en éventail, entières et bien cadrées : un fast-food, un café, un restaurant haut de gamme. Gros texte en haut : « 14 jours. » En bas : « Environ 1,33 € par jour en France. » puis le badge officiel « Télécharger dans l'App Store ». Le lien mène à la page d'atterrissage (lien App Store avec jeton de campagne), pas directement à l'App Store."
+      "visuel": "Le carnet, le calcul écrit à la main, gros « 4 » final, mention « exemple : panier moyen 10 € ».",
+      "texte_principal": "Vous avez un snack, un café ou un restaurant ?\n\nKeeply coûte 39,99 € par mois. Avec un panier moyen de 10 € (exemple), quatre passages de plus par mois couvrent l'abonnement.\n\nVotre carte de fidélité vit dans le Wallet de vos clients. Ils n'installent rien.\n\n14 jours gratuits sur l'App Store.",
+      "titre": "Fidéliser, c'est devenu facile",
+      "description": "Essai gratuit 14 jours"
+    },
+    {
+      "nom": "P2 · Chrono",
+      "format": "Reel 25 s (p06 ou p11)",
+      "cta_bouton": "Télécharger",
+      "visuel": "L'écran de l'app en temps réel, chrono en haut, la carte qui finit dans le Wallet.",
+      "texte_principal": "Vous gérez un fast-food ?\n\nVotre carte de fidélité à votre nom, créée depuis votre iPhone, du premier écran au Wallet de vos clients. Regardez le chrono.\n\nOffres automatiques et statuts : vous allumez ce que vous voulez.\n\n14 jours gratuits.",
+      "titre": "Votre carte, prête avant le service",
+      "description": "Essai gratuit 14 jours"
+    },
+    {
+      "nom": "P3 · Janvier",
+      "format": "Reel 20 s (p17)",
+      "cta_bouton": "Télécharger",
+      "visuel": "Rues calmes de janvier, puis notification « Vous nous manquez : −10 % cette semaine » sur un écran verrouillé.",
+      "texte_principal": "Vos habitués ont disparu depuis les fêtes ?\n\nAvec Keeply, une relance part toute seule quand un client n'est pas revenu depuis un moment. Vous choisissez la remise et le délai, ou vous la coupez.\n\nVotre carte de fidélité, dans leur Wallet. 14 jours gratuits.",
+      "titre": "Faites revenir vos habitués",
+      "description": "Essai gratuit 14 jours"
+    },
+    {
+      "nom": "P4 · Ils reviennent (relance)",
+      "format": "Reel 18 s (p15)",
+      "cta_bouton": "Télécharger",
+      "visuel": "Le final de la série : dixième tampon, « Remise débloquée · −10 % », carton « Ils reviennent. »",
+      "texte_principal": "Vous avez regardé Keeply, il ne manquait que l'essai.\n\n14 jours gratuits sur l'App Store. Vous créez votre carte, vous la testez dans votre commerce, et vous arrêtez quand vous voulez.",
+      "titre": "14 jours pour essayer",
+      "description": "Sans engagement"
+    },
+    {
+      "nom": "P5 · Écran verrouillé",
+      "format": "Reel 8 s en boucle (t02)",
+      "cta_bouton": "Télécharger",
+      "visuel": "Scan, la carte glisse dans le Wallet, notification de remise sur l'écran verrouillé.",
+      "texte_principal": "Vous tenez un café ?\n\nVotre offre peut s'afficher sur l'écran verrouillé de vos clients, comme celle des grandes chaînes. Une carte à votre nom dans leur Wallet, pour 1,33 € par jour.\n\n14 jours gratuits.",
+      "titre": "Votre offre, sur leur écran",
+      "description": "Essai gratuit 14 jours"
     }
   ],
-  "alternative_prospects": "Pourquoi tester les messages (WhatsApp au Maroc, Instagram ou WhatsApp ailleurs) : un gérant de fast-food n'installe pas une app pro sur un simple clic. Une conversation de 10 minutes répond à ses vraies questions (prix, caisse, clients sans iPhone), et vous voyez tout de suite si c'est un vrai commerçant. Au Maroc, WhatsApp est le canal pro numéro un : c'est là que les commerçants répondent. Les conversations coûtent aussi peu cher en pub.\nLes limites : ça prend votre temps (prévoir 30 minutes par jour), et Meta ne voit pas l'installation après la conversation. C'est pour ça que ce n'est qu'un test à 20 € : si un essai coûte moins cher par message que par la page, on lui donne plus de budget, sinon on le coupe.",
-  "retargeting": "Audiences à créer dès le 23 novembre : (A) vues de 50 % d'une vidéo Keeply (30 jours) ; (B) visiteurs de keeplyfidelity.app sans clic App Store (30 jours) ; (C) interactions avec le compte (60 jours) ; (D) conversations ouvertes sans essai (d'abord relance personnelle gratuite).\nLa relance démarre en semaine 3 avec P6. Les inscrits « Sur Android ? Prévenez-moi » ne sont pas relancés en pub : ils reçoivent le mail le jour de la sortie.\nAudiences d'engagement à créer aussi (Audiences > Audience personnalisée > Sources Meta) : (E) compte professionnel Instagram : toute personne ayant interagi (90 jours), personnes ayant envoyé un message (180 jours), personnes ayant enregistré un post (90 jours), visiteurs du profil (30 jours) ; (F) Page Facebook : toute personne ayant interagi (90 jours), personnes ayant envoyé un message (180 jours) ; (G) personnes ayant cliqué un bouton d'appel à l'action de la Page. Ces audiences se remplissent avec les commerçants qui ont réagi aux pubs « Vous gérez... ? » : la relance P6 les vise en priorité. Elles se remplissent lentement à 100 € par mois : on les regroupe en une seule audience de relance tant qu'elles comptent moins de 1 000 personnes environ (estimation).",
+  "tests_creatifs": [
+    {
+      "hypothese": "Un patron clique plus pour le prix (Le calcul) que pour la facilité (Chrono).",
+      "variante_a": "P1 Le calcul",
+      "variante_b": "P2 Chrono",
+      "indicateur": "Coût par téléchargement (App Store Connect), après 10 € chacune"
+    },
+    {
+      "hypothese": "La première ligne qui nomme le commerce fait mieux trier que la promesse seule.",
+      "variante_a": "« Vous avez un snack ? » en première ligne",
+      "variante_b": "« Fidéliser, c'est devenu facile. » en première ligne",
+      "indicateur": "Taux de clic et part de téléchargements"
+    },
+    {
+      "hypothese": "Le fondateur face caméra donne plus confiance qu'une vidéo produit.",
+      "variante_a": "Reel fondateur (p03)",
+      "variante_b": "P5 Écran verrouillé",
+      "indicateur": "Coût par téléchargement"
+    }
+  ],
+  "alternative_prospects": "Harvey et la prospection de HQ restent le canal le moins cher : chaque mail de Harvey peut renvoyer vers le Reel « Comment ça marche » (p05) plutôt que vers une page. Les commerces qui répondent mais n'installent pas entrent dans l'audience de relance. Les messages Instagram envoyés à la main restent limités à quelques-uns par jour, personnalisés, jamais copiés-collés.",
+  "retargeting": "Audiences de relance (à créer dès le 24 novembre pour qu'elles se remplissent) : personnes ayant regardé 50 % d'une vidéo Keeply (Instagram et Facebook, 60 jours), personnes ayant interagi avec le compte Instagram (90 jours), personnes ayant envoyé un message. Message unique de relance : l'essai de 14 jours et la liberté d'arrêter. Pas de relance au-delà de 3 affichages par semaine.",
   "erreurs_a_eviter": [
-    "Éparpiller 100 € dans 5 campagnes et 10 pubs : Meta n'apprend rien sous environ 50 résultats.",
-    "Payer des clics de téléphones Android tant que l'app n'est pas sur Google Play.",
-    "Acheter des abonnés : faux comptes, taux d'engagement qui s'effondre, portée qui baisse et risque de sanction. Seul le boost vers le profil donne de vrais abonnés.",
-    "Payer des vues de vidéo pour faire joli : elles n'ont d'intérêt que pour remplir une audience à relancer, et 10 € de boost suffisent pour ça.",
-    "Booster tous les posts : seulement le meilleur Reel de la semaine.",
-    "Toucher aux pubs pendant les 4 premiers jours.",
-    "Juger sur les likes : seuls comptent le coût par essai et par abonné.",
-    "Promettre des résultats chiffrés ou montrer de faux témoignages.",
-    "Toucher les clients des restaurants au lieu des patrons : « intéressé par les restaurants » ou « fast-food » veut dire « aime manger dehors ». Toujours une accroche qui nomme le patron (« Vous gérez... ? », « Restaurateurs : »), et lire chaque lundi les commentaires et conversations pour voir qui répond.",
-    "Une audience trop petite sous 100 € par mois : en dessous de quelques centaines de milliers de personnes par zone (estimation), Meta peine à dépenser et le coût grimpe. Ne pas empiler les filtres ; laisser l'audience Advantage+ élargir et laisser la créa trier.",
-    "Croire que les centres d'intérêt sont des barrières : avec l'audience Advantage+, ce ne sont que des suggestions. Seuls les lieux, l'âge minimum, la langue et les exclusions d'audiences personnalisées sont stricts.",
-    "Chercher à exclure étudiants, serveurs ou employés de grandes chaînes par centre d'intérêt : ces exclusions ont été supprimées en 2025. Passer par l'âge minimum, l'accroche et les exclusions d'audiences personnalisées.",
-    "Compter sur le ciblage par intitulé de poste ou employeur (« gérant », « restaurateur ») : Meta l'a retiré depuis des années ; quelques intitulés survivent comme centres d'intérêt, à vérifier dans le moteur de recherche.",
-    "Garder des centres d'intérêt supprimés ou regroupés en janvier 2026 sans le voir : Meta signale les ensembles de pubs concernés dans le Gestionnaire, les corriger avant le 23 novembre.",
-    "Importer la liste Harvey sans tri : ni désinscrits, ni personnes qui ont refusé, ni fichiers achetés ; et la même liste en ciblage et en exclusion dans deux ensembles de pubs qui se chevauchent.",
-    "Lancer une audience similaire sur une source trop petite (moins de 100 personnes reconnues) ou mélangeant clients finaux et commerçants : la similaire copie la source."
+    "Faire de la pub en France avant que l'App Store y propose l'app : chaque clic tomberait sur « app non disponible ».",
+    "Créer des pubs neuves sans les avoir testées en organique : on paie pour apprendre ce que l'organique dit gratuitement.",
+    "Choisir l'objectif « Interaction » ou « Notoriété » : on paierait des vues d'étudiants et de clients de restaurants, pas des patrons.",
+    "Couper une pub après 2 jours ou 2 € : attendre au moins 7 € par pub avant de juger.",
+    "Booster depuis le bouton de l'app Instagram : moins de réglages (pas de filtre iPhone, pas de limite par pays). Passer par le Gestionnaire de publicités.",
+    "Promettre un résultat (« +30 % de clients ») : aucun chiffre ne le prouve encore."
   ],
   "estimation": {
-    "hypotheses": "Estimations prudentes, pas des promesses : aucune donnée réelle n'existe encore. Zone 1 (Europe, Canada) : environ 0,50 à 1,20 € par clic. Zone 2 (Maroc) : 0,05 à 0,30 € par clic. 10 à 20 % des visiteurs cliquent vers l'App Store, 30 à 50 % installent, 30 à 50 % lancent l'essai. Sources publiques non officielles.",
-    "clics_estimes": "Mois 1 : 40 à 90 clics en zone 1, 80 à 300 en zone 2, et 5 à 20 conversations.",
-    "installations_estimees": "Mois 1 : 6 à 20 installations.",
-    "essais_estimes": "Mois 1 : 2 à 8 essais gratuits.",
-    "cout_par_essai_estime": "12 à 50 € par essai au début, moins une fois la meilleure pub trouvée. Un abonné rembourse son coût en 1 à 2 mois."
+    "hypotheses": "Estimations prudentes, pas des promesses : aucune donnée réelle n'existe encore. Coût par clic supposé : 0,05 à 0,25 € au Maroc, 0,60 à 1,50 € au Canada et en Suisse (plus cher en décembre). 15 à 30 % des clics vers l'App Store donnent un téléchargement, 30 à 50 % des téléchargements lancent l'essai.",
+    "clics_estimes": "Décembre : 100 à 300 clics. Janvier : 200 à 500 clics.",
+    "installations_estimees": "Décembre : 15 à 60. Janvier : 30 à 120.",
+    "essais_estimes": "Décembre : 4 à 20. Janvier : 10 à 40.",
+    "cout_par_essai_estime": "3 à 12 € par essai au Maroc, 10 à 40 € au Canada et en Suisse."
   }
 };
