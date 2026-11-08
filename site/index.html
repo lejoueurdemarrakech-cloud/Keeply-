@@ -1167,6 +1167,9 @@ body[data-route="confidentialite"] #view-confidentialite{display:block}
    vrais logos, galerie défilante, logo Keeply.
    ============================================================ */
 .wp__logo img{width:100%;height:100%;object-fit:cover;border-radius:inherit;display:block}
+.wp--k .wp__logo{width:30px;height:30px;background:none;border-radius:0}
+.wp--k .wp__logo img{object-fit:contain}
+.wp__stamps[style*="--c"]{grid-template-columns:repeat(var(--c),minmax(0,40px));justify-content:center}
 .wp--logo .wp__logo{background:#fff;overflow:hidden}
 .wp__strip--pts{place-items:start}
 .wp__strip--pts::before{background:linear-gradient(180deg,rgba(0,0,0,.30) 0%,rgba(0,0,0,.06) 45%,rgba(0,0,0,.34) 100%)}
@@ -2171,7 +2174,7 @@ html{-webkit-tap-highlight-color:transparent}
 
               <div class="k-scr k-scr--cam is-on" data-i="0">
                 <div class="cam__bg"></div>
-                <div class="cam__banner"><span class="cam__wl"></span><span><b>Wallet</b><small>Ajouter la carte Chez Karine</small></span></div>
+                <div class="cam__banner"><span class="cam__wl"></span><span><b>Wallet</b><small>Ajouter la carte Le Comptoir d'Anna</small></span></div>
                 <div class="cam__tent">
                   <span class="cam__logo" data-shop-logo>🍽</span><b>CHEZ KARINE</b><small>Votre carte fidélité</small>
                   <i class="cam__qr"></i><small>Scannez, ajoutez à Wallet</small>
@@ -2181,7 +2184,7 @@ html{-webkit-tap-highlight-color:transparent}
               </div>
 
               <div class="k-scr k-scr--join" data-i="1">
-                <div class="join__hd"><span class="join__logo" data-shop-logo>🍽</span><b>Chez Karine</b><small>Carte de fidélité</small></div>
+                <div class="join__hd"><span class="join__logo" data-shop-logo>🍽</span><b>Le Comptoir d'Anna</b><small>Carte de fidélité</small></div>
                 <div class="join__body">
                   <span class="join__lab">Prénom</span><span class="join__in"><span class="join__type" data-loc="who">Camille</span><i class="join__caret"></i></span>
                   <span class="join__lab">Téléphone</span><span class="join__in" data-loc="phone">06 12 34 56 78</span>
@@ -2212,7 +2215,7 @@ html{-webkit-tap-highlight-color:transparent}
                 <div class="lock__time"><small>mardi 30 septembre</small><b>19:42</b></div>
                 <div class="lock__notif">
                   <span class="lock__ic" data-shop-logo>🍽</span>
-                  <span class="lock__txt"><span class="lock__hd"><b>Chez Karine</b><small>maintenant</small></span><span data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
+                  <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
                 </div>
                 <span class="lock__bar"></span>
               </div>
@@ -2250,7 +2253,7 @@ html{-webkit-tap-highlight-color:transparent}
             </ul>
             <div class="k-auto__notif" id="kAutoNotif" aria-live="polite">
               <span class="lock__ic" data-shop-logo>🍽</span>
-              <span class="lock__txt"><span class="lock__hd"><b>Chez Karine</b><small>maintenant</small></span><span class="k-auto__msg" data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
+              <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span class="k-auto__msg" data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
             </div>
           </div>
         </article>
@@ -2291,7 +2294,7 @@ html{-webkit-tap-highlight-color:transparent}
             <div class="k-poster-pin">
               <div class="poster poster--a4" style="--pv-bg:#3F5B45">
                 <div class="poster__logo"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9h13v4a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6V9zm13 1h1.5a2.5 2.5 0 0 1 0 5H17"/></svg></div>
-                <div class="poster__name">Corner Café</div>
+                <div class="poster__name">Café Lumière</div>
                 <div class="poster__head">Votre carte fidélité</div>
                 <div class="poster__scan"><div class="poster__qr"><i></i></div><div class="poster__mech">Scannez, ajoutez à Wallet</div></div>
               </div>
@@ -2330,7 +2333,7 @@ html{-webkit-tap-highlight-color:transparent}
         <div class="v6-panel">
           <div class="k-field">
             <label for="kName">Nom de votre établissement</label>
-            <input id="kName" type="text" maxlength="22" value="Corner Café" autocomplete="organization" />
+            <input id="kName" type="text" maxlength="22" value="Café Lumière" autocomplete="organization" />
           </div>
           <div class="k-field">
             <span class="k-field__lab" id="kColLab">Couleur</span>
@@ -2598,7 +2601,7 @@ html{-webkit-tap-highlight-color:transparent}
         <legend><span>1</span>Identité</legend>
         <div class="ka__field">
           <label for="kaName">Nom sur la carte</label>
-          <input id="kaName" type="text" maxlength="24" value="Corner Café" autocomplete="organization" />
+          <input id="kaName" type="text" maxlength="24" value="Café Lumière" autocomplete="organization" />
         </div>
         <div class="ka__field">
           <span class="ka__lab" id="kaLogoLab">Logo</span>
@@ -3709,30 +3712,22 @@ html{-webkit-tap-highlight-color:transparent}
   }
 
   /* ---------- la carte Wallet conforme ---------- */
+  /* Les cartes du Studio Keeply HQ : bandeau cadré dans cartes/<k>.jpg, logo dans cartes/<k>.svg. */
+  var KCARDS=[{"k":"smash-club","name":"Smash Club","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍔","member":"YANIS B.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-4100-YAN","model":"tampons","stamp":"🍔","stamps":5,"total":8},{"k":"pizzeria-nonna","name":"Pizzeria Nonna","bg":"#B4462A","fg":"#FFFFFF","lb":"#E8C8BF","icon":"🍕","member":"JULIE R.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-4125-JUL","model":"tampons","stamp":"🍕","stamps":7,"total":10},{"k":"cafe-lumiere","name":"Café Lumière","bg":"#4A3226","fg":"#FFFFFF","lb":"#E8C9A0","icon":"☕️","member":"CAMILLE D.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-414A-CAM","model":"tampons","stamp":"☕️","stamps":6,"total":10},{"k":"maison-brioche","name":"Maison Brioche","bg":"#F7F1E5","fg":"#3B2A1E","lb":"#A0743C","icon":"🥐","member":"THOMAS L.","status":"OR","since":"2023","rewards":1,"serial":"KPL-416F-THO","model":"tampons","stamp":"🥐","stamps":3,"total":8},{"k":"sakura-bento","name":"Sakura Bento","bg":"#141A2E","fg":"#FFFFFF","lb":"#F29CB0","icon":"🍣","member":"INÈS K.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4194-INÈ","model":"points","points":320,"step":500,"reward":"un plateau offert"},{"k":"taco-loco","name":"Taco Loco","bg":"#C2410C","fg":"#FFFFFF","lb":"#EDC6B6","icon":"🌮","member":"MEHDI A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-41B9-MEH","model":"tampons","stamp":"🌮","stamps":6,"total":8},{"k":"crunchy-corner","name":"Crunchy Corner","bg":"#F2A81C","fg":"#1A1A1A","lb":"#7A1F3D","icon":"🍗","member":"SAMIR O.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-41DE-SAM","model":"tampons","stamp":"🍗","stamps":8,"total":10},{"k":"gelato-bella","name":"Gelato Bella","bg":"#BE3A62","fg":"#FFFFFF","lb":"#ECC4D0","icon":"🍦","member":"LÉA P.","status":"OR","since":"2024","rewards":2,"serial":"KPL-4203-LÉA","model":"tampons","stamp":"🍦","stamps":4,"total":6},{"k":"comptoir-anna","name":"Le Comptoir d'Anna","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#C9A227","icon":"🍷","member":"MARC V.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-4228-MAR","model":"points","points":180,"step":300,"reward":"un dessert offert"},{"k":"atelier-braise","name":"Atelier Braise","bg":"#111111","fg":"#FFFFFF","lb":"#C9A227","icon":"🥩","member":"KARIM E.","status":"OR","since":"2023","rewards":1,"serial":"KPL-424D-KAR","model":"points","points":860,"step":1000,"reward":"une entrecôte offerte"},{"k":"green-bowl","name":"Green Bowl","bg":"#047857","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🥗","member":"NORA S.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4272-NOR","model":"tampons","stamp":"🥗","stamps":4,"total":10},{"k":"dar-atay","name":"Dar Atay","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🍵","member":"SALMA H.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4297-SAL","model":"tampons","stamp":"🍵","stamps":5,"total":8},{"k":"sweet-ring","name":"Sweet Ring","bg":"#C2185B","fg":"#FFFFFF","lb":"#EDBACE","icon":"🍩","member":"EMMA G.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-42BC-EMM","model":"tampons","stamp":"🍩","stamps":5,"total":6},{"k":"casa-mojito","name":"Casa Mojito","bg":"#0E7490","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🍹","member":"ADAM T.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-42E1-ADA","model":"points","points":90,"step":150,"reward":"un cocktail offert"},{"k":"pasta-fresca","name":"Pasta Fresca","bg":"#EFE2CB","fg":"#2B2F3A","lb":"#B4462A","icon":"🍝","member":"LUCAS F.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-4306-LUC","model":"tampons","stamp":"🍝","stamps":2,"total":10},{"k":"table-saphir","name":"Table Saphir","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#C9B8F5","icon":"🍽️","member":"SOPHIE B.","status":"PLATINE","since":"2023","rewards":1,"serial":"KPL-432B-SOP","model":"points","points":1250,"step":2000,"reward":"un menu dégustation"},{"k":"mangal-grill","name":"Mangal Grill","bg":"#7A1F3D","fg":"#FFFFFF","lb":"#FFD166","icon":"🍢","member":"RAYAN M.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-4350-RAY","model":"tampons","stamp":"🍢","stamps":6,"total":10},{"k":"dar-tajine","name":"Dar Tajine","bg":"#9A3B1C","fg":"#FFFFFF","lb":"#F3E3C9","icon":"🫕","member":"YOUSSEF A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4375-YOU","model":"points","points":140,"step":250,"reward":"un tajine offert"},{"k":"couscous-zahra","name":"Couscous Zahra","bg":"#0B6B4F","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🥘","member":"FATIMA Z.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-439A-FAT","model":"tampons","stamp":"🥘","stamps":5,"total":8},{"k":"ty-billig","name":"Ty Billig","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#BFD3FF","icon":"🥞","member":"MAËLLE K.","status":"OR","since":"2024","rewards":2,"serial":"KPL-43BF-MAË","model":"tampons","stamp":"🥞","stamps":7,"total":10},{"k":"ramen-kaze","name":"Ramen Kaze","bg":"#111111","fg":"#FFFFFF","lb":"#F04438","icon":"🍜","member":"KENJI T.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-43E4-KEN","model":"points","points":260,"step":400,"reward":"un bol offert"},{"k":"bagel-street","name":"Bagel Street","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#F2C14E","icon":"🥯","member":"CHLOÉ M.","status":"BRONZE","since":"2023","rewards":1,"serial":"KPL-4409-CHL","model":"tampons","stamp":"🥯","stamps":3,"total":8},{"k":"fresh-press","name":"Fresh Press","bg":"#E8590C","fg":"#FFFFFF","lb":"#F8CDB6","icon":"🍊","member":"INÈS B.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-442E-INÈ","model":"tampons","stamp":"🍊","stamps":4,"total":6},{"k":"cacao-co","name":"Cacao & Co","bg":"#3A251B","fg":"#FFFFFF","lb":"#E6C9A8","icon":"🍫","member":"HÉLÈNE D.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4453-HÉL","model":"points","points":75,"step":120,"reward":"un ballotin offert"},{"k":"cave-saint-clair","name":"Cave Saint-Clair","bg":"#5C1530","fg":"#FFFFFF","lb":"#F0D9A8","icon":"🥂","member":"ANTOINE R.","status":"OR","since":"2023","rewards":1,"serial":"KPL-4478-ANT","model":"points","points":420,"step":600,"reward":"une bouteille offerte"},{"k":"smoky-ribs","name":"Smoky Ribs","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍖","member":"BILAL K.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-449D-BIL","model":"tampons","stamp":"🍖","stamps":6,"total":8},{"k":"masala-house","name":"Masala House","bg":"#F2A81C","fg":"#2A1200","lb":"#7A1F3D","icon":"🍛","member":"PRIYA S.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-44C2-PRI","model":"tampons","stamp":"🍛","stamps":5,"total":10},{"k":"sesame-falafel","name":"Sésame","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#F3E9C6","icon":"🧆","member":"OMAR H.","status":"OR","since":"2023","rewards":1,"serial":"KPL-44E7-OMA","model":"tampons","stamp":"🧆","stamps":7,"total":8},{"k":"fish-co","name":"Fish & Co","bg":"#0E5A70","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🐟","member":"OLIVIA W.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-450C-OLI","model":"tampons","stamp":"🐟","stamps":4,"total":10},{"k":"dog-avenue","name":"Dog Avenue","bg":"#D62828","fg":"#FFFFFF","lb":"#FFE066","icon":"🌭","member":"NATHAN L.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4531-NAT","model":"tampons","stamp":"🌭","stamps":5,"total":8},{"k":"waffle-lab","name":"Waffle Lab","bg":"#F5E3C3","fg":"#3B2412","lb":"#8A4B14","icon":"🧇","member":"ZOÉ P.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-4556-ZOÉ","model":"tampons","stamp":"🧇","stamps":2,"total":6},{"k":"rose-macaron","name":"Rose Macaron","bg":"#F8D7E3","fg":"#5A1A33","lb":"#9C2F5A","icon":"🧁","member":"CLARA V.","status":"OR","since":"2024","rewards":2,"serial":"KPL-457B-CLA","model":"points","points":55,"step":100,"reward":"une boîte de 6"}];
+  function kc(k,extra){ var o={},x,src=KCARDS.filter(function(c){ return c.k===k; })[0]||KCARDS[0]; for(x in src) o[x]=src[x]; for(x in extra||{}) o[x]=extra[x]; return o; }
   // Le restaurant du récit : un bistrot de quartier, ni fast-food ni gastronomique.
-  var RESTO={card:"karine", name:"Chez Karine", bg:"#3E5A3A", icon:"🍽", model:"points", points:L.start, step:L.goal, gain:L.gain, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025", serial:"KPL-5D1A-KAR"};
+  var RESTO=kc("comptoir-anna",{points:L.start, step:L.goal, gain:L.gain, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025"});
   var SHOPS=[
     RESTO,
-    {card:"corner", name:"Corner Café", bg:"#3F5B45", icon:"☕", stamp:"☕", model:"tampons", stamps:6, rewards:1, member:"INÈS", status:"BRONZE", since:"2025", serial:"KPL-9A4E-INE"},
-    {card:"sushi", name:"Sushi Party", bg:"#1E1A26", icon:"🍣", model:"points", points:L.second.start, step:L.second.goal, gain:L.second.gain, reward:"un plateau offert", rewards:3, member:"KARIM", status:"OR", since:"2024", serial:"KPL-6C3F-KAR"},
-    {card:"linguini", name:"Pizzeria Linguini", bg:"#A8341F", icon:"🍕", stamp:"🍕", model:"tampons", stamps:4, rewards:1, member:"THÉO", status:"ARGENT", since:"2024", serial:"KPL-3C9B-THE"}
+    kc("cafe-lumiere",{stamps:6}),
+    kc("sakura-bento",{points:L.second.start, step:L.second.goal, gain:L.second.gain}),
+    kc("pizzeria-nonna")
   ];
-  // La galerie : toutes les cartes, à tampons et à points en alternance.
-  var GALLERY=[
-    ["fourchette","Fourchette Dorée","#7A2E1F","🍴"],["kitchen","Kitchen Chef","#1E1A26","👨‍🍳"],["tajine","Magic Tajine","#5C3A21","🍲"],
-    ["smash","Smash Burger","#14111F","🍔"],["sushi","Sushi Party","#B3261E","🍣"],["tacos","Tacos Fresh","#2F6B3A","🌮"],
-    ["tapas","Tapas World","#8A2C2C","🍤"],["crazy","Crazy Pizza","#C2412F","🍕"],["thai","Thaï Food","#C46A1B","🍜"],
-    ["bigburgers","Big Burgers","#3A1C14","🍔"],["karine","Chez Karine","#3E5A3A","🍽"],["corner","Corner Café","#3F5B45","☕"],
-    ["linguini","Pizzeria Linguini","#A8341F","🍕"],["luxury","Luxury Restaurant","#2A2340","🍷"]
-  ].map(function(g,i){
-    var names=["SALMA","HUGO","INÈS","YANIS","LÉA","KARIM","NORA","THÉO","AMINE","CHLOÉ","MEHDI","EMMA","ADAM","SARAH"];
-    var tiers=["MEMBRE","BRONZE","ARGENT","OR"];
-    return i%2 ? {card:g[0], name:g[1], bg:g[2], icon:g[3], stamp:g[3], model:"tampons", stamps:3+(i*3)%7, rewards:i%3, member:names[i], status:tiers[i%4], since:String(2023+i%3), serial:"KPL-"+(4100+i*37)+"-"+names[i].slice(0,3)}
-               : {card:g[0], name:g[1], bg:g[2], icon:g[3], model:"points", points:150*(i%5)+[34,58,91,76,112,47,123][i%7], step:150, reward:"une surprise", rewards:1+i%3, member:names[i], status:tiers[i%4], since:String(2023+i%3), serial:"KPL-"+(4100+i*37)+"-"+names[i].slice(0,3)};
-  });
+  // La galerie : toutes les cartes du Studio, à tampons et à points.
+  var GALLERY=KCARDS;
   /* Les vraies cartes des établissements, cadrées dans leur ancienne image. */
   var CARDS={}; try{ CARDS=JSON.parse(d.getElementById("cardimg").textContent)||{}; }catch(e){}
-  function stripOf(o){ return (o.card && CARDS[o.card+"_strip"]) || (o.photo && IMG[o.photo]) || null; }
+  function stripOf(o){ return (o.k && "cartes/"+o.k+".jpg") || (o.card && CARDS[o.card+"_strip"]) || (o.photo && IMG[o.photo]) || null; }
 
   // Une carte à points avance de palier en palier : tous les `step` points, une
   // récompense. La barre va du palier atteint au suivant, comme sur l'iPhone.
@@ -3741,7 +3736,7 @@ html{-webkit-tap-highlight-color:transparent}
 
   function passHTML(o){
     var src=stripOf(o), strip=src?'style="--wp-strip:url('+src+')"':"";
-    var logo=o.card && CARDS[o.card+"_logo"] ? '<img src="'+CARDS[o.card+"_logo"]+'" alt="" />' : o.icon;
+    var logo=o.k ? '<img src="cartes/'+o.k+'.svg" alt="" />' : o.card && CARDS[o.card+"_logo"] ? '<img src="'+CARDS[o.card+"_logo"]+'" alt="" />' : o.icon;
     var mid, pts=o.model==="points";
     if(pts){
       var r=rung(o,o.points||0);
@@ -3749,14 +3744,15 @@ html{-webkit-tap-highlight-color:transparent}
         +(o.bar===false?"":'<span class="wp__bar"><i style="--p:'+(r.fraction*100).toFixed(1)+'"></i></span>');
     } else {
       var s="", stamp=o.stamp||o.icon;
-      for(var i=0;i<10;i++){ s+='<span class="wp__st'+(i<o.stamps?" on":"")+'">'+(i<o.stamps?stamp:"")+'</span>'; }
-      mid='<div class="wp__stamps">'+s+'</div>';
+      var n=o.total||10;
+      for(var i=0;i<n;i++){ s+='<span class="wp__st'+(i<o.stamps?" on":"")+'">'+(i<o.stamps?stamp:"")+'</span>'; }
+      mid='<div class="wp__stamps"'+(n!==10?' style="--c:'+(n<=6?n:Math.ceil(n/2))+'"':'')+'>'+s+'</div>';
     }
     var f=[["Membre",o.member]];
     if(o.tiers!==false) f.push(["Statut",o.status]);
     f.push(["Depuis",o.since||"2026"]);
     var cols=f.length===3?"1fr 1fr auto":"1fr auto";
-    return '<div class="wp'+(o.card?" wp--logo":"")+'" style="--wp-bg:'+o.bg+'">'
+    return '<div class="wp'+(o.k?" wp--k":o.card?" wp--logo":"")+'" style="--wp-bg:'+o.bg+(o.fg?';--wp-fg:'+o.fg+';--wp-lb:'+o.lb:'')+'">'
       +'<div class="wp__head"><span class="wp__logo">'+logo+'</span><span class="wp__name">'+esc(o.name)+'</span>'
       +'<span class="wp__hf"><small>Récompenses</small><b>'+o.rewards+'</b></span></div>'
       +'<div class="wp__strip'+(pts?" wp__strip--pts":"")+'" '+strip+'>'+mid+'</div>'
@@ -3887,7 +3883,7 @@ html{-webkit-tap-highlight-color:transparent}
       s.appendChild(w);
     });
     var room=IMG.resto_table2||IMG.resto_room1;
-    d.querySelectorAll('#view-home [data-shop-logo]').forEach(function(el){ if(CARDS.karine_logo) el.innerHTML='<img src="'+CARDS.karine_logo+'" alt="" />'; });
+    d.querySelectorAll('#view-home [data-shop-logo]').forEach(function(el){ el.innerHTML='<img src="cartes/'+RESTO.k+'.svg" alt="" />'; });
     d.querySelectorAll("#view-home .cam__bg").forEach(function(b){ if(room) b.style.backgroundImage="url("+room+")"; });
     var wallets=[].slice.call(d.querySelectorAll("#view-home [data-wallet]"));
     function fillWallets(){ wallets.forEach(function(w){ w.innerHTML=passHTML(STORY); }); }
@@ -3963,7 +3959,7 @@ html{-webkit-tap-highlight-color:transparent}
   }
   function initModel(){
     var box=d.getElementById("kModelDemo"); if(!box || box.dataset.ready) return; box.dataset.ready="1";
-    var demo={card:"corner", name:"Corner Café", bg:"#3F5B45", icon:"☕", stamp:"☕", stamps:6, points:180, step:300, reward:"un café offert", rewards:1, member:"YANIS", status:"MEMBRE", since:"2026", serial:"KPL-2B7C-YAN"};
+    var demo=kc("cafe-lumiere",{stamps:6, points:180, step:300, reward:"un café offert", rewards:1, member:"YANIS", status:"MEMBRE", since:"2026", serial:"KPL-2B7C-YAN"});
     function draw(m){ demo.model=m; box.innerHTML=passHTML(demo); }
     draw("tampons");
     radio(d.querySelectorAll(".k-cell--model .k-seg button"),function(b){ draw(b.getAttribute("data-model")); });
@@ -3973,8 +3969,8 @@ html{-webkit-tap-highlight-color:transparent}
   /* ---------- atelier de carte ---------- */
   function initStudio(){
     var out=d.getElementById("kStudioPass"); if(!out || out.dataset.ready) return; out.dataset.ready="1";
-    var st={name:"Corner Café", bg:"#3F5B45", icon:"☕", photo:"cafe_latte", model:"tampons", stamps:7, points:120, step:150, reward:"un café offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2026", serial:"KPL-9A4E-COR"};
-    var COLORS=[["#3F5B45","Vert"],["#5B3FD6","Violet"],["#A8341F","Brique"],["#1E1A26","Noir"],["#1F4FA8","Bleu"],["#9A6A3A","Noisette"]];
+    var st={name:"Café Lumière", bg:"#4A3226", icon:"☕", photo:"cafe_latte", model:"tampons", stamps:7, points:120, step:150, reward:"un café offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2026", serial:"KPL-9A4E-COR"};
+    var COLORS=[["#4A3226","Café"],["#3F5B45","Vert"],["#5B3FD6","Violet"],["#A8341F","Brique"],["#1E1A26","Noir"],["#1F4FA8","Bleu"],["#9A6A3A","Noisette"]];
     var PHOTOS=[["cafe_latte","Latte","☕"],["cafe_warm2","Comptoir de café","☕"],["resto_pasta","Pâtes","🍝"],["pizza1","Pizza","🍕"],["resto_table2","Terrasse","🍝"],["none","Sans photo",""]];
     var sws=d.getElementById("kSwatches"), ph=d.getElementById("kPhotos");
     sws.innerHTML=COLORS.map(function(c,i){ return '<button type="button" role="radio" aria-checked="'+(i===0)+'" aria-label="'+c[1]+'" data-c="'+c[0]+'" style="--c:'+c[0]+'"></button>'; }).join("");
@@ -4150,7 +4146,7 @@ html{-webkit-tap-highlight-color:transparent}
      ATELIER
      ============================================================ */
   var A={
-    name:"Corner Café", logo:"image", logoImg:CARDS.corner_logo||"", logoEmoji:"☕",
+    name:"Café Lumière", logo:"image", logoImg:"cartes/cafe-lumiere.svg", logoEmoji:"☕",
     bg:"#3F5B45", fg:"auto",
     strip:"photo", photo:IMG.cafe_latte, zoom:1.15, x:.5, y:.5, rot:0, dim:.18, pattern:"☕",
     model:"tampons", stampsReq:10, stampEmoji:"☕", filled:6,
@@ -4388,8 +4384,8 @@ html{-webkit-tap-highlight-color:transparent}
     d.querySelectorAll('[data-kf="unitShort"]').forEach(function(e){ e.textContent=CUR.short; });
 
     /* deux cartes vivantes */
-    var cafe={card:"corner", name:"Corner Café", bg:"#3F5B45", icon:"☕", stamp:"☕", model:"tampons", stamps:4, rewards:1, member:"INÈS", status:"BRONZE", since:"2025", serial:"KPL-9A4E-INE"};
-    var resto={card:"karine", name:"Chez Karine", bg:"#3E5A3A", icon:"🍽", model:"points", points:L.start, step:L.goal, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025", serial:"KPL-5D1A-KAR"};
+    var cafe=kc("cafe-lumiere",{stamps:4});
+    var resto=kc("comptoir-anna",{model:"points", points:L.start, step:L.goal, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025", serial:"KPL-5D1A-KAR"});
     sc.innerHTML=K.passHTML(cafe);
     var pc=d.getElementById("kfPointsCard"); pc.innerHTML=K.passHTML(resto);
     var t1=null;

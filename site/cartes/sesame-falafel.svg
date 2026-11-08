@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><polygon points="100,3 184,51.5 184,148.5 100,197 16,148.5 16,51.5" fill="#4D5B2A"/><polygon points="100,18 171,59 171,141 100,182 29,141 29,59" fill="none" stroke="#F3E9C6" stroke-width="2"/><g transform="translate(67.0 53.0) scale(2.7500)" fill="none" stroke="#F3E9C6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M14 9.536V7a4 4 0 0 1 4-4h1.5a.5.5 0 0 1 .5.5V5a4 4 0 0 1-4 4 4 4 0 0 0-4 4c0 2 1 3 1 5a5 5 0 0 1-1 3" />
+  <path d="M4 9a5 5 0 0 1 8 4 5 5 0 0 1-8-4" />
+  <path d="M5 21h14" />
+</g><text x="100" y="150" font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="800" font-size="19" letter-spacing="2.5" fill="#F3E9C6" text-anchor="middle">SÉSAME</text></svg>
