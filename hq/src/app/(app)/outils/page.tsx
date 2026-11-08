@@ -1,18 +1,18 @@
 "use client";
-import { Calculator, Link2, NotebookPen, Sparkles, Wrench } from "lucide-react";
+import { Calculator, Globe, Laptop, Link2, NotebookPen, Sparkles, Wrench } from "lucide-react";
 import { useMemo, useRef, useState } from "react";
 import { TrendLine } from "@/components/charts";
 import { Button, Card, CopyButton, Field, Markdown, PageHeader, Skeleton, Stat, Tabs } from "@/components/ui";
 import { api, useApi } from "@/lib/client";
 import { eur, num } from "@/lib/format";
 
-type Tab = "calculs" | "utm" | "atelier" | "notes";
+type Tab = "calculs" | "utm" | "atelier" | "notes" | "mac";
 
 export default function ToolsPage() {
   const [tab, setTab] = useState<Tab>("calculs");
   return (
     <div>
-      <PageHeader icon={<Wrench />} title="Outils" subtitle="Calculs de croissance, liens de suivi, atelier d'écriture et bloc-notes." />
+      <PageHeader icon={<Wrench />} title="Outils" subtitle="Calculs de croissance, liens de suivi, atelier d'écriture, bloc-notes et outils du Mac." />
       <Tabs
         value={tab}
         onChange={setTab}
@@ -21,12 +21,14 @@ export default function ToolsPage() {
           { value: "utm", label: "Liens de suivi", icon: <Link2 className="size-4" /> },
           { value: "atelier", label: "Atelier d'écriture", icon: <Sparkles className="size-4" /> },
           { value: "notes", label: "Bloc-notes", icon: <NotebookPen className="size-4" /> },
+          { value: "mac", label: "Outils du Mac", icon: <Laptop className="size-4" /> },
         ]}
       />
       {tab === "calculs" && <Calculators />}
       {tab === "utm" && <Utm />}
       {tab === "atelier" && <Atelier />}
       {tab === "notes" && <Notes />}
+      {tab === "mac" && <MacTools />}
     </div>
   );
 }
@@ -227,5 +229,73 @@ function NotesEditor({ initial }: { initial: string }) {
     <Card title="Bloc-notes" action={<span className="text-[12.5px] text-ink-3">{saved ? "Enregistré" : "Enregistrement…"}</span>}>
       <textarea className="field h-[60dvh] font-[450]" placeholder="Idées, numéros, choses à ne pas oublier…" value={text} onChange={(e) => change(e.target.value)} />
     </Card>
+  );
+}
+
+function Pill({ ok, label }: { ok: boolean | undefined; label: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12.5px] font-semibold ${ok ? "bg-violet-soft text-violet" : "bg-bg-2 text-ink-3"}`}>
+      <span className={`size-1.5 rounded-full ${ok ? "bg-violet" : "bg-ink-3"}`} />
+      {label}
+    </span>
+  );
+}
+
+function MacTools() {
+  const { data } = useApi<{ online: boolean; outils: { n8n: boolean; crawl4ai: boolean } | null }>("/api/outils/mac");
+  const [url, setUrl] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [page, setPage] = useState<{ titre?: string; texte?: string; erreur?: string } | null>(null);
+  const read = async () => {
+    setBusy(true);
+    setPage(null);
+    const r = await api<{ queued: boolean; result?: { ok: boolean; titre?: string; texte?: string; erreur?: string } }>("POST", "/api/outils/mac", { url });
+    setBusy(false);
+    if (!r) return;
+    if (r.queued || !r.result) setPage({ erreur: "Le Mac n'a pas répondu à temps. Réessaie dans un instant." });
+    else if (!r.result.ok) setPage({ erreur: r.result.erreur || "Lecture impossible." });
+    else setPage(r.result);
+  };
+  const o = data?.outils;
+  return (
+    <div className="grid gap-5 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]">
+      <div className="space-y-5">
+        <Card title="Sur le Mac">
+          {!data ? (
+            <Skeleton className="h-24" />
+          ) : !data.online ? (
+            <p className="text-[14px] text-ink-2">Le Mac est éteint ou le pont est arrêté.</p>
+          ) : (
+            <div className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[14px] font-semibold">n8n</span>
+                  <Pill ok={o?.n8n} label={o?.n8n ? "Allumé" : "Arrêté"} />
+                </div>
+                <p className="mt-1 text-[13px] text-ink-2">Automatisations entre tes outils. S&apos;ouvre sur le Mac à l&apos;adresse 127.0.0.1:5678.</p>
+              </div>
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[14px] font-semibold">Crawl4AI</span>
+                  <Pill ok={o?.crawl4ai} label={o?.crawl4ai ? "Prêt" : "Absent"} />
+                </div>
+                <p className="mt-1 text-[13px] text-ink-2">Lit les sites des restaurants. Harvey s&apos;en sert avant d&apos;écrire un mail de prospection.</p>
+              </div>
+            </div>
+          )}
+        </Card>
+        <Card title="Lire un site">
+          <Field label="Adresse du site">
+            <input className="field" placeholder="restaurant-exemple.fr" value={url} onChange={(e) => setUrl(e.target.value)} onKeyDown={(e) => e.key === "Enter" && url && !busy && read()} />
+          </Field>
+          <Button className="mt-3" variant="primary" icon={<Globe className="size-4" />} loading={busy} disabled={!url || !o?.crawl4ai} onClick={read}>
+            Lire
+          </Button>
+        </Card>
+      </div>
+      <Card title={page?.titre || "Contenu du site"} action={page?.texte ? <CopyButton text={page.texte} /> : undefined}>
+        {busy ? <Skeleton className="h-48" /> : page?.erreur ? <p className="text-[14px] text-coral">{page.erreur}</p> : page?.texte ? <Markdown text={page.texte} /> : <p className="text-[14px] text-ink-3">Le texte du site apparaîtra ici.</p>}
+      </Card>
+    </div>
   );
 }

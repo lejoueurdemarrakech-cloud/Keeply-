@@ -21,6 +21,7 @@ export interface BridgeHeartbeat {
   host?: string;
   claude?: string;
   harvey?: { dashboard: boolean; running: boolean };
+  outils?: { n8n: boolean; crawl4ai: boolean };
 }
 
 export interface AiJob {
@@ -81,6 +82,7 @@ export interface AiBudget {
 export const DEFAULT_BUDGET: AiBudget = { dailyMax: 40, roundHours: [8, 18] };
 
 export type HarveyAction =
+  | { action: "lire-site"; url: string }
   | { action: "start" }
   | { action: "stop" }
   | { action: "approve"; id: string }

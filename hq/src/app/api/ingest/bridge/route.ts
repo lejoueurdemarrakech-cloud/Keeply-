@@ -13,13 +13,14 @@ export const POST = route(async (req: Request) => {
     host?: string;
     claude?: string;
     harvey?: { dashboard: boolean; running: boolean };
+    outils?: { n8n: boolean; crawl4ai: boolean };
     quota?: Omit<QuotaSnapshot, "at">;
     results?: { id: string; result?: string; error?: string; usage?: Partial<CallUsage> }[];
     commands?: { id: string; result?: unknown; error?: string }[];
     snapshot?: Omit<HarveySnapshot, "at">;
     harveyCalls?: { label: string; model: string; at: string; usage: Partial<CallUsage> }[];
   };
-  await touchHeartbeat({ host: b.host?.slice(0, 80), claude: b.claude?.slice(0, 40), harvey: b.harvey });
+  await touchHeartbeat({ host: b.host?.slice(0, 80), claude: b.claude?.slice(0, 40), harvey: b.harvey, outils: b.outils ? { n8n: !!b.outils.n8n, crawl4ai: !!b.outils.crawl4ai } : undefined });
   for (const r of b.results ?? []) await finishJob(String(r.id), { result: r.result, error: r.error?.slice(0, 500), usage: r.usage });
   for (const c of b.commands ?? []) await finishCommand(String(c.id), { result: c.result, error: c.error?.slice(0, 500) });
   if (b.quota) await saveQuota(b.quota);
