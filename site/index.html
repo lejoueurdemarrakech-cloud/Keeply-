@@ -322,7 +322,24 @@ body[data-route="confidentialite"] #view-confidentialite{display:block}
 .poster__logo svg{width:58%;height:58%}
 .poster__logo img{width:100%;height:100%;object-fit:cover}
 .poster__name{margin-top:5%;font-family:var(--f-display);font-weight:700;font-size:5cqw;letter-spacing:.11em;text-transform:uppercase;line-height:1.15}
-.poster__head{margin-top:auto;font-family:var(--f-display);font-weight:700;font-size:7.6cqw;line-height:1.08;letter-spacing:-.02em}
+.poster__head{margin-top:3.5%;font-family:var(--f-display);font-weight:700;font-size:7cqw;line-height:1.08;letter-spacing:-.02em}
+.poster__chip{margin-top:3%;background:color-mix(in srgb,var(--pv-fg) 94%,transparent);color:var(--pv-bg);font-family:var(--f-display);font-weight:700;font-size:3.3cqw;padding:1.6% 4%;border-radius:999px;line-height:1.25}
+.poster--story .poster__chip{align-self:flex-start;border-radius:4cqw;padding:3% 4.5%;font-size:4.2cqw}
+.poster__steps{margin-top:3%;display:flex;justify-content:center;gap:5%;width:100%}
+.poster__steps>span{display:flex;flex-direction:column;align-items:center;gap:6px;font-family:var(--f-display);font-weight:700;font-size:2.8cqw;max-width:30%}
+.poster__steps i{position:relative;width:10cqw;height:10cqw;border-radius:50%;background:color-mix(in srgb,var(--pv-fg) 94%,transparent);color:var(--pv-bg);display:grid;place-items:center}
+.poster__steps i svg{width:52%;height:52%}
+.poster__steps em{position:absolute;right:-1cqw;top:-1cqw;width:4.2cqw;height:4.2cqw;border-radius:50%;background:rgba(0,0,0,.55);color:#fff;font:700 2.4cqw/4.2cqw var(--f-display);font-style:normal}
+.poster__top{display:flex;align-items:center;gap:3%;width:100%}
+.poster__top .poster__logo{width:13%}
+.poster__top .poster__name{margin:0;flex:1;text-align:left;font-size:4.4cqw;letter-spacing:.02em;text-transform:none}
+.poster__new{font-family:var(--f-display);font-weight:800;font-size:2.8cqw;letter-spacing:.06em;background:color-mix(in srgb,var(--pv-fg) 94%,transparent);color:var(--pv-bg);padding:1.4% 3%;border-radius:999px}
+.poster--story .poster__head{text-align:left;align-self:stretch;font-size:9cqw;margin-top:6%}
+.poster__add{margin-top:auto;align-self:stretch;text-align:left;display:flex;flex-direction:column;gap:2%}
+.poster__add b{font-family:var(--f-display);font-size:4.4cqw}
+.poster__add span{font-size:3.3cqw;opacity:.85}
+.poster__link{margin-top:5%;display:inline-flex;align-items:center;gap:2%;background:#fff;color:#1F1B16;font-weight:700;font-size:3.8cqw;padding:3% 5%;border-radius:3cqw;box-shadow:0 4px 12px rgba(0,0,0,.2)}
+.poster__link svg{width:4.4cqw;height:4.4cqw}
 .poster__sub{margin-top:3%;font-size:3.7cqw;opacity:.86;line-height:1.3}
 .poster__mini{margin-top:6%;width:80%;border-radius:9px;padding:6% 6% 6.5%;background:linear-gradient(135deg,rgba(0,0,0,.52),rgba(0,0,0,.3));box-shadow:inset 0 0 0 1px rgba(255,255,255,.2);transform:rotate(-3deg)}
 .poster__mini .r1{display:flex;align-items:center;gap:5%}
@@ -338,11 +355,11 @@ body[data-route="confidentialite"] #view-confidentialite{display:block}
 .poster__mini .dots span.on{background:rgba(255,255,255,.96)}
 .poster__mini .bar{margin-top:8%;height:4px;border-radius:3px;background:rgba(255,255,255,.28);overflow:hidden}
 .poster__mini .bar::after{content:"";display:block;width:62%;height:100%;background:rgba(255,255,255,.96)}
-.poster__scan{margin-top:auto;display:flex;flex-direction:column;align-items:center;gap:3.5%}
+.poster__scan{margin-top:auto;width:100%;display:flex;flex-direction:column;align-items:center;gap:3.5%}
 .poster__scan .lab{font-family:var(--f-display);font-weight:700;font-size:3.3cqw;letter-spacing:.08em}
 .poster__qr{width:34%;aspect-ratio:1;background:#fff;border-radius:11px;padding:5.5%;box-shadow:0 4px 14px rgba(0,0,0,.28)}
-.poster--a4 .poster__qr{width:45%}
-.poster--a5 .poster__qr{width:41%}
+.poster--a4 .poster__qr{width:34%}
+.poster--a5 .poster__qr{width:32%}
 .poster__qr i{display:block;width:100%;height:100%;background:center/contain no-repeat var(--qr-src)}
 .poster__mech{font-size:3.1cqw;opacity:.9;line-height:1.3}
 .poster__mech small{display:block;font-size:2.7cqw;opacity:.72;margin-top:1px}
@@ -362,7 +379,23 @@ body[data-route="confidentialite"] #view-confidentialite{display:block}
 .pxctrl--row .logo-hint{display:none}
 
 /* activation — editable affiche + scenes */
-.pxstudio2{margin-top:26px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.pxstudio2{margin-top:26px;display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:stretch}
+.pxstage>[hidden]{display:none!important}
+.pxstage .scene--story{width:min(330px,100%)}
+.pxinfo{padding:30px 28px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);display:flex;flex-direction:column;gap:12px}
+.pxinfo h3{font-size:clamp(24px,2.4vw,32px);letter-spacing:-.03em}
+.pxinfo p{color:var(--ink-soft);font-size:16px}
+.pxinfo .pxinfo__file{font-family:var(--f-mono);font-size:13px;color:var(--ink-faint)}
+.pxinfo .hb__list{margin-top:auto;padding-top:12px}
+.pxchat{width:min(360px,100%);border-radius:22px;background:#ECE5DD;padding:18px 14px 22px;font-family:-apple-system,BlinkMacSystemFont,sans-serif;box-shadow:var(--shadow-2)}
+.pxchat__hd{display:flex;align-items:center;gap:10px;padding-bottom:14px;margin-bottom:14px;border-bottom:1px solid rgba(0,0,0,.08);color:#1F1B16}
+.pxchat__ava{width:36px;height:36px;border-radius:50%;overflow:hidden;background:#fff;display:grid;place-items:center;color:#6B4AF2}
+.pxchat__ava svg,.pxchat__ava img{width:70%;height:70%;object-fit:contain}
+.pxchat__hd b{display:block;font-size:15px}.pxchat__hd small{font-size:12px;color:#5E554A}
+.pxchat__msg{margin-left:auto;max-width:90%;background:#DCF8C6;border-radius:12px 12px 2px 12px;padding:10px 12px;font-size:14.5px;line-height:1.45;color:#1F1B16;box-shadow:0 1px 1px rgba(0,0,0,.08)}
+.pxchat__msg u{color:#0B6BCB;text-decoration:none;word-break:break-all}
+.pxchat__msg small{display:block;text-align:right;font-size:11px;color:#7B7266;margin-top:4px}
+@media (max-width:900px){.pxstudio2{grid-template-columns:1fr}}
 .pxstage{position:relative;display:flex;align-items:center;justify-content:center;padding:30px 22px;background:var(--paper-2);border:1px solid var(--line);border-radius:var(--r-lg)}
 .pxstage>*{width:min(330px,100%)}
 .pxstage .poster{width:100%;box-shadow:var(--shadow-2)}
@@ -1378,6 +1411,14 @@ input[type=range]:focus-visible::-webkit-slider-thumb{box-shadow:0 0 0 4px color
 .kf-step__at{margin-top:4px;font-family:var(--f-mono);font-size:12.5px;opacity:.75}
 .kf-step p:last-child{margin-top:12px;font-size:15px;line-height:1.45;max-width:30ch}
 .kf-ladder.is-off .kf-step{opacity:.35;filter:grayscale(1);transform:scale(.98)}
+.kf-step--r1{background:linear-gradient(150deg,#F1ECFF,#CFC2FF);min-height:220px}
+.kf-step--r2{background:linear-gradient(150deg,#DCD1FF,#A58CFF);min-height:260px}
+.kf-step--r3{background:linear-gradient(150deg,#9F84FF,#5B3BE0);min-height:300px;color:#fff}
+.kf-step__pct{font-family:var(--f-display);font-size:44px;font-weight:700;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.kf-rungs .kf-head .k-seg{align-self:flex-end}
+.kf-step p b{font-weight:700}
+.kf-offers--rules li{grid-template-columns:auto 1fr}
+.kf-offers--rules li:not(.is-off){box-shadow:inset 0 0 0 1px var(--line)}
 .kf-foot{margin-top:22px;font-size:14px;color:var(--ink-faint);max-width:70ch}
 .kf-auto{border-top:1px solid var(--line)}
 .kf-count{font-size:14.5px;color:var(--ink-soft);padding:10px 14px;border-radius:14px;background:var(--card);box-shadow:inset 0 0 0 1px var(--line)}
@@ -2215,7 +2256,7 @@ html{-webkit-tap-highlight-color:transparent}
                 <div class="lock__time"><small>mardi 30 septembre</small><b>19:42</b></div>
                 <div class="lock__notif">
                   <span class="lock__ic" data-shop-logo>🍽</span>
-                  <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
+                  <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span data-loc="bdayMsg">Joyeux anniversaire Camille ! Un coupon dessert vous attend ce soir.</span></span>
                 </div>
                 <span class="lock__bar"></span>
               </div>
@@ -2253,7 +2294,7 @@ html{-webkit-tap-highlight-color:transparent}
             </ul>
             <div class="k-auto__notif" id="kAutoNotif" aria-live="polite">
               <span class="lock__ic" data-shop-logo>🍽</span>
-              <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span class="k-auto__msg" data-loc="bdayMsg">Joyeux anniversaire Camille ! Le dessert est pour nous ce soir.</span></span>
+              <span class="lock__txt"><span class="lock__hd"><b>Le Comptoir d'Anna</b><small>maintenant</small></span><span class="k-auto__msg" data-loc="bdayMsg">Joyeux anniversaire Camille ! Un coupon dessert vous attend ce soir.</span></span>
             </div>
           </div>
         </article>
@@ -2273,9 +2314,9 @@ html{-webkit-tap-highlight-color:transparent}
           </div>
           <p>Trois statuts qui donnent envie de revenir. Vous fixez les seuils, ou vous les laissez éteints.</p>
           <ul class="k-tiers" id="kTiers">
-            <li class="k-tier k-tier--b" style="--t:0"><span>Bronze</span><small>dès 10 passages</small></li>
-            <li class="k-tier k-tier--s" style="--t:1"><span>Argent</span><small>dès 30 passages</small></li>
-            <li class="k-tier k-tier--g" style="--t:2"><span>Or</span><small>dès 60 passages</small></li>
+            <li class="k-tier k-tier--b" style="--t:0"><span>Bronze</span><small>−10 % une fois · dès 10 passages</small></li>
+            <li class="k-tier k-tier--s" style="--t:1"><span>Argent</span><small>−5 % toute l'année · dès 30</small></li>
+            <li class="k-tier k-tier--g" style="--t:2"><span>Or</span><small>−10 % toute l'année · dès 60</small></li>
           </ul>
         </article>
 
@@ -2699,7 +2740,7 @@ html{-webkit-tap-highlight-color:transparent}
           </div>
           <div class="ka__field">
             <label for="kaReward">La récompense</label>
-            <input id="kaReward" type="text" maxlength="28" value="un dessert offert" />
+            <input id="kaReward" type="text" maxlength="28" value="−10 %" />
           </div>
           <div class="ka__field ka__row">
             <span id="kaBarLab">Barre jusqu'à la prochaine récompense</span>
@@ -2740,8 +2781,8 @@ html{-webkit-tap-highlight-color:transparent}
   <div class="pagehead"><div class="wrap">
     <a class="back" href="#/">‹ Accueil</a>
     <p class="eyebrow" style="margin-top:16px">Fidélisation</p>
-    <h1>Tampons ou points. Vous choisissez, tout se règle.</h1>
-    <p class="lead">Une mécanique conseillée selon votre établissement, puis la récompense, la valeur d'un point, les statuts et les offres à votre main. Chaque option s'active ou s'éteint quand vous voulez.</p>
+    <h1>Tampons ou points. Des remises qui tombent toutes seules.</h1>
+    <p class="lead">Les mêmes règles que dans l'application : des paliers de remise, des statuts pour les habitués et des offres automatiques. Les chiffres ci-dessous sont ceux proposés par défaut, et chacun se modifie quand vous voulez.</p>
   </div></div>
 
   <!-- Les deux mécaniques -->
@@ -2751,11 +2792,11 @@ html{-webkit-tap-highlight-color:transparent}
       <div class="kf-mech__txt">
         <p class="kf-tag">Le plus simple</p>
         <h2>Tampons</h2>
-        <p>Un passage, un tampon. La carte se remplit à chaque visite scannée, et la récompense tombe quand elle est pleine.</p>
+        <p>Un passage, un tampon. Tous les 10 tampons, une remise sur l'addition. Au troisième palier, la carte est complète et repart à zéro.</p>
         <dl class="kf-specs">
-          <div><dt>Combien</dt><dd>De 4 à 50 tampons, souvent 10</dd></div>
-          <div><dt>La récompense</dt><dd>Un café, un dessert, une remise</dd></div>
-          <div><dt>Idéal pour</dt><dd>Cafés, salons de thé, pizzerias</dd></div>
+          <div><dt>Le rythme</dt><dd>Une remise tous les 10 tampons, jusqu'à 50</dd></div>
+          <div><dt>Les remises</dt><dd>−10 %, −15 %, puis −25 %</dd></div>
+          <div><dt>Idéal pour</dt><dd>Cafés, boulangeries, fast-foods</dd></div>
         </dl>
       </div>
     </article>
@@ -2764,20 +2805,40 @@ html{-webkit-tap-highlight-color:transparent}
       <div class="kf-mech__txt">
         <p class="kf-tag">Le plus juste</p>
         <h2>Points</h2>
-        <p>Des points selon l'addition. Une barre montre au client ce qu'il lui manque pour la prochaine récompense.</p>
+        <p>Des points selon l'addition. Une barre montre au client ce qu'il lui manque pour la prochaine remise.</p>
         <dl class="kf-specs">
-          <div><dt>La valeur</dt><dd>Vous fixez combien rapporte chaque <span data-kf="unitWord">euro</span></dd></div>
-          <div><dt>Les récompenses</dt><dd>Jusqu'à trois paliers, du café au repas</dd></div>
+          <div><dt>La valeur</dt><dd>1 point par <span data-kf="unitWord">euro</span>, ou le taux que vous choisissez</dd></div>
+          <div><dt>Les remises</dt><dd>Trois paliers : −10 %, −15 %, −25 %</dd></div>
           <div><dt>Idéal pour</dt><dd>Restaurants, bistrots, brunchs</dd></div>
         </dl>
       </div>
     </article>
   </div></section>
 
+  <!-- Paliers de remise -->
+  <section class="kf-tiers kf-rungs"><div class="wrap">
+    <div class="kf-head">
+      <div>
+        <h2 class="k-h2">Trois paliers, trois remises.</h2>
+        <p>Chaque palier donne une remise sur l'addition, calculée en caisse. Rien à se rappeler pour le serveur, rien à offrir à la main.</p>
+      </div>
+      <div class="k-seg" role="radiogroup" aria-label="Mécanique" id="kfRungModel">
+        <button type="button" role="radio" aria-checked="true" data-model="tampons">Tampons</button>
+        <button type="button" role="radio" aria-checked="false" data-model="points">Points</button>
+      </div>
+    </div>
+    <ol class="kf-ladder" id="kfRungs">
+      <li class="kf-step kf-step--r1 kr" style="--d:0"><span class="kf-step__pct">−10 %</span><h3>Remise fidélité</h3><p class="kf-step__at" data-rung="0"></p><p>Sur l'addition, une fois par passage.</p></li>
+      <li class="kf-step kf-step--r2 kr" style="--d:1"><span class="kf-step__pct">−15 %</span><h3>Remise habitué</h3><p class="kf-step__at" data-rung="1"></p><p>Sur l'addition, une fois par passage.</p></li>
+      <li class="kf-step kf-step--r3 kr" style="--d:2"><span class="kf-step__pct">−25 %</span><h3 id="kfRung3">Carte complète</h3><p class="kf-step__at" data-rung="2"></p><p id="kfRung3Txt">Une fois utilisée, la carte repart à zéro.</p></li>
+    </ol>
+    <p class="kf-foot">Un produit offert, un café, un dessert, passe par un coupon : il a son propre code à scanner et vous l'envoyez quand vous voulez.</p>
+  </div></section>
+
   <!-- Simulateur -->
   <section class="kf-sim"><div class="wrap kf-sim__grid">
     <div class="kf-sim__txt">
-      <h2 class="k-h2">Combien de passages avant le cadeau ?</h2>
+      <h2 class="k-h2">Combien de passages avant la première remise ?</h2>
       <p>Réglez votre programme comme dans l'application. Le bon rythme se situe souvent entre 6 et 10 visites : assez proche pour donner envie, assez loin pour rester rentable.</p>
     </div>
     <div class="kf-sim__box kr">
@@ -2788,10 +2849,10 @@ html{-webkit-tap-highlight-color:transparent}
       <div class="kf-sim__ctrls" data-sim="points">
         <label>Addition moyenne <output id="kfTicketOut"></output><input type="range" id="kfTicket" /></label>
         <label><span>Points par <span data-kf="unitShort">€</span> dépensé</span> <output id="kfRateOut"></output><input type="range" id="kfRate" min="0.1" max="2" step="0.1" value="1" /></label>
-        <label>Points pour la récompense <output id="kfCostOut"></output><input type="range" id="kfCost" min="30" max="1500" step="10" /></label>
+        <label>Points pour la première remise <output id="kfCostOut"></output><input type="range" id="kfCost" min="30" max="1500" step="10" /></label>
       </div>
       <div class="kf-sim__ctrls" data-sim="tampons" hidden>
-        <label>Tampons pour la récompense <output id="kfStampsOut">10</output><input type="range" id="kfStamps" min="4" max="20" step="1" value="10" /></label>
+        <label>Tampons pour la première remise <output id="kfStampsOut">10</output><input type="range" id="kfStamps" min="4" max="50" step="1" value="10" /></label>
       </div>
       <div class="kf-sim__out" aria-live="polite">
         <p class="kf-sim__big"><b id="kfVisits">7</b> <span id="kfVisitsWord">passages</span></p>
@@ -2806,7 +2867,7 @@ html{-webkit-tap-highlight-color:transparent}
     <div class="kf-head">
       <div>
         <h2 class="k-h2">Bronze, Argent, Or.</h2>
-        <p>Des statuts qui récompensent les habitués sur toute l'année. Optionnels : vous fixez les seuils et les avantages, ou vous les laissez éteints.</p>
+        <p>Des statuts pour vos habitués. Bronze accueille, Argent et Or récompensent la régularité avec une remise sur chaque addition pendant un an. Optionnels : vous fixez les seuils et les remises, ou vous les laissez éteints.</p>
       </div>
       <div class="kf-head__ctrl">
         <span id="kfTierLab">Statuts activés</span>
@@ -2814,11 +2875,26 @@ html{-webkit-tap-highlight-color:transparent}
       </div>
     </div>
     <ol class="kf-ladder" id="kfLadder">
-      <li class="kf-step kf-step--b kr" style="--d:0"><span class="kf-step__medal">🥉</span><h3>Bronze</h3><p class="kf-step__at" data-tier="0"></p><p>Le statut d'accueil, atteint vite. Une remise de 10 % offerte une fois.</p></li>
-      <li class="kf-step kf-step--s kr" style="--d:1"><span class="kf-step__medal">🥈</span><h3>Argent</h3><p class="kf-step__at" data-tier="1"></p><p>Le client régulier. 5 % de remise à chaque passage, toute l'année.</p></li>
-      <li class="kf-step kf-step--g kr" style="--d:2"><span class="kf-step__medal">🥇</span><h3>Or</h3><p class="kf-step__at" data-tier="2"></p><p>Vos meilleurs clients. 10 % à chaque passage, et un message pour fêter ça.</p></li>
+      <li class="kf-step kf-step--b kr" style="--d:0"><span class="kf-step__medal">🥉</span><h3>Bronze</h3><p class="kf-step__at" data-tier="0"></p><p><b>−10 % une fois</b>, le jour où il l'atteint. Le statut d'accueil.</p></li>
+      <li class="kf-step kf-step--s kr" style="--d:1"><span class="kf-step__medal">🥈</span><h3>Argent</h3><p class="kf-step__at" data-tier="1"></p><p><b>−5 % sur chaque addition</b>, pendant un an. Le client régulier.</p></li>
+      <li class="kf-step kf-step--g kr" style="--d:2"><span class="kf-step__medal">🥇</span><h3>Or</h3><p class="kf-step__at" data-tier="2"></p><p><b>−10 % sur chaque addition</b>, pendant un an. Vos meilleurs clients.</p></li>
     </ol>
-    <p class="kf-foot">Les statuts repartent de zéro chaque 1<sup>er</sup> janvier, pour que chacun garde une raison de revenir.</p>
+    <p class="kf-foot">Le seuil se compte sur l'année en cours. Un statut dure un an après avoir été atteint, sauf si le suivant arrive avant. Vous pouvez aussi rendre les statuts définitifs.</p>
+  </div></section>
+
+  <!-- Règles en caisse -->
+  <section class="kf-auto kf-rules"><div class="wrap">
+    <div class="kf-head">
+      <div>
+        <h2 class="k-h2">En caisse, rien à calculer.</h2>
+        <p>Remise de palier, statut et offre en cours s'appliquent tout seuls au moment du scan, dans la limite que vous fixez.</p>
+      </div>
+    </div>
+    <ul class="kf-offers kf-offers--rules">
+      <li class="kr"><span class="kf-offer__ic">🧾</span><div><h3>Un plafond par addition</h3><p>Les avantages se cumulent jusqu'à 25 % de l'addition. Vous changez ce plafond, ajoutez un montant maximum, ou limitez à un avantage par passage.</p></div></li>
+      <li class="kr"><span class="kf-offer__ic">🎟️</span><div><h3>Les produits offerts en coupon</h3><p>Un café, un dessert : le coupon a son propre code, sa date de fin, et se valide au scan comme une carte.</p></div></li>
+      <li class="kr"><span class="kf-offer__ic">📇</span><div><h3>Ou les coupons seuls</h3><p>Pas envie de programme ? Le mode coupons seuls garde le scan et les coupons, sans tampons, points ni statuts.</p></div></li>
+    </ul>
   </div></section>
 
   <!-- Offres automatiques -->
@@ -2826,28 +2902,29 @@ html{-webkit-tap-highlight-color:transparent}
     <div class="kf-head">
       <div>
         <h2 class="k-h2">Les offres qui partent toutes seules.</h2>
-        <p>Réglées une fois, elles arrivent au bon moment sur l'écran verrouillé du client. Chacune s'allume ou s'éteint d'un geste.</p>
+        <p>Réglées une fois, elles arrivent au bon moment sur l'écran verrouillé du client. Chacune donne une remise ou un coupon, et s'allume ou s'éteint d'un geste.</p>
       </div>
-      <p class="kf-count" aria-live="polite"><b id="kfOn">3</b> sur 5 activées</p>
+      <p class="kf-count" aria-live="polite"><b id="kfOn">3</b> sur 6 activées</p>
     </div>
     <ul class="kf-offers" id="kfOffers">
-      <li class="kr"><span class="kf-offer__ic">👋</span><div><h3 id="kfO1">Bienvenue</h3><p>Dès que le client ajoute sa carte, un petit mot et un avantage pour sa prochaine visite.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO1"></button></li>
-      <li class="kr"><span class="kf-offer__ic">🎂</span><div><h3 id="kfO2">Anniversaire</h3><p>Le jour J, une remise ou un dessert offert. La carte se pare de confettis.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO2"></button></li>
+      <li class="kr"><span class="kf-offer__ic">👋</span><div><h3 id="kfO1">Bienvenue</h3><p>Dès que le client ajoute sa carte, un mot et une remise pour sa prochaine visite.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO1"></button></li>
+      <li class="kr"><span class="kf-offer__ic">🎂</span><div><h3 id="kfO2">Anniversaire</h3><p>Le jour J, une remise ou un coupon dessert. La carte se pare de confettis.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO2"></button></li>
       <li class="kr"><span class="kf-offer__ic">💌</span><div><h3 id="kfO3">Client dormant</h3><p>Quand un client ne vient plus depuis la durée que vous choisissez, une raison de revenir.</p></div><button type="button" class="k-sw" role="switch" aria-checked="false" aria-labelledby="kfO3"></button></li>
-      <li class="kr"><span class="kf-offer__ic">👑</span><div><h3 id="kfO4">Statut atteint</h3><p>Félicitations et avantage quand il passe Bronze, Argent ou Or.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO4"></button></li>
-      <li class="kr"><span class="kf-offer__ic">🔁</span><div><h3 id="kfO5">Toutes les N visites</h3><p>Une attention régulière, par exemple à chaque cinquième passage.</p></div><button type="button" class="k-sw" role="switch" aria-checked="false" aria-labelledby="kfO5"></button></li>
+      <li class="kr"><span class="kf-offer__ic">👑</span><div><h3 id="kfO4">Statut atteint</h3><p>Un message quand il passe Bronze, Argent ou Or, avec ce que ça lui rapporte.</p></div><button type="button" class="k-sw" role="switch" aria-checked="true" aria-labelledby="kfO4"></button></li>
+      <li class="kr"><span class="kf-offer__ic">🔁</span><div><h3 id="kfO5">Toutes les N visites</h3><p>Une attention régulière, par exemple un coupon café à chaque cinquième passage.</p></div><button type="button" class="k-sw" role="switch" aria-checked="false" aria-labelledby="kfO5"></button></li>
+      <li class="kr"><span class="kf-offer__ic">⭐</span><div><h3 id="kfO6">Avis Google</h3><p>Une demande d'avis après un passage, une seule fois, jamais en échange d'une récompense.</p></div><button type="button" class="k-sw" role="switch" aria-checked="false" aria-labelledby="kfO6"></button></li>
     </ul>
-    <p class="kf-foot">Les envois sont plafonnés et vos clients peuvent se désabonner à tout moment. Les demandes d'avis Google ne portent jamais de récompense : c'est interdit par Google et par la loi.</p>
+    <p class="kf-foot">Les envois sont plafonnés et vos clients peuvent se désabonner à tout moment. Une demande d'avis Google ne porte jamais de récompense : c'est interdit par Google et par la loi.</p>
   </div></section>
 
   <!-- Changer d'avis -->
   <section class="kf-end"><div class="wrap">
     <div class="kf-end__panel kr">
       <h2>Et si je change d'avis ?</h2>
-      <p>Vous changez de mécanique quand vous voulez. Les cartes déjà installées chez vos clients basculent d'elles-mêmes. Notre conseil : commencez simple, ajustez après un mois de vrais chiffres.</p>
+      <p>Paliers, pourcentages, seuils, offres : tout se règle à nouveau depuis l'application. Notre conseil : commencez avec les réglages proposés, ajustez après un mois de vrais chiffres.</p>
       <div class="kf-end__cta">
         <a class="btn btn--primary k-btn" href="#/carte">Composer ma carte</a>
-        <a class="k-link" href="#/#telecharger">Essayer 14 jours gratuits <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a class="k-link" href="#/#telecharger">Essayer 14 jours gratuits <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
       </div>
     </div>
   </div></section>
@@ -2872,6 +2949,22 @@ html{-webkit-tap-highlight-color:transparent}
 
     <div id="pxWrap" class="reveal">
       <div class="pxctrl--row">
+        <div class="field">
+          <span class="field__lab">Canal</span>
+          <div class="rowset" role="radiogroup" aria-label="Canal" id="pxChannel">
+            <button class="chip" type="button" role="radio" aria-checked="false" tabindex="-1" data-ch="instagram">Instagram</button>
+            <button class="chip" type="button" role="radio" aria-checked="true" tabindex="0" data-ch="posters">Affiches</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" tabindex="-1" data-ch="messages">Messages</button>
+          </div>
+        </div>
+        <div class="field" id="pxFmtField">
+          <span class="field__lab">Format</span>
+          <div class="rowset" role="radiogroup" aria-label="Format de l'affiche" id="pxFmt">
+            <button class="chip" type="button" role="radio" aria-checked="true" tabindex="0" data-fmt="a4">Vitrine · A4</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" tabindex="-1" data-fmt="counter">Caisse · A5</button>
+            <button class="chip" type="button" role="radio" aria-checked="false" tabindex="-1" data-fmt="table">Table · A5</button>
+          </div>
+        </div>
         <div class="field">
           <span class="field__lab">Couleur</span>
           <div class="pxswatches" role="radiogroup" aria-label="Couleur de l'affiche" id="pxColor">
@@ -2906,14 +2999,24 @@ html{-webkit-tap-highlight-color:transparent}
       </div>
 
       <div class="pxstudio2">
-        <div class="pxstage"><div id="pxMain" aria-hidden="true"></div></div>
-        <div class="pxstage pxstage--story"><figure class="scene scene--story" data-scene="story" data-fmt="story" style="border:0;border-radius:16px">
+        <div class="pxstage"><div id="pxMain" aria-hidden="true"></div><figure class="scene scene--story" id="pxStory" hidden data-scene="story" data-fmt="story" style="border:0;border-radius:16px">
           <div class="storyphone">
             <div class="storyphone__bar"><i></i><i></i><i></i></div>
             <div class="storyphone__top"><span class="storyphone__ava" id="pxStoryAva"></span><span class="storyphone__u" id="pxStoryU">keeplyrestaurant</span><span class="storyphone__t">2 h</span></div>
             <div class="scene__pin scene__pin--story"></div>
           </div>
-        </figure></div>
+        </figure><div id="pxChat" hidden></div></div>
+        <div class="pxinfo">
+          <p class="hb__num" id="pxInfoK">Affiches</p>
+          <h3 id="pxInfoT">Affiche de devanture</h3>
+          <p id="pxInfoTip"></p>
+          <p class="pxinfo__file" id="pxInfoF"></p>
+          <ul class="hb__list">
+            <li><span>Votre logo, votre couleur et votre avantage de bienvenue, repris de votre carte.</span></li>
+            <li><span>Le QR code d'inscription unique à votre établissement.</span></li>
+            <li><span>Dans l'application, chaque affiche se montre en situation avant l'impression.</span></li>
+          </ul>
+        </div>
       </div>
 
       <div class="pxscenes" aria-hidden="true">
@@ -3355,10 +3458,10 @@ html{-webkit-tap-highlight-color:transparent}
     if(!n) return; n.classList.add("in"); if(REDUCE) return;
     var msgs=[
       ["Table d'Anna","🎂 Joyeux anniversaire Salma ! -20 % pour fêter ça, cette semaine.","resto"],
-      ["Torréfaction Nord","☕️ Plus que 2 tampons avant votre boisson offerte.","cafe"],
-      ["Pizzeria Bella","🍕 Récompense débloquée : une pizza offerte à votre prochain passage.","pizza"],
-      ["Table d'Anna","✨ 40 points de plus et vous passez Argent — un dessert vous attend.","resto"],
-      ["Smash Corner","👋 Ça fait un moment ! Votre burger est offert à votre retour.","burger"]
+      ["Torréfaction Nord","☕️ Plus que 2 tampons avant votre remise de 10 %.","cafe"],
+      ["Pizzeria Bella","🍕 Remise débloquée : −10 % sur votre prochaine addition.","pizza"],
+      ["Table d'Anna","✨ 40 points de plus et vous passez Argent : −5 % sur chaque addition.","resto"],
+      ["Smash Corner","👋 Ça fait un moment ! −15 % sur votre addition cette semaine.","burger"]
     ];
     var k=1;
     setInterval(function(){ n.classList.remove("in"); setTimeout(function(){
@@ -3383,22 +3486,39 @@ html{-webkit-tap-highlight-color:transparent}
       return '<div class="poster__mini"><div class="r1"><span class="lg">'+(o.logo||LOGOS.shop)+'</span>'
         +'<span class="nm">'+esc(o.name)+'</span><span class="rw"><i>RÉCOMPENSES</i><b>2</b></span></div>'+prog+'</div>';
     }
+    var STEPS='<div class="poster__steps"><span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M9 9h2v2H9zM13 13h2v2h-2z"/></svg><em>1</em></i>Scannez</span><span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V6"/></svg><em>2</em></i>Ajoutez au Wallet</span><span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></svg><em>3</em></i>Cumulez</span></div>';
+    // Mêmes textes que ActivationArtwork dans l'app : l'avantage de bienvenue en titre.
     function build(fmt,o){
-      var cls = fmt==="story" ? "poster poster--story" : (fmt==="a4" ? "poster poster--a4" : "poster poster--a5");
       var mech = o.model==="points"
-        ? 'Des points à chaque passage, échangés contre des réductions.<small>Aucune application à installer</small>'
-        : '1 visite = 1 tampon — première remise dès 10 tampons.<small>Aucune application à installer</small>';
-      return '<div class="'+cls+'" style="--pv-bg:'+(o.bg||"#6B4AF2")+'">'
+        ? "Cumulez des points à chaque passage et gagnez des réductions."
+        : "1 visite = 1 tampon. Votre première remise dès 10 tampons.";
+      var head='<div class="poster__head">−10 % dès votre première visite</div>';
+      if(fmt==="story") return '<div class="poster poster--story" style="--pv-bg:'+(o.bg||"#6B4AF2")+'">'
+        +'<div class="poster__top"><span class="poster__logo">'+(o.logo||LOGOS.shop)+'</span><span class="poster__name">'+esc(o.name)+'</span><span class="poster__new">NOUVEAU</span></div>'
+        +head+'<div class="poster__chip">Puis des récompenses à chaque passage.</div>'
+        +mini(o)
+        +'<div class="poster__add"><b>Ajoutez votre carte en un geste 👇</b><span>'+mech+'</span></div>'
+        +'<span class="poster__link"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></svg>Votre lien ici</span></div>';
+      return '<div class="poster '+(fmt==="a4"?"poster--a4":"poster--a5")+'" style="--pv-bg:'+(o.bg||"#6B4AF2")+'">'
         +'<span class="poster__logo">'+(o.logo||LOGOS.shop)+'</span>'
         +'<span class="poster__name">'+esc(o.name)+'</span>'
-        +'<div class="poster__head">Votre carte de fidélité est arrivée</div>'
-        +'<div class="poster__sub">Une récompense dès la première visite, puis à chaque passage.</div>'
-        +(fmt==="story"?mini(o):"")
-        +'<div class="poster__scan"><span class="lab">SCANNEZ POUR VOTRE CARTE</span>'
-        +'<div class="poster__qr"><i></i></div><div class="poster__mech">'+mech+'</div></div>'
-        +'<div class="poster__foot"><div class="poster__badges">'+BADGES+'</div>'+KM+'</div></div>';
+        +head+'<div class="poster__chip">🎁 Puis des récompenses à chaque passage.</div>'
+        +'<div class="poster__scan"><div class="poster__qr"><i></i></div><span class="lab">SCANNEZ-MOI</span></div>'
+        +STEPS+'<div class="poster__mech">'+mech+'</div>'
+        +'<div class="poster__foot"><div class="poster__badges">'+BADGES+'</div><span class="poster__km">Carte propulsée par Keeply</span></div></div>';
     }
-    var state={bg:"#6B4AF2",model:"tampons",logo:null,name:"Keeply Restaurant"};
+    function chat(o){
+      return '<div class="pxchat"><div class="pxchat__hd"><span class="pxchat__ava">'+(o.logo||LOGOS.shop)+'</span><div><b>'+esc(o.name)+'</b><small>Message à vos habitués</small></div></div>'
+        +'<div class="pxchat__msg">Bonjour ! '+esc(o.name)+' a maintenant sa carte de fidélité. Ajoutez-la dans votre téléphone en un geste avec ce lien. En cadeau : −10 % dès votre première visite.<br><u>keeplyfidelity.app/j/'+handle(o.name)+'</u><small>18:02</small></div></div>';
+    }
+    var FMT={
+      a4:{fmt:"a4",k:"Affiches",t:"Affiche de devanture",tip:"A4 vertical, en vitrine, à hauteur des yeux. Côté rue, elle travaille aussi quand vous êtes fermé.",f:"PDF A4 (21 × 29,7 cm), à imprimer à 100 %, sans « ajuster à la page »."},
+      counter:{fmt:"a5",k:"Affiches",t:"Chevalet de caisse",tip:"A5 vertical, dans un présentoir près du terminal de paiement. Le client le voit pendant qu'il attend sa commande.",f:"PDF A5 (14,8 × 21 cm), à imprimer à 100 %, sans « ajuster à la page »."},
+      table:{fmt:"a5",k:"Affiches",t:"Chevalet de table",tip:"A5 vertical, sur un petit chevalet ou un porte-menu. Le client assis a le temps de scanner : un par table, au centre.",f:"PDF A5 (14,8 × 21 cm), à imprimer à 100 %, sans « ajuster à la page »."},
+      instagram:{k:"Instagram",t:"Story Instagram",tip:"Publiez-la en story avec le sticker lien. Pas de QR code : sur son téléphone, le client ne peut pas scanner l'écran qu'il regarde.",f:"Image 1080 × 1920, la taille exacte d'une story."},
+      messages:{k:"Messages",t:"Message pour vos habitués",tip:"Un texte prêt, avec votre lien, à envoyer à vos clients réguliers sur WhatsApp ou par SMS.",f:"Copier, coller, envoyer."}
+    };
+    var state={bg:"#6B4AF2",model:"tampons",logo:null,name:"Keeply Restaurant",ch:"posters",fmt:"a4"};
     function handle(s){ return (s||"votre resto").toLowerCase().replace(/[^a-z0-9]+/g,"")||"votreresto"; }
     /* ---- exact 4-corner warp of the affiche onto a photographed blank card ---- */
     /* corners = [TL,TR,BR,BL] as [x%,y%] of the scene box */
@@ -3428,7 +3548,12 @@ html{-webkit-tap-highlight-color:transparent}
       });
     }
     function renderAll(){
-      var mn=d.getElementById("pxMain"); if(mn) mn.innerHTML=build("a4",state);
+      var cur=state.ch==="posters"?FMT[state.fmt]:FMT[state.ch];
+      var mn=d.getElementById("pxMain"); if(mn){ mn.hidden=state.ch!=="posters"; mn.innerHTML=build(cur.fmt||"a4",state); }
+      var sto=d.getElementById("pxStory"); if(sto) sto.hidden=state.ch!=="instagram";
+      var ch=d.getElementById("pxChat"); if(ch){ ch.hidden=state.ch!=="messages"; ch.innerHTML=chat(state); }
+      var ff=d.getElementById("pxFmtField"); if(ff) ff.hidden=state.ch!=="posters";
+      [["pxInfoK",cur.k],["pxInfoT",cur.t],["pxInfoTip",cur.tip],["pxInfoF",cur.f]].forEach(function(x){ var e=d.getElementById(x[0]); if(e) e.textContent=x[1]; });
       var ha=d.getElementById("pxHomeAff"); if(ha) ha.innerHTML=build("a4",state);
       d.querySelectorAll(".pxscenes .scene__pin, .pxstage .scene__pin").forEach(function(pin){
         var own=pin.getAttribute("data-fmt"), fig=pin.closest("[data-fmt]");
@@ -3461,6 +3586,8 @@ html{-webkit-tap-highlight-color:transparent}
       setTimeout(warpAll,300); setTimeout(warpAll,900);
       wireRadio('#pxColor .sw', function(el){ state.bg=el.dataset.bg; renderAll(); say("Couleur : "+el.getAttribute("aria-label")); });
       wireRadio('#pxModel .chip', function(el){ state.model=el.dataset.model; renderAll(); say("Programme : "+el.textContent.trim()); });
+      wireRadio('#pxChannel .chip', function(el){ state.ch=el.dataset.ch; renderAll(); say("Canal : "+el.textContent.trim()); });
+      wireRadio('#pxFmt .chip', function(el){ state.fmt=el.dataset.fmt; renderAll(); say("Format : "+el.textContent.trim()); });
       var nm=d.getElementById("pxName");
       if(nm) nm.addEventListener("input",function(){ state.name=nm.value.trim()||"Votre établissement"; renderAll(); });
       var li=d.getElementById("pxLogoInput"), lc=d.getElementById("pxLogoClear"), lt=d.getElementById("pxLogoThumb");
@@ -3690,7 +3817,7 @@ html{-webkit-tap-highlight-color:transparent}
   var COUNTRY=detectCountry(), L=LOCALES[COUNTRY];
   L.gainTxt="+"+L.gain; L.toastTxt="+"+L.gain+" points";
   L.welcomeMsg="Bienvenue chez nous, "+L.who+" ! Votre carte est prête.";
-  L.bdayMsg="Joyeux anniversaire "+L.who+" ! Le dessert est pour nous ce soir.";
+  L.bdayMsg="Joyeux anniversaire "+L.who+" ! Un coupon dessert vous attend ce soir.";
   L.awayMsg="Ça fait un moment, "+L.who+". Votre table vous attend cette semaine.";
   L.priceSentence=L.price.m+" "+L.price.unit+" par mois, ou "+L.price.y+" "+L.price.unit+" par an";
   // Lien App Store : à renseigner le jour de la mise en ligne de l'app.
@@ -3713,10 +3840,11 @@ html{-webkit-tap-highlight-color:transparent}
 
   /* ---------- la carte Wallet conforme ---------- */
   /* Les cartes du Studio Keeply HQ : bandeau cadré dans cartes/<k>.jpg, logo dans cartes/<k>.svg. */
-  var KCARDS=[{"k":"smash-club","name":"Smash Club","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍔","member":"YANIS B.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-4100-YAN","model":"tampons","stamp":"🍔","stamps":5,"total":8},{"k":"pizzeria-nonna","name":"Pizzeria Nonna","bg":"#B4462A","fg":"#FFFFFF","lb":"#E8C8BF","icon":"🍕","member":"JULIE R.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-4125-JUL","model":"tampons","stamp":"🍕","stamps":7,"total":10},{"k":"cafe-lumiere","name":"Café Lumière","bg":"#4A3226","fg":"#FFFFFF","lb":"#E8C9A0","icon":"☕️","member":"CAMILLE D.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-414A-CAM","model":"tampons","stamp":"☕️","stamps":6,"total":10},{"k":"maison-brioche","name":"Maison Brioche","bg":"#F7F1E5","fg":"#3B2A1E","lb":"#A0743C","icon":"🥐","member":"THOMAS L.","status":"OR","since":"2023","rewards":1,"serial":"KPL-416F-THO","model":"tampons","stamp":"🥐","stamps":3,"total":8},{"k":"sakura-bento","name":"Sakura Bento","bg":"#141A2E","fg":"#FFFFFF","lb":"#F29CB0","icon":"🍣","member":"INÈS K.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4194-INÈ","model":"points","points":320,"step":500,"reward":"un plateau offert"},{"k":"taco-loco","name":"Taco Loco","bg":"#C2410C","fg":"#FFFFFF","lb":"#EDC6B6","icon":"🌮","member":"MEHDI A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-41B9-MEH","model":"tampons","stamp":"🌮","stamps":6,"total":8},{"k":"crunchy-corner","name":"Crunchy Corner","bg":"#F2A81C","fg":"#1A1A1A","lb":"#7A1F3D","icon":"🍗","member":"SAMIR O.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-41DE-SAM","model":"tampons","stamp":"🍗","stamps":8,"total":10},{"k":"gelato-bella","name":"Gelato Bella","bg":"#BE3A62","fg":"#FFFFFF","lb":"#ECC4D0","icon":"🍦","member":"LÉA P.","status":"OR","since":"2024","rewards":2,"serial":"KPL-4203-LÉA","model":"tampons","stamp":"🍦","stamps":4,"total":6},{"k":"comptoir-anna","name":"Le Comptoir d'Anna","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#C9A227","icon":"🍷","member":"MARC V.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-4228-MAR","model":"points","points":180,"step":300,"reward":"un dessert offert"},{"k":"atelier-braise","name":"Atelier Braise","bg":"#111111","fg":"#FFFFFF","lb":"#C9A227","icon":"🥩","member":"KARIM E.","status":"OR","since":"2023","rewards":1,"serial":"KPL-424D-KAR","model":"points","points":860,"step":1000,"reward":"une entrecôte offerte"},{"k":"green-bowl","name":"Green Bowl","bg":"#047857","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🥗","member":"NORA S.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4272-NOR","model":"tampons","stamp":"🥗","stamps":4,"total":10},{"k":"dar-atay","name":"Dar Atay","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🍵","member":"SALMA H.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4297-SAL","model":"tampons","stamp":"🍵","stamps":5,"total":8},{"k":"sweet-ring","name":"Sweet Ring","bg":"#C2185B","fg":"#FFFFFF","lb":"#EDBACE","icon":"🍩","member":"EMMA G.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-42BC-EMM","model":"tampons","stamp":"🍩","stamps":5,"total":6},{"k":"casa-mojito","name":"Casa Mojito","bg":"#0E7490","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🍹","member":"ADAM T.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-42E1-ADA","model":"points","points":90,"step":150,"reward":"un cocktail offert"},{"k":"pasta-fresca","name":"Pasta Fresca","bg":"#EFE2CB","fg":"#2B2F3A","lb":"#B4462A","icon":"🍝","member":"LUCAS F.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-4306-LUC","model":"tampons","stamp":"🍝","stamps":2,"total":10},{"k":"table-saphir","name":"Table Saphir","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#C9B8F5","icon":"🍽️","member":"SOPHIE B.","status":"PLATINE","since":"2023","rewards":1,"serial":"KPL-432B-SOP","model":"points","points":1250,"step":2000,"reward":"un menu dégustation"},{"k":"mangal-grill","name":"Mangal Grill","bg":"#7A1F3D","fg":"#FFFFFF","lb":"#FFD166","icon":"🍢","member":"RAYAN M.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-4350-RAY","model":"tampons","stamp":"🍢","stamps":6,"total":10},{"k":"dar-tajine","name":"Dar Tajine","bg":"#9A3B1C","fg":"#FFFFFF","lb":"#F3E3C9","icon":"🫕","member":"YOUSSEF A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4375-YOU","model":"points","points":140,"step":250,"reward":"un tajine offert"},{"k":"couscous-zahra","name":"Couscous Zahra","bg":"#0B6B4F","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🥘","member":"FATIMA Z.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-439A-FAT","model":"tampons","stamp":"🥘","stamps":5,"total":8},{"k":"ty-billig","name":"Ty Billig","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#BFD3FF","icon":"🥞","member":"MAËLLE K.","status":"OR","since":"2024","rewards":2,"serial":"KPL-43BF-MAË","model":"tampons","stamp":"🥞","stamps":7,"total":10},{"k":"ramen-kaze","name":"Ramen Kaze","bg":"#111111","fg":"#FFFFFF","lb":"#F04438","icon":"🍜","member":"KENJI T.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-43E4-KEN","model":"points","points":260,"step":400,"reward":"un bol offert"},{"k":"bagel-street","name":"Bagel Street","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#F2C14E","icon":"🥯","member":"CHLOÉ M.","status":"BRONZE","since":"2023","rewards":1,"serial":"KPL-4409-CHL","model":"tampons","stamp":"🥯","stamps":3,"total":8},{"k":"fresh-press","name":"Fresh Press","bg":"#E8590C","fg":"#FFFFFF","lb":"#F8CDB6","icon":"🍊","member":"INÈS B.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-442E-INÈ","model":"tampons","stamp":"🍊","stamps":4,"total":6},{"k":"cacao-co","name":"Cacao & Co","bg":"#3A251B","fg":"#FFFFFF","lb":"#E6C9A8","icon":"🍫","member":"HÉLÈNE D.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4453-HÉL","model":"points","points":75,"step":120,"reward":"un ballotin offert"},{"k":"cave-saint-clair","name":"Cave Saint-Clair","bg":"#5C1530","fg":"#FFFFFF","lb":"#F0D9A8","icon":"🥂","member":"ANTOINE R.","status":"OR","since":"2023","rewards":1,"serial":"KPL-4478-ANT","model":"points","points":420,"step":600,"reward":"une bouteille offerte"},{"k":"smoky-ribs","name":"Smoky Ribs","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍖","member":"BILAL K.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-449D-BIL","model":"tampons","stamp":"🍖","stamps":6,"total":8},{"k":"masala-house","name":"Masala House","bg":"#F2A81C","fg":"#2A1200","lb":"#7A1F3D","icon":"🍛","member":"PRIYA S.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-44C2-PRI","model":"tampons","stamp":"🍛","stamps":5,"total":10},{"k":"sesame-falafel","name":"Sésame","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#F3E9C6","icon":"🧆","member":"OMAR H.","status":"OR","since":"2023","rewards":1,"serial":"KPL-44E7-OMA","model":"tampons","stamp":"🧆","stamps":7,"total":8},{"k":"fish-co","name":"Fish & Co","bg":"#0E5A70","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🐟","member":"OLIVIA W.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-450C-OLI","model":"tampons","stamp":"🐟","stamps":4,"total":10},{"k":"dog-avenue","name":"Dog Avenue","bg":"#D62828","fg":"#FFFFFF","lb":"#FFE066","icon":"🌭","member":"NATHAN L.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4531-NAT","model":"tampons","stamp":"🌭","stamps":5,"total":8},{"k":"waffle-lab","name":"Waffle Lab","bg":"#F5E3C3","fg":"#3B2412","lb":"#8A4B14","icon":"🧇","member":"ZOÉ P.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-4556-ZOÉ","model":"tampons","stamp":"🧇","stamps":2,"total":6},{"k":"rose-macaron","name":"Rose Macaron","bg":"#F8D7E3","fg":"#5A1A33","lb":"#9C2F5A","icon":"🧁","member":"CLARA V.","status":"OR","since":"2024","rewards":2,"serial":"KPL-457B-CLA","model":"points","points":55,"step":100,"reward":"une boîte de 6"}];
+  var KCARDS=[{"k":"smash-club","name":"Smash Club","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍔","member":"YANIS B.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-4100-YAN","model":"tampons","stamp":"🍔","stamps":5,"total":8},{"k":"pizzeria-nonna","name":"Pizzeria Nonna","bg":"#B4462A","fg":"#FFFFFF","lb":"#E8C8BF","icon":"🍕","member":"JULIE R.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-4125-JUL","model":"tampons","stamp":"🍕","stamps":7,"total":10},{"k":"cafe-lumiere","name":"Café Lumière","bg":"#4A3226","fg":"#FFFFFF","lb":"#E8C9A0","icon":"☕️","member":"CAMILLE D.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-414A-CAM","model":"tampons","stamp":"☕️","stamps":6,"total":10},{"k":"maison-brioche","name":"Maison Brioche","bg":"#F7F1E5","fg":"#3B2A1E","lb":"#A0743C","icon":"🥐","member":"THOMAS L.","status":"OR","since":"2023","rewards":1,"serial":"KPL-416F-THO","model":"tampons","stamp":"🥐","stamps":3,"total":8},{"k":"sakura-bento","name":"Sakura Bento","bg":"#141A2E","fg":"#FFFFFF","lb":"#F29CB0","icon":"🍣","member":"INÈS K.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4194-INÈ","model":"points","points":320,"step":500,"reward":"−10 %"},{"k":"taco-loco","name":"Taco Loco","bg":"#C2410C","fg":"#FFFFFF","lb":"#EDC6B6","icon":"🌮","member":"MEHDI A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-41B9-MEH","model":"tampons","stamp":"🌮","stamps":6,"total":8},{"k":"crunchy-corner","name":"Crunchy Corner","bg":"#F2A81C","fg":"#1A1A1A","lb":"#7A1F3D","icon":"🍗","member":"SAMIR O.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-41DE-SAM","model":"tampons","stamp":"🍗","stamps":8,"total":10},{"k":"gelato-bella","name":"Gelato Bella","bg":"#BE3A62","fg":"#FFFFFF","lb":"#ECC4D0","icon":"🍦","member":"LÉA P.","status":"OR","since":"2024","rewards":2,"serial":"KPL-4203-LÉA","model":"tampons","stamp":"🍦","stamps":4,"total":6},{"k":"comptoir-anna","name":"Le Comptoir d'Anna","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#C9A227","icon":"🍷","member":"MARC V.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-4228-MAR","model":"points","points":180,"step":300,"reward":"−10 %"},{"k":"atelier-braise","name":"Atelier Braise","bg":"#111111","fg":"#FFFFFF","lb":"#C9A227","icon":"🥩","member":"KARIM E.","status":"OR","since":"2023","rewards":1,"serial":"KPL-424D-KAR","model":"points","points":860,"step":1000,"reward":"−15 %"},{"k":"green-bowl","name":"Green Bowl","bg":"#047857","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🥗","member":"NORA S.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-4272-NOR","model":"tampons","stamp":"🥗","stamps":4,"total":10},{"k":"dar-atay","name":"Dar Atay","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🍵","member":"SALMA H.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4297-SAL","model":"tampons","stamp":"🍵","stamps":5,"total":8},{"k":"sweet-ring","name":"Sweet Ring","bg":"#C2185B","fg":"#FFFFFF","lb":"#EDBACE","icon":"🍩","member":"EMMA G.","status":"MEMBRE","since":"2023","rewards":1,"serial":"KPL-42BC-EMM","model":"tampons","stamp":"🍩","stamps":5,"total":6},{"k":"casa-mojito","name":"Casa Mojito","bg":"#0E7490","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🍹","member":"ADAM T.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-42E1-ADA","model":"points","points":90,"step":150,"reward":"−10 %"},{"k":"pasta-fresca","name":"Pasta Fresca","bg":"#EFE2CB","fg":"#2B2F3A","lb":"#B4462A","icon":"🍝","member":"LUCAS F.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-4306-LUC","model":"tampons","stamp":"🍝","stamps":2,"total":10},{"k":"table-saphir","name":"Table Saphir","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#C9B8F5","icon":"🍽️","member":"SOPHIE B.","status":"PLATINE","since":"2023","rewards":1,"serial":"KPL-432B-SOP","model":"points","points":1250,"step":2000,"reward":"−15 %"},{"k":"mangal-grill","name":"Mangal Grill","bg":"#7A1F3D","fg":"#FFFFFF","lb":"#FFD166","icon":"🍢","member":"RAYAN M.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-4350-RAY","model":"tampons","stamp":"🍢","stamps":6,"total":10},{"k":"dar-tajine","name":"Dar Tajine","bg":"#9A3B1C","fg":"#FFFFFF","lb":"#F3E3C9","icon":"🫕","member":"YOUSSEF A.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4375-YOU","model":"points","points":140,"step":250,"reward":"−10 %"},{"k":"couscous-zahra","name":"Couscous Zahra","bg":"#0B6B4F","fg":"#FFFFFF","lb":"#E8D9A8","icon":"🥘","member":"FATIMA Z.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-439A-FAT","model":"tampons","stamp":"🥘","stamps":5,"total":8},{"k":"ty-billig","name":"Ty Billig","bg":"#1E3A8A","fg":"#FFFFFF","lb":"#BFD3FF","icon":"🥞","member":"MAËLLE K.","status":"OR","since":"2024","rewards":2,"serial":"KPL-43BF-MAË","model":"tampons","stamp":"🥞","stamps":7,"total":10},{"k":"ramen-kaze","name":"Ramen Kaze","bg":"#111111","fg":"#FFFFFF","lb":"#F04438","icon":"🍜","member":"KENJI T.","status":"MEMBRE","since":"2025","rewards":3,"serial":"KPL-43E4-KEN","model":"points","points":260,"step":400,"reward":"−10 %"},{"k":"bagel-street","name":"Bagel Street","bg":"#2B2F3A","fg":"#FFFFFF","lb":"#F2C14E","icon":"🥯","member":"CHLOÉ M.","status":"BRONZE","since":"2023","rewards":1,"serial":"KPL-4409-CHL","model":"tampons","stamp":"🥯","stamps":3,"total":8},{"k":"fresh-press","name":"Fresh Press","bg":"#E8590C","fg":"#FFFFFF","lb":"#F8CDB6","icon":"🍊","member":"INÈS B.","status":"ARGENT","since":"2024","rewards":2,"serial":"KPL-442E-INÈ","model":"tampons","stamp":"🍊","stamps":4,"total":6},{"k":"cacao-co","name":"Cacao & Co","bg":"#3A251B","fg":"#FFFFFF","lb":"#E6C9A8","icon":"🍫","member":"HÉLÈNE D.","status":"OR","since":"2025","rewards":3,"serial":"KPL-4453-HÉL","model":"points","points":75,"step":120,"reward":"−10 %"},{"k":"cave-saint-clair","name":"Cave Saint-Clair","bg":"#5C1530","fg":"#FFFFFF","lb":"#F0D9A8","icon":"🥂","member":"ANTOINE R.","status":"OR","since":"2023","rewards":1,"serial":"KPL-4478-ANT","model":"points","points":420,"step":600,"reward":"−15 %"},{"k":"smoky-ribs","name":"Smoky Ribs","bg":"#111111","fg":"#FFFFFF","lb":"#F2A81C","icon":"🍖","member":"BILAL K.","status":"BRONZE","since":"2024","rewards":2,"serial":"KPL-449D-BIL","model":"tampons","stamp":"🍖","stamps":6,"total":8},{"k":"masala-house","name":"Masala House","bg":"#F2A81C","fg":"#2A1200","lb":"#7A1F3D","icon":"🍛","member":"PRIYA S.","status":"ARGENT","since":"2025","rewards":3,"serial":"KPL-44C2-PRI","model":"tampons","stamp":"🍛","stamps":5,"total":10},{"k":"sesame-falafel","name":"Sésame","bg":"#4D5B2A","fg":"#FFFFFF","lb":"#F3E9C6","icon":"🧆","member":"OMAR H.","status":"OR","since":"2023","rewards":1,"serial":"KPL-44E7-OMA","model":"tampons","stamp":"🧆","stamps":7,"total":8},{"k":"fish-co","name":"Fish & Co","bg":"#0E5A70","fg":"#FFFFFF","lb":"#9FE6C8","icon":"🐟","member":"OLIVIA W.","status":"MEMBRE","since":"2024","rewards":2,"serial":"KPL-450C-OLI","model":"tampons","stamp":"🐟","stamps":4,"total":10},{"k":"dog-avenue","name":"Dog Avenue","bg":"#D62828","fg":"#FFFFFF","lb":"#FFE066","icon":"🌭","member":"NATHAN L.","status":"BRONZE","since":"2025","rewards":3,"serial":"KPL-4531-NAT","model":"tampons","stamp":"🌭","stamps":5,"total":8},{"k":"waffle-lab","name":"Waffle Lab","bg":"#F5E3C3","fg":"#3B2412","lb":"#8A4B14","icon":"🧇","member":"ZOÉ P.","status":"ARGENT","since":"2023","rewards":1,"serial":"KPL-4556-ZOÉ","model":"tampons","stamp":"🧇","stamps":2,"total":6},{"k":"rose-macaron","name":"Rose Macaron","bg":"#F8D7E3","fg":"#5A1A33","lb":"#9C2F5A","icon":"🧁","member":"CLARA V.","status":"OR","since":"2024","rewards":2,"serial":"KPL-457B-CLA","model":"points","points":55,"step":100,"reward":"−10 %"}];
   function kc(k,extra){ var o={},x,src=KCARDS.filter(function(c){ return c.k===k; })[0]||KCARDS[0]; for(x in src) o[x]=src[x]; for(x in extra||{}) o[x]=extra[x]; return o; }
+  window.__kc=kc;
   // Le restaurant du récit : un bistrot de quartier, ni fast-food ni gastronomique.
-  var RESTO=kc("comptoir-anna",{points:L.start, step:L.goal, gain:L.gain, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025"});
+  var RESTO=kc("comptoir-anna",{points:L.start, step:L.goal, gain:L.gain, reward:"−10 %", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025"});
   var SHOPS=[
     RESTO,
     kc("cafe-lumiere",{stamps:6}),
@@ -3732,7 +3860,7 @@ html{-webkit-tap-highlight-color:transparent}
   // Une carte à points avance de palier en palier : tous les `step` points, une
   // récompense. La barre va du palier atteint au suivant, comme sur l'iPhone.
   function rung(o,p){ var st=o.step||500, next=(Math.floor(p/st)+1)*st; return {next:next, left:next-p, fraction:(p-(next-st))/st}; }
-  function ptsLabel(o,r){ return "points · encore "+fmt(r.left)+" pour "+(o.reward||"un cadeau"); }
+  function ptsLabel(o,r){ return "points · encore "+fmt(r.left)+" pour "+(o.reward||"la prochaine remise"); }
 
   function passHTML(o){
     var src=stripOf(o), strip=src?'style="--wp-strip:url('+src+')"':"";
@@ -3959,7 +4087,7 @@ html{-webkit-tap-highlight-color:transparent}
   }
   function initModel(){
     var box=d.getElementById("kModelDemo"); if(!box || box.dataset.ready) return; box.dataset.ready="1";
-    var demo=kc("cafe-lumiere",{stamps:6, points:180, step:300, reward:"un café offert", rewards:1, member:"YANIS", status:"MEMBRE", since:"2026", serial:"KPL-2B7C-YAN"});
+    var demo=kc("cafe-lumiere",{stamps:6, points:180, step:300, reward:"−10 %", rewards:1, member:"YANIS", status:"MEMBRE", since:"2026", serial:"KPL-2B7C-YAN"});
     function draw(m){ demo.model=m; box.innerHTML=passHTML(demo); }
     draw("tampons");
     radio(d.querySelectorAll(".k-cell--model .k-seg button"),function(b){ draw(b.getAttribute("data-model")); });
@@ -3969,7 +4097,7 @@ html{-webkit-tap-highlight-color:transparent}
   /* ---------- atelier de carte ---------- */
   function initStudio(){
     var out=d.getElementById("kStudioPass"); if(!out || out.dataset.ready) return; out.dataset.ready="1";
-    var st={name:"Café Lumière", bg:"#4A3226", icon:"☕", photo:"cafe_latte", model:"tampons", stamps:7, points:120, step:150, reward:"un café offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2026", serial:"KPL-9A4E-COR"};
+    var st={name:"Café Lumière", bg:"#4A3226", icon:"☕", photo:"cafe_latte", model:"tampons", stamps:7, points:120, step:150, reward:"−10 %", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2026", serial:"KPL-9A4E-COR"};
     var COLORS=[["#4A3226","Café"],["#3F5B45","Vert"],["#5B3FD6","Violet"],["#A8341F","Brique"],["#1E1A26","Noir"],["#1F4FA8","Bleu"],["#9A6A3A","Noisette"]];
     var PHOTOS=[["cafe_latte","Latte","☕"],["cafe_warm2","Comptoir de café","☕"],["resto_pasta","Pâtes","🍝"],["pizza1","Pizza","🍕"],["resto_table2","Terrasse","🍝"],["none","Sans photo",""]];
     var sws=d.getElementById("kSwatches"), ph=d.getElementById("kPhotos");
@@ -4092,11 +4220,11 @@ html{-webkit-tap-highlight-color:transparent}
   var L=K.L, IMG=K.IMG, CARDS=K.CARDS, fmt=K.fmt, esc=K.esc, radio=K.radio, sw=K.sw;
 
   var CUR={
-    FR:{word:"euro", short:"€", ticket:[5,80,24.5], rate:1, cost:150, tiers:[100,300,600]},
-    MA:{word:"dirham", short:"DH", ticket:[30,600,220], rate:0.1, cost:150, tiers:[500,1500,3000]},
-    CA:{word:"dollar", short:"$ CA", ticket:[5,100,32], rate:1, cost:200, tiers:[150,450,900]}
+    FR:{word:"euro", short:"€", ticket:[5,80,24.5], rate:1, cost:70, costs:[70,150,250], tiers:[100,300,600]},
+    MA:{word:"dirham", short:"DH", ticket:[30,600,220], rate:1, cost:350, costs:[350,750,1250], tiers:[500,1500,3000]},
+    CA:{word:"dollar", short:"$ CA", ticket:[5,100,32], rate:1, cost:100, costs:[100,220,360], tiers:[150,450,900]}
   }[K.country] || null;
-  if(!CUR) CUR={word:"euro", short:"€", ticket:[5,80,24.5], rate:1, cost:150, tiers:[100,300,600]};
+  if(!CUR) CUR={word:"euro", short:"€", ticket:[5,80,24.5], rate:1, cost:70, costs:[70,150,250], tiers:[100,300,600]};
 
   /* ---------- couleurs ---------- */
   function rgb(hex){ var h=hex.replace("#",""); if(h.length===3) h=h.replace(/(.)/g,"$1$1"); return [0,2,4].map(function(i){ return parseInt(h.slice(i,i+2),16)||0; }); }
@@ -4150,7 +4278,7 @@ html{-webkit-tap-highlight-color:transparent}
     bg:"#3F5B45", fg:"auto",
     strip:"photo", photo:IMG.cafe_latte, zoom:1.15, x:.5, y:.5, rot:0, dim:.18, pattern:"☕",
     model:"tampons", stampsReq:10, stampEmoji:"☕", filled:6,
-    points:96, goal:150, reward:"un dessert offert", bar:true,
+    points:96, goal:150, reward:"−10 %", bar:true,
     tiers:true, qr:true, hero:true, rewards:1, wallet:"apple", back:false
   };
   var APPLE_RATIO=1125/432, GOOGLE_RATIO=1032/336;
@@ -4167,7 +4295,7 @@ html{-webkit-tap-highlight-color:transparent}
   }
   function pointsBlock(st,withBar){
     var r=rung(st);
-    return '<div class="wp__pts"><b>'+fmt(st.points)+'</b><small>points · encore '+fmt(r.left)+' pour '+esc(st.reward||"un cadeau")+'</small></div>'
+    return '<div class="wp__pts"><b>'+fmt(st.points)+'</b><small>points · encore '+fmt(r.left)+' pour '+esc(st.reward||"la prochaine remise")+'</small></div>'
       +(withBar?'<span class="wp__bar"><i style="--p:'+(r.fraction*100).toFixed(1)+'"></i></span>':"");
   }
   function appleFront(st){
@@ -4186,7 +4314,7 @@ html{-webkit-tap-highlight-color:transparent}
   }
   function appleBack(st){
     var fg=fgOf(st), rule=st.model==="points"
-      ? "Chaque passage rapporte des points selon l'addition. À "+fmt(st.goal)+" points : "+(st.reward||"un cadeau")+"."
+      ? "Chaque passage rapporte des points selon l'addition. À "+fmt(st.goal)+" points : "+(st.reward||"la prochaine remise")+"."
       : "Un tampon par passage. Au "+st.stampsReq+"e tampon, la récompense est à vous.";
     var rows=[["Votre programme",rule]];
     if(st.tiers) rows.push(["Votre statut","Argent. Encore 12 passages pour passer Or."]);
@@ -4202,7 +4330,7 @@ html{-webkit-tap-highlight-color:transparent}
         +(st.strip==="photo"?photoLayer(st,GOOGLE_RATIO):"")
         +(pts&&st.bar?'<span class="wp__bar"><i style="--p:'+(r.fraction*100).toFixed(1)+'"></i></span>':"")+'</div>';
     }
-    var balLabel=pts?"Points · encore "+fmt(r.left)+" pour "+(st.reward||"un cadeau"):"Tampons";
+    var balLabel=pts?"Points · encore "+fmt(r.left)+" pour "+(st.reward||"la prochaine remise"):"Tampons";
     var balValue=pts?fmt(st.points):(st.filled+" sur "+st.stampsReq);
     return '<div class="kg" style="--kg-bg:'+st.bg+';--kg-fg:'+fg+'">'+hero
       +'<div class="kg__head"><span class="kg__logo">'+logoHTML(st)+'</span><span class="kg__issuer">'+esc(st.name||"Votre établissement")+'</span></div>'
@@ -4379,13 +4507,14 @@ html{-webkit-tap-highlight-color:transparent}
      FIDÉLISATION
      ============================================================ */
   function initFidel(){
+    var kc=window.__kc;
     var sc=d.getElementById("kfStampCard"); if(!sc || sc.dataset.ready) return; sc.dataset.ready="1";
     d.querySelectorAll('[data-kf="unitWord"]').forEach(function(e){ e.textContent=CUR.word; });
     d.querySelectorAll('[data-kf="unitShort"]').forEach(function(e){ e.textContent=CUR.short; });
 
     /* deux cartes vivantes */
     var cafe=kc("cafe-lumiere",{stamps:4});
-    var resto=kc("comptoir-anna",{model:"points", points:L.start, step:L.goal, reward:"le dessert offert", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025", serial:"KPL-5D1A-KAR"});
+    var resto=kc("comptoir-anna",{model:"points", points:L.start, step:L.goal, reward:"−10 %", rewards:2, member:L.who.toUpperCase(), status:"ARGENT", since:"2025", serial:"KPL-5D1A-KAR"});
     sc.innerHTML=K.passHTML(cafe);
     var pc=d.getElementById("kfPointsCard"); pc.innerHTML=K.passHTML(resto);
     var t1=null;
@@ -4414,10 +4543,10 @@ html{-webkit-tap-highlight-color:transparent}
         d.getElementById("kfTicketOut").textContent=money(+T.value);
         d.getElementById("kfRateOut").textContent=(+R.value).toLocaleString("fr-FR")+" pt";
         d.getElementById("kfCostOut").textContent=fmt(+C.value)+" pts";
-        line="Avec une addition de "+money(+T.value)+", votre client gagne "+fmt(per)+" points par passage. Sa récompense arrive au "+n+(n===1?"er":"e")+".";
+        line="Avec une addition de "+money(+T.value)+", votre client gagne "+fmt(per)+" points par passage. Sa première remise arrive au "+n+(n===1?"er":"e")+".";
       } else {
         n=+S.value; d.getElementById("kfStampsOut").textContent=n;
-        line="Un tampon par passage : la récompense arrive au "+n+"e, puis la carte repart à zéro.";
+        line="Un tampon par passage : la première remise de 10 % arrive au "+n+"e, la suivante au "+(2*n)+"e.";
       }
       d.getElementById("kfVisits").textContent=n;
       d.getElementById("kfVisitsWord").textContent=n>1?"passages":"passage";
@@ -4437,12 +4566,25 @@ html{-webkit-tap-highlight-color:transparent}
 
     /* statuts */
     function ladder(){
-      d.querySelectorAll(".kf-step__at").forEach(function(p){
+      d.querySelectorAll(".kf-step__at[data-tier]").forEach(function(p){
         var i=+p.getAttribute("data-tier");
         p.textContent=model==="points" ? "dès "+fmt(CUR.tiers[i])+" points dans l'année" : "dès "+[10,30,60][i]+" passages dans l'année";
       });
     }
     sw(d.getElementById("kfTierSw"),function(on){ d.getElementById("kfLadder").classList.toggle("is-off",!on); });
+
+    /* paliers de remise */
+    var rungModel="tampons";
+    function rungs(){
+      d.querySelectorAll("[data-rung]").forEach(function(p){
+        var i=+p.getAttribute("data-rung");
+        p.textContent=rungModel==="points" ? "à "+fmt(CUR.costs[i])+" points" : "à "+[10,20,30][i]+" tampons";
+      });
+      d.getElementById("kfRung3").textContent=rungModel==="points"?"Grande remise":"Carte complète";
+      d.getElementById("kfRung3Txt").textContent=rungModel==="points"?"Ensuite, le client repart au premier palier, avec ses points et ses récompenses.":"Une fois utilisée, la carte repart à zéro.";
+    }
+    radio(d.querySelectorAll("#kfRungModel button"),function(b){ rungModel=b.getAttribute("data-model"); rungs(); });
+    rungs();
 
     /* offres */
     var offers=[].slice.call(d.querySelectorAll("#kfOffers .k-sw"));
