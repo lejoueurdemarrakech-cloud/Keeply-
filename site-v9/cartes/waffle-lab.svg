@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><polygon points="198.0,100.0 190.2,111.9 194.7,125.4 184.1,134.8 184.9,149.0 172.2,155.4 169.3,169.3 155.4,172.2 149.0,184.9 134.8,184.1 125.4,194.7 111.9,190.2 100.0,198.0 88.1,190.2 74.6,194.7 65.2,184.1 51.0,184.9 44.6,172.2 30.7,169.3 27.8,155.4 15.1,149.0 15.9,134.8 5.3,125.4 9.8,111.9 2.0,100.0 9.8,88.1 5.3,74.6 15.9,65.2 15.1,51.0 27.8,44.6 30.7,30.7 44.6,27.8 51.0,15.1 65.2,15.9 74.6,5.3 88.1,9.8 100.0,2.0 111.9,9.8 125.4,5.3 134.8,15.9 149.0,15.1 155.4,27.8 169.3,30.7 172.2,44.6 184.9,51.0 184.1,65.2 194.7,74.6 190.2,88.1" fill="#F5E3C3"/><circle cx="100" cy="100" r="78" fill="none" stroke="#8A4B14" stroke-width="2" stroke-dasharray="4 5"/><g transform="translate(65.0 57.0) scale(2.9167)" fill="none" stroke="#8A4B14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="18" height="18" x="3" y="3" rx="2" />
+  <path d="M3 9h18" />
+  <path d="M3 15h18" />
+  <path d="M9 3v18" />
+  <path d="M15 3v18" />
+</g><text x="100" y="152" font-family="'Arial Rounded MT Bold', 'Avenir Next', Helvetica, sans-serif" font-weight="800" font-size="22" letter-spacing="1.5" fill="#8A4B14" text-anchor="middle">WAFFLE</text></svg>

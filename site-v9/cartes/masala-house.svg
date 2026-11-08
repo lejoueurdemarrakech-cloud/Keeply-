@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><circle cx="100" cy="100" r="98" fill="#F2A81C"/><circle cx="100" cy="100" r="88" fill="none" stroke="#5A1A00" stroke-width="2.5"/><circle cx="100" cy="100" r="56" fill="none" stroke="#5A1A00" stroke-width="1.5"/><path id="t" d="M 34 100 A 66 66 0 0 1 166 100" fill="none"/><text font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#5A1A00" text-anchor="middle"><textPath href="#t" startOffset="50%">MASALA HOUSE</textPath></text><path id="b" d="M 23.200000000000003 100 A 76.8 76.8 0 0 0 176.8 100" fill="none"/><text font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="700" font-size="15" letter-spacing="3" fill="#5A1A00" text-anchor="middle"><textPath href="#b" startOffset="50%">CURRY &amp; TANDOOR</textPath></text><circle cx="44" cy="104" r="3" fill="#5A1A00"/><circle cx="156" cy="104" r="3" fill="#5A1A00"/><g transform="translate(73.0 73.0) scale(2.2500)" fill="none" stroke="#5A1A00" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M11.248 3c.273.1.808.53.747 1.36-.05.83-.938 1.2-.989 2.02-.06.78.333 1.24.727 1.62" />
+  <path d="M16.252 3c.268.1.794.53.745 1.36-.06.83-.923 1.2-.993 2.02-.05.78.338 1.24.725 1.62" />
+  <path d="M19.5 12 22 6" />
+  <path d="M4 12a1 1 0 00-.99 1.133A9 9 0 0012 21a9 9 0 008.99-7.867A1 1 0 0020 12z" />
+  <path d="M6.252 3c.268.1.794.53.745 1.36-.06.83-.923 1.2-.993 2.02-.05.78.338 1.24.735 1.62" />
+  <path d="M7 21h10" />
+</g></svg>

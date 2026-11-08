@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Keeply : la carte de fidélité dans Apple Wallet et Google Wallet</title>
+<meta name="description" content="Keeply crée la carte de fidélité de votre café, fast-food ou restaurant dans Apple Wallet et Google Wallet. Tampons ou points, scan en caisse, affiches prêtes à imprimer. 14 jours gratuits.">
+<meta property="og:title" content="Keeply : la carte de fidélité dans le téléphone de vos clients">
+<meta property="og:description" content="Tampons ou points, dans Apple Wallet et Google Wallet. Vos clients n'installent rien.">
+<meta name="theme-color" content="#F7F4EE">
+<link rel="icon" href="img/keeply.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v={{V}}">
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-left" viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></symbol>
+  <symbol id="i-right" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M8 8h3v3H8zM13 13h3v3h-3zM13 8h3M8 13v3"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V5a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3v2a1 1 0 0 1-1 1H5a2 2 0 0 1-2-2V6"/></symbol>
+  <symbol id="i-gift" viewBox="0 0 24 24"><path d="M20 12v9H4v-9M2 7h20v5H2zM12 21V7M12 7H7.5a2.5 2.5 0 1 1 0-5C11 2 12 7 12 7zM12 7h4.5a2.5 2.5 0 1 0 0-5C13 2 12 7 12 7z"/></symbol>
+  <symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.5.5l3-3a5 5 0 0 0-7-7l-1.7 1.7M14 11a5 5 0 0 0-7.5-.5l-3 3a5 5 0 0 0 7 7l1.7-1.7"/></symbol>
+  <symbol id="i-insta" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><path d="M17.5 6.5h.01"/></symbol>
+  <symbol id="i-print" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v7H6z"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L3 21l1.9-6.4A8 8 0 1 1 21 12z"/></symbol>
+  <symbol id="i-play" viewBox="0 0 24 24"><path d="M7 4l13 8-13 8z"/></symbol>
+  <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 16V4M7 9l5-5 5 5M4 20h16"/></symbol>
+  <symbol id="i-apple" viewBox="0 0 24 24"><path d="M16.4 12.6c0-2.6 2.1-3.8 2.2-3.9-1.2-1.8-3.1-2-3.7-2-1.6-.2-3.1.9-3.9.9-.8 0-2-.9-3.4-.9-1.7 0-3.3 1-4.2 2.6-1.8 3.1-.5 7.7 1.3 10.2.9 1.2 1.9 2.6 3.2 2.6 1.3-.1 1.8-.8 3.3-.8 1.5 0 2 .8 3.4.8 1.4 0 2.3-1.3 3.1-2.5 1-1.4 1.4-2.8 1.4-2.9-.1 0-2.7-1-2.7-4.1zM13.9 5c.7-.9 1.2-2 1-3.2-1 0-2.3.7-3 1.6-.7.8-1.2 2-1.1 3.1 1.2.1 2.3-.6 3.1-1.5z"/></symbol>
+  <symbol id="i-gplay" viewBox="0 0 24 24"><path d="M4 2.7v18.6c0 .4.4.6.8.4l10.6-9.3c.3-.2.3-.6 0-.8L4.8 2.3c-.4-.2-.8 0-.8.4zM16.6 8.6l2.9 1.7c1.3.8 1.3 2.6 0 3.4l-2.9 1.7-2.6-2.4c-.3-.3-.3-.7 0-1z"/></symbol>
+</svg>
+
+<header class="nav" id="nav">
+  <div class="wrap nav__in">
+    <a class="brand" href="#/" aria-label="Keeply, accueil"><img src="img/keeply.png" alt="" width="28" height="28">Keeply</a>
+    <nav class="nav__links" aria-label="Navigation principale">
+      <a href="#/application" data-r="application">L'application</a>
+      <a href="#/carte" data-r="carte">Créer sa carte</a>
+      <a href="#/fidelisation" data-r="fidelisation">Fidélisation</a>
+      <a href="#/activation" data-r="activation">Activation</a>
+      <a href="#/tarifs" data-r="tarifs">Tarifs</a>
+    </nav>
+    <a class="btn btn--main btn--sm nav__cta" href="#telecharger">Essai gratuit</a>
+    <button class="nav__menu" type="button" aria-expanded="false" aria-controls="sheet" aria-label="Ouvrir le menu"><span></span></button>
+  </div>
+  <div class="sheet" id="sheet">
+    <a href="#/application">L'application<svg class="ic"><use href="#i-right"/></svg></a>
+    <a href="#/carte">Créer sa carte<svg class="ic"><use href="#i-right"/></svg></a>
+    <a href="#/fidelisation">Fidélisation<svg class="ic"><use href="#i-right"/></svg></a>
+    <a href="#/activation">Activation<svg class="ic"><use href="#i-right"/></svg></a>
+    <a href="#/tarifs">Tarifs<svg class="ic"><use href="#i-right"/></svg></a>
+    <a href="#/nouveautes">Nouveautés<svg class="ic"><use href="#i-right"/></svg></a>
+    <a class="btn btn--main" href="#telecharger">Essayer 14 jours gratuits</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ================================================================ ACCUEIL -->
+<div class="view" id="view-home" data-title="Keeply : la carte de fidélité dans Apple Wallet et Google Wallet">
+
+  <section class="hero">
+    <div class="wrap hero__grid">
+      <div>
+        <h1>Votre carte de fidélité, dans le téléphone de vos clients</h1>
+        <p class="lead">Pour les fast-foods, cafés et restaurants. Le client scanne un QR code, sa carte s'ajoute à Apple Wallet ou Google Wallet. En caisse, vous la scannez et ses tampons ou ses points se mettent à jour.</p>
+        <div class="hero__cta">
+          <a class="btn btn--main" href="#telecharger">Essayer 14 jours gratuits</a>
+          <a class="btn btn--ghost" href="#comment">Voir comment ça marche<svg class="ic"><use href="#i-arrow"/></svg></a>
+        </div>
+        <p class="hero__note">Sans engagement. Vos clients n'installent aucune application.</p>
+        <div class="facts" aria-label="En chiffres">
+          <div><b>20 s</b><span>pour ajouter la carte</span></div>
+          <div><b>3 s</b><span>pour scanner en caisse</span></div>
+          <div><b>14 jours</b><span>d'essai gratuit</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="stack" id="heroStack" aria-label="Exemples de cartes de fidélité dans le Wallet" role="img"></div>
+        <p class="stack__caption">Exemples de cartes créées avec Keeply</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="why-t">
+    <div class="wrap">
+      <div class="sec__head">
+        <div>
+          <p class="tag">Pourquoi ça marche</p>
+          <h2 id="why-t">On revient là où l'on a une carte en cours</h2>
+        </div>
+        <p class="sub">Un client qui voit ses tampons avancer a une raison de repasser. Keeply garde sa carte sous ses yeux, à côté de sa carte bancaire.</p>
+      </div>
+      <div class="why">
+        <div class="rv"><span class="stampmark">1</span><h3>Elle ne se perd pas</h3><p>La carte vit dans le Wallet du téléphone. Le client la retrouve en deux gestes, même sans connexion.</p></div>
+        <div class="rv"><span class="stampmark">2</span><h3>Elle avance à chaque passage</h3><p>Vous scannez en caisse, le tampon ou les points apparaissent sur son téléphone dans la foulée.</p></div>
+        <div class="rv"><span class="stampmark">3</span><h3>Elle vous permet d'écrire</h3><p>Bienvenue, anniversaire, client qui ne vient plus : le message arrive sur son écran verrouillé, si vous l'activez.</p></div>
+      </div>
+      <p class="aside">La carte en carton, elle, finit souvent au fond d'un tiroir.</p>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" aria-labelledby="gal-t" style="padding-top:24px">
+    <div class="wrap">
+      <div class="sec__head">
+        <div>
+          <p class="tag">La carte</p>
+          <h2 id="gal-t">Une carte qui ressemble à votre commerce</h2>
+        </div>
+        <p class="sub">Votre logo, une photo de chez vous, vos couleurs. À tampons ou à points, avec une barre jusqu'à la prochaine remise si vous la voulez.</p>
+      </div>
+      <div class="rail__bar">
+        <div class="chips" role="group" aria-label="Filtrer les exemples">
+          <button class="chip" type="button" aria-pressed="true" data-f="all">Tous</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="fast">Fast-food</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="cafe">Cafés et douceurs</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="resto">Restaurants</button>
+          <button class="chip" type="button" aria-pressed="false" data-f="bar">Bars</button>
+        </div>
+        <div class="rail__nav">
+          <button type="button" data-dir="-1" aria-label="Cartes précédentes"><svg class="ic"><use href="#i-left"/></svg></button>
+          <button type="button" data-dir="1" aria-label="Cartes suivantes"><svg class="ic"><use href="#i-right"/></svg></button>
+        </div>
+      </div>
+    </div>
+    <div class="rail" id="gallery" tabindex="0" aria-label="Exemples de cartes"></div>
+    <div class="wrap rail__foot">
+      <p class="small">Restaurants fictifs, cartes créées avec l'atelier Keeply.</p>
+      <a class="link" href="#/carte">Créer la vôtre<svg class="ic"><use href="#i-arrow"/></svg></a>
+    </div>
+  </section>
+
+  <section class="sec sec--raised" id="comment" aria-labelledby="how-t">
+    <div class="wrap">
+      <div class="sec__head sec__head--solo">
+        <p class="tag">Comment ça marche</p>
+        <h2 id="how-t">De la table au Wallet, puis à la caisse</h2>
+      </div>
+      <div class="how">
+        <ol class="how__steps" style="list-style:none;margin:0;padding:0">
+          <li class="step is-on" data-step="0">
+            <span class="step__n">1</span>
+            <div>
+              <h3>Le client scanne le QR code</h3>
+              <p>Sur la table, à la caisse ou en vitrine. Il vise l'affiche avec l'appareil photo de son téléphone.</p>
+              <div class="step__screen" data-screen="0"></div>
+            </div>
+          </li>
+          <li class="step" data-step="1">
+            <span class="step__n">2</span>
+            <div>
+              <h3>Sa carte s'ajoute au Wallet</h3>
+              <p>Un prénom, un numéro de téléphone, et la carte est dans Apple Wallet ou Google Wallet. Une vingtaine de secondes, sans application à installer.</p>
+              <div class="step__screen" data-screen="1"></div>
+            </div>
+          </li>
+          <li class="step" data-step="2">
+            <span class="step__n">3</span>
+            <div>
+              <h3>En caisse, vous scannez sa carte</h3>
+              <p>Avec l'application Keeply sur votre téléphone. En points, vous tapez le montant de l'addition. Les remises gagnées s'affichent et se calculent toutes seules.</p>
+              <div class="step__screen" data-screen="2"></div>
+            </div>
+          </li>
+          <li class="step" data-step="3">
+            <span class="step__n">4</span>
+            <div>
+              <h3>Sa carte se met à jour</h3>
+              <p>Les points ou le tampon apparaissent sur sa carte, avec une notification. Il voit ce qu'il lui manque pour la prochaine remise.</p>
+              <div class="step__screen" data-screen="3"></div>
+            </div>
+          </li>
+        </ol>
+        <div class="how__phone" aria-hidden="true">
+          <div class="phone"><div class="phone__screen" id="howPhone"><span class="phone__island"></span></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="fidelite" aria-labelledby="fid-t">
+    <div class="wrap">
+      <div class="sec__head">
+        <div>
+          <p class="tag">Fidélité</p>
+          <h2 id="fid-t">Des remises qui se calculent toutes seules</h2>
+        </div>
+        <p class="sub">Les mêmes règles que dans l'application. Chaque palier donne une remise sur l'addition, appliquée en caisse. Vous changez les chiffres quand vous voulez.</p>
+      </div>
+      <div class="fid">
+        <div>
+          <div class="seg" role="radiogroup" aria-label="Type de carte" id="fidModel">
+            <button type="button" role="radio" aria-checked="true" data-m="tampons">Tampons</button>
+            <button type="button" role="radio" aria-checked="false" data-m="points">Points</button>
+          </div>
+          <p class="sub" id="fidIntro" style="margin-top:20px"></p>
+          <ol class="ladder" id="fidLadder"></ol>
+          <p class="small" id="fidFoot" style="margin-top:16px"></p>
+        </div>
+        <div class="fid__card">
+          <div id="fidCard"></div>
+          <div class="fid__ctrl">
+            <button class="btn btn--line btn--sm" type="button" id="fidAdd">Simuler un passage</button>
+            <button class="btn btn--ghost btn--sm" type="button" id="fidReset">Remettre à zéro</button>
+          </div>
+          <p class="fid__note" id="fidNote" aria-live="polite"></p>
+        </div>
+      </div>
+
+      <div class="tiers" id="tiers"></div>
+      <div class="rules">
+        <p><b>Un statut dure un an</b>Il se gagne sur l'année en cours, puis se remet en jeu un an après, sauf si le client atteint le suivant avant.</p>
+        <p><b>Les remises ont un plafond</b>Récompense, statut et offre se cumulent jusqu'à 25 % de l'addition. Vous réglez ce plafond, ou vous limitez à un avantage par passage.</p>
+        <p><b>Un produit offert passe par un coupon</b>Un café, un dessert : vous l'envoyez sous forme de coupon, avec son propre code à scanner.</p>
+      </div>
+      <p style="margin-top:40px"><a class="link" href="#/fidelisation">Tout sur la fidélisation<svg class="ic"><use href="#i-arrow"/></svg></a></p>
+    </div>
+  </section>
+
+  <section class="sec sec--dark" aria-labelledby="auto-t">
+    <div class="wrap auto">
+      <div>
+        <p class="tag">Offres automatiques</p>
+        <h2 id="auto-t" style="margin-top:16px">Les bons messages partent au bon moment</h2>
+        <p class="sub" style="margin-top:16px">Vous les réglez une fois. Chacune s'allume ou s'éteint d'un geste, et le nombre de messages par client reste limité.</p>
+      </div>
+      <div class="auto__visual">
+        <ul class="toggles" id="autoList"></ul>
+        <div class="notif" id="autoNotif" aria-live="polite"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="activation" aria-labelledby="act-t">
+    <div class="wrap">
+      <div class="sec__head">
+        <div>
+          <p class="tag">Activation</p>
+          <h2 id="act-t">Des affiches prêtes, à vos couleurs</h2>
+        </div>
+        <p class="sub">Comme dans l'application : une story Instagram, des affiches à imprimer et un message pour vos habitués. Votre logo, votre couleur et votre QR code sont déjà dedans.</p>
+      </div>
+      <div data-activation="home"></div>
+    </div>
+  </section>
+
+  <section class="sec sec--raised" aria-labelledby="st-t">
+    <div class="wrap studio">
+      <div>
+        <p class="tag">Atelier</p>
+        <h2 id="st-t" style="margin-top:16px">Essayez votre carte ici</h2>
+        <p class="sub" style="margin-top:16px">Tapez le nom de votre commerce et choisissez une couleur. L'aperçu suit la mise en page d'Apple Wallet.</p>
+        <div class="form" style="margin-top:32px">
+          <div class="field"><label for="hsName">Nom de votre commerce</label><input class="input" id="hsName" maxlength="24" value="Café Lumière" autocomplete="organization"></div>
+          <div class="field"><span class="act__lbl" id="hsColL">Couleur</span><div class="swatches" role="radiogroup" aria-labelledby="hsColL" id="hsColors"></div></div>
+          <div class="field"><span class="act__lbl" id="hsModL">Programme</span><div class="seg" role="radiogroup" aria-labelledby="hsModL" id="hsModel"><button type="button" role="radio" aria-checked="true" data-m="tampons">Tampons</button><button type="button" role="radio" aria-checked="false" data-m="points">Points</button></div></div>
+        </div>
+        <p style="margin-top:28px"><a class="link" href="#/carte">Ouvrir l'atelier complet<svg class="ic"><use href="#i-arrow"/></svg></a></p>
+      </div>
+      <div class="studio__card"><div id="hsCard"></div><p class="small">Sur Android, la même carte prend la mise en page de Google Wallet.</p></div>
+    </div>
+  </section>
+
+  <section class="sec" id="prix" aria-labelledby="px-t">
+    <div class="wrap price">
+      <div>
+        <p class="tag">Tarif</p>
+        <h2 id="px-t" style="margin-top:16px">Un abonnement, tout compris</h2>
+        <p class="sub" style="margin-top:16px">14 jours gratuits pour essayer. Ensuite un abonnement au mois ou à l'année, via l'App Store, résiliable quand vous voulez.</p>
+        <div class="points3">
+          <div><b>14 jours</b><span>d'essai gratuit</span></div>
+          <div><b>−25 %</b><span>en annuel</span></div>
+          <div><b data-loc="zeroHw">0 €</b><span>de matériel</span></div>
+        </div>
+      </div>
+      <div data-plan></div>
+    </div>
+  </section>
+
+  <section class="sec sec--tight" id="faq" aria-labelledby="faq-t">
+    <div class="wrap faq">
+      <div>
+        <p class="tag">Questions</p>
+        <h2 id="faq-t" style="margin-top:16px">Ce qu'on nous demande</h2>
+        <p class="small" style="margin-top:16px">Une autre question ? <a class="link" href="mailto:contact@keeplyfidelity.app">contact@keeplyfidelity.app</a></p>
+      </div>
+      <div>
+        <details><summary><h3>Mes clients doivent-ils installer une application ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Non. Ils scannent le QR code, donnent un prénom et un numéro, et la carte s'ajoute à Apple Wallet sur iPhone ou à Google Wallet sur Android.</p></details>
+        <details><summary><h3>Et moi, j'utilise quoi ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>L'application Keeply sur iPhone : vous y créez la carte, vous scannez en caisse et vous suivez vos chiffres. La version Android arrive sur Google Play.</p></details>
+        <details><summary><h3>Tampons ou points, comment choisir ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Les tampons comptent les passages : parfait quand l'addition varie peu, comme dans un café ou un fast-food. Les points suivent la dépense : mieux quand les additions sont très différentes d'une table à l'autre.</p></details>
+        <details><summary><h3>Comment se passe le scan en caisse ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Vous ouvrez Keeply et vous scannez la carte du client, ou vous le cherchez par son nom. En points, vous tapez le montant. Vous confirmez, et sa carte se met à jour dans la foulée. Un appareil peut rester en mode caissier : il scanne, sans accès aux réglages.</p></details>
+        <details><summary><h3>Les récompenses, c'est quoi exactement ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Des remises en pourcentage sur l'addition, que l'application calcule en caisse. Pour offrir un produit, vous envoyez un coupon avec son propre code.</p></details>
+        <details><summary><h3>Dans quelle monnaie ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Celle de votre pays : euros en Europe, dirhams au Maroc, dollars canadiens au Canada. Les seuils de points sont adaptés à chaque monnaie.</p></details>
+        <details><summary><h3>Combien ça coûte ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p><span data-loc="priceSentence">399 DH par mois, ou 3 590 DH par an</span>, après 14 jours d'essai gratuit. Sans engagement.</p></details>
+        <details><summary><h3>Je peux l'utiliser sur plusieurs appareils ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Oui, jusqu'à trois : le vôtre, celui de la caisse et un appareil de secours.</p></details>
+        <details><summary><h3>Keeply écrit-il à mes clients sans moi ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Seulement les offres automatiques que vous avez activées. Le nombre de messages est limité et le client peut se désabonner d'un geste.</p></details>
+        <details><summary><h3>Et si j'arrête ?</h3><svg class="ic"><use href="#i-plus"/></svg></summary><p>Vous résiliez depuis votre compte App Store. Votre fichier client s'exporte quand vous voulez.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sec--dark" id="telecharger" aria-labelledby="dl-t">
+    <div class="wrap final">
+      <div>
+        <h2 id="dl-t">Votre carte peut être prête ce soir</h2>
+        <p class="sub">Téléchargez Keeply, créez votre carte et imprimez votre première affiche. 14 jours gratuits, sans engagement.</p>
+        <div class="stores">
+          <a class="store store--light" data-store="ios" href="https://apps.apple.com/app/id6816728580" target="_blank" rel="noopener"><svg><use href="#i-apple"/></svg><span><small>Télécharger dans</small><b>l'App Store</b></span></a>
+          <span class="store store--off" aria-label="Bientôt sur Google Play"><svg><use href="#i-gplay"/></svg><span><small>Bientôt sur</small><b>Google Play</b></span></span>
+        </div>
+      </div>
+      <div class="final__cards" id="finalCards" aria-hidden="true"></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================ L'APPLICATION -->
+<div class="view" id="view-application" data-title="L'application Keeply">
+  <div class="page wrap">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>L'application, au comptoir</h1>
+    <p class="lead">Six écrans que vous réglez une fois pour la plupart. Voici ce que fait Keeply, et comment.</p>
+    <div class="appsteps">
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">01</span>
+          <h2>Créer et publier la carte</h2>
+          <p>Vous choisissez une photo de chez vous, une couleur, votre logo et l'emoji du tampon. L'aperçu suit chaque réglage. Vous publiez, et Keeply prépare le lien et le QR code d'inscription.</p>
+          <ul><li>Carte Apple Wallet et carte Google Wallet, réglées chacune</li><li>Recto pour le client, verso avec l'adresse et les règles</li></ul>
+          <p><a class="link" href="#/carte">Essayer l'atelier<svg class="ic"><use href="#i-arrow"/></svg></a></p>
+        </div>
+        <div class="appstep__media">{{VID1}}</div>
+      </article>
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">02</span>
+          <h2>Choisir tampons ou points</h2>
+          <p>Les tampons : un passage, un tampon, une remise tous les 10 tampons par défaut. Les points : selon la dépense, avec trois paliers de remise. Les statuts Bronze, Argent et Or s'ajoutent si vous les activez.</p>
+          <ul><li>Paliers, seuils et pourcentages réglables</li><li>Plafond de remise par addition</li></ul>
+          <p><a class="link" href="#/fidelisation">Comprendre tampons et points<svg class="ic"><use href="#i-arrow"/></svg></a></p>
+        </div>
+        <div class="appstep__media">{{VID2}}</div>
+      </article>
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">03</span>
+          <h2>Le marketing, discret par défaut</h2>
+          <p>Les offres automatiques partent sur un événement : bienvenue, anniversaire, client dormant, statut atteint. Les campagnes visent un groupe de clients, à l'heure que vous choisissez. La demande d'avis Google part une seule fois, jamais en échange d'une récompense.</p>
+          <ul><li>Aperçu exact de la notification avant l'envoi</li><li>Nombre de messages plafonné, désabonnement en un geste</li></ul>
+        </div>
+        <div class="appstep__media">{{VID3}}</div>
+      </article>
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">04</span>
+          <h2>Le scan en caisse</h2>
+          <p>Vous scannez la carte du client ou vous le cherchez par son nom. En points, vous tapez le montant. Vous confirmez : les remises gagnées s'appliquent et sa carte se met à jour dans la foulée.</p>
+          <ul><li>Mode caissier : un appareil qui scanne, sans accès aux réglages</li><li>Montant et notes internes, jamais visibles par le client</li></ul>
+        </div>
+        <div class="appstep__media">{{VID4}}</div>
+      </article>
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">05</span>
+          <h2>Les chiffres de votre fidélité</h2>
+          <p>Visites du jour, clients actifs, part de clients qui reviennent, fréquence de retour, panier moyen et remises accordées. De quoi voir si le programme marche, sans tableur.</p>
+          <ul><li>Comparaison avec le mois précédent</li><li>Les montants peuvent être désactivés si vous ne voulez pas les saisir</li></ul>
+        </div>
+        <div class="appstep__media">{{VID5}}</div>
+      </article>
+      <article class="appstep">
+        <div>
+          <span class="appstep__n">06</span>
+          <h2>L'activation</h2>
+          <p>Une carte sans membres ne sert à rien. Keeply prépare une story Instagram, trois affiches à imprimer et un message pour vos habitués, avec votre logo, votre couleur et votre QR code.</p>
+          <p><a class="link" href="#/activation">Voir les affiches<svg class="ic"><use href="#i-arrow"/></svg></a></p>
+        </div>
+        <div class="appstep__media">{{VID6}}</div>
+      </article>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ CRÉER SA CARTE -->
+<div class="view" id="view-carte" data-title="Créer sa carte de fidélité, Keeply">
+  <div class="page wrap">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Créez votre carte</h1>
+    <p class="lead">Les mêmes réglages que dans l'application. Rien n'est enregistré ici : c'est un aperçu pour vous faire une idée.</p>
+    <div class="atelier">
+      <div class="form" id="atForm">
+        <div class="group">
+          <h2>Votre commerce</h2>
+          <div class="field"><label for="atName">Nom affiché</label><input class="input" id="atName" maxlength="24" value="Smash Club" autocomplete="organization"></div>
+          <div class="field" style="margin-top:20px"><span class="act__lbl" id="atLogoL">Logo</span><div class="logos" role="radiogroup" aria-labelledby="atLogoL" id="atLogos"></div>
+            <label class="btn btn--line btn--sm upload" style="margin-top:12px"><svg class="ic"><use href="#i-upload"/></svg>Importer votre logo<input type="file" accept="image/*" id="atLogoFile"></label></div>
+        </div>
+        <div class="group">
+          <h2>Couleurs</h2>
+          <div class="field"><span class="act__lbl" id="atColL">Fond de la carte</span><div class="swatches" role="radiogroup" aria-labelledby="atColL" id="atColors"></div></div>
+          <p class="small" style="margin-top:12px" id="atContrast">Le texte passe en clair ou en foncé selon le fond, pour rester lisible.</p>
+        </div>
+        <div class="group">
+          <h2>Bandeau</h2>
+          <div class="field"><span class="act__lbl" id="atPhL">Photo</span><div class="photos" role="radiogroup" aria-labelledby="atPhL" id="atPhotos"></div>
+            <label class="btn btn--line btn--sm upload" style="margin-top:12px"><svg class="ic"><use href="#i-upload"/></svg>Importer une photo<input type="file" accept="image/*" id="atPhotoFile"></label></div>
+          <div class="row2" style="margin-top:20px">
+            <div class="field"><label for="atPosY">Cadrage vertical</label><input class="range" type="range" id="atPosY" min="0" max="100" value="50"></div>
+            <div class="field"><label for="atDim">Assombrir</label><input class="range" type="range" id="atDim" min="0" max="60" value="30"></div>
+          </div>
+        </div>
+        <div class="group">
+          <h2>Programme</h2>
+          <div class="seg" role="radiogroup" aria-label="Type de carte" id="atModel"><button type="button" role="radio" aria-checked="true" data-m="tampons">Tampons</button><button type="button" role="radio" aria-checked="false" data-m="points">Points</button></div>
+          <div class="row2" style="margin-top:20px" id="atStampsRow">
+            <div class="field"><label for="atStep">Tampons pour une remise</label><input class="range" type="range" id="atStep" min="4" max="10" value="8"><span class="small num" id="atStepV">8</span></div>
+            <div class="field"><label for="atEmoji">Emoji du tampon</label><input class="input" id="atEmoji" maxlength="2" value="🍔"></div>
+          </div>
+          <div class="row2" style="margin-top:20px" id="atPointsRow" hidden>
+            <div class="field"><label for="atGoal">Points pour la première remise</label><input class="input num" id="atGoal" inputmode="numeric" value="350"></div>
+            <div class="field"><label for="atReward">Remise</label><input class="input" id="atReward" maxlength="12" value="−10 %"></div>
+          </div>
+        </div>
+      </div>
+      <div class="atelier__preview" aria-live="polite">
+        <div id="atCard"></div>
+        <p class="small" style="text-align:center">Aperçu de la carte Apple Wallet. Dans l'application, vous réglez aussi le verso et la carte Google Wallet.</p>
+        <a class="btn btn--main" href="#telecharger" data-home-cta>Créer la vraie dans l'app</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ FIDÉLISATION -->
+<div class="view" id="view-fidelisation" data-title="Fidélisation : tampons, points et statuts, Keeply">
+  <div class="page wrap">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Tampons, points et statuts</h1>
+    <p class="lead">Ce que vos clients gagnent, et ce que ça vous coûte. Les réglages ci-dessous sont ceux proposés par défaut dans l'application, et chacun se modifie.</p>
+  </div>
+  <section class="sec">
+    <div class="wrap">
+      <div class="cards3" style="margin-top:0">
+        <div class="panel"><b>Tampons, le plus simple</b><p>Un passage égale un tampon. Une remise tous les 10 tampons par défaut, un chiffre que vous réglez jusqu'à 50. Au troisième palier, la carte est complète et repart à zéro.</p></div>
+        <div class="panel"><b>Points, le plus fin</b><p id="fpPoints">Un point par unité dépensée, ou le taux que vous choisissez, plus un bonus par visite si vous voulez. Trois paliers de remise. Arrivé au dernier, le client repart au premier et garde ses récompenses.</p></div>
+      </div>
+      <div class="fid" style="margin-top:64px">
+        <div>
+          <div class="seg" role="radiogroup" aria-label="Type de carte" id="fid2Model">
+            <button type="button" role="radio" aria-checked="true" data-m="tampons">Tampons</button>
+            <button type="button" role="radio" aria-checked="false" data-m="points">Points</button>
+          </div>
+          <ol class="ladder" id="fid2Ladder"></ol>
+        </div>
+        <div class="panel">
+          <h2 style="font-size:24px">Combien de passages avant la première remise ?</h2>
+          <div class="field" style="margin-top:20px"><label for="simVisits">Visites par mois d'un client régulier</label><input class="range" type="range" id="simVisits" min="1" max="12" value="4"><span class="small num" id="simVisitsV">4 visites</span></div>
+          <div class="field" style="margin-top:16px" id="simTicketF"><label for="simTicket">Addition moyenne</label><input class="range" type="range" id="simTicket" min="5" max="80" value="15"><span class="small num" id="simTicketV"></span></div>
+          <p style="margin-top:20px;font-size:17px" id="simOut" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="sec sec--raised">
+    <div class="wrap">
+      <div class="sec__head sec__head--solo">
+        <p class="tag">Statuts</p>
+        <h2>Bronze, Argent, Or</h2>
+        <p class="sub">Une échelle pour vos meilleurs clients, en option. Bronze accueille, Argent et Or récompensent la régularité avec une remise sur chaque addition pendant un an.</p>
+      </div>
+      <div class="tiers" id="tiers2" style="margin-top:0"></div>
+      <div class="rules">
+        <p><b>Sur l'année en cours</b>Le seuil se compte sur les passages ou les points de l'année. Un statut dure un an après avoir été atteint, sauf si le suivant arrive avant. Vous pouvez aussi les rendre définitifs.</p>
+        <p><b>Un plafond par addition</b>Remise de palier, statut et offre en cours se cumulent jusqu'à 25 % de l'addition, ou le plafond que vous fixez. Vous pouvez aussi limiter à un avantage par passage.</p>
+        <p><b>Sans programme du tout</b>Le mode coupons seuls garde le scan et les coupons, sans tampons, points ni statuts. Pour le bar qui veut juste offrir un verre de temps en temps.</p>
+      </div>
+    </div>
+  </section>
+  <section class="sec sec--dark">
+    <div class="wrap auto">
+      <div>
+        <p class="tag">Offres automatiques</p>
+        <h2 style="margin-top:16px">Six déclencheurs, tous optionnels</h2>
+        <p class="sub" style="margin-top:16px">Bienvenue, anniversaire, client dormant, statut atteint, toutes les N visites et demande d'avis Google. Une offre donne une remise ou un produit, sous forme de coupon.</p>
+      </div>
+      <div class="auto__visual"><ul class="toggles" id="autoList2"></ul></div>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================ ACTIVATION -->
+<div class="view" id="view-activation" data-title="Activation : affiches et story, Keeply">
+  <div class="page wrap">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Faire entrer la carte dans les téléphones</h1>
+    <p class="lead">C'est l'étape qui fait la différence. L'application prépare trois canaux, chacun avec ce qu'il lui faut et rien d'autre.</p>
+  </div>
+  <section class="sec" style="padding-top:56px">
+    <div class="wrap"><div data-activation="page"></div></div>
+  </section>
+  <section class="sec sec--raised">
+    <div class="wrap">
+      <div class="sec__head sec__head--solo">
+        <p class="tag">En situation</p>
+        <h2>L'affiche, là où vos clients la verront</h2>
+        <p class="sub">Dans l'application, chaque affiche se montre en situation avant l'impression. Elle s'exporte en PDF au bon format, à imprimer à 100 %.</p>
+      </div>
+      <div class="scene scene--store" id="sceneStore"><img src="img/devanture.jpg" alt="Devanture d'un restaurant avec l'affiche Keeply en vitrine" loading="lazy"><div class="scene__pin" data-pin></div></div>
+      <div class="cards3">
+        <div class="scene scene--caisse" id="sceneCaisse"><img src="img/caisse.jpg" alt="Chevalet de caisse avec l'affiche Keeply à côté du terminal de paiement" loading="lazy"><div class="scene__pin" data-pin></div></div>
+        <div class="scene scene--table" id="sceneTable"><img src="img/table.jpg" alt="Chevalet de table avec l'affiche Keeply à côté d'un café" loading="lazy"><div class="scene__pin" data-pin></div></div>
+      </div>
+      <div class="rules">
+        <p><b>Vitrine, A4</b>En vitrine, à hauteur des yeux. Côté rue, elle travaille aussi quand vous êtes fermé.</p>
+        <p><b>Caisse, A5</b>Dans un présentoir près du terminal de paiement. Le client la voit pendant qu'il attend.</p>
+        <p><b>Table, A5</b>Sur un petit chevalet. Le client assis a le temps de scanner, un par table.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================ TARIFS -->
+<div class="view" id="view-tarifs" data-title="Tarifs, Keeply">
+  <div class="page wrap">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Un abonnement simple</h1>
+    <p class="lead">14 jours gratuits, puis un abonnement au mois ou à l'année, sans engagement. Voici ce qu'il comprend et ce qu'il paie.</p>
+  </div>
+  <section class="sec" style="padding-top:56px">
+    <div class="wrap price">
+      <div>
+        <h2 style="font-size:28px">Ce qui est inclus</h2>
+        <ul class="never" style="margin-top:20px">
+          <li>Carte dans Apple Wallet et Google Wallet, sans limite de clients</li>
+          <li>Tampons ou points, paliers de remise, statuts et coupons</li>
+          <li>Offres automatiques et campagnes</li>
+          <li>Jusqu'à 3 appareils, mode caissier et statistiques</li>
+          <li>Story, affiches et message d'activation à vos couleurs</li>
+          <li>Les mises à jour de l'application</li>
+        </ul>
+      </div>
+      <div data-plan></div>
+    </div>
+  </section>
+  <section class="sec sec--raised">
+    <div class="wrap">
+      <div class="sec__head sec__head--solo">
+        <h2>Pourquoi ce n'est pas gratuit</h2>
+        <p class="sub">Une carte Wallet n'est pas une image : c'est un fichier signé, hébergé et renvoyé au téléphone à chaque passage.</p>
+      </div>
+      <div class="cards3">
+        <div class="panel"><b>Hébergement sécurisé</b><p>Vos données et celles de vos clients sont stockées sur un serveur chiffré et sauvegardé. Un commerce ne voit jamais les données d'un autre.</p></div>
+        <div class="panel"><b>Signature Apple et Google</b><p>Chaque carte est signée avec les certificats Apple Wallet et Google Wallet. Sans eux, la carte ne s'ajoute pas au téléphone.</p></div>
+        <div class="panel"><b>Mises à jour et notifications</b><p>À chaque passage, la carte est renvoyée au téléphone du client. Les offres passent par les serveurs de notification d'Apple et de Google.</p></div>
+        <div class="panel"><b>Support et évolution</b><p>Quelqu'un qui répond, qui corrige et qui ajoute ce que vous demandez. Le prix finance l'outil, pas la revente de données.</p></div>
+      </div>
+      <h2 style="font-size:28px;margin-top:72px">Ce qu'on ne fera jamais</h2>
+      <ul class="never">
+        <li>Vendre ou louer vos données ou celles de vos clients</li>
+        <li>Facturer à la carte émise ou au client inscrit</li>
+        <li>Vous enfermer : votre fichier client s'exporte quand vous voulez</li>
+      </ul>
+    </div>
+  </section>
+</div>
+
+<!-- ================================================================ NOUVEAUTÉS -->
+<div class="view" id="view-nouveautes" data-title="Nouveautés, Keeply">
+  <div class="page wrap" style="padding-bottom:96px">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Ce qui arrive dans Keeply</h1>
+    <p class="lead">Ce qui vient de sortir, ce qu'on prépare et ce qu'on étudie. Une idée ? <a class="link" href="mailto:contact@keeplyfidelity.app?subject=Une%20id%C3%A9e%20pour%20Keeply">Écrivez-nous</a>.</p>
+    <div class="road">
+      <div class="road__col"><h3>Disponible</h3>
+        <div class="road__item road__item--done"><b>Keeply sur iPhone</b><p>L'application est sur l'App Store : carte Wallet, scan en caisse, offres automatiques et affiches.</p></div>
+        <div class="road__item road__item--done"><b>Barre de progression</b><p>Sur les cartes à points, une barre jusqu'à la prochaine remise, en option.</p></div>
+      </div>
+      <div class="road__col"><h3>En préparation</h3>
+        <div class="road__item"><b>Keeply sur Android</b><p>L'application commerçant sur Google Play. Vos clients Android, eux, utilisent déjà Google Wallet.</p></div>
+        <div class="road__item"><b>QR code à vos couleurs</b><p>Sur les affiches, un QR code avec votre logo et votre couleur, créé automatiquement.</p></div>
+        <div class="road__item"><b>Vidéos de démonstration</b><p>Une vidéo courte par fonction, filmée dans l'application.</p></div>
+      </div>
+      <div class="road__col"><h3>À l'étude</h3>
+        <div class="road__item"><b>Bilan de la semaine</b><p>Un récapitulatif le lundi matin, et une alerte quand les visites baissent.</p></div>
+        <div class="road__item"><b>Parrainage entre clients</b><p>Un client en amène un autre, les deux gagnent un avantage.</p></div>
+        <div class="road__item"><b>Cartes cadeaux</b><p>Une carte prépayée qui vit dans le Wallet.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ AMÉLIORER -->
+<div class="view" id="view-ameliorer" data-title="Améliorer Keeply">
+  <div class="page wrap" style="padding-bottom:96px">
+    <a class="back" href="#/"><svg class="ic"><use href="#i-left"/></svg>Accueil</a>
+    <h1>Aidez-nous à améliorer Keeply</h1>
+    <p class="lead">Une idée, un bug, un écran pas clair : on lit tout, et ce qui revient souvent part en priorité.</p>
+    <div class="cards3">
+      <div class="panel"><b>Une idée</b><p>Ce qui vous ferait gagner du temps au comptoir.</p><p style="margin-top:12px"><a class="link" href="mailto:contact@keeplyfidelity.app?subject=Une%20id%C3%A9e%20pour%20Keeply">Proposer une idée<svg class="ic"><use href="#i-arrow"/></svg></a></p></div>
+      <div class="panel"><b>Un bug</b><p>Ce que vous faisiez, ce qui s'est passé, et si possible une capture d'écran.</p><p style="margin-top:12px"><a class="link" href="mailto:contact@keeplyfidelity.app?subject=Un%20bug%20dans%20Keeply">Signaler un bug<svg class="ic"><use href="#i-arrow"/></svg></a></p></div>
+    </div>
+  </div>
+</div>
+
+<!-- ================================================================ LÉGAL -->
+<div class="view" id="view-conditions" data-title="Conditions d'utilisation, Keeply"><div class="page wrap legal">{{CONDITIONS}}</div></div>
+<div class="view" id="view-confidentialite" data-title="Confidentialité, Keeply"><div class="page wrap legal">{{CONFIDENTIALITE}}</div></div>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot__grid">
+      <div>
+        <a class="brand" href="#/"><img src="img/keeply.png" alt="" width="28" height="28">Keeply</a>
+        <p>La carte de fidélité des cafés, fast-foods et restaurants, dans Apple Wallet et Google Wallet. En France, en Belgique, au Maroc et au Canada.</p>
+      </div>
+      <div><h4>Le produit</h4><ul><li><a href="#/application">L'application</a></li><li><a href="#/carte">Créer sa carte</a></li><li><a href="#/fidelisation">Fidélisation</a></li><li><a href="#/activation">Activation</a></li><li><a href="#/tarifs">Tarifs</a></li></ul></div>
+      <div><h4>Ressources</h4><ul><li><a href="#/nouveautes">Nouveautés</a></li><li><a href="#/ameliorer">Améliorer Keeply</a></li><li><a href="#faq">Questions</a></li><li><a href="mailto:contact@keeplyfidelity.app">Contact</a></li></ul></div>
+      <div><h4>Légal</h4><ul><li><a href="#/conditions">Conditions d'utilisation</a></li><li><a href="#/confidentialite">Confidentialité</a></li></ul></div>
+    </div>
+    <div class="foot__bar">
+      <span>© 2026 Keeply</span>
+      <label>Pays <select id="pays" aria-label="Pays"></select></label>
+    </div>
+  </div>
+</footer>
+
+<div class="mbar" id="mbar" aria-hidden="true">
+  <span><b>14 jours gratuits</b>Sans engagement</span>
+  <a class="btn btn--main" href="#telecharger" tabindex="-1">Essayer</a>
+</div>
+
+<script src="vendor/qrcode.js?v={{V}}"></script>
+<script>window.KCARDS={{CARDS}};</script>
+<script src="app.js?v={{V}}"></script>
+</body>
+</html>
