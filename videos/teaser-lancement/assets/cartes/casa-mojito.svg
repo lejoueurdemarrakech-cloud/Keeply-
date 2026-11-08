@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200"><polygon points="100,3 184,51.5 184,148.5 100,197 16,148.5 16,51.5" fill="#9FE6C8"/><polygon points="100,18 171,59 171,141 100,182 29,141 29,59" fill="none" stroke="#0B4F5C" stroke-width="2"/><g transform="translate(67.0 53.0) scale(2.7500)" fill="none" stroke="#0B4F5C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M12 12 4.207 4.207A.707.707 0 0 1 4.707 3h14.586a.707.707 0 0 1 .5 1.207z" />
+  <path d="M12 12v10" />
+  <path d="M7 22h10" />
+</g><text x="100" y="150" font-family="'Avenir Next', 'Helvetica Neue', Helvetica, Arial, sans-serif" font-weight="800" font-size="19" letter-spacing="2.5" fill="#0B4F5C" text-anchor="middle">MOJITO</text></svg>
