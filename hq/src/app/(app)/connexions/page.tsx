@@ -41,7 +41,7 @@ export default function ConnectionsPage() {
 
       <div className="mb-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <SysItem ok={!!data?.password} label="Mot de passe" detail={data?.password ? "Accès protégé" : "ADMIN_PASSWORD non défini : accès libre en local uniquement"} />
-        <SysItem ok={data?.store === "upstash"} warn={data?.store === "fichier"} label="Stockage" detail={data?.store === "upstash" ? "Upstash Redis (en ligne)" : "Fichier local (data/hq-db.json)"} />
+        <SysItem ok={data?.store === "supabase" || data?.store === "upstash"} warn={data?.store === "fichier"} label="Stockage" detail={data?.store === "supabase" ? "Supabase keeply-hq (en ligne)" : data?.store === "upstash" ? "Upstash Redis (en ligne)" : "Fichier local (data/hq-db.json)"} />
         <SysItem ok={!!data?.cronSecret} warn label="Tâche planifiée" detail={data?.cron ? `Dernier passage ${relative(new Date(data.cron.at).toISOString())}` : "Jamais lancée"} />
         <SysItem ok={!!data?.ingestToken} warn label="Jeton d'envoi" detail={data?.ingestToken ? "INGEST_TOKEN défini" : "INGEST_TOKEN manquant (webhooks et tests GitHub)"} />
       </div>

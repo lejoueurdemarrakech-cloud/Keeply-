@@ -5,7 +5,10 @@ import path from "node:path";
 /**
  * Petit stockage clé → valeur JSON.
  * - En local : un fichier `data/hq-db.json` (ignoré par git).
- * - En ligne (Vercel…) : Upstash Redis via son API REST si
+ * - En ligne (Vercel…) : table `hq_kv` du projet Supabase « keeply-hq » (organisation
+ *   à part, quotas séparés de la prod Keeply) si HQ_SUPABASE_URL / HQ_SUPABASE_SERVICE_KEY
+ *   sont définis — pas de plafond de requêtes, contrairement à l'Upstash gratuit.
+ * - Sinon Upstash Redis via son API REST si
  *   UPSTASH_REDIS_REST_URL / UPSTASH_REDIS_REST_TOKEN (ou KV_REST_API_URL / KV_REST_API_TOKEN) sont définis.
  */
 
@@ -101,7 +104,54 @@ class UpstashBackend implements Backend {
   }
 }
 
+/** Table `hq_kv (key text primary key, value jsonb, updated_at timestamptz)`, via PostgREST. */
+class SupabaseBackend implements Backend {
+  private base: string;
+  constructor(url: string, private key: string) {
+    this.base = url.replace(/\/$/, "") + "/rest/v1/hq_kv";
+  }
+  private async req(query: string, init: RequestInit = {}) {
+    const res = await fetch(this.base + query, {
+      ...init,
+      headers: {
+        apikey: this.key,
+        // Les nouvelles clés « sb_secret_… » passent par apikey seul ; l'ancienne
+        // clé service_role (JWT) va aussi dans Authorization.
+        ...(this.key.startsWith("sb_") ? {} : { Authorization: `Bearer ${this.key}` }),
+        "Content-Type": "application/json",
+        ...(init.headers as Record<string, string> | undefined),
+      },
+      cache: "no-store",
+    });
+    if (!res.ok) throw new Error(`Supabase ${res.status}: ${await res.text()}`);
+    return res;
+  }
+  async get<T>(key: string) {
+    const rows = (await (await this.req(`?select=value&key=eq.${encodeURIComponent(key)}`)).json()) as { value: T }[];
+    return rows.length ? rows[0].value : undefined;
+  }
+  async set(key: string, value: Json) {
+    await this.req("?on_conflict=key", {
+      method: "POST",
+      headers: { Prefer: "resolution=merge-duplicates,return=minimal" },
+      body: JSON.stringify({ key, value: value ?? null, updated_at: new Date().toISOString() }),
+    });
+  }
+  async del(key: string) {
+    await this.req(`?key=eq.${encodeURIComponent(key)}`, { method: "DELETE", headers: { Prefer: "return=minimal" } });
+  }
+  async keys(prefix: string) {
+    // LIKE : on neutralise les jokers éventuels du préfixe.
+    const pattern = prefix.replace(/[\\%_]/g, (c) => "\\" + c) + "*";
+    const rows = (await (await this.req(`?select=key&key=like.${encodeURIComponent(pattern)}`)).json()) as { key: string }[];
+    return rows.map((r) => r.key);
+  }
+}
+
 function pickBackend(): Backend {
+  const sbUrl = process.env.HQ_SUPABASE_URL;
+  const sbKey = process.env.HQ_SUPABASE_SERVICE_KEY;
+  if (sbUrl && sbKey) return new SupabaseBackend(sbUrl, sbKey);
   const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;
   if (url && token) return new UpstashBackend(url, token);
@@ -159,7 +209,9 @@ const g = globalThis as unknown as { __hqStore?: Backend };
 export const store: Backend = (g.__hqStore ??= withFreshStart(pickBackend()));
 
 export const storeKind = () =>
-  process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL ? "upstash" : "fichier";
+  process.env.HQ_SUPABASE_URL && process.env.HQ_SUPABASE_SERVICE_KEY
+    ? "supabase"
+    : process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL ? "upstash" : "fichier";
 
 /** Lit une valeur, avec valeur par défaut. */
 export async function read<T>(key: string, fallback: T): Promise<T> {
