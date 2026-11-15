@@ -1,7 +1,7 @@
 // Keeply HQ en app desktop : une fenêtre dédiée qui ouvre le HQ en ligne.
 // Le HQ vit sur Vercel (serveur, connexion, IA, mails) : toute retouche faite
 // là-bas apparaît ici sans réinstaller l'app.
-const { app, BrowserWindow, shell, Menu, nativeTheme } = require("electron");
+const { app, BrowserWindow, shell, Menu, nativeTheme, session } = require("electron");
 const path = require("path");
 const fs = require("fs");
 
@@ -11,6 +11,19 @@ const STATE = path.join(app.getPath("userData"), "window.json");
 
 function readState() {
   try { return JSON.parse(fs.readFileSync(STATE, "utf8")); } catch { return { width: 1440, height: 920 }; }
+}
+
+// Droits du navigateur : seulement pour le HQ, et seulement ceux qu'il utilise
+// (micro pour Jarvis, notifications, presse-papiers). Tout le reste est refusé.
+const ALLOWED_PERMS = new Set(["media", "notifications", "clipboard-read", "clipboard-sanitized-write", "fullscreen"]);
+function isHQUrl(url) { try { return new URL(url).host === HQ_HOST; } catch { return false; } }
+function lockPermissions() {
+  const s = session.defaultSession;
+  s.setPermissionRequestHandler((_wc, perm, cb, details) => {
+    const okMedia = perm !== "media" || (details.mediaTypes || []).every((t) => t === "audio");
+    cb(isHQUrl(details.requestingUrl) && ALLOWED_PERMS.has(perm) && okMedia);
+  });
+  s.setPermissionCheckHandler((_wc, perm, origin) => isHQUrl(origin) && ALLOWED_PERMS.has(perm));
 }
 
 let win;
@@ -96,6 +109,7 @@ if (!app.requestSingleInstanceLock()) {
 } else {
   app.on("second-instance", () => { if (win) { if (win.isMinimized()) win.restore(); win.focus(); } });
   app.whenReady().then(() => {
+    lockPermissions();
     buildMenu();
     createWindow();
     app.on("activate", () => { if (BrowserWindow.getAllWindows().length === 0) createWindow(); });
