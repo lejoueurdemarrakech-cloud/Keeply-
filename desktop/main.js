@@ -34,7 +34,10 @@ function createWindow() {
     width: s.width, height: s.height, x: s.x, y: s.y,
     minWidth: 980, minHeight: 640,
     title: "Keeply HQ",
-    backgroundColor: "#0E0B14",
+    // Mode verre : on voit (flouté) ce qu'il y a derrière la fenêtre.
+    backgroundColor: "#00000000",
+    ...(process.platform === "darwin" ? { vibrancy: "under-window", visualEffectState: "active" } : {}),
+    ...(process.platform === "win32" ? { backgroundMaterial: "acrylic" } : {}),
     autoHideMenuBar: process.platform !== "darwin",
     show: false,
     webPreferences: {

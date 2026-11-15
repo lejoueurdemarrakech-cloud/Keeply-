@@ -1,6 +1,6 @@
 "use client";
 import { Command } from "cmdk";
-import { Aperture, AudioLines, Bot, Calculator, ClipboardCheck, Gauge, HeartPulse, Inbox, Keyboard, ListChecks, LogOut, Megaphone, Monitor, Moon, MoreHorizontal, Music2, Plug, Plus, Radar, Search, Settings, Share2, Star, Store, Sun, TrendingUp, WalletCards, Wrench, X } from "lucide-react";
+import { Aperture, Bot, Calculator, ClipboardCheck, Gauge, HeartPulse, Inbox, Keyboard, ListChecks, LogOut, Megaphone, Monitor, Moon, MoreHorizontal, Music2, Plug, Plus, Radar, Search, Settings, Share2, Star, Store, Sun, TrendingUp, WalletCards, Wrench, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore, type ReactNode } from "react";
@@ -20,7 +20,6 @@ const GROUPS: { label: string; items: NavItem[] }[] = [
     label: "Pilotage",
     items: [
       { href: "/", label: "Aujourd'hui", icon: <Sun /> },
-      { href: "/jarvis", label: "Jarvis", icon: <AudioLines /> },
       { href: "/valider", label: "À valider", icon: <ClipboardCheck />, badge: "valider" },
       { href: "/ventes", label: "Ventes", icon: <TrendingUp /> },
       { href: "/sante", label: "Santé de l'app", icon: <HeartPulse />, badge: "sante" },
@@ -236,9 +235,6 @@ function MobileNav({ onSearch }: { onSearch: () => void }) {
       <header className="glass sticky top-0 z-30 flex items-center justify-between rounded-none border-x-0 border-t-0 px-4 py-2.5 lg:hidden">
         <Logo />
         <div className="flex items-center gap-1">
-          <Link href="/jarvis" className="grid size-10 place-items-center rounded-xl text-violet hover:bg-bg-2" aria-label="Jarvis">
-            <AudioLines className="size-5" />
-          </Link>
           <button onClick={onSearch} className="grid size-10 place-items-center rounded-xl text-ink-2 hover:bg-bg-2" aria-label="Rechercher">
             <Search className="size-5" />
           </button>
@@ -318,7 +314,6 @@ function Palette({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
           <Command.Empty className="px-3 py-6 text-center text-[14px] text-ink-3">Rien trouvé.</Command.Empty>
           <Command.Group heading="Actions">
             {[
-              { label: "Parler à Jarvis", icon: <AudioLines />, act: () => go("/jarvis") },
               { label: "Nouveau post Instagram", icon: <Plus />, act: () => go("/instagram?tab=creer") },
               { label: "Écrire une annonce Meta", icon: <Megaphone />, act: () => go("/ads?tab=annonces") },
               { label: "Simuler un budget pub", icon: <Calculator />, act: () => go("/ads?tab=simulateur") },
@@ -350,7 +345,7 @@ function Palette({ open, setOpen }: { open: boolean; setOpen: (v: boolean) => vo
 }
 
 /** Raccourcis « G puis lettre » pour aller vite d'une page à l'autre. */
-const SHORTCUTS: Record<string, string> = { j: "/jarvis", a: "/", v: "/ventes", r: "/reseaux", i: "/instagram", p: "/ads", m: "/mails", c: "/clients", t: "/taches", s: "/sante", x: "/prospection", o: "/outils", k: "/connexions" };
+const SHORTCUTS: Record<string, string> = { a: "/", v: "/ventes", r: "/reseaux", i: "/instagram", p: "/ads", m: "/mails", c: "/clients", t: "/taches", s: "/sante", x: "/prospection", o: "/outils", k: "/connexions" };
 const SHORTCUT_OF = Object.fromEntries(Object.entries(SHORTCUTS).map(([k, v]) => [v, k.toUpperCase()]));
 
 function HelpDialog({ open, onClose }: { open: boolean; onClose: () => void }) {
@@ -408,11 +403,6 @@ export function Shell({ children }: { children: ReactNode }) {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
         setPalette((v) => !v);
-        return;
-      }
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "j") {
-        e.preventDefault();
-        router.push("/jarvis");
         return;
       }
       if (e.key === "Escape") {
