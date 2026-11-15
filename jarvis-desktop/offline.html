@@ -1,0 +1,8 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><title>Jarvis</title>
+<style>body{margin:0;height:100vh;display:grid;place-items:center;background:#05060A;color:#E8F4FF;font:15px -apple-system,Segoe UI,Roboto,sans-serif}
+.box{text-align:center;max-width:380px}.dot{width:56px;height:56px;margin:0 auto 18px;border-radius:50%;border:2px solid #38BDF8;box-shadow:0 0 30px #38BDF866;animation:p 1.6s ease-in-out infinite}
+@keyframes p{50%{opacity:.4;transform:scale(.92)}}h1{font-size:20px;margin:0 0 8px}p{color:#8FA3B8;margin:0 0 20px;line-height:1.5}code{color:#BAE6FD}
+button{background:#0EA5E9;color:#fff;border:0;border-radius:10px;padding:11px 20px;font-weight:600;font-size:15px;cursor:pointer}</style></head>
+<body><div class="box"><div class="dot"></div><h1>Jarvis démarre…</h1><p>Le serveur de Jarvis ne répond pas encore. S'il ne revient pas, relance <code>bash jarvis/installer.sh</code>.</p>
+<button onclick="location.href='http://127.0.0.1:4777'">Réessayer</button></div>
+<script>setTimeout(()=>fetch('http://127.0.0.1:4777',{mode:'no-cors'}).then(()=>location.href='http://127.0.0.1:4777').catch(()=>location.reload()),4000)</script></body></html>

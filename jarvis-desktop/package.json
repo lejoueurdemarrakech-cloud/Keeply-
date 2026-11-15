@@ -1,0 +1,43 @@
+{
+  "name": "jarvis-desktop",
+  "productName": "Jarvis",
+  "version": "1.0.0",
+  "description": "Jarvis, l'assistant vocal du fondateur de Keeply, en app Mac.",
+  "main": "main.js",
+  "author": "Keeply",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "mac": "electron-builder --mac --universal"
+  },
+  "build": {
+    "appId": "app.keeplyfidelity.jarvis",
+    "productName": "Jarvis",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "offline.html"
+    ],
+    "mac": {
+      "category": "public.app-category.productivity",
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icon.png",
+      "extendInfo": {
+        "NSMicrophoneUsageDescription": "Jarvis écoute votre voix quand vous lui parlez."
+      }
+    },
+    "dmg": {
+      "title": "Jarvis"
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  }
+}
