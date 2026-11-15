@@ -26,10 +26,27 @@ function lockPermissions() {
   s.setPermissionCheckHandler((_wc, perm, origin) => isHQUrl(origin) && ALLOWED_PERMS.has(perm));
 }
 
+// Mode verre : fond du HQ rendu transparent pour laisser voir le flou système.
+// Injecté par l'app seulement (toutes les pages, connexion comprise), sans toucher au site.
+// Pas de classe sur <html> : Next.js la réécrit à l'hydratation.
+const GLASS_CSS = `
+html, body { background: transparent !important; }
+body::before {
+  background:
+    radial-gradient(60vw 50vh at 8% -5%, var(--aurora-1), transparent 70%),
+    radial-gradient(45vw 45vh at 100% 10%, var(--aurora-2), transparent 70%),
+    radial-gradient(55vw 55vh at 70% 105%, var(--aurora-3), transparent 70%),
+    color-mix(in srgb, var(--bg) 22%, transparent) !important;
+}
+main.bg-night { background: color-mix(in srgb, var(--night) 35%, transparent) !important; }
+.glass { background: linear-gradient(160deg, var(--glass-hi) -40%, transparent 35%), color-mix(in srgb, var(--glass) 55%, transparent) !important; }
+.glass-strong { background: color-mix(in srgb, var(--glass-strong) 70%, transparent) !important; }
+`;
+
 let win;
 function createWindow() {
   const s = readState();
-  nativeTheme.themeSource = "dark";
+  nativeTheme.themeSource = "system"; // le verre suit le thème du Mac, comme le HQ
   win = new BrowserWindow({
     width: s.width, height: s.height, x: s.x, y: s.y,
     minWidth: 980, minHeight: 640,
@@ -74,6 +91,9 @@ function createWindow() {
     if (isMain && code !== -3) win.loadFile(path.join(__dirname, "offline.html"), { query: { retry: url || HQ } });
   });
 
+  if (process.platform === "darwin" || process.platform === "win32") {
+    win.webContents.on("dom-ready", () => win.webContents.insertCSS(GLASS_CSS).catch(() => {}));
+  }
   win.loadURL(HQ);
 }
 
