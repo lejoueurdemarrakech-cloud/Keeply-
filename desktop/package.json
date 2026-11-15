@@ -1,0 +1,52 @@
+{
+  "name": "keeply-hq-desktop",
+  "productName": "Keeply HQ",
+  "version": "1.0.0",
+  "description": "Keeply HQ, le tableau de bord du fondateur, en app Mac et Windows.",
+  "main": "main.js",
+  "author": "Keeply",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "mac": "electron-builder --mac --universal",
+    "win": "electron-builder --win --x64"
+  },
+  "build": {
+    "appId": "app.keeplyfidelity.hq",
+    "productName": "Keeply HQ",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "offline.html"
+    ],
+    "mac": {
+      "category": "public.app-category.business",
+      "target": [
+        "dmg"
+      ],
+      "icon": "build/icon.png"
+    },
+    "dmg": {
+      "title": "Keeply HQ"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "build/icon.png"
+    },
+    "nsis": {
+      "oneClick": true,
+      "shortcutName": "Keeply HQ",
+      "artifactName": "Keeply-HQ-Setup-${version}.exe"
+    }
+  },
+  "devDependencies": {
+    "electron": "^45.3.2",
+    "electron-builder": "^26.18.0"
+  }
+}
