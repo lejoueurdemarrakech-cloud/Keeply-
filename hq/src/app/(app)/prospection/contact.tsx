@@ -32,7 +32,7 @@ export function ContactActions({ p, onChange, size = "md" }: { p: Prospect; onCh
     onChange();
   };
   const wa = SCRIPTS.find((s) => s.id === "wa-1")!;
-  const mail = SCRIPTS.find((s) => s.id === "mail-1")!;
+  const mail = SCRIPTS.find((s) => s.id === (p.lang === "en" ? "mail-en-1" : "mail-1"))!;
   return (
     <div className={cx("flex flex-wrap gap-1", size === "sm" && "[&_a]:size-7 [&_button]:size-7")} onClick={(e) => e.stopPropagation()}>
       {p.phone && mobile(p) && (
@@ -46,7 +46,7 @@ export function ContactActions({ p, onChange, size = "md" }: { p: Prospect; onCh
         </a>
       )}
       {p.email && EMAIL.test(p.email) && (
-        <a className={cx(btn, touched("mail") && "border-mint text-mint")} title={`Écrire à ${p.email}`} href={`mailto:${p.email}?subject=${encodeURIComponent(fill(mail.subject!, p))}&body=${encodeURIComponent(fill(mail.body, p))}`} onClick={act("mail")}>
+        <a className={cx(btn, touched("mail") && "border-mint text-mint")} title={`Écrire à ${p.email} (complète la phrase entre crochets)`} href={`mailto:${p.email}?subject=${encodeURIComponent(fill(mail.subject!, p))}&body=${encodeURIComponent(fill(mail.body, p))}`} onClick={act("mail")}>
           <Mail className="size-4" />
         </a>
       )}

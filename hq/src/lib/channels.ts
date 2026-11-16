@@ -70,59 +70,85 @@ export interface Script {
   body: string;
 }
 
-/** Messages types. {nom}, {ville}, {type} sont remplacés pour chaque commerce. */
+/** Messages types. {nom}, {ville}, {type} sont remplacés pour chaque commerce. Les [crochets] sont à écrire à la main. */
 export const SCRIPTS: Script[] = [
   {
     id: "wa-1",
     channel: "whatsapp",
     title: "WhatsApp · premier message",
-    when: "Le plus efficace au Maroc. Entre 10 h et 11 h 30 ou 15 h et 17 h, jamais pendant le service.",
-    body: "Bonjour, ici Anas, fondateur de Keeply. Je vous écris parce que {nom} a l'air d'avoir des habitués.\n\nKeeply met votre carte de fidélité dans le téléphone de vos clients (Apple Wallet et Google Wallet), sans application à installer pour eux. Ils scannent un QR code au comptoir, et vous pouvez leur envoyer une offre sur leur écran verrouillé quand vous voulez.\n\nJe peux vous montrer en 2 minutes en vidéo ? Essai gratuit 14 jours.",
+    when: "Le canal n°1 au Maroc. Entre 10 h et 11 h 30 ou entre 15 h et 17 h, jamais pendant le service.",
+    body: "Bonjour, c'est Anas, de Keeply.\n\nJe fais des cartes de fidélité qui vont dans le téléphone des clients, sans appli à installer. J'aimerais vous en préparer une aux couleurs de {nom}, gratuitement, juste pour que vous voyiez le rendu.\n\nJe vous l'envoie ici ?",
   },
   {
     id: "wa-2",
     channel: "whatsapp",
-    title: "WhatsApp · relance (J+3)",
-    when: "3 jours après sans réponse. Une seule relance, courte.",
-    body: "Bonjour, je me permets de revenir vers vous pour Keeply. Je vous envoie une vidéo de 30 secondes qui montre comment vos clients gardent la carte {nom} dans leur téléphone ? Si ce n'est pas le moment, aucun souci.",
+    title: "WhatsApp · la carte démo (J+3)",
+    when: "3 jours après, sans réponse. On envoie directement la carte faite dans le Studio : c'est elle qui parle.",
+    body: "Voilà à quoi ressemblerait la carte de {nom}. [capture de la carte démo]\n\nVos clients scannent un QR au comptoir et elle reste dans leur téléphone. Si ce n'est pas le moment, aucun souci.",
   },
   {
     id: "mail-1",
     channel: "mail",
     title: "Mail · premier contact",
-    when: "France, Belgique, Suisse, Luxembourg, Canada. Mardi à jeudi, 9 h à 11 h.",
-    subject: "La carte de fidélité de {nom}, dans le téléphone de vos clients",
-    body: "Bonjour,\n\nJe m'appelle Anas et j'ai créé Keeply, une app qui met la carte de fidélité d'un {type} directement dans Apple Wallet et Google Wallet de ses clients.\n\nVos clients scannent un QR code au comptoir, sans application à installer. La carte ne se perd plus, et vous pouvez leur envoyer une offre sur leur écran verrouillé, sans frais d'envoi. Tampons ou points, remises en % ou en €, offres automatiques : tout s'active ou se coupe, vous gardez la main.\n\nL'essai est gratuit pendant 14 jours, sur l'App Store. Je peux vous montrer en 10 minutes, quand vous voulez.\n\nBelle journée,\nAnas, fondateur de Keeply\nkeeplyfidelity.app",
+    when: "France, Belgique, Suisse, Luxembourg, Québec. Mardi à jeudi, 9 h à 11 h. Moins de 75 mots, aucun lien.",
+    subject: "carte de fidélité {nom}",
+    body: "Bonjour,\n\n[Une phrase vraie sur {nom} : ce que vous avez remarqué sur leur fiche, leur site ou leur Instagram.]\n\nLes clients qui passent une fois et ne reviennent pas ont souvent laissé la carte papier à la maison. Keeply la met dans leur téléphone, sans rien à installer.\n\nJe vous prépare un exemple à vos couleurs ?\n\nAnas\nFondateur de Keeply\n\nSi ce n'est pas pour vous, répondez « non » et je ne vous écrirai plus.",
   },
   {
     id: "mail-2",
     channel: "mail",
-    title: "Mail · relance (J+5)",
-    when: "5 jours après, en répondant au premier mail.",
-    subject: "Re : la carte de fidélité de {nom}",
-    body: "Bonjour,\n\nJe remonte mon message au cas où il serait passé sous la pile. Une question simple : comment faites-vous revenir vos clients aujourd'hui ?\n\nSi Keeply peut aider {nom}, je vous montre en 10 minutes. Sinon, dites-le-moi et je ne vous écris plus.\n\nAnas",
+    title: "Mail · deuxième angle (J+5)",
+    when: "5 jours après, dans le même fil. Un nouvel angle, pas un rappel.",
+    subject: "vos habitués",
+    body: "Bonjour,\n\nUn détail qui change beaucoup : quand il ne manque plus qu'un tampon à un client, son téléphone peut le lui rappeler. Sans SMS à payer, et vous le coupez quand vous voulez.\n\nSi l'exemple aux couleurs de {nom} vous tente, répondez « oui » et je vous l'envoie.\n\nAnas",
+  },
+  {
+    id: "mail-3",
+    channel: "mail",
+    title: "Mail · on ferme la boucle (J+12)",
+    when: "Le dernier. Moins de 40 mots, sans revendre.",
+    subject: "dernier message",
+    body: "Bonjour,\n\nJe ne vous relance plus après celui-ci. Si la fidélité devient un sujet pour {nom}, vous savez où me trouver.\n\nBonne continuation,\nAnas",
+  },
+  {
+    id: "mail-en-1",
+    channel: "mail",
+    title: "Mail anglais · premier contact",
+    when: "Canada anglophone, Pays-Bas, Australie, Bali. Under 75 words, no links.",
+    subject: "loyalty card for {nom}",
+    body: "Hi,\n\n[One true line about {nom}: something you noticed on their listing, website or Instagram.]\n\nCustomers who visit once and never come back have often left the paper card at home. Keeply puts it on their phone, with nothing to install.\n\nWant me to mock one up in your colours?\n\nAnas\nFounder, Keeply\n\nIf it's not for you, reply « no » and I won't write again.",
   },
   {
     id: "ig-1",
     channel: "instagram",
     title: "Instagram · message privé",
-    when: "Après avoir aimé 2 ou 3 de leurs posts et laissé un vrai commentaire.",
-    body: "Bonjour {nom}, votre compte donne faim. Je suis le fondateur de Keeply : on met la carte de fidélité des {type}s dans le Wallet de leurs clients, sans app à installer. Je peux vous envoyer à quoi ressemblerait la vôtre ?",
+    when: "Après avoir aimé 2 ou 3 posts et laissé un vrai commentaire, quelques jours avant.",
+    body: "Bonjour, [ce qui vous a plu chez eux, en vrai et en une phrase].\n\nJe suis Anas, je fais Keeply : des cartes de fidélité qui vont dans le téléphone des clients. Je peux vous montrer à quoi ressemblerait celle de {nom} ?",
   },
   {
     id: "call-1",
     channel: "appel",
     title: "Appel · 45 secondes",
-    when: "En dehors des heures de service. Demander le gérant, sinon l'heure où le rappeler.",
-    body: "Bonjour, Anas de Keeply. Je ne vous prends que 30 secondes : je voulais savoir si {nom} a une carte de fidélité aujourd'hui ?\n\n(Oui) Elle est en carton ? Keeply la met dans le téléphone de vos clients, avec une offre qui arrive sur leur écran verrouillé quand vous voulez.\n(Non) C'est justement le plus simple : vos clients scannent un QR code et la carte est dans leur téléphone.\n\nJe vous envoie une vidéo de 30 secondes par WhatsApp ou par mail ?",
+    when: "En dehors du service. Demander le gérant, sinon l'heure où le rappeler.",
+    body: "Bonjour, Anas, de Keeply. Je vous prends 30 secondes : est-ce que {nom} a une carte de fidélité aujourd'hui ?\n\n(Oui) Elle est en papier ? Keeply la met dans le téléphone de vos clients, et elle peut leur rappeler de revenir.\n(Non) C'est le plus simple : vos clients scannent un QR et la carte est dans leur téléphone.\n\nJe vous envoie à quoi ressemblerait la vôtre, par WhatsApp ou par mail ?",
   },
   {
     id: "visit-1",
     channel: "visite",
-    title: "Visite · le pitch en boutique",
-    when: "Maroc (Agadir en premier). 10 h à 11 h 30 ou 15 h à 17 h. iPhone chargé avec la démo prête.",
-    body: "1. Commander quelque chose. Demander le gérant, sans vendre tout de suite.\n2. « Je m'appelle Anas, j'ai créé une app à Agadir pour les cafés et les restaurants. Je peux vous montrer un truc en 1 minute ? »\n3. Sortir l'iPhone : scanner le QR de démo, la carte arrive dans le Wallet. « Vos clients font ça, rien à installer. »\n4. Montrer une notification : « Et quand vous voulez, une offre arrive sur leur écran. Sans payer de SMS. »\n5. « Je vous crée votre carte maintenant, avec votre logo, en 5 minutes ? 14 jours gratuits. »\n6. S'il hésite : laisser l'affiche de démo et prendre son WhatsApp. Le noter dans HQ (Visité + prochaine action).",
+    title: "Visite · en boutique",
+    when: "Maroc, Agadir en premier. 10 h à 11 h 30 ou 15 h à 17 h. iPhone chargé, carte démo prête.",
+    body: "1. Commander quelque chose. Demander le gérant, sans vendre tout de suite.\n2. « Je m'appelle Anas, j'ai créé une app à Agadir pour les cafés et les restaurants. Je peux vous montrer quelque chose en une minute ? »\n3. Sortir l'iPhone : scanner le QR de démo, la carte arrive dans le Wallet. « Vos clients font ça, rien à installer. »\n4. Montrer une notification : « Quand vous voulez, une offre arrive sur leur écran. Sans payer de SMS. »\n5. « Je vous crée votre carte maintenant, avec votre logo ? 14 jours gratuits. »\n6. S'il hésite : laisser l'affiche de démo, prendre son WhatsApp, et le noter dans HQ (Visité + prochaine action).",
   },
+];
+
+/** Règles pour prospecter par mail depuis keeplyfidelity.app sans abîmer le domaine (qui envoie aussi les cartes des clients). */
+export const SENDING_RULES: { titre: string; texte: string }[] = [
+  { titre: "Une vraie boîte, écrite à la main", texte: "Les mails partent d'une vraie boîte (anas@keeplyfidelity.app), un par un, comme un mail normal. Jamais par Resend ni Brevo : ils sont réservés aux e-mails des clients, et leurs règles interdisent la prospection." },
+  { titre: "Monter doucement", texte: "Semaine 1 : 10 mails par jour. Semaine 2 : 20. Ensuite 30 au plus. Un domaine neuf qui envoie 200 mails d'un coup finit en spam." },
+  { titre: "Texte brut, zéro lien", texte: "Premier mail sans lien, sans image, sans pièce jointe et sans pixel de suivi. Le lien vient seulement quand la personne a répondu." },
+  { titre: "Une phrase qui n'existe que pour eux", texte: "Chaque mail contient au moins un détail vrai sur ce commerce. Harvey le cherche ; s'il ne trouve rien, on écrit une phrase générale honnête plutôt que d'inventer." },
+  { titre: "Des adresses de commerce, publiques", texte: "Seulement les adresses affichées par le commerce (site, fiche Google, Instagram). En France et en Belgique, la prospection par mail entre professionnels est permise si elle concerne leur métier et propose de se désinscrire." },
+  { titre: "Un non est définitif", texte: "Mail qui revient : on retire l'adresse. « Non » ou pas de réponse après le 3e mail : on n'écrit plus jamais." },
 ];
 
 export function fill(text: string, p: Pick<Prospect, "name" | "city" | "type">) {

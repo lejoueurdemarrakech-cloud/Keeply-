@@ -91,7 +91,7 @@ export function demoInstagram() {
   const captions = [
     "3 erreurs qui font fuir vos clients fidèles ☕️ (la 2e est la plus courante)",
     "Avant / après : la carte papier vs la carte dans le Wallet",
-    "Ce café de Lyon a fait +38 % de visites en 2 mois. On vous explique.",
+    "Ce que voit votre client quand il ouvre son Wallet.",
     "Combien coûte vraiment un client perdu ? Petit calcul 👇",
     "On a testé 5 façons de faire revenir un client. Voici la gagnante.",
     "Le tampon numérique, en 2 secondes en caisse. Démo.",

@@ -255,30 +255,30 @@ export async function prospectEmailTool(p: Prospect, siteText?: string) {
 
 function fallbackCaptions(topic: string, tags: string) {
   return [
-    { hook: `${topic} : la petite chose qui change tout`, caption: `Vos clients de passage ne reviennent pas ? Souvent, ils ont juste oublié votre carte.\n\nAvec une carte dans leur Wallet, elle est toujours sur eux. Et un rappel leur dit quand il ne manque plus qu'un tampon.`, hashtags: tags, cta: "Enregistrez ce post pour plus tard." },
-    { hook: `On a demandé à 50 gérants de café ce qui marche pour fidéliser`, caption: `Réponse n°1 : la récompense doit être proche. 10 tampons, c'est loin. 6, ça motive.\n\n${topic}`, hashtags: tags, cta: "Dites-nous en commentaire combien de tampons vous demandez." },
-    { hook: `Carte papier ou carte dans le téléphone ?`, caption: `Papier : perdue, oubliée, lavée.\nWallet : toujours là, et elle rappelle à votre client de revenir.\n\n${topic}`, hashtags: tags, cta: "Lien en bio pour essayer 14 jours." },
+    { hook: `Votre carte de fidélité, dans leur poche.`, caption: `Un client scanne le QR au comptoir. Sa carte va dans son Wallet, à côté de sa carte bancaire.\n\nIl ne l'oublie plus chez lui. Et quand il ne lui manque qu'un tampon, son téléphone le lui rappelle (si vous l'activez).\n\n${topic}`, hashtags: tags, cta: "Essai gratuit 14 jours, lien en bio." },
+    { hook: `Combien de tampons demandez-vous ?`, caption: `Une récompense trop lointaine ne fait revenir personne. Une récompense trop proche coûte cher.\n\nDites-nous en commentaire où vous avez mis la barre. On compile les réponses dans un prochain post.\n\n${topic}`, hashtags: tags, cta: "Votre réponse en commentaire." },
+    { hook: `20 secondes, sans coupe.`, caption: `Le client scanne, la carte est dans son Wallet, vous le tamponnez à la caisse.\n\nC'est tout ce qu'il y a à apprendre.\n\n${topic}`, hashtags: tags, cta: "Lien en bio." },
   ];
 }
 
 const FALLBACK_IDEAS = [
-  { title: "3 erreurs qui font fuir vos clients fidèles", format: "Carrousel", hook: "La n°2 coûte des centaines d'euros par mois", outline: "Couverture choc / Erreur 1 : récompense trop lointaine / Erreur 2 : pas de rappel / Erreur 3 : carte papier / Solution + CTA", why: "Contenu utile = enregistrements et partages entre restaurateurs." },
-  { title: "Démo : un tampon en 2 secondes", format: "Reel", hook: "Regardez la caisse, pas le téléphone", outline: "Client tend son téléphone / scan / tampon qui s'ajoute / réaction / texte final", why: "Montre le produit sans le vendre, se partage facilement." },
-  { title: "Avant / après d'un café client", format: "Carrousel", hook: "+38 % de visites en 2 mois", outline: "Le café / le problème / ce qu'ils ont mis en place / les chiffres / citation du gérant", why: "La preuve sociale convertit les visiteurs du profil en abonnés." },
-  { title: "POV : le client a encore oublié sa carte", format: "Reel", hook: "POV : « je l'ai laissée dans mon autre veste »", outline: "Sketch 7 secondes / chute avec la carte dans le Wallet", why: "L'humour de métier se partage entre pros." },
-  { title: "Combien vaut un client fidèle ?", format: "Carrousel", hook: "Faites le calcul avec nous", outline: "Ticket moyen × visites par mois × 12 / coût d'un nouveau client / conclusion", why: "Chiffres concrets = enregistrements." },
-  { title: "Les coulisses d'une carte Keeply", format: "Story", hook: "On vous montre comment on la dessine", outline: "Croquis / couleurs / test en vrai / sondage « laquelle vous préférez ? »", why: "Les sondages en story augmentent la portée des posts suivants." },
+  { title: "5 récompenses qui font revenir", format: "Carrousel", hook: "Une bonne récompense se mérite la semaine prochaine, pas dans six mois", outline: "Couverture / café au 8e passage / remise au palier / coupon d'anniversaire / « vous nous manquez » après 30 jours / à éviter / enregistrez", why: "Utile, donc enregistré et partagé entre restaurateurs." },
+  { title: "Démo : un tampon en 2 secondes", format: "Reel", hook: "Regardez la caisse, pas le téléphone", outline: "Le client tend son téléphone / scan / le tampon s'ajoute / plan sur l'écran verrouillé", why: "Montre le produit sans le vendre." },
+  { title: "Ce que voit votre client", format: "Reel", hook: "Voilà ce qu'il y a dans le Wallet de vos clients", outline: "La carte / le solde / la notification / le coupon. Filmé chez un vrai commerce avec son accord, sinon sur la carte démo.", why: "Rassure le patron sur l'expérience de ses clients." },
+  { title: "La question qu'on me pose le plus", format: "Reel", hook: "« Et si mon client change de téléphone ? »", outline: "La question telle quelle / la réponse en démo / « posez la vôtre en DM »", why: "Une vraie objection, levée en 15 secondes." },
+  { title: "Faites le calcul", format: "Carrousel", hook: "Combien vaut un habitué sur un an ?", outline: "Exemple chiffré marqué « exemple » : panier × visites × 12 / ce que coûte Keeply par jour / « refaites-le avec vos chiffres »", why: "Le patron fait le calcul lui-même : rien d'inventé." },
+  { title: "Laquelle vous préférez ?", format: "Story", hook: "Deux cartes, un sondage", outline: "Deux cartes du Studio côte à côte / sondage / la gagnante en story le lendemain", why: "Les sondages font monter la portée des stories suivantes." },
 ];
 
 const FALLBACK_HOOKS = [
-  "Votre carte de fidélité est dans la poubelle de vos clients",
-  "Ce café a doublé ses habitués sans pub",
-  "Arrêtez de donner le 10e café gratuit",
-  "La question que tous les gérants me posent",
-  "3 secondes en caisse. C'est tout.",
-  "POV : votre client a oublié sa carte. Encore.",
-  "Combien vous coûte un client qui ne revient pas ?",
-  "Le tampon le plus rapide de France ?",
+  "Votre carte de fidélité, dans leur poche.",
+  "20 secondes, sans coupe.",
+  "Le client le plus simple à faire revenir, c'est celui qui est déjà venu.",
+  "La question qu'on me pose le plus.",
+  "3 secondes en caisse.",
+  "Ce que voit votre client quand il ouvre son Wallet.",
+  "Combien vaut un habitué sur un an ? Faites le calcul.",
+  "Votre écran verrouillé préféré : celui de vos clients.",
 ];
 
 const FALLBACK_HASHTAGS = [
@@ -289,18 +289,18 @@ const FALLBACK_HASHTAGS = [
 
 function fallbackProspectEmail(p: Prospect, sender: string, followUpDays: number[], optOut: string, offer: string) {
   const hello = "Bonjour,";
-  const detail = p.rating && p.reviews ? `Avec ${p.reviews} avis à ${String(p.rating).replace(".", ",")}/5, vos clients vous adorent déjà.` : `J'ai découvert ${p.name} en cherchant les adresses à ${p.city}.`;
-  const body = `${hello}\n\n${detail} La question, c'est combien reviennent vraiment chaque semaine.\n\nKeeply met votre carte de fidélité dans l'iPhone et l'Android de vos clients, sans application à installer : ils scannent un QR code, la carte reste dans leur Wallet et leur rappelle de revenir.\n\n${offer}\n\nJe vous montre en 10 minutes ?\n\n${sender}\n\n${optOut}`;
+  const detail = p.rating && p.reviews ? `${p.reviews} avis à ${String(p.rating).replace(".", ",")}/5 : vos clients aiment déjà venir chez vous. Je me suis demandé combien reviennent vraiment chaque semaine.` : `J'ai découvert ${p.name} en cherchant les adresses à ${p.city}.`;
+  const body = `${hello}\n\n${detail}\n\nKeeply met votre carte de fidélité dans l'iPhone et l'Android de vos clients, sans application à installer : ils scannent un QR code, la carte reste dans leur Wallet et leur rappelle de revenir.\n\n${offer}\n\nJe vous montre en 10 minutes ?\n\n${sender}\n\n${optOut}`;
   return {
     demo: true,
     subject: `carte de fidélité ${p.name.toLowerCase()}`,
     body,
     followUps: followUpDays.map((d, i) => ({
       delayDays: d,
-      subject: i === 0 ? `re: carte de fidélité ${p.name.toLowerCase()}` : `${p.name.toLowerCase()} et vos habitués`,
+      subject: i === 0 ? `une carte à vos couleurs` : `${p.name.toLowerCase()} et vos habitués`,
       body:
         i === 0
-          ? `${hello}\n\nJe me permets de relancer : un café de ${p.city} qui utilise Keeply a vu ses clients revenir plus souvent dès le premier mois.\n\nUn essai gratuit de 14 jours vous intéresse ?\n\n${sender}`
+          ? `${hello}\n\nUne idée concrète : je prépare une carte de fidélité aux couleurs de ${p.name} et je vous l'envoie. Vous la verrez dans votre propre téléphone, sans rien installer.\n\nJe vous l'envoie ?\n\n${sender}`
           : `${hello}\n\nDernier message de ma part. Si la fidélité de vos clients n'est pas un sujet en ce moment, aucun souci.\n\nSinon, répondez « oui » et je vous envoie un exemple de carte aux couleurs de ${p.name}.\n\n${sender}`,
     })),
   };

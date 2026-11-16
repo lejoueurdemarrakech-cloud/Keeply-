@@ -3,7 +3,7 @@ import { Check, Copy, Map as MapIcon, Printer } from "lucide-react";
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Badge, Button, Card, Empty, Segmented, cx } from "@/components/ui";
-import { SCRIPTS, fill, kindOf, routeLink, walkingOrder } from "@/lib/channels";
+import { SCRIPTS, SENDING_RULES, fill, kindOf, routeLink, walkingOrder } from "@/lib/channels";
 import { flag } from "@/lib/format";
 import type { Prospect } from "@/lib/types";
 import { ContactActions } from "./contact";
@@ -144,6 +144,16 @@ export function Scripts() {
   const TONE = { whatsapp: "mint", mail: "violet", instagram: "coral", appel: "sky", visite: "honey" } as const;
   return (
     <div className="grid gap-5 lg:grid-cols-2">
+      <Card title="Avant d’envoyer un mail" className="lg:col-span-2">
+        <ul className="grid gap-x-6 gap-y-4 md:grid-cols-2 xl:grid-cols-3">
+          {SENDING_RULES.map((r) => (
+            <li key={r.titre}>
+              <p className="text-[13.5px] font-semibold">{r.titre}</p>
+              <p className="mt-0.5 text-[13px] text-ink-2">{r.texte}</p>
+            </li>
+          ))}
+        </ul>
+      </Card>
       {SCRIPTS.map((s) => (
         <Card key={s.id} title={s.title} action={<Copier text={(s.subject ? `Objet : ${s.subject}\n\n` : "") + s.body} />}>
           <Badge tone={TONE[s.channel]}>{s.channel}</Badge>
@@ -153,7 +163,7 @@ export function Scripts() {
         </Card>
       ))}
       <p className="px-1 text-[12.5px] text-ink-3 lg:col-span-2">
-        {"{nom}"}, {"{ville}"} et {"{type}"} sont remplacés automatiquement quand tu passes par les boutons WhatsApp ou mail d&apos;un commerce. Règle : un seul message, une seule relance, et on arrête dès qu&apos;on nous dit non.
+        {"{nom}"}, {"{ville}"} et {"{type}"} sont remplacés automatiquement quand tu passes par les boutons WhatsApp ou mail d&apos;un commerce. Ce qui est entre [crochets] s&apos;écrit à la main, pour ce commerce-là. On arrête dès qu&apos;on nous dit non.
       </p>
     </div>
   );

@@ -96,7 +96,7 @@ function ItemModal({ live, plan, onClose }: { live: LivePlanItem; plan: ReturnTy
         <KindBadge item={live} />
         <Badge tone={STATUS_TONE[live.status]}>{STATUS_LABEL[live.status]}</Badge>
         <span>{live.type}</span>
-        {live.hook && <span>· accroche {live.hook}</span>}
+        {live.pilier && <span>· {live.pilier}</span>}
         {live.boost && <Badge tone="violet">À booster si ça marche</Badge>}
         {live.moved && <Badge tone="honey">Déplacé</Badge>}
       </div>
@@ -116,6 +116,8 @@ function ItemModal({ live, plan, onClose }: { live: LivePlanItem; plan: ReturnTy
       <div className="mt-4 grid gap-4 md:grid-cols-2">
         <div className="space-y-3 text-[13.5px] text-ink-2">
           <p className="font-display text-[17px] font-semibold text-ink">« {live.accroche} »</p>
+          {live.angle && <p className="text-[13px] text-ink-3">{live.angle}</p>}
+          {live.couverture && <Block title="Texte de la couverture">{live.couverture}</Block>}
           <Block title={live.kind === "story" && !live.repostOf ? "Objectif" : "À fabriquer"}>{live.contenu}</Block>
           {live.cta && <Block title="Appel à l'action">{live.cta}</Block>}
         </div>

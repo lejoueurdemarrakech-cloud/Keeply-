@@ -61,14 +61,7 @@ export function Dashboard({
     }, {}),
   ).sort((a, b) => b.n - a.n);
 
-  if (!all.length)
-    return (
-      <Card>
-        <Empty icon={<Target className="size-5" />} title="Aucun établissement pour l'instant">
-          Lance une recherche (onglet Recherche) ou importe une liste.
-        </Empty>
-      </Card>
-    );
+  if (!all.length) return <Method onTab={onTab} />;
 
   return (
     <div className="space-y-5">
@@ -207,6 +200,64 @@ export function Dashboard({
           </Card>
         </div>
       </div>
+    </div>
+  );
+}
+
+const STEPS = [
+  {
+    n: "1",
+    titre: "Trouver",
+    texte: "Les commerces d'une ville (OpenStreetMap ou Google), ou les gérants et petites chaînes via Apollo. France et Maroc d'abord.",
+    tab: "recherche",
+    bouton: "Lancer une recherche",
+  },
+  {
+    n: "2",
+    titre: "Qualifier et écrire",
+    texte: "Harvey lit le site et la fiche de chaque commerce, note son intérêt de 1 à 10 et écrit un message qui ne marche que pour lui. Tu valides chaque message.",
+    tab: "liste",
+    bouton: "Voir les prospects",
+  },
+  {
+    n: "3",
+    titre: "Contacter",
+    texte: "Le bon canal pour chacun : WhatsApp au Maroc, mail en Europe et au Canada, message Instagram, visite à Agadir. Toujours avec la carte démo à ses couleurs.",
+    tab: "messages",
+    bouton: "Messages types",
+  },
+];
+
+function Method({ onTab }: { onTab: (t: string) => void }) {
+  return (
+    <div className="space-y-5">
+      <div className="grid gap-5 md:grid-cols-3">
+        {STEPS.map((s) => (
+          <Card key={s.n}>
+            <div className="flex h-full flex-col">
+              <span className="grid size-8 place-items-center rounded-full bg-violet-soft text-[13px] font-bold text-violet tnum">{s.n}</span>
+              <p className="mt-3 text-[15px] font-semibold">{s.titre}</p>
+              <p className="mt-1 text-[13.5px] text-ink-2">{s.texte}</p>
+              <button onClick={() => onTab(s.tab)} className="mt-auto self-start pt-4 text-[13px] font-semibold text-violet hover:underline">
+                {s.bouton} →
+              </button>
+            </div>
+          </Card>
+        ))}
+      </div>
+      <Card title="La semaine type">
+        <ul className="grid gap-4 text-[13.5px] md:grid-cols-4">
+          <li><p className="font-semibold">Lundi</p><p className="text-ink-2">Une recherche : 80 commerces dans une ville. Harvey qualifie.</p></li>
+          <li><p className="font-semibold">Mardi à jeudi</p><p className="text-ink-2">15 messages par jour, chacun relu. Les cartes démo des plus chauds.</p></li>
+          <li><p className="font-semibold">Vendredi</p><p className="text-ink-2">Relances du jour, visites à Agadir, démos.</p></li>
+          <li><p className="font-semibold">Objectif</p><p className="text-ink-2">75 contacts et 6 démos par semaine, 10 commerces actifs fin décembre.</p></li>
+        </ul>
+      </Card>
+      <Card>
+        <Empty icon={<Target className="size-5" />} title="Aucun établissement pour l'instant">
+          Commence par l&apos;étape 1, ou importe une liste existante.
+        </Empty>
+      </Card>
     </div>
   );
 }
