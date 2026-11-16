@@ -95,11 +95,11 @@ export const PROFILES: Record<Account, { username: string; nom: string; categori
   fr: {
     username: "keeplyfr",
     nom: "Keeply | Carte de fidélité",
-    categorie: "Application",
+    categorie: "Logiciel",
     bio: "Votre carte de fidélité, dans leur téléphone.\nCafés, snacks, restaurants.\nRien à installer pour vos clients.\nEssai gratuit 14 jours ↓",
     lien: "https://keeplyfidelity.app/liens?ct=ig_fr",
     lienTexte: "Une page, trois portes : l'app iPhone (le bon App Store selon le pays), la web app pour gérer depuis un ordinateur, et le site. Sur Android : la liste d'attente.",
-    boutons: "Compte professionnel, catégorie « Application ». Boutons : WhatsApp Business et e-mail bonjour@keeplyfidelity.app.",
+    boutons: "Compte Entreprise, catégorie « Logiciel ». Boutons : WhatsApp Business et e-mail bonjour@keeplyfidelity.app.",
     epingles: "Épingler dans cet ordre : la démo en 20 s (la preuve), Keeply en 7 slides (l'offre), Pourquoi Keeply (l'humain).",
     photo: "Le logo Keeply seul, blanc sur violet, bien centré dans le rond. Pas de texte.",
   },
