@@ -14,6 +14,7 @@ export type ConnectorId =
   | "outreach"
   | "anthropic"
   | "places"
+  | "apollo"
   | "sentry"
   | "blob";
 
@@ -189,6 +190,20 @@ export const CONNECTORS: ConnectorDef[] = [
       "Crée une clé API et limite-la à Places API.",
     ],
     docs: "https://developers.google.com/maps/documentation/places/web-service/text-search",
+  },
+  {
+    id: "apollo",
+    name: "Apollo",
+    group: "Prospection",
+    description: "Trouve les gérants, fondateurs et franchisés des restaurants, cafés et fast-foods (nom, poste, LinkedIn), puis révèle leur e-mail à la demande (1 crédit Apollo par e-mail).",
+    fields: [{ key: "apiKey", label: "Clé API Apollo", type: "password", placeholder: "Colle ta clé ici", env: "APOLLO_API_KEY" }],
+    steps: [
+      "Ouvre app.apollo.io > Settings (roue dentée) > Integrations > API.",
+      "Clique « Create new key », donne-lui un nom (Keeply HQ) et coche au minimum « mixed_people/api_search », « mixed_companies/search » et « people/match » (ou « Set as master key »).",
+      "Copie la clé et colle-la ici, puis clique « Tester ».",
+      "La recherche ne consomme pas de crédits ; révéler un e-mail en consomme 1.",
+    ],
+    docs: "https://docs.apollo.io/reference/people-api-search",
   },
   {
     id: "sentry",

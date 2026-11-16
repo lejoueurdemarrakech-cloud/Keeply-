@@ -8,18 +8,18 @@ import { useApi } from "@/lib/client";
 import type { Post } from "@/lib/types";
 import { Composer, draftFromPost, emptyDraft, type Draft } from "./composer";
 import { Growth } from "./growth";
-import { Launch } from "./launch";
 import { Library } from "./library";
+import { PlanV7 } from "./plan";
 import { Planning } from "./planning";
 import type { IgOverview } from "./shared";
 import { Stats } from "./stats";
 
-type Tab = "lancement" | "planning" | "creer" | "publications" | "stats" | "croissance";
+type Tab = "plan" | "planning" | "creer" | "publications" | "stats" | "croissance";
 
 function InstagramInner() {
   const params = useSearchParams();
   const router = useRouter();
-  const [tab, setTabState] = useState<Tab>((params.get("tab") as Tab) || "lancement");
+  const [tab, setTabState] = useState<Tab>(params.get("tab") === "lancement" ? "plan" : (params.get("tab") as Tab) || "plan");
   const [draft, setDraft] = useState<Draft>(emptyDraft());
   const [draftKey, setDraftKey] = useState(0);
   const { data: o, mutate: refreshOverview, isValidating } = useApi<IgOverview>("/api/instagram/overview");
@@ -74,15 +74,15 @@ function InstagramInner() {
         value={tab}
         onChange={setTab}
         tabs={[
-          { value: "lancement", label: "Lancement", icon: <Flag className="size-4" /> },
-          { value: "planning", label: "Planning", icon: <CalendarDays className="size-4" />, count: posts?.filter((p) => p.status === "programme").length },
+          { value: "plan", label: "Plan & calendrier", icon: <Flag className="size-4" /> },
+          { value: "planning", label: "Programmés", icon: <CalendarDays className="size-4" />, count: posts?.filter((p) => p.status === "programme").length },
           { value: "creer", label: "Créer", icon: <PenSquare className="size-4" /> },
           { value: "publications", label: "Publications", icon: <Grid3x3 className="size-4" />, count: o?.media.length },
           { value: "stats", label: "Statistiques", icon: <BarChart3 className="size-4" /> },
           { value: "croissance", label: "Croissance", icon: <Rocket className="size-4" /> },
         ]}
       />
-      {tab === "lancement" && <Launch onCreate={edit} />}
+      {tab === "plan" && <PlanV7 />}
       {tab === "planning" && (posts ? <Planning posts={posts} published={o?.media ?? []} onEdit={(p) => edit(draftFromPost(p))} onChange={() => refreshPosts()} /> : <Skeleton className="h-96" />)}
       {tab === "creer" && (
         <Composer

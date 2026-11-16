@@ -25,13 +25,19 @@ export const COUNTRIES: Record<string, { name: string; lang: string }> = {
   IT: { name: "Italie", lang: "it" },
   DE: { name: "Allemagne", lang: "de" },
   AT: { name: "Autriche", lang: "de" },
-  NL: { name: "Pays-Bas", lang: "nl" },
+  NL: { name: "Pays-Bas", lang: "en" },
+  AU: { name: "Australie", lang: "en" },
+  ID: { name: "Indonésie (Bali)", lang: "en" },
   PT: { name: "Portugal", lang: "pt" },
   GB: { name: "Royaume-Uni", lang: "en" },
   IE: { name: "Irlande", lang: "en" },
   US: { name: "États-Unis", lang: "en" },
   AE: { name: "Émirats arabes unis", lang: "en" },
 };
+
+/** Où l'app est en ligne (App Store) : on ne prospecte que là. Priorité France et Maroc. */
+export const PRIORITY_COUNTRIES = ["FR", "MA"];
+export const LIVE_COUNTRIES = ["BE", "CH", "LU", "CA", "TN", "DZ", "SN", "CI", "NL", "AU", "ID"];
 
 export const TYPES: Record<string, { label: string; osm: string[]; google: string }> = {
   cafe: { label: "Café / coffee shop", osm: ['["amenity"="cafe"]', '["shop"="coffee"]'], google: "café" },

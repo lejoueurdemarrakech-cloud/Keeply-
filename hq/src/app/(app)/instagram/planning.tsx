@@ -3,10 +3,10 @@ import { ChevronLeft, ChevronRight, CircleAlert, ExternalLink, Pencil, Send, Tra
 import { useMemo, useState } from "react";
 import { toast } from "sonner";
 import { Badge, Button, Card, Empty, cx } from "@/components/ui";
-import { KindBadge, PlanItemModal, PromptButton, usePlanState } from "@/components/plan-item";
+import { KindBadge, PlanItemModal, PromptButton, usePlan } from "@/components/plan-item";
 import { api } from "@/lib/client";
 import { dateTime, relative } from "@/lib/format";
-import { PLAN_ITEMS, dueSoon, isoLocal, longDate, type PlanItem } from "@/lib/launch-calendar";
+import { dueSoon, isoLocal, longDate, type LivePlanItem } from "@/lib/launch-calendar";
 import type { Post } from "@/lib/types";
 import type { IgMedia } from "./shared";
 
@@ -25,8 +25,8 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
     return new Date(d.getFullYear(), d.getMonth(), 1);
   });
   const [busy, setBusy] = useState<string | null>(null);
-  const [open, setOpen] = useState<PlanItem | null>(null);
-  const st = usePlanState();
+  const [open, setOpen] = useState<LivePlanItem | null>(null);
+  const { items: planItems } = usePlan();
 
   const cells = useMemo(() => {
     const first = new Date(month);
@@ -44,7 +44,7 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
   const dayItems = (d: Date) => [
     ...posts.filter((p) => (p.scheduledAt || p.publishedAt) && sameDay(new Date(p.publishedAt || p.scheduledAt!), d)).map((p) => ({ kind: "post" as const, p })),
     ...published.filter((m) => sameDay(new Date(m.timestamp), d) && !posts.some((p) => p.igMediaId === m.id)).map((m) => ({ kind: "ig" as const, m })),
-    ...PLAN_ITEMS.filter((i) => i.date === isoLocal(d)).map((i) => ({ kind: "plan" as const, i })),
+    ...planItems.filter((i) => i.date === isoLocal(d) && !i.repostOf).map((i) => ({ kind: "plan" as const, i })),
   ];
 
   const drafts = posts.filter((p) => p.status === "brouillon" || p.status === "echec");
@@ -103,7 +103,7 @@ export function Planning({ posts, published, onEdit, onChange }: { posts: Post[]
                         title={it.i.titre}
                         className={cx(
                           "block w-full truncate rounded-md border border-dashed px-1.5 py-0.5 text-left text-[11.5px] font-semibold",
-                          st.isDone(it.i.id) ? "border-mint text-mint" : it.i.kind === "post" ? "border-honey text-honey" : "border-sky text-sky",
+                          it.i.status === "publie" ? "border-mint text-mint" : it.i.kind === "post" ? "border-honey text-honey" : "border-sky text-sky",
                         )}
                       >
                         {it.i.kind === "post" ? "Post" : "Stories"} · {it.i.titre}
@@ -220,10 +220,10 @@ function PostRow({ p, busy, onEdit, onPublish, onRemove }: { p: Post; busy: bool
   );
 }
 
-function PlanAside({ onOpen }: { onOpen: (i: PlanItem) => void }) {
-  const st = usePlanState();
-  const soon = dueSoon();
-  const next = PLAN_ITEMS.filter((i) => i.date >= isoLocal(new Date()) && !st.isDone(i.id)).slice(0, 6);
+function PlanAside({ onOpen }: { onOpen: (i: LivePlanItem) => void }) {
+  const { items } = usePlan();
+  const soon = dueSoon(items);
+  const next = items.filter((i) => i.date >= isoLocal(new Date()) && i.status !== "publie" && !i.repostOf).slice(0, 6);
   const list = soon.length ? soon : next;
   return (
     <Card title={soon.length ? "À préparer (2 jours)" : "Prochains contenus du plan"} pad={false}>
@@ -233,7 +233,7 @@ function PlanAside({ onOpen }: { onOpen: (i: PlanItem) => void }) {
             <button onClick={() => onOpen(i)} className="w-full text-left">
               <div className="flex flex-wrap items-center gap-1.5">
                 <KindBadge item={i} />
-                {st.isReady(i.id) && <Badge tone="mint">Prêt</Badge>}
+                {i.status === "pret" && <Badge tone="mint">Prêt</Badge>}
               </div>
               <p className="mt-1 text-[13.5px] font-semibold">{i.titre}</p>
               <p className="text-[12.5px] text-ink-3">

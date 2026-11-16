@@ -201,6 +201,7 @@ function describe(p: Prospect) {
     ]
       .filter(Boolean)
       .join(" ; ")}`,
+    p.contact?.name ? `décideur: ${p.contact.name}${p.contact.title ? ` (${p.contact.title})` : ""} : s'adresser à lui ou elle par son prénom` : "",
     p.siteSnippet ? untrusted("extrait_site_" + p.id, p.siteSnippet, 1500) : "",
   ]
     .filter(Boolean)

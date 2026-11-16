@@ -9,6 +9,7 @@ import { dateTime, flag, relative } from "@/lib/format";
 import type { Prospect, ProspectStatus } from "@/lib/types";
 import { ContactActions } from "./contact";
 import { Dashboard } from "./dashboard";
+import { ContactBlock, Objective, SearchPanel } from "./search";
 import { Scripts, Terrain } from "./terrain";
 
 interface Data {
@@ -18,6 +19,9 @@ interface Data {
   sender: string | null;
   searchSource: string;
   countries: Record<string, { name: string; lang: string }>;
+  priorityCountries?: string[];
+  liveCountries?: string[];
+  apollo?: boolean;
   types: Record<string, string>;
   android: { email: string; type: string; city: string; at: string }[];
 }
@@ -145,20 +149,14 @@ function ProspectionInner() {
           { value: "recherche", label: "Recherche" },
         ]}
       />
+      {tab === "bord" && data && <Objective all={all} />}
       {tab === "bord" && (data ? <Dashboard all={all} android={data.android ?? []} types={data.types} onOpen={setOpen} onChange={() => mutate()} onTab={setTab} /> : <Skeleton className="h-96" />)}
       {tab === "terrain" && <Terrain all={all} onOpen={setOpen} onChange={() => mutate()} />}
       {tab === "messages" && <Scripts />}
       {tab === "recherche" && data && (
         <>
+          <Objective all={all} />
           <SearchPanel data={data} onDone={() => mutate()} />
-          <Card title="Avec Harvey (sur le Mac)">
-            <p className="text-[14px] text-ink-2">
-              Harvey cherche aussi des commerces depuis le Mac et prépare des mails. Sa recherche gratuite ne connaît pas encore les restaurants et les cafés : il lui faut une clé Serper (2 500 recherches gratuites, sans carte) dans ~/Outils/harvey/.env. Les deux recherches remplissent la même liste ici.
-            </p>
-            <a href="/harvey" className="mt-3 inline-block text-[13.5px] font-semibold text-violet hover:underline">
-              Ouvrir Harvey
-            </a>
-          </Card>
         </>
       )}
       {tab === "liste" && (<>
@@ -306,79 +304,6 @@ function ProspectionInner() {
   );
 }
 
-function SearchPanel({ data, onDone }: { data: Data; onDone: () => void }) {
-  const [country, setCountry] = useState("FR");
-  const [cities, setCities] = useState("");
-  const [types, setTypes] = useState<string[]>(["cafe", "boulangerie"]);
-  const [limit, setLimit] = useState(30);
-  const [busy, setBusy] = useState(false);
-  const [log, setLog] = useState<string[]>([]);
-
-  async function run() {
-    const list = cities.split(/[,\n;]/).map((c) => c.trim()).filter(Boolean);
-    if (!list.length) return toast.error("Indique au moins une ville.");
-    setBusy(true);
-    setLog([]);
-    for (const city of list) {
-      setLog((l) => [...l, `${city} : recherche en cours…`]);
-      const r = await api<{ added: number; duplicates: number; withEmail: number; source: string; notice?: string }>("POST", "/api/prospects/search", { country, city, types, limit });
-      setLog((l) => [...l.slice(0, -1), r ? `${city} : ${r.added} ajoutés (${r.withEmail} avec mail), ${r.duplicates} déjà connus${r.notice ? `. ${r.notice}` : ""}` : `${city} : échec`]);
-      onDone();
-    }
-    setBusy(false);
-  }
-
-  return (
-    <Card className="rise mb-5" title="Nouvelle recherche" action={<span className="text-[12.5px] text-ink-3">Source : {data.searchSource}</span>}>
-      <div className="grid gap-4 md:grid-cols-[200px_minmax(0,1fr)_140px]">
-        <Field label="Pays">
-          <select className="field" value={country} onChange={(e) => setCountry(e.target.value)}>
-            {Object.entries(data.countries).map(([k, v]) => (
-              <option key={k} value={k}>
-                {flag(k)} {v.name}
-              </option>
-            ))}
-          </select>
-        </Field>
-        <Field label="Villes" hint="Sépare plusieurs villes par des virgules.">
-          <input className="field" placeholder="Lyon, Villeurbanne, Annecy" value={cities} onChange={(e) => setCities(e.target.value)} onKeyDown={(e) => e.key === "Enter" && run()} />
-        </Field>
-        <Field label="Par ville (max)">
-          <input type="number" min={5} max={120} className="field" value={limit} onChange={(e) => setLimit(Number(e.target.value))} />
-        </Field>
-      </div>
-      <div className="mt-4">
-        <p className="mb-1.5 text-[13px] font-semibold text-ink-2">Types d&apos;établissements</p>
-        <div className="flex flex-wrap gap-1.5">
-          {Object.entries(data.types).map(([k, v]) => {
-            const on = types.includes(k);
-            return (
-              <button key={k} onClick={() => setTypes(on ? types.filter((x) => x !== k) : [...types, k])} className={cx("rounded-full px-3 py-1.5 text-[13px] font-semibold", on ? "bg-violet text-white" : "bg-bg-2 text-ink-2 hover:text-ink")}>
-                {v}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-      <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
-        <p className="max-w-[60ch] text-[12.5px] text-ink-3">
-          Les chaînes et franchises sont écartées. Pour chaque établissement, son site est visité pour trouver l&apos;adresse de contact, son Instagram et des indices (fidélité, livraison). Le domaine de chaque adresse est vérifié.
-        </p>
-        <Button variant="primary" icon={<Radar className="size-4" />} loading={busy} onClick={run} disabled={!types.length}>
-          Trouver
-        </Button>
-      </div>
-      {log.length > 0 && (
-        <ul className="mt-3 space-y-1 rounded-xl bg-surface-2 p-3 text-[13px] text-ink-2">
-          {log.map((l, i) => (
-            <li key={i}>{l}</li>
-          ))}
-        </ul>
-      )}
-    </Card>
-  );
-}
-
 function ProspectModal({ p, types, onClose, onChange }: { p: Prospect; types: Record<string, string>; onClose: () => void; onChange: () => void }) {
   const [draft, setDraft] = useState(p.draft);
   const [email, setEmail] = useState(p.email ?? "");
@@ -448,6 +373,7 @@ function ProspectModal({ p, types, onClose, onChange }: { p: Prospect; types: Re
               </Badge>
             ))}
           </div>
+          <ContactBlock p={p} onChange={onChange} />
           {p.fit != null && (
             <div className="rounded-xl bg-bg-2 px-3.5 py-2.5 text-[13px] text-ink-2">
               <strong className="text-ink">Intérêt estimé par Claude : {p.fit}/10.</strong> {p.fitReason}

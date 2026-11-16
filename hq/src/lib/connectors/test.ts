@@ -46,6 +46,10 @@ export async function testConnector(id: ConnectorId): Promise<string> {
       });
       return "Clé Google Places valide.";
     }
+    case "apollo": {
+      const { apolloPing } = await import("@/lib/apollo");
+      return apolloPing(cfg.apiKey);
+    }
     case "sentry": {
       const issues = await fetchJson<unknown[]>(`https://${cfg.host || "sentry.io"}/api/0/projects/${cfg.org}/${cfg.project}/issues/?limit=1`, {
         headers: { Authorization: `Bearer ${cfg.authToken}` },

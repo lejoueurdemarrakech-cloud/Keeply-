@@ -135,7 +135,7 @@ export interface Prospect {
   instagram?: string;
   rating?: number;
   reviews?: number;
-  source: "osm" | "google" | "manuel" | "demo";
+  source: "osm" | "google" | "manuel" | "demo" | "apollo";
   score: "chaud" | "tiede" | "froid" | "ecarte";
   signals: string[];
   lang: string;
@@ -158,6 +158,9 @@ export interface Prospect {
   lon?: number;
   hours?: string;
   /** Prospection terrain et messages directs (WhatsApp, appel, Instagram, visite). */
+  /** Décideur trouvé (Apollo) : nom, poste, LinkedIn ; l'e-mail se révèle à la demande. */
+  contact?: { name: string; title?: string; apolloId?: string; linkedin?: string; hasEmail?: boolean };
+  apolloOrgId?: string;
   touches?: { at: string; channel: "whatsapp" | "appel" | "instagram" | "visite" | "mail"; note?: string }[];
   nextAction?: { at: string; label: string } | null;
 }

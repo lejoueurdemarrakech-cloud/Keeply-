@@ -4,7 +4,8 @@ import { adsSummary, getMemory } from "@/lib/jarvis";
 import { read, store } from "@/lib/store";
 import { addTask } from "@/lib/tasks";
 import { todayOverview } from "@/lib/today";
-import { PLAN_ITEMS, isoLocal } from "@/lib/launch-calendar";
+import { isoLocal } from "@/lib/launch-calendar";
+import { livePlan } from "@/lib/plan-state";
 import { listProspects } from "@/lib/prospects";
 import { androidWaitlist } from "@/lib/android";
 import type { ActivityEntry } from "@/lib/settings";
@@ -26,11 +27,12 @@ export const GET = route(async (req: Request) => {
   // Écran d'accueil de Jarvis : fil d'actu de HQ, calendrier du lancement, prospection.
   const now = new Date();
   const from = isoLocal(now);
+  const PLAN_ITEMS = (await livePlan()).filter((i) => !i.repostOf);
   const plan = PLAN_ITEMS.filter((i) => i.date >= from).slice(0, 8).map((i) => ({ kind: i.kind, id: i.id, date: i.date, heure: i.heure, titre: i.titre, format: i.format }));
   // Tout le plan, avec de quoi le lire à voix haute (accroche des posts, objectif des stories).
   const planFull = PLAN_ITEMS.filter((i) => i.date >= from).slice(0, 60).map((i) => ({
     kind: i.kind, id: i.id, date: i.date, heure: i.heure, titre: i.titre, format: i.format,
-    texte: i.kind === "post" ? String(i.post.accroche ?? "").slice(0, 300) : String(i.story.objectif ?? "").slice(0, 300),
+    texte: String(i.accroche ?? "").slice(0, 300),
   }));
   const live = prospects.filter((p) => p.status !== "exclu" && p.score !== "ecarte");
   const contacted = ["contacte", "envoye", "relance1", "relance2", "repondu", "interesse", "refus", "client"];

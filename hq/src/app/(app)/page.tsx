@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useState } from "react";
 import { Sparkline } from "@/components/charts";
 import { Badge, Button, Card, DemoBadge, Empty, Markdown, Skeleton, Stat, cx } from "@/components/ui";
-import { KindBadge, PlanItemModal, PromptButton, usePlanState } from "@/components/plan-item";
+import { KindBadge, PlanItemModal, PromptButton, usePlan } from "@/components/plan-item";
 import { api, useApi } from "@/lib/client";
-import { PLAN_ITEMS, dueSoon, isoLocal, longDate, type PlanItem } from "@/lib/launch-calendar";
+import { dueSoon, isoLocal, longDate, type LivePlanItem } from "@/lib/launch-calendar";
 import { dateLong, dateTime, eur, num, pct, relative } from "@/lib/format";
 import type { HealthResult, MailItem, Post, Prospect, Review, Task } from "@/lib/types";
 
@@ -296,18 +296,18 @@ export default function TodayPage() {
 
 /** Prévient 2 jours avant chaque post ou séquence de stories du plan de lancement. */
 function ToPrepare() {
-  const st = usePlanState();
-  const [open, setOpen] = useState<PlanItem | null>(null);
+  const { items: plan } = usePlan();
+  const [open, setOpen] = useState<LivePlanItem | null>(null);
   const today = isoLocal(new Date());
-  const soon = dueSoon().filter((i) => !st.isDone(i.id));
-  const late = PLAN_ITEMS.filter((i) => i.date < today && !st.isDone(i.id) && i.date >= "2026-11-12").slice(-3);
-  const next = PLAN_ITEMS.find((i) => i.date > today);
+  const soon = dueSoon(plan);
+  const late = plan.filter((i) => i.date < today && i.status !== "publie" && !i.repostOf && i.date >= "2026-11-24").slice(-3);
+  const next = plan.find((i) => i.date > today && !i.repostOf);
   const items = [...late, ...soon];
   return (
     <Card
       className="mb-5"
       title={items.length ? `À préparer pour Instagram · ${items.length}` : "Instagram : rien à préparer dans les 2 jours"}
-      action={<Link href="/instagram?tab=planning" className="text-[13px] font-semibold text-violet hover:underline">Planning</Link>}
+      action={<Link href="/instagram?tab=plan" className="text-[13px] font-semibold text-violet hover:underline">Calendrier</Link>}
       pad={!items.length}
     >
       {items.length ? (
@@ -320,7 +320,7 @@ function ToPrepare() {
                   <div className="flex flex-wrap items-center gap-1.5">
                     <KindBadge item={i} />
                     <Badge tone={inDays < 0 ? "coral" : inDays === 0 ? "honey" : "neutral"}>{inDays < 0 ? "En retard" : inDays === 0 ? "Aujourd'hui" : inDays === 1 ? "Demain" : "Dans 2 jours"}</Badge>
-                    {st.isReady(i.id) && <Badge tone="mint">Prêt</Badge>}
+                    {i.status === "pret" && <Badge tone="mint">Prêt</Badge>}
                   </div>
                   <p className="mt-1.5 text-[14px] font-semibold">{i.titre}</p>
                   <p className="text-[12.5px] text-ink-3">
