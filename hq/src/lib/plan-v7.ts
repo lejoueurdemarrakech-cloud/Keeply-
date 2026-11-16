@@ -86,7 +86,7 @@ export const BRAND = {
   ],
   grille: "La grille alterne Produit, Métier, Coulisses. Chaque couverture porte 4 mots au plus, en haut, sur fond calme : vue de loin, la grille se lit comme un sommaire.",
   pays:
-    "Compte FR : France, Belgique, Suisse, Luxembourg, Maroc, Tunisie, Algérie, Sénégal, Côte d'Ivoire et Québec. Compte EN : Canada anglophone, Pays-Bas, Australie, Bali (Indonésie). Les boosts ne visent que les pays où l'app est sur l'App Store. Royaume-Uni : le contenu anglais est prêt, mais l'app n'y est pas encore disponible ; il faut l'ajouter dans App Store Connect (Tarifs et disponibilité) avant d'y diffuser.",
+    "Compte FR : France, Belgique, Suisse, Luxembourg, Maroc, Tunisie, Algérie, Sénégal, Côte d'Ivoire et Québec. Compte EN : Canada anglophone, Pays-Bas, Australie, Bali (Indonésie). Tout le monde peut tomber sur les posts. Le budget pub, lui, va seulement à la France, au Maroc et un peu au Canada. Royaume-Uni : ajouté dans App Store Connect par le fondateur.",
 };
 
 /* ------------------------------------------------------------------ Profils */
@@ -176,13 +176,13 @@ const H_EN = ["#loyaltyprogram", "#restaurantowner", "#cafeowner", "#smallbusine
 
 const FR: Omit<PlanItem, "account" | "kind">[] = [
   {
-    id: "fr-p01", date: "2026-11-24", heure: "15:30", format: "Reel", pilier: "Métier", type: "Manifeste",
-    titre: "Ce compte est pour vous",
-    accroche: "Si vous avez un comptoir, ce compte est pour vous.",
-    couverture: "Pour ceux qui ont un comptoir",
-    angle: "Le premier post fait le tri : il dit à qui on parle, avant de parler du produit.",
-    contenu: "Reel 12 s. Cinq comptoirs, un plan par comptoir, lents : un snack à midi, un café le matin, un resto de quartier, une table nappée, un food truck. Sur le dernier plan, une main pose un iPhone sur le comptoir : une carte s'allume dans le Wallet. Texte à l'écran : « Si vous avez un comptoir, ce compte est pour vous. » puis « Ici, on parle de ceux qui reviennent. » Pas de logo avant la fin.",
-    legende: "Snack, café, resto de quartier ou belle table.\nSi vous avez un comptoir, ce compte est pour vous.\n\nIci, on parle de ceux qui reviennent.",
+    id: "fr-p01", date: "2026-11-24", heure: "15:30", format: "Reel", pilier: "Produit", type: "Présentation",
+    titre: "Pour les restaurants, les cafés et les fast-foods",
+    accroche: "Pour les restaurants, les cafés et les fast-foods. Et pour leurs habitués.",
+    couverture: "Restaurants, cafés, fast-foods",
+    angle: "Le premier post dit simplement pour qui est Keeply. Un patron se reconnaît dans la première seconde, sans slogan.",
+    contenu: "Reel 10 s, fond calme, plans lents. Trois comptoirs, un par plan, avec un seul mot à l'écran : « Restaurants. » (une salle avant le service), « Cafés. » (une tasse posée sur le zinc), « Fast-foods. » (un plateau qui glisse). Dernier plan : un client tend son iPhone, la carte de fidélité apparaît dans le Wallet. Texte : « Et leurs habitués. » Logo Keeply à la fin seulement.",
+    legende: "Keeply, c'est la carte de fidélité des restaurants, des cafés et des fast-foods. Vos clients l'ajoutent à leur téléphone en scannant un QR au comptoir, puis la retrouvent à chaque passage.\n\nSur ce compte, on vous montre Keeply en vrai et on partage ce qui fait revenir les clients.",
     hashtags: H_FR, cta: "Suivez le compte",
   },
   {
@@ -192,7 +192,7 @@ const FR: Omit<PlanItem, "account" | "kind">[] = [
     couverture: "Keeply en 7 slides",
     angle: "Le post qu'on épingle : en 7 slides, un patron sait ce que c'est, comment ça marche et combien ça coûte.",
     contenu: "Carrousel 7 slides 1080×1350, fond blanc cassé, une phrase par slide, alignée à gauche, la carte du Studio en héros.\n1 « Votre carte de fidélité. Dans leur téléphone. »\n2 « Le client scanne le QR. Sa carte va dans son Wallet. » (rien à installer)\n3 « Vous scannez à la caisse. Un tampon, c'est fait. »\n4 « Tampons ou points. Vous choisissez. »\n5 « Un rappel sur l'écran verrouillé, si vous le voulez. »\n6 « 14 jours gratuits. Le prix de votre pays ensuite. »\n7 « Lien en bio. » + logo",
-    legende: "Votre client scanne, sa carte est dans son Wallet.\nVous scannez à chaque passage.\nChaque option s'active ou se coupe : vous gardez la main.\n\n14 jours gratuits, lien en bio.",
+    legende: "Votre client scanne le QR et sa carte va dans son Wallet. Vous la scannez à chaque passage, et chaque option s'active ou se coupe quand vous voulez.\n\n14 jours gratuits, lien en bio.",
     hashtags: H_FR, cta: "Lien en bio",
   },
   {
@@ -232,8 +232,8 @@ const FR: Omit<PlanItem, "account" | "kind">[] = [
     couverture: "Celui qui est déjà venu",
     angle: "Une idée simple et juste que tout patron reconnaît : ça fait commenter.",
     contenu: "Reel 25 s face caméra, entrecoupé de plans de comptoir. On met tout pour attirer de nouveaux clients : pub, réseaux, promos. Presque rien pour celui qui est déjà venu, qui a aimé, et qui ne sait pas quand revenir. Une carte de fidélité, c'est une raison de revenir. Aucun chiffre.",
-    legende: "On fait tout pour attirer de nouveaux clients.\nEt presque rien pour faire revenir ceux qui ont déjà aimé.\n\nVous en pensez quoi ?",
-    hashtags: H_FR, cta: "Votre avis en commentaire",
+    legende: "On met beaucoup d'énergie à attirer de nouveaux clients, et très peu à faire revenir ceux qui ont déjà aimé.\n\nChez vous, qu'est-ce qui fait revenir un client une deuxième fois ?",
+    hashtags: H_FR, cta: "Votre réponse en commentaire",
   },
   {
     id: "fr-p07", date: "2026-12-07", heure: "15:30", format: "Reel", pilier: "Produit", type: "Démo",
@@ -252,7 +252,7 @@ const FR: Omit<PlanItem, "account" | "kind">[] = [
     couverture: "Rien à télécharger",
     angle: "L'objection qu'on entend à chaque démo, levée en 20 secondes.",
     contenu: "Reel 20 s, côté client : l'appareil photo de l'iPhone, le QR, « Ajouter à Apple Wallet », la carte. Puis la même chose sur un Android avec Google Wallet. Fin.",
-    legende: "Vos clients n'installent rien.\nIls scannent, la carte va dans leur Wallet, à côté de leur carte bancaire.\niPhone et Android.",
+    legende: "Vos clients n'installent rien. Ils scannent le QR et la carte va dans leur Wallet, à côté de leur carte bancaire, sur iPhone comme sur Android.",
     hashtags: H_FR, cta: "Lien en bio",
   },
   {
@@ -360,14 +360,14 @@ const FR: Omit<PlanItem, "account" | "kind">[] = [
 /* ---------------------------------------------------------- Posts EN */
 
 const EN: Omit<PlanItem, "account" | "kind">[] = [
-  { id: "en-p01", date: "2026-11-24", heure: "08:00", format: "Reel", pilier: "Métier", type: "Manifesto", titre: "This account is for you", accroche: "If you run a counter, this account is for you.", couverture: "For anyone with a counter", contenu: "Same edit as fr-p01, English on-screen text: « If you run a counter, this account is for you. » then « We talk about the ones who come back. »", legende: "Fast food, café, neighbourhood spot or fine dining.\nIf you run a counter, this account is for you.\n\nWe talk about the ones who come back.", hashtags: H_EN, cta: "Follow" },
-  { id: "en-p02", date: "2026-11-26", heure: "08:00", format: "Carrousel", pilier: "Produit", type: "The offer", titre: "Keeply in 7 slides", accroche: "Your loyalty card. On their phone.", couverture: "Keeply in 7 slides", contenu: "English version of fr-p02. Slide 6: « 14 days free. Then your local price. »", legende: "Customers scan, the card lands in their Wallet.\nYou scan at every visit.\nEvery feature switches on or off.\n\n14-day free trial, link in bio.", hashtags: H_EN, cta: "Link in bio" },
+  { id: "en-p01", date: "2026-11-24", heure: "08:00", format: "Reel", pilier: "Produit", type: "Introduction", titre: "For restaurants, cafés and fast food", accroche: "For restaurants, cafés and fast food. And their regulars.", couverture: "Restaurants, cafés, fast food", contenu: "Same edit as fr-p01, English words on screen: « Restaurants. » « Cafés. » « Fast food. » then « And their regulars. »", legende: "Keeply is the loyalty card for restaurants, cafés and fast food. Customers add it to their phone by scanning a QR code at the counter, then find it again on every visit.\n\nOn this account we show Keeply for real and share what brings customers back.", hashtags: H_EN, cta: "Follow" },
+  { id: "en-p02", date: "2026-11-26", heure: "08:00", format: "Carrousel", pilier: "Produit", type: "The offer", titre: "Keeply in 7 slides", accroche: "Your loyalty card. On their phone.", couverture: "Keeply in 7 slides", contenu: "English version of fr-p02. Slide 6: « 14 days free. Then your local price. »", legende: "Customers scan the QR and the card lands in their Wallet. You scan it at every visit, and every feature switches on or off whenever you like.\n\n14-day free trial, link in bio.", hashtags: H_EN, cta: "Link in bio" },
   { id: "en-p03", date: "2026-11-29", heure: "08:00", format: "Reel", pilier: "Coulisses", type: "Founder", titre: "Why Keeply", accroche: "Big chains live on their customers' phones. The corner café doesn't.", couverture: "Why Keeply", contenu: "Anas to camera, in English with subtitles (the accent is fine, it feels real). Same true story as fr-p03.", legende: "[The real moment that sparked the idea, in 2 sentences.]\n\nBig chains have their loyalty card on their customers' phones. I wanted the corner café and the local burger place to have the same.\n\nThat's Keeply.", hashtags: [...H_EN, "#founder"], cta: "Follow the journey" },
   { id: "en-p04", date: "2026-12-01", heure: "08:00", format: "Reel", pilier: "Produit", type: "Launch · Demo", boost: true, titre: "Launch · 20 seconds", accroche: "20 seconds. One take.", couverture: "20 seconds, one take", contenu: "Same single-take 20-second demo as fr-p04, English text. End: « Keeply is live. »", legende: "20 seconds, one take.\nYour customer scans, the card is in their Wallet, you stamp it at the counter.\n\nKeeply is live. 14-day free trial, link in bio.", hashtags: H_EN, cta: "14-day free trial, link in bio" },
   { id: "en-p05", date: "2026-12-03", heure: "08:00", format: "Carrousel", pilier: "Métier", type: "Tip", titre: "5 rewards that bring them back", accroche: "5 rewards that bring customers back. And 2 to avoid.", couverture: "5 rewards that work", contenu: "English version of fr-p05.", legende: "A good reward is earned next week, not in six months.\n\nSave this for your next card.", hashtags: H_EN, cta: "Save this post" },
-  { id: "en-p06", date: "2026-12-06", heure: "08:00", format: "Reel", pilier: "Métier", type: "Point of view", titre: "The one who already came", accroche: "The easiest customer to bring back is the one who's already been.", couverture: "Already been here", contenu: "English version of fr-p06.", legende: "We do everything to attract new customers.\nAnd almost nothing to bring back the ones who already liked us.\n\nWhat do you think?", hashtags: H_EN, cta: "Tell us in the comments" },
+  { id: "en-p06", date: "2026-12-06", heure: "08:00", format: "Reel", pilier: "Métier", type: "Point of view", titre: "The one who already came", accroche: "The easiest customer to bring back is the one who's already been.", couverture: "Already been here", contenu: "English version of fr-p06.", legende: "We put a lot of energy into finding new customers and very little into bringing back the ones who already liked us.\n\nWhat brings a customer back to your place a second time?", hashtags: H_EN, cta: "Tell us in the comments" },
   { id: "en-p07", date: "2026-12-07", heure: "08:00", format: "Reel", pilier: "Produit", type: "Demo", titre: "Your card in 3 minutes", accroche: "Building a loyalty card: 3 minutes.", couverture: "Your card in 3 minutes", contenu: "English version of fr-p07 (app in English).", legende: "Your logo, your colours, your reward, your QR code.\n3 minutes and the card is ready.\n\nTry it free, link in bio.", hashtags: H_EN, cta: "Link in bio" },
-  { id: "en-p08", date: "2026-12-09", heure: "08:00", format: "Reel", pilier: "Produit", type: "Owner question", titre: "Nothing to download", accroche: "« My customers won't download an app. » They don't have to.", couverture: "Nothing to download", contenu: "English version of fr-p08.", legende: "Your customers install nothing.\nThey scan, the card goes into their Wallet, right next to their bank card.\niPhone and Android.", hashtags: H_EN, cta: "Link in bio" },
+  { id: "en-p08", date: "2026-12-09", heure: "08:00", format: "Reel", pilier: "Produit", type: "Owner question", titre: "Nothing to download", accroche: "« My customers won't download an app. » They don't have to.", couverture: "Nothing to download", contenu: "English version of fr-p08.", legende: "Your customers install nothing. They scan the QR and the card goes into their Wallet, next to their bank card, on iPhone and Android alike.", hashtags: H_EN, cta: "Link in bio" },
   { id: "en-p11", date: "2026-12-14", heure: "08:00", format: "Reel", pilier: "Métier", type: "Brand film", boost: true, titre: "Through the years", accroche: "Some customers stay for a lifetime.", couverture: "Some customers stay", contenu: "The « Through the years » brand film (no dialogue), English end card.", legende: "Some customers stay for a lifetime.\n\nKeeply. Loyalty, made easy.", hashtags: H_EN, cta: "Keeply. Loyalty, made easy." },
   { id: "en-p12", date: "2026-12-16", heure: "08:00", format: "Reel", pilier: "Produit", type: "Before / after", titre: "Drawer or pocket", accroche: "One card at the bottom of a drawer. One in their pocket.", couverture: "Drawer or pocket?", contenu: "Same split-screen edit as fr-p12, end text: « Always in their pocket. »", legende: "One sleeps at the bottom of a drawer.\nThe other lights up on the lock screen, right on time.", hashtags: H_EN, cta: "Link in bio" },
   { id: "en-p13", date: "2026-12-17", heure: "08:00", format: "Carrousel", pilier: "Produit", type: "Features", titre: "The lock screen is your shop window", accroche: "The lock screen is your new shop window.", couverture: "Your new shop window", contenu: "English version of fr-p13, with the on/off switch drawn on every slide.", legende: "A free reminder where your customers look several times an hour.\nAutomatic offers, tiers, notifications: switch each one on or off.", hashtags: H_EN, cta: "Save this" },
@@ -497,6 +497,6 @@ export const STRATEGY = {
   marque: "« Ceux qui reviennent. » Keeply vend des habitués, pas une appli. Trois piliers : le produit en vrai (40 %), le métier (40 %), les coulisses (20 %).",
   idee: "On ne parle qu'aux patrons. Chaque vidéo s'ouvre en les interpellant (« Vous avez un café ? »). Priorité France et Maroc ; les vidéos sont aussi montrées dans les autres pays où l'app est en ligne.",
   rythme: "FR : lundi, mercredi, jeudi, dimanche à 15 h 30 (Paris = Maroc en décembre). EN : 3 posts par semaine à 8 h Paris (18 h Sydney, 15 h Bali). TikTok : chaque Reel FR à 19 h. Chaque post repartagé en story 2 h après. Stories tous les jours.",
-  boost: "Rien du 1 au 7/12. Ensuite on booste le meilleur post après 48 h (depuis le Gestionnaire de publicités, « Utiliser une publication existante », iPhone uniquement). ~60 € en décembre, ~120 € en janvier.",
+  boost: "Les posts sont visibles partout où l'app est disponible, mais l'argent va à la France et au Maroc, plus un petit test au Canada pour voir si c'est viable. Rien du 1 au 7/12, ensuite on booste le meilleur post après 48 h (Gestionnaire de publicités, « Utiliser une publication existante », iPhone uniquement). ~60 € en décembre (France 30, Maroc 20, Canada 10), ~120 € en janvier selon les résultats.",
   objectifs: "Fin décembre : 10 commerces actifs (cible haute 20), 30 essais, 25 démos, 300 prospects contactés. Fin février : 40 actifs.",
 };

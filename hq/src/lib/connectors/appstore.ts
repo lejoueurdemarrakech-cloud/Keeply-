@@ -58,6 +58,7 @@ async function appSku(cfg: Cfg): Promise<string | null> {
 }
 
 async function dailyReport(cfg: Cfg, day: string, sku: string | null): Promise<SaleRecord[]> {
+  if (!cfg.vendorNumber) throw new Error("Ajoute le numéro de fournisseur (Connexions > App Store Connect) pour voir les ventes App Store.");
   // Le rapport Apple couvre tout le compte (Keeply + Game Night…) : on ne garde que l'app choisie.
   const cacheKey = cfg.appId ? `sales:appstore:${cfg.appId}:${day}` : `sales:appstore:${day}`;
   const cached = await read<SaleRecord[] | null>(cacheKey, null);

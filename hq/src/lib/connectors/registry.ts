@@ -51,7 +51,7 @@ export const CONNECTORS: ConnectorDef[] = [
       { key: "issuerId", label: "Issuer ID", placeholder: "57246542-96fe-1a63-e053-0824d011072a", env: "APPSTORE_ISSUER_ID" },
       { key: "keyId", label: "Key ID", placeholder: "2X9R4HXF34", env: "APPSTORE_KEY_ID" },
       { key: "privateKey", label: "Clé privée (.p8)", type: "textarea", placeholder: "-----BEGIN PRIVATE KEY-----", env: "APPSTORE_PRIVATE_KEY" },
-      { key: "vendorNumber", label: "Numéro de fournisseur", placeholder: "85012345", help: "Rapports > Paiements et rapports financiers, en haut à gauche.", env: "APPSTORE_VENDOR_NUMBER" },
+      { key: "vendorNumber", label: "Numéro de fournisseur", placeholder: "85012345", help: "Rapports > Paiements et rapports financiers, en haut à gauche. Sans lui, HQ lit les avis et la fiche mais pas les ventes.", optional: true, env: "APPSTORE_VENDOR_NUMBER" },
       { key: "appId", label: "Apple ID de l'app", placeholder: "6478123456", help: "Sert aux avis et à la surveillance de la fiche.", optional: true, env: "APPSTORE_APP_ID" },
     ],
     steps: [
