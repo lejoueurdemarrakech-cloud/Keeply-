@@ -53,8 +53,8 @@ export const BRAND = {
   ideeEn: "Everything you need to bring customers back. In one app.",
   pourquoi:
     "Keeply est une vraie app iPhone. Le patron y crée sa carte, scanne ses clients, envoie ses offres et voit qui revient, depuis son téléphone. Ses clients gardent la carte dans Apple Wallet ou Google Wallet. On le dit simplement, avec de vrais écrans, sans promettre ce qu'on ne peut pas prouver.",
-  promesse: "Toute votre fidélité, dans une app.",
-  promesseEn: "Your whole loyalty program, in one app.",
+  promesse: "Faites revenir vos clients plus souvent.",
+  promesseEn: "Bring your customers back more often.",
   signature: "Keeply. La fidélité, facile.",
   signatureEn: "Keeply. Loyalty, made easy.",
   preuves: [
@@ -65,6 +65,14 @@ export const BRAND = {
     "Une web app pour gérer aussi depuis un ordinateur.",
     "Le prix du pays, 14 jours gratuits.",
   ],
+  gain: [
+    { titre: "Vos clients reviennent plus souvent", texte: "Une récompense proche, et un rappel sur leur téléphone quand il ne leur manque qu'un tampon." },
+    { titre: "Ceux qui ne viennent plus reçoivent une offre", texte: "Automatiquement après 30 jours d'absence, si vous l'activez." },
+    { titre: "Vos heures calmes se remplissent", texte: "Double tampon ou coupon le mardi après-midi, envoyé en deux gestes." },
+    { titre: "Vous ne payez plus d'impression ni de SMS", texte: "La carte est dans leur téléphone, les notifications sont gratuites." },
+  ],
+  gainRegle:
+    "On explique comment Keeply fait gagner de l'argent, jamais combien : pas de « vous gagnerez X € », pas de « la meilleure solution ». Le chiffre vient d'un exemple marqué « exemple », ou du calcul que le patron fait avec son panier moyen.",
   interdit:
     "Jamais « la première app », « la seule », « numéro 1 » : d'autres apps natives existent (FaveCard Biz, VeeCard, Stampza, Stamp Me…). On peut dire que beaucoup de solutions passent par un site web, sans nommer de concurrent.",
   piliers: [
@@ -107,22 +115,22 @@ export const PROFILES: Record<Account, { username: string; nom: string; categori
     username: "keeplyfr",
     nom: "Keeply | Carte de fidélité",
     categorie: "Logiciel",
-    bio: "Toute votre fidélité, dans une app.\nCarte Apple Wallet et Google Wallet.\nRestaurants, cafés, fast-foods.\nEssai gratuit 14 jours ↓",
+    bio: "Faites revenir vos clients plus souvent.\nTout dans une app · Apple et Google Wallet\nRestaurants, cafés, fast-foods\nEssai gratuit 14 jours ↓",
     lien: "https://keeplyfidelity.app/liens?ct=ig_fr",
     lienTexte: "Une page, trois portes : l'app iPhone (le bon App Store selon le pays), la web app pour gérer depuis un ordinateur, et le site. Sur Android : la liste d'attente.",
     boutons: "Compte Entreprise, catégorie « Logiciel ». Boutons : WhatsApp Business et e-mail bonjour@keeplyfidelity.app.",
-    epingles: "Épingler dans cet ordre : la démo en 20 s (la preuve), Tout dans une app (l'offre), Pourquoi Keeply (l'humain).",
+    epingles: "Épingler dans cet ordre : la démo en 20 s (la preuve), Ce que Keeply vous rapporte (l'argent), Tout dans une app (l'offre).",
     photo: "Le logo Keeply seul, blanc sur violet, bien centré dans le rond. Pas de texte.",
   },
   en: {
     username: "keeplyapp",
     nom: "Keeply | Loyalty cards",
     categorie: "App page",
-    bio: "Your whole loyalty program, in one app.\nApple Wallet and Google Wallet cards.\nRestaurants, cafés, fast food.\n14-day free trial ↓",
+    bio: "Bring your customers back more often.\nAll in one app · Apple & Google Wallet\nRestaurants, cafés, fast food\n14-day free trial ↓",
     lien: "https://keeplyfidelity.app/links?ct=ig_en",
     lienTexte: "One page, three doors: the iPhone app (right App Store for the country), the web app, and the website.",
     boutons: "Professional account, « App page ». Buttons: WhatsApp and email.",
-    epingles: "Pin in this order: the 20-second demo, All in one app, Why Keeply.",
+    epingles: "Pin in this order: the 20-second demo, What Keeply earns you, All in one app.",
     photo: "Same Keeply logo, white on violet.",
   },
   tiktok: {
@@ -368,6 +376,16 @@ const FR: Omit<PlanItem, "account" | "kind">[] = [
     legende: "Avec Keeply, vous voyez qui revient, combien de fois, et qui n'est pas venu depuis un mois. Tout est dans l'app, sur votre téléphone.",
     hashtags: H_FR, cta: "Lien en bio",
   },
+  {
+    id: "fr-p19", date: "2026-12-02", heure: "15:30", format: "Carrousel", pilier: "Produit", type: "Ce que ça rapporte",
+    titre: "Ce que Keeply vous rapporte",
+    accroche: "Ce que Keeply vous rapporte.",
+    couverture: "Ce que ça rapporte",
+    angle: "Le post qui parle argent sans rien promettre : quatre mécanismes vrais, puis le patron fait son propre calcul.",
+    contenu: "Carrousel 6 slides, fond blanc cassé, un vrai écran de l'app par slide.\n1 « Ce que Keeply vous rapporte. »\n2 « Vos clients reviennent plus souvent. » Une récompense proche et un rappel quand il ne manque qu'un tampon.\n3 « Ceux qui ne viennent plus reçoivent une offre. » Automatiquement après 30 jours, si vous l'activez.\n4 « Vos heures calmes se remplissent. » Double tampon ou coupon le mardi après-midi.\n5 « Plus de cartes à imprimer, plus de SMS à payer. »\n6 « Faites le calcul avec votre panier moyen. » + lien en bio.",
+    legende: "Keeply sert à une chose : que vos clients reviennent plus souvent. Ils gardent votre carte dans leur téléphone, Keeply relance ceux qui s'absentent, et vous remplissez les heures calmes avec une offre.\n\nEnregistrez ce post et refaites le calcul avec votre panier moyen.",
+    hashtags: H_FR, cta: "Enregistrez · lien en bio",
+  },
 ];
 
 /* ---------------------------------------------------------- Posts EN */
@@ -387,6 +405,7 @@ const EN: Omit<PlanItem, "account" | "kind">[] = [
   { id: "en-p14", date: "2026-12-20", heure: "08:00", format: "Reel", pilier: "Produit", type: "Owner question", titre: "New phone?", accroche: "« What if my customer gets a new phone? »", couverture: "New phone?", contenu: "English version of fr-p14.", legende: "They get their card and points back with the link they received by email.\nNothing is lost.", hashtags: H_EN, cta: "Questions? Send us a message" },
   { id: "en-p15", date: "2026-12-21", heure: "08:00", format: "Reel", pilier: "Produit", type: "Season", titre: "Win back the ones who stopped coming", accroche: "In January, Keeply reaches out to the customers who haven't come back.", couverture: "Automatic win-back", contenu: "English version of fr-p15.", legende: "After the holidays, many regulars take a while to come back. Keeply can send them an offer on its own after 30 days away. Your call.", hashtags: H_EN, cta: "14-day free trial, link in bio" },
   { id: "en-p18", date: "2026-12-28", heure: "08:00", format: "Reel", pilier: "Produit", type: "Demo", titre: "Your regulars, on your phone", accroche: "Who are your regulars? Keeply shows you.", couverture: "Your regulars", contenu: "English version of fr-p18, demo data only.", legende: "With Keeply you see who comes back, how often, and who hasn't visited in a month. It's all in the app, on your phone.", hashtags: H_EN, cta: "Link in bio" },
+  { id: "en-p19", date: "2026-12-02", heure: "08:00", format: "Carrousel", pilier: "Produit", type: "What it earns you", titre: "What Keeply earns you", accroche: "What Keeply earns you.", couverture: "What it earns you", contenu: "English version of fr-p19, app screens in English.", legende: "Keeply does one job: it brings your customers back more often. They keep your card on their phone, Keeply reaches out to the ones who stop coming, and you fill quiet hours with an offer.\n\nSave this and run the numbers with your average ticket.", hashtags: H_EN, cta: "Save · link in bio" },
 ];
 
 /* ------------------------------------------------- Stories datées (hors reposts) */

@@ -317,6 +317,18 @@ function BrandView() {
         </div>
       </Card>
 
+      <Card title="Ce que le patron y gagne">
+        <ul className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {BRAND.gain.map((g) => (
+            <li key={g.titre}>
+              <p className="text-[14px] font-semibold">{g.titre}</p>
+              <p className="mt-0.5 text-[13px] text-ink-2">{g.texte}</p>
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 border-t border-line pt-3 text-[12.5px] text-ink-3">{BRAND.gainRegle}</p>
+      </Card>
+
       <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-start">
         <Card title="Ce qu’on peut affirmer (et prouver)">
           <Lines items={BRAND.preuves} />
