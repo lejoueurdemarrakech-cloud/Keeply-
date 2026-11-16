@@ -298,7 +298,7 @@ function BrandView() {
         <div className="grid gap-6 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-end">
           <div>
             <p className="text-[12.5px] font-semibold uppercase tracking-[0.08em] text-violet">L’idée</p>
-            <p className="mt-2 font-display text-[40px] font-semibold leading-[1.05] tracking-tight">{BRAND.idee}</p>
+            <p className="mt-2 font-display text-[34px] font-semibold leading-[1.1] tracking-tight">{BRAND.idee}</p>
             <p className="mt-1 text-[15px] text-ink-3">{BRAND.ideeEn}</p>
             <p className="mt-4 max-w-[60ch] text-[14.5px] text-ink-2">{BRAND.pourquoi}</p>
           </div>
@@ -316,6 +316,15 @@ function BrandView() {
           </dl>
         </div>
       </Card>
+
+      <div className="grid gap-5 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] lg:items-start">
+        <Card title="Ce qu’on peut affirmer (et prouver)">
+          <Lines items={BRAND.preuves} />
+        </Card>
+        <Card title="Ce qu’on n’affirme jamais">
+          <p className="text-[13.5px] text-ink-2">{BRAND.interdit}</p>
+        </Card>
+      </div>
 
       <div className="grid gap-5 md:grid-cols-3">
         {BRAND.piliers.map((p) => (
